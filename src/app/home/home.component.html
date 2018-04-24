@@ -1,18 +1,13 @@
 <h1>HomeComponent</h1>
 
-<graph [nodes]="nodes" [links]="links"></graph>
-<div class="row" style="margin: auto">
-  <div class="col col-md-9" id="colRight">
-
-    <br><br><br><br><br><br><br><br>
-
+<div class="row no-gutters container-fluid">
+  <div class="col-8 border rounded size">
+    <span>321</span>
+    <graph [nodes]="nodes" [links]="links"></graph>
   </div>
-  <div class="col-6 col-md-2" id="colLeft">
-
-    <br><br><br><br><br><br><br><br><br>
-
+  <div class="col-4 border rounded size scroll">
+    <div class="bg-info border rounded" id="textHeader"><p>Unidades sin relacionar</p></div>
   </div>
-  <input class="form-control" type="text" id="code" placeholder="code..">
+  <textarea class="form-control border rounded container-fluid" type="text" placeholder="code.."></textarea>
 </div>
-
 <router-outlet></router-outlet>
