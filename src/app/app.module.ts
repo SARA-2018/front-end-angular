@@ -7,9 +7,10 @@ import { CoreModule } from './core/core.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule, JsonpModule } from '@angular/http';
-import { NgModule } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { HttpService } from './core/http.service';
+import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
+import { MDBBootstrapModule } from 'angular-bootstrap-md';
 
 import {
   MatAutocompleteModule, MatButtonModule, MatButtonToggleModule,
@@ -67,7 +68,9 @@ import {
     MatToolbarModule,
     MatTooltipModule,
     ReactiveFormsModule,
+    MDBBootstrapModule.forRoot()
   ],
+  schemas: [ NO_ERRORS_SCHEMA ],
   declarations: [
     AppComponent,
     AppRoutingModule.COMPONENTS,
@@ -78,6 +81,7 @@ import {
   providers: [
     HttpService,
   ]
+
 })
 
 export class AppModule {
