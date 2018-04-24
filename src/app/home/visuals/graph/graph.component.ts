@@ -2,7 +2,7 @@ import { Component, Input, ChangeDetectorRef, HostListener, ChangeDetectionStrat
 import { D3Service, ForceDirectedGraph, Node } from '../../d3';
 
 @Component({
-  selector: 'graph',
+  selector: 'app-graph',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <svg #svg [attr.width]="_options.width" [attr.height]="_options.height">
@@ -19,7 +19,7 @@ export class GraphComponent implements OnInit, AfterViewInit {
   @Input('nodes') nodes;
   @Input('links') links;
   graph: ForceDirectedGraph;
-  private _options: { width, height } = { width: 800, height: 600 };
+  private _options: { width, height } = { width: 400, height: 400 };
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {

@@ -2,7 +2,7 @@ import { Component, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Link } from './d3/models/link';
 import { Node } from './d3/models/node';
-import APP_CONFIG from './app.config';
+import APP_CONFIG from './data.config';
 
 @Component({
   selector: 'app-home',
@@ -13,11 +13,6 @@ import APP_CONFIG from './app.config';
 export class HomeComponent implements OnDestroy {
 
   static URL = 'home';
-
-  unidades = [
-    {name: 'Java'},
-    {name: 'JavaScript'},
-  ];
 
   nodes: Node[] = [];
   links: Link[] = [];
@@ -54,7 +49,4 @@ export class HomeComponent implements OnDestroy {
   ngOnDestroy(): void {
     // Cerrar todas las subscripciones
   }
-
-
-
 }

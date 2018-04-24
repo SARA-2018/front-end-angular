@@ -10,3 +10,14 @@
   text-align: center;
   color: white;
 }
+
+div.visualization {
+  display: block;
+  background-color: white;
+  width: intrinsic;
+  width: -moz-max-content;
+  width: -webkit-max-content;
+  max-width: 100%;
+  margin: 10px auto 15px auto;
+  overflow-x: auto;
+}
