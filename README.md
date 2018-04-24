@@ -1,3 +1,5 @@
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/SARA-2018/front-end-angular)
+
 # SARA-Angular
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.7.4.
