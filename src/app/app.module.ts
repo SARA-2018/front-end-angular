@@ -12,6 +12,11 @@ import { HttpService } from './core/http.service';
 import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 
+import { D3Service, D3_DIRECTIVES } from './home/d3';
+import { GraphComponent } from './home/visuals/graph/graph.component';
+import { SHARED_VISUALS } from './home/visuals/shared';
+
+
 import {
   MatAutocompleteModule, MatButtonModule, MatButtonToggleModule,
   MatCardModule, MatCheckboxModule, MatChipsModule,
@@ -75,11 +80,14 @@ import {
     AppComponent,
     AppRoutingModule.COMPONENTS,
     AppRoutingModule.DIALOGS_COMPONENTS,
+    GraphComponent,
+    ...SHARED_VISUALS,
+    ...D3_DIRECTIVES
   ],
   entryComponents: [AppRoutingModule.DIALOGS_COMPONENTS],
   bootstrap: [AppComponent],
   providers: [
-    HttpService,
+    HttpService, D3Service
   ]
 
 })
