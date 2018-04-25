@@ -14,7 +14,8 @@ import { MDBBootstrapModule } from 'angular-bootstrap-md';
 
 import { D3Service } from './home/d3';
 import { GraphComponent } from './home/visuals/graph/graph.component';
-import { SHARED_VISUALS } from './home/visuals/shared';
+import { ShowLinkComponent } from './home/visuals/shared/show-link/show-link.component';
+import { ShowNodeComponent } from './home/visuals/shared/show-node/show-node.component';
 
 
 import {
@@ -81,7 +82,8 @@ import {
     AppRoutingModule.COMPONENTS,
     AppRoutingModule.DIALOGS_COMPONENTS,
     GraphComponent,
-    ...SHARED_VISUALS,
+    ShowLinkComponent,
+    ShowNodeComponent,
   ],
   entryComponents: [AppRoutingModule.DIALOGS_COMPONENTS],
   bootstrap: [AppComponent],

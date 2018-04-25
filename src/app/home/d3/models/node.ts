@@ -1,5 +1,3 @@
-import APP_CONFIG from '../../data.config';
-
 export class Node implements d3.SimulationNodeDatum {
   // optional - defining optional implementation properties - required for relevant typing assistance
   index?: number;
@@ -17,19 +15,19 @@ export class Node implements d3.SimulationNodeDatum {
     this.id = id;
   }
 
-  normal = () => {
+ /* normal = () => {
     return Math.sqrt(this.linkCount / APP_CONFIG.N);
-  }
+  }*/
 
   /*get r() {
     return 50 * this.normal() + 10;
   }*/
 
-  get fontSize() {
+ /* get fontSize() {
     return (30 * this.normal() + 10) + 'px';
-  }
+  }*/
 
-  get color() {
+  /*get color() {
     return APP_CONFIG.SPECTRUM;
-  }
+  }*/
 }

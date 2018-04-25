@@ -1,11 +1,8 @@
 <svg:g [attr.transform]="'translate(' + node.x + ',' + node.y + ')'">
-      <svg:rect width="150" height="100" 
-          class="node"
-          [attr.fill]="node.color">
+      <svg:rect class="node">
       </svg:rect>
-      <svg:text [attr.transform]="'translate(50,50)'"
-          class="node-name"
-          [attr.font-size]="node.fontSize">
+      <svg:text [attr.transform]="'translate(30,30)'"
+          class="node-name">
         {{node.id}}
       </svg:text>
 </svg:g>

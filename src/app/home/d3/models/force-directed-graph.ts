@@ -17,7 +17,7 @@ export class ForceDirectedGraph {
   public links: Link[] = [];
 
   constructor(nodes, links, options: { width, height }) {
-    const n1: Node = new Node('Padre');
+   /* const n1: Node = new Node('Padre');
     const n2: Node = new Node('Hijo');
     const nodes2 = [n1, n2];
     const l1: Link = new Link(n1, n2);
@@ -29,7 +29,15 @@ export class ForceDirectedGraph {
     console.log(this.nodes[0].x + ' / ' + this.nodes[0].y);
     console.log(this.nodes[1].id);
     console.log(this.nodes[1].x + ' / ' + this.nodes[1].y);
-    this.links = links2;
+    this.links = links2;*/
+    this.nodes = nodes;
+    this.links = links;
+
+    console.log('Force-directed');
+    console.log(this.nodes[0].id);
+    console.log(this.nodes[0].x + ' / ' + this.nodes[0].y);
+    console.log(this.nodes[1].id);
+    console.log(this.nodes[1].x + ' / ' + this.nodes[1].y);
 
     this.initSimulation(options);
   }
