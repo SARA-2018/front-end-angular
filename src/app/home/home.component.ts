@@ -1,5 +1,5 @@
-import { Component, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
+import {Component} from '@angular/core';
+import {Units} from './unit';
 
 @Component({
   selector: 'app-home',
@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
   styleUrls: ['home.component.css']
 })
 
-export class HomeComponent implements OnDestroy {
+export class HomeComponent {
 
   static URL = 'home';
 
@@ -20,8 +20,11 @@ export class HomeComponent implements OnDestroy {
   }
   */
 
-  ngOnDestroy(): void {
-    // Cerrar todas las subscripciones
+  onEnter(value: string) {
+    const parse = value.split('#new', 1);
+    const unit = new Units().names(parse[0]);
+    unit.toJson();
+    console.log(unit.toJson());
   }
 
 }

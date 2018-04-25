@@ -7,6 +7,6 @@
   <div class="col-4 border rounded size scroll">
     <div class="bg-info border rounded" id="textHeader"><p>Unidades sin relacionar</p></div>
   </div>
-  <textarea class="form-control border rounded container-fluid" type="text" placeholder="code.."></textarea>
+  <input #box class="form-control-lg border rounded container-fluid" type="text" placeholder="code.." (keyup.enter)="onEnter(box.value)">
 </div>
 <router-outlet></router-outlet>
