@@ -13,6 +13,8 @@ addons:
     organization: SARA2018-frontend
     token:
       secure: 931b15efbbd2af0e0c5405be48afc54b42ed3fb4
+before_script:
+  - npm install
 script:
   - npm run test
   - sonar-scanner
