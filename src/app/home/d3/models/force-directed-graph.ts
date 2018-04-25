@@ -17,13 +17,24 @@ export class ForceDirectedGraph {
   public links: Link[] = [];
 
   constructor(nodes, links, options: { width, height }) {
-    this.nodes = nodes;
-    this.links = links;
+    const n1: Node = new Node('Padre');
+    const n2: Node = new Node('Hijo');
+    const nodes2 = [n1, n2];
+    const l1: Link = new Link(n1, n2);
+    const links2 = [l1];
+
+    console.log('Force-directed');
+    this.nodes = nodes2;
+    console.log(this.nodes[0].id);
+    console.log(this.nodes[0].x + ' / ' + this.nodes[0].y);
+    console.log(this.nodes[1].id);
+    console.log(this.nodes[1].x + ' / ' + this.nodes[1].y);
+    this.links = links2;
 
     this.initSimulation(options);
   }
 
-  connectNodes(source, target) {
+  /*connectNodes(source, target) {
     let link;
 
     if (!this.nodes[source] || !this.nodes[target]) {
@@ -36,17 +47,17 @@ export class ForceDirectedGraph {
     this.simulation.alphaTarget(0.3).restart();
 
     this.initLinks();
-  }
+  }*/
 
-  initNodes() {
+  /*initNodes() {
     if (!this.simulation) {
       throw new Error('simulation was not initialized yet');
     }
 
     this.simulation.nodes(this.nodes);
-  }
+  }*/
 
-  initLinks() {
+  /*initLinks() {
     if (!this.simulation) {
       throw new Error('simulation was not initialized yet');
     }
@@ -56,7 +67,7 @@ export class ForceDirectedGraph {
         .id(d => d['id'])
         .strength(FORCES.LINKS)
     );
-  }
+  }*/
 
   initSimulation(options) {
     if (!options || !options.width || !options.height) {
@@ -83,8 +94,8 @@ export class ForceDirectedGraph {
         ticker.emit(this);
       });
 
-      this.initNodes();
-      this.initLinks();
+     // this.initNodes();
+     // this.initLinks();
     }
 
     /** Updating the central force of the simulation */
