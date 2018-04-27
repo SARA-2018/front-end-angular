@@ -17,11 +17,13 @@ export class HomeComponent implements OnDestroy {
   links: Link[] = [];
 
   constructor() {
-    const n1: Node = new Node('Java');
+    this.addDataGraph();
+  }
+
+  addDataGraph () {
+    const n1: Node = new Node('Java', 10, 0);
     const n2: Node = new Node('Funciones');
-    n1.x = 0;
-    n1.y = 0;
-    n2.x = 0;
+    n2.x = 10;
     n2.y = 200;
     this.nodes.push(n1);
     this.nodes.push(n2);

@@ -1,6 +1,6 @@
 export class Node implements d3.SimulationNodeDatum {
   // optional - defining optional implementation properties - required for relevant typing assistance
-  index?: number;
+  index?: number; // Nodo raiz
   x?: number;
   y?: number;
  /* vx?: number;
@@ -11,8 +11,10 @@ export class Node implements d3.SimulationNodeDatum {
   id: string;
   linkCount = 0;
 
-  constructor(id) {
+  constructor(id, x?, y?) {
     this.id = id;
+    this.x = x;
+    this.y = y;
   }
 
  /* normal = () => {
