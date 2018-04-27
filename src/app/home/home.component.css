@@ -1,12 +1,11 @@
-.size{
-  height: calc(28.9em + 1vw);
-}
-
 .scroll{
   overflow-y: scroll;
 }
 
+.full-width {
+  width: 100%;
+}
 #textHeader {
   text-align: center;
-  color: white;
+  color: black;
 }
