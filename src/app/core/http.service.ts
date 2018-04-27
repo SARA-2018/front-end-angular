@@ -14,7 +14,7 @@ import { Subject } from 'rxjs/Subject';
 @Injectable()
 export class HttpService {
 
-    static API_END_POINT = 'http://localhost:8080/api/v0';
+    static API_END_POINT = 'http://localhost:3000';
 
     private params: URLSearchParams;
 
