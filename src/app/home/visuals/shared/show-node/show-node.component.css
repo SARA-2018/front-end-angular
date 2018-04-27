@@ -1,0 +1,9 @@
+.node {
+    fill: #007BB2;
+    height: 10%;
+    width: 15%;
+}
+
+.node-name {
+  fill: white;
+}
