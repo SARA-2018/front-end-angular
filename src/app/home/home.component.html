@@ -1,12 +1,21 @@
-<h1>HomeComponent</h1>
 
-<div class="row no-gutters container-fluid">
-  <div class="col-8 border rounded size">
+<div fxLayout="row" fxLayoutGap="20px">
+  <div fxFlex>
+    <mat-card>
+      <mat-card-title>Grafo de unidades</mat-card-title>
       <app-graph [nodes]="nodes" [links]="links"></app-graph>
+    </mat-card>
   </div>
-  <div class="col-4 border rounded size scroll">
-    <div class="bg-info border rounded" id="textHeader"><p>Unidades sin relacionar</p></div>
-  </div>
-  <input #box class="form-control-lg border rounded container-fluid" type="text" placeholder="code.." (keyup.enter)="onEnter(box.value)">
+  <mat-card>
+    <mat-card-title>Unidades sin relacionar</mat-card-title>
+  </mat-card>
+</div>
+<div fxLayoutGap="20px">
+<mat-card>
+  <mat-card-title>Consola</mat-card-title>
+  <mat-form-field class="full-width">
+    <input matInput #box type="text" class="full-width" (keyup.enter)="onEnter(box.value)">
+  </mat-form-field>
+</mat-card>
 </div>
 <router-outlet></router-outlet>
