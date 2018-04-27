@@ -32,6 +32,8 @@ import {
   MatTabsModule, MatToolbarModule, MatTooltipModule,
   MatStepperModule,
 } from '@angular/material';
+import { DraggableDirective } from './home/d3/directives/draggable.directive';
+import { ZoomableDirective } from './home/d3/directives/zoomable.directive';
 
 @NgModule({
   imports: [
@@ -85,6 +87,8 @@ import {
     GraphComponent,
     ShowLinkComponent,
     ShowNodeComponent,
+    ZoomableDirective,
+    DraggableDirective,
   ],
   entryComponents: [AppRoutingModule.DIALOGS_COMPONENTS],
   bootstrap: [AppComponent],
