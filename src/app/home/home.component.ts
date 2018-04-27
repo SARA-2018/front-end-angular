@@ -4,6 +4,8 @@ import {error} from 'util';
 import {UnitService} from './shared/unit.service';
 import {Units} from './unit';
 import {MatSnackBar} from '@angular/material';
+import {Link} from './d3/models/link';
+import {Node} from './d3/models/node';
 
 
 @Component({
@@ -14,9 +16,12 @@ import {MatSnackBar} from '@angular/material';
 
 export class HomeComponent {
 
-  static URL = 'home';
+  static URL = 'home'
+  nodes: Node[] = [];
+  links: Link[] = [];
 
   constructor(private snackBar: MatSnackBar, private unitService: UnitService) {
+    this.addDataGraph();
   }
 
   /* EJEMPLO PARA ENRUTAR
@@ -24,6 +29,19 @@ export class HomeComponent {
     this.router.navigate([HomeComponent.URL, TicketsComponent.URL]);
   }
   */
+
+  addDataGraph() {
+    const n1: Node = new Node('Java', 10, 0);
+    const n2: Node = new Node('Funciones');
+    n2.x = 10;
+    n2.y = 200;
+    this.nodes.push(n1);
+    this.nodes.push(n2);
+    const l1: Link = new Link(n1, n2);
+    this.links.push(l1);
+    console.log('Nodos' + this.nodes.length);
+    console.log('Links' + this.links.length);
+  }
 
   onEnter(code: string) {
 // You can specify an exact string or a regex for the token
