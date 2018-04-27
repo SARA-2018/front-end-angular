@@ -1,5 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
+import { Link } from './d3/models/link';
+import { Node } from './d3/models/node';
 
 @Component({
   selector: 'app-home',
@@ -11,7 +13,24 @@ export class HomeComponent implements OnDestroy {
 
   static URL = 'home';
 
+  nodes: Node[] = [];
+  links: Link[] = [];
+
   constructor() {
+    this.addDataGraph();
+  }
+
+  addDataGraph () {
+    const n1: Node = new Node('Java', 10, 0);
+    const n2: Node = new Node('Funciones');
+    n2.x = 10;
+    n2.y = 200;
+    this.nodes.push(n1);
+    this.nodes.push(n2);
+    const l1: Link = new Link(n1, n2);
+    this.links.push(l1);
+    console.log('Nodos' + this.nodes.length);
+    console.log('Links' + this.links.length);
   }
 
   /* EJEMPLO PARA ENRUTAR
@@ -23,5 +42,4 @@ export class HomeComponent implements OnDestroy {
   ngOnDestroy(): void {
     // Cerrar todas las subscripciones
   }
-
 }
