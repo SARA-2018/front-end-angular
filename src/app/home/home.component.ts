@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import Lex = require('lexical-parser');
+import * as Lex from 'lexical-parser';
 import {error} from 'util';
 import {UnitService} from './shared/unit.service';
 import {Units} from './unit';
@@ -16,7 +16,7 @@ import {Node} from './d3/models/node';
 
 export class HomeComponent {
 
-  static URL = 'home'
+  static URL = 'home';
   nodes: Node[] = [];
   links: Link[] = [];
 
