@@ -1,7 +1,9 @@
 import {Component} from '@angular/core';
 import Lex = require('lexical-parser');
-import {Units} from './unit';
 import {error} from 'util';
+import {UnitService} from './shared/unit.service';
+import {Units} from './unit';
+import {MatSnackBar} from '@angular/material';
 
 
 @Component({
@@ -14,7 +16,7 @@ export class HomeComponent {
 
   static URL = 'home';
 
-  constructor() {
+  constructor(private snackBar: MatSnackBar, private unitService: UnitService) {
   }
 
   /* EJEMPLO PARA ENRUTAR
@@ -23,7 +25,7 @@ export class HomeComponent {
   }
   */
 
-  onEnter(value: string) {
+  onEnter(code: string) {
 // You can specify an exact string or a regex for the token
     const tokenMatchers = [
       'new', '#',
@@ -33,11 +35,11 @@ export class HomeComponent {
 
     const ignorePattern = '[\n\s \t]+';
 
-    const lex = new Lex(value, tokenMatchers, ignorePattern);
+    const lex = new Lex(code, tokenMatchers, ignorePattern);
     const id = lex.nextToken();
     try {
       if (id['name'] !== 'id') {
-       throw error();
+        throw error();
       } else {
         const sharp = lex.nextToken();
         if (sharp['name'] !== '#') {
@@ -45,10 +47,8 @@ export class HomeComponent {
         } else {
           const news = lex.nextToken();
           if (news['name'] === 'new') {
-            console.log('exito' + id['lexeme']);
             const unit = new Units().names(id['lexeme']);
-            unit.toJson();
-            console.log(unit.toJson());
+            this.createUnit(unit);
           }
         }
       }
@@ -60,8 +60,19 @@ export class HomeComponent {
         console.log(`Character: ${err.character}`);
         console.log(`Nearby code: ${err.nearbyCode}`);
       } else {
-        console.log('Error Sintactico');
+        this.snackBar.open(err, 'X', {
+          duration: 8000
+        });
       }
     }
+  }
+
+  createUnit(body: Object): void {
+    this.unitService.create(body).subscribe(data => {
+      body = data;
+      this.snackBar.open('Creado Correctamente !', 'X', {
+        duration: 8000
+      });
+    });
   }
 }

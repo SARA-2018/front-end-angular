@@ -11,6 +11,7 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { HttpService } from './core/http.service';
 import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
+import {UnitService} from './home/shared/unit.service';
 
 import {
   MatAutocompleteModule, MatButtonModule, MatButtonToggleModule,
@@ -80,6 +81,7 @@ import {
   bootstrap: [AppComponent],
   providers: [
     HttpService,
+    UnitService,
   ]
 
 })

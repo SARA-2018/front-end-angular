@@ -11,6 +11,6 @@ export class Units {
   }
 
   toJson() {
-    return '{ name:"' + this.name + '"}';
+    return {name: this.name};
   }
 }
