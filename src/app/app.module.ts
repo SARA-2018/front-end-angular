@@ -9,10 +9,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule, JsonpModule } from '@angular/http';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { HttpService } from './core/http.service';
-import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
-import { MDBBootstrapModule } from 'angular-bootstrap-md';
-import {UnitService} from './home/shared/unit.service';
-
+import { NgModule } from '@angular/core';
+import { UnitService } from './home/shared/unit.service';
 import { D3Service } from './home/d3';
 import { GraphComponent } from './home/visuals/graph/graph.component';
 import { ShowLinkComponent } from './home/visuals/shared/show-link/show-link.component';
@@ -77,9 +75,7 @@ import { ZoomableDirective } from './home/d3/directives/zoomable.directive';
     MatToolbarModule,
     MatTooltipModule,
     ReactiveFormsModule,
-    MDBBootstrapModule.forRoot()
   ],
-  schemas: [ NO_ERRORS_SCHEMA ],
   declarations: [
     AppComponent,
     AppRoutingModule.COMPONENTS,
