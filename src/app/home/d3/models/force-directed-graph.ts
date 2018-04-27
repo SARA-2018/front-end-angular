@@ -28,7 +28,7 @@ export class ForceDirectedGraph {
 
     this.initSimulation(options);
   }
-
+/*
   connectNodes(source, target) {
     let link;
 
@@ -63,7 +63,7 @@ export class ForceDirectedGraph {
         .strength(FORCES.LINKS)
     );
   }
-
+*/
   initSimulation(options) {
     if (!options || !options.width || !options.height) {
       throw new Error('missing options when initializing simulation');
@@ -89,8 +89,8 @@ export class ForceDirectedGraph {
         ticker.emit(this);
       });
 
-      this.initNodes();
-      this.initLinks();
+     // this.initNodes();
+     // this.initLinks();
     }
 
     /** Updating the central force of the simulation */
