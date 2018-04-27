@@ -11,6 +11,7 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { HttpService } from './core/http.service';
 import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
+import {UnitService} from './home/shared/unit.service';
 
 import { D3Service } from './home/d3';
 import { GraphComponent } from './home/visuals/graph/graph.component';
@@ -92,7 +93,9 @@ import { ZoomableDirective } from './home/d3/directives/zoomable.directive';
   entryComponents: [AppRoutingModule.DIALOGS_COMPONENTS],
   bootstrap: [AppComponent],
   providers: [
-    HttpService, D3Service
+    HttpService,
+    UnitService,
+    D3Service
   ]
 
 })
