@@ -30,18 +30,33 @@ export class HomeComponent {
   }
   */
 
-  addDataGraph() {
-    const n1: Node = new Node('Java', 10, 0);
-    const n2: Node = new Node('Funciones');
-    n2.x = 10;
-    n2.y = 200;
-    this.nodes.push(n1);
-    this.nodes.push(n2);
-    const l1: Link = new Link(n1, n2);
-    this.links.push(l1);
-    console.log('Nodos' + this.nodes.length);
-    console.log('Links' + this.links.length);
-  }
+ addDataGraph () {
+
+  const n1: Node = new Node('Animales', 200, 10);
+  const n2: Node = new Node('Perro');
+  n2.x = 10;
+  n2.y = 200;
+  const n3: Node = new Node('Gato', 200, 200);
+  const n4: Node = new Node('Pájaro', 400, 200);
+  const n5: Node = new Node('Caballo', 600, 200);
+
+  this.nodes.push(n1);
+  this.nodes.push(n2);
+  this.nodes.push(n3);
+  this.nodes.push(n4);
+  this.nodes.push(n5);
+  const l1: Link = new Link(n1, n2, 'compose');
+  const l2: Link = new Link(n1, n3, 'inherit');
+  const l3: Link = new Link(n1, n4, 'use');
+  const l4: Link = new Link(n1, n5, 'association');
+  this.links.push(l1);
+  this.links.push(l2);
+  this.links.push(l3);
+  this.links.push(l4);
+
+  console.log('Nodos' + this.nodes.length);
+  console.log('Links' + this.links.length);
+}
 
   onEnter(code: string) {
 // You can specify an exact string or a regex for the token
