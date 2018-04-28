@@ -46,9 +46,9 @@ export class HomeComponent {
   this.nodes.push(n4);
   this.nodes.push(n5);
   const l1: Link = new Link(n1, n2, 'compose');
-  const l2: Link = new Link(n1, n3, 'inherit');
-  const l3: Link = new Link(n1, n4, 'use');
-  const l4: Link = new Link(n1, n5, 'association');
+  const l2: Link = new Link(n1, n3);
+  const l3: Link = new Link(n1, n4);
+  const l4: Link = new Link(n1, n5);
   this.links.push(l1);
   this.links.push(l2);
   this.links.push(l3);
