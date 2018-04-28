@@ -1,10 +1,11 @@
 import { Component, Input, ChangeDetectorRef, HostListener, ChangeDetectionStrategy, OnInit, AfterViewInit } from '@angular/core';
-import { D3Service, ForceDirectedGraph, Node } from '../../d3';
+import { D3Service } from '../../d3.service';
+import { ForceDirectedGraph } from '../../models/force-directed-graph';
+import { Node } from '../../models/node';
 
 @Component({
   selector: 'app-graph',
   templateUrl: 'graph.component.html',
-  styleUrls: ['graph.component.css']
 })
 export class GraphComponent implements OnInit, AfterViewInit {
   @Input('nodes') nodes;

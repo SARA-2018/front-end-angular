@@ -1,5 +1,7 @@
 import { Injectable, EventEmitter } from '@angular/core';
-import { Node, Link, ForceDirectedGraph } from './models';
+import { Node } from './models/node';
+import { Link } from './models/link';
+import { ForceDirectedGraph } from './models/force-directed-graph';
 import * as d3 from 'd3';
 
 @Injectable()

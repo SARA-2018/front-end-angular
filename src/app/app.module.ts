@@ -11,11 +11,12 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { HttpService } from './core/http.service';
 import { NgModule } from '@angular/core';
 import { UnitService } from './home/shared/unit.service';
-import { D3Service } from './home/d3';
-import { GraphComponent } from './home/visuals/graph/graph.component';
-import { ShowLinkComponent } from './home/visuals/shared/show-link/show-link.component';
-import { ShowNodeComponent } from './home/visuals/shared/show-node/show-node.component';
-
+import { D3Service } from './home/d3/d3.service';
+import { GraphComponent } from './home/d3/visuals/graph/graph.component';
+import { ShowLinkComponent } from './home/d3/visuals/show-link/show-link.component';
+import { ShowNodeComponent } from './home/d3/visuals/show-node/show-node.component';
+import { DraggableDirective } from './home/d3/directives/draggable.directive';
+import { ZoomableDirective } from './home/d3/directives/zoomable.directive';
 
 import {
   MatAutocompleteModule, MatButtonModule, MatButtonToggleModule,
@@ -30,8 +31,6 @@ import {
   MatTabsModule, MatToolbarModule, MatTooltipModule,
   MatStepperModule,
 } from '@angular/material';
-import { DraggableDirective } from './home/d3/directives/draggable.directive';
-import { ZoomableDirective } from './home/d3/directives/zoomable.directive';
 
 @NgModule({
   imports: [
@@ -80,18 +79,18 @@ import { ZoomableDirective } from './home/d3/directives/zoomable.directive';
     AppComponent,
     AppRoutingModule.COMPONENTS,
     AppRoutingModule.DIALOGS_COMPONENTS,
+    DraggableDirective,
     GraphComponent,
     ShowLinkComponent,
     ShowNodeComponent,
     ZoomableDirective,
-    DraggableDirective,
   ],
   entryComponents: [AppRoutingModule.DIALOGS_COMPONENTS],
   bootstrap: [AppComponent],
   providers: [
+    D3Service,
     HttpService,
     UnitService,
-    D3Service
   ]
 
 })
