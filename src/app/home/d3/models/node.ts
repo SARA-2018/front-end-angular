@@ -3,10 +3,10 @@ export class Node implements d3.SimulationNodeDatum {
   index?: number; // Nodo raiz
   x?: number;
   y?: number;
- /* vx?: number;
+  vx?: number;
   vy?: number;
   fx?: number | null;
-  fy?: number | null;*/
+  fy?: number | null;
 
   id: string;
   linkCount = 0;
