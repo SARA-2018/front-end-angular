@@ -10,6 +10,7 @@ import {FormControl} from '@angular/forms';
 import {startWith} from 'rxjs/operators/startWith';
 import {map} from 'rxjs/operators/map';
 import {Observable} from 'rxjs/Observable';
+import { Unit } from './unit.model';
 
 
 @Component({
@@ -18,19 +19,23 @@ import {Observable} from 'rxjs/Observable';
   styleUrls: ['home.component.css']
 })
 
-export class HomeComponent {
+export class HomeComponent implements OnInit {
 
   static URL = 'home';
   nodes: Node[] = [];
   links: Link[] = [];
+  units: Unit[];
 
   searchTerm = new FormControl();
   searchResult: Observable<string[]>;
   options = [];
 
   constructor(private snackBar: MatSnackBar, private unitService: UnitService) {
-    this.addDataGraph();
-    this.syncromized();
+  }
+
+  ngOnInit(): void {
+    this.synchronizedGraph();
+    this.synchronizedSearch();
   }
 
   /* EJEMPLO PARA ENRUTAR
@@ -39,9 +44,15 @@ export class HomeComponent {
   }
   */
 
+  synchronizedGraph() {
+    this.unitService.getAll().subscribe(data => {
+      this.units = data;
+      this.addDataGraph();
+    });
+  }
   addDataGraph() {
 
-    const n1: Node = new Node('Animales', 200, 10);
+    /*const n1: Node = new Node('Animales', 200, 10);
     const n2: Node = new Node('Perro');
     n2.x = 10;
     n2.y = 200;
@@ -61,7 +72,14 @@ export class HomeComponent {
     this.links.push(l1);
     this.links.push(l2);
     this.links.push(l3);
-    this.links.push(l4);
+    this.links.push(l4);*/
+
+    let x = 10;
+    for (const unit of this.units) {
+      console.log(unit.name);
+      this.nodes.push(new Node(unit.name, x, 10));
+      x = x + 200;
+    }
 
     console.log('Nodos' + this.nodes.length);
     console.log('Links' + this.links.length);
@@ -115,10 +133,11 @@ export class HomeComponent {
       this.snackBar.open('Creado Correctamente !', 'X', {
         duration: 8000
       });
+      this.synchronizedGraph();
     });
   }
 
-  syncromized() {
+  synchronizedSearch() {
     this.searchResult = this.searchTerm.valueChanges
       .pipe(
         startWith(''),
