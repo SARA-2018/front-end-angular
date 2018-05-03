@@ -62,7 +62,7 @@ export class ForceDirectedGraph {
         .strength(FORCES.LINKS)
     );
   }
-*/
+
   initSimulation(options) {
     if (!options || !options.width || !options.height) {
       throw new Error('missing options when initializing simulation');

@@ -33,7 +33,7 @@ export class HomeComponent {
     this.syncromized();
   }
 
-    const child1: Node = new Node('Funciones', 0, 100);
+  child1: Node = new Node('Funciones', 0, 100);
   /* EJEMPLO PARA ENRUTAR
   tickets() {
     this.router.navigate([HomeComponent.URL, TicketsComponent.URL]);
