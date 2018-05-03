@@ -28,7 +28,7 @@ export class ForceDirectedGraph {
 
     this.initSimulation(options);
   }
-
+/*
   connectNodes(source, target) {
     let link;
 
