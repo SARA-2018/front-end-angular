@@ -37,7 +37,7 @@ export class HomeComponent implements OnInit {
     this.synchronizedSearch();
   }
 
-  child1: Node = new Node('Funciones', 0, 100);
+  // child1: Node = new Node('Funciones', 0, 100);
   /* EJEMPLO PARA ENRUTAR
   tickets() {
     this.router.navigate([HomeComponent.URL, TicketsComponent.URL]);
@@ -147,10 +147,13 @@ export class HomeComponent implements OnInit {
   filter(val: string): string[] {
     if (val !== '') {
       this.unitService.filter(val).subscribe(data => {
-        this.options = [data['name'] + ' \t  /hijo de /padre / hijo'];
+        for (let i = 0 ; i < data.length ; i++) {
+          this.options.push( [data[0].name + ' \t  /hijo de /padre / hijo'] );
+        }
       });
-      return this.options.filter(option =>
-        option.toLowerCase().indexOf(val.toLowerCase()) === 0);
+      /*return this.options.filter(option =>
+        option.toLowerCase().indexOf(val.toLowerCase()) === 0);*/
+      return this.options;
     }
   }
 }
