@@ -1,10 +1,10 @@
 <div class="layout-alignment"></div>
-<div fxLayout="row" fxLayoutGap="20px" style="background-color: #eee">
+<div id="separator-line" fxLayout="row" fxLayoutGap="20px">
   <div fxFlex>
     <mat-card style="padding: 0">
       <mat-toolbar color="accent">
         <mat-toolbar-row>
-          <span style="color: white">Grafo de unidades</span>
+          <span>Grafo de unidades</span>
         </mat-toolbar-row>
       </mat-toolbar>
       <app-graph [nodes]="nodes" [links]="links"></app-graph>
@@ -13,7 +13,7 @@
   <mat-card style="padding: 0" class="scroll">
     <mat-toolbar color="accent">
       <mat-toolbar-row>
-        <span style="color: white">Unidades sin relacionar</span>
+        <span>Unidades sin relacionar</span>
       </mat-toolbar-row>
     </mat-toolbar>
   </mat-card>

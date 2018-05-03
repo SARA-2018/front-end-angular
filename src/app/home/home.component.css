@@ -12,3 +12,11 @@
   display: block;
   background-color: #eee;
 }
+
+span {
+  color: #ffffff;
+}
+
+#separator-line{
+  background-color: #eee;
+}

@@ -20,11 +20,11 @@ export class ForceDirectedGraph {
     this.nodes = nodes;
     this.links = links;
 
-    console.log('Force-directed');
+  /*  console.log('Force-directed');
     console.log(this.nodes[0].id);
     console.log(this.nodes[0].x + ' / ' + this.nodes[0].y);
     console.log(this.nodes[1].id);
-    console.log(this.nodes[1].x + ' / ' + this.nodes[1].y);
+    console.log(this.nodes[1].x + ' / ' + this.nodes[1].y);*/
 
     this.initSimulation(options);
   }
