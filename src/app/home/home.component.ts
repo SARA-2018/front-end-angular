@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import * as Lex from 'lexical-parser';
 import {error} from 'util';
 import {UnitService} from './shared/unit.service';
-import {Units} from './unit';
 import {MatSnackBar} from '@angular/material';
 import {Link} from './d3/models/link';
 import {Node} from './d3/models/node';
@@ -10,7 +9,7 @@ import {FormControl} from '@angular/forms';
 import {startWith} from 'rxjs/operators/startWith';
 import {map} from 'rxjs/operators/map';
 import {Observable} from 'rxjs/Observable';
-import { Unit } from './unit.model';
+import { Unit } from './shared/unit.model';
 
 
 @Component({
@@ -107,7 +106,8 @@ export class HomeComponent implements OnInit {
         } else {
           const news = lex.nextToken();
           if (news['name'] === 'new') {
-            const unit = new Units().names(id['lexeme']);
+            let unit: Unit;
+            unit = { name: id['lexeme'] };
             this.createUnit(unit);
           }
         }
@@ -127,9 +127,8 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  createUnit(body: Object): void {
-    this.unitService.create(body).subscribe(data => {
-      body = data;
+  createUnit(unit: Unit): void {
+    this.unitService.create(unit).subscribe(data => {
       this.snackBar.open('Creado Correctamente !', 'X', {
         duration: 8000
       });
