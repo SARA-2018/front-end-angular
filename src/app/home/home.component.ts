@@ -98,28 +98,27 @@ export class HomeComponent implements OnInit {
     const lex = new Lex(code, tokenMatchers, ignorePattern);
     const id = lex.nextToken();
     try {
-      if (id['name'] !== 'id') {
+      if (id['type'] !== 'id') {
         throw error();
       } else {
         const sharp = lex.nextToken();
-        if (sharp['name'] !== '#') {
+        if (sharp['type'] !== '#') {
           throw error();
         } else {
           const news = lex.nextToken();
-          if (news['name'] === 'new') {
+          if (news['type'] === 'new') {
             let unit: Unit;
-            unit = { name: id['lexeme'] };
+            unit = { name: id['name'] };
             this.createUnit(unit);
+          } else {
+            throw error();
           }
         }
       }
     } catch (err) {
       // Error handling
       if (err.code === 'LEXICAL_ERROR') {
-        console.log(`\n${err.message}\n`);
-        console.log(`Position: ${err.position}`);
-        console.log(`Character: ${err.character}`);
-        console.log(`Nearby code: ${err.nearbyCode}`);
+        this.snackBar.open(err.message, 'X');
       } else {
         this.snackBar.open(err, 'X', {
           duration: 8000
