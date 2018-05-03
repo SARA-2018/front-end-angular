@@ -9,7 +9,8 @@ import {FormControl} from '@angular/forms';
 import {startWith} from 'rxjs/operators/startWith';
 import {map} from 'rxjs/operators/map';
 import {Observable} from 'rxjs/Observable';
-import { Unit } from './shared/models/unit.model';
+import {Unit} from './shared/models/unit.model';
+import {RelationUnit} from './shared/models/relation.model';
 
 
 @Component({
@@ -24,10 +25,10 @@ export class HomeComponent implements OnInit {
   nodes: Node[] = [];
   links: Link[] = [];
   units: Unit[];
+  relationsUnit: RelationUnit[];
 
-  searchTerm = new FormControl();
-  searchResult: Observable<string[]>;
-  options = [];
+  searchUnit: FormControl;
+  filteredUnits: Observable<RelationUnit[]>;
 
   constructor(private snackBar: MatSnackBar, private unitService: UnitService) {
   }
@@ -50,6 +51,7 @@ export class HomeComponent implements OnInit {
       this.addDataGraph();
     });
   }
+
   addDataGraph() {
 
     /*const n1: Node = new Node('Animales', 200, 10);
@@ -76,13 +78,13 @@ export class HomeComponent implements OnInit {
 
     let x = 10;
     for (const unit of this.units) {
-      console.log(unit.name);
+      //  console.log(unit.name);
       this.nodes.push(new Node(unit.name, x, 10));
       x = x + 200;
     }
 
-    console.log('Nodos' + this.nodes.length);
-    console.log('Links' + this.links.length);
+    //  console.log('Nodos' + this.nodes.length);
+    // console.log('Links' + this.links.length);
   }
 
   onEnter(code: string) {
@@ -108,7 +110,7 @@ export class HomeComponent implements OnInit {
           const news = lex.nextToken();
           if (news['type'] === 'new') {
             let unit: Unit;
-            unit = { name: id['name'] };
+            unit = {name: id['name']};
             this.createUnit(unit);
           } else {
             throw error();
@@ -137,27 +139,20 @@ export class HomeComponent implements OnInit {
   }
 
   synchronizedSearch() {
-    this.searchResult = this.searchTerm.valueChanges
+    this.searchUnit = new FormControl();
+    this.filteredUnits = this.searchUnit.valueChanges
       .pipe(
         startWith(''),
-        map(val => this.filter(val))
+        map(unit => this.filters(unit))
       );
   }
 
-  filter(val: string): string[] {
-    if (val !== '') {
-      this.unitService.filter(val).subscribe(data => {
-        for (let i = 0 ; i < data.length ; i++) {
-          this.options.push( [data[i].name + ' --- ' + data[i].topUnit.name] + '' );
-        }
-      });
-      /*return this.options.filter(option => {
-        for (let i = 0 ; i < this.options.length; i++) {
-          option.toLowerCase().indexOf(val.toLowerCase()) === 0
-        }
-      }
-      );*/
-      return this.options;
+  filters(name: string) {
+    if (name !== '') {
+        this.unitService.filter(name).subscribe(data =>
+          this.relationsUnit = data
+        );
+        return this.relationsUnit;
     }
   }
 }
