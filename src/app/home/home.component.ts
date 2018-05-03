@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import * as Lex from 'lexical-parser';
 import {error} from 'util';
-import {UnitService} from './shared/unit.service';
+import {UnitService} from './shared/services/unit.service';
 import {MatSnackBar} from '@angular/material';
 import {Link} from './d3/models/link';
 import {Node} from './d3/models/node';
@@ -9,7 +9,7 @@ import {FormControl} from '@angular/forms';
 import {startWith} from 'rxjs/operators/startWith';
 import {map} from 'rxjs/operators/map';
 import {Observable} from 'rxjs/Observable';
-import { Unit } from './shared/unit.model';
+import { Unit } from './shared/models/unit.model';
 
 
 @Component({
