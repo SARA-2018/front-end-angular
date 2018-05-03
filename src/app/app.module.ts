@@ -12,10 +12,11 @@ import { HttpService } from './core/http.service';
 import { NgModule } from '@angular/core';
 import { UnitService } from './home/shared/unit.service';
 import { D3Service } from './home/d3/d3.service';
+import { DraggableDirective } from './home/d3/directives/draggable.directive';
 import { GraphComponent } from './home/d3/visuals/graph/graph.component';
 import { ShowLinkComponent } from './home/d3/visuals/show-link/show-link.component';
 import { ShowNodeComponent } from './home/d3/visuals/show-node/show-node.component';
-import { DraggableDirective } from './home/d3/directives/draggable.directive';
+import { UnitsNotRelatedComponent } from './home/d3/visuals/units-not-related/units-not-related.component';
 import { ZoomableDirective } from './home/d3/directives/zoomable.directive';
 
 import {
@@ -83,6 +84,7 @@ import {
     GraphComponent,
     ShowLinkComponent,
     ShowNodeComponent,
+    UnitsNotRelatedComponent,
     ZoomableDirective,
   ],
   entryComponents: [AppRoutingModule.DIALOGS_COMPONENTS],

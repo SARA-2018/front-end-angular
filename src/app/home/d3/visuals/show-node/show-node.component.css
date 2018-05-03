@@ -1,7 +1,7 @@
 .node {
     fill: #007BB2;
-    height: 10%;
-    width: 15%;
+    height: 35px;
+    width: 150px;
 }
 
 .node-name {
