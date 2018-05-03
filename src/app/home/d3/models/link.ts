@@ -8,8 +8,7 @@ export class Link implements d3.SimulationLinkDatum<Node> {
   source: Node;
   target: Node;
   type: string;
-  points: string;
-  pointsArray = [];
+  points = [];
 
   constructor(source, target, type?) {
     this.source = source;
@@ -37,30 +36,29 @@ export class Link implements d3.SimulationLinkDatum<Node> {
         this.drawCompose();
       }
     }
-    this.points = this.pointsArray.toString();
   }
 
   drawAssociation() {
     // Ver de donde viene para rotación
-    this.pointsArray.push(this.source.x - 10);
-    this.pointsArray.push(this.source.y + 10);
-    this.pointsArray.push(this.source.x);
-    this.pointsArray.push(this.source.y);
-    this.pointsArray.push(this.source.x + 10);
-    this.pointsArray.push(this.source.y + 10);
+    this.points.push(this.source.x - 10);
+    this.points.push(this.source.y + 10);
+    this.points.push(this.source.x);
+    this.points.push(this.source.y);
+    this.points.push(this.source.x + 10);
+    this.points.push(this.source.y + 10);
   }
 
   drawCompose() {
     this.drawAssociation();
-    this.pointsArray.push(this.source.x);
-    this.pointsArray.push(this.source.y + 20);
-    this.pointsArray.push(this.source.x - 10);
-    this.pointsArray.push(this.source.y + 10);
+    this.points.push(this.source.x);
+    this.points.push(this.source.y + 20);
+    this.points.push(this.source.x - 10);
+    this.points.push(this.source.y + 10);
   }
 
   drawInherit() {
     this.drawAssociation();
-    this.pointsArray.push(this.source.x - 10);
-    this.pointsArray.push(this.source.y + 10);
+    this.points.push(this.source.x - 10);
+    this.points.push(this.source.y + 10);
   }
 }
