@@ -1,21 +1,35 @@
-
-<div fxLayout="row" fxLayoutGap="20px">
+<div class="layout-alignment"></div>
+<div fxLayout="row" fxLayoutGap="20px" style="background-color: #eee">
   <div fxFlex>
     <mat-card>
-      <mat-card-title>Grafo de unidades</mat-card-title>
+      <mat-toolbar color="accent">
+        <mat-toolbar-row>
+          <span style="color: white">Grafo de unidades</span>
+        </mat-toolbar-row>
+      </mat-toolbar>
       <app-graph [nodes]="nodes" [links]="links"></app-graph>
     </mat-card>
   </div>
-  <mat-card>
-    <mat-card-title>Unidades sin relacionar</mat-card-title>
+  <mat-card class="scroll">
+    <mat-toolbar color="accent">
+      <mat-toolbar-row>
+        <span style="color: white">Unidades sin relacionar</span>
+      </mat-toolbar-row>
+    </mat-toolbar>
   </mat-card>
 </div>
-<div fxLayoutGap="20px">
+<div class="layout-alignment"></div>
 <mat-card>
   <mat-card-title>Consola</mat-card-title>
   <mat-form-field class="full-width">
-    <input matInput #box type="text" class="full-width" (keyup.enter)="onEnter(box.value)">
+    <input matInput #box type="text" class="full-width" (keyup.enter)="onEnter(box.value)" [formControl]="searchTerm"
+           [matAutocomplete]="auto">
+    <mat-autocomplete #auto="matAutocomplete">
+      <mat-option *ngFor="let option of searchResult | async" [value]="option">
+        {{ option }}
+      </mat-option>
+    </mat-autocomplete>
   </mat-form-field>
 </mat-card>
-</div>
+<div class="layout-alignment"></div>
 <router-outlet></router-outlet>
