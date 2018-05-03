@@ -1,11 +1,14 @@
-.scroll{
+.scroll {
   overflow-y: scroll;
 }
 
 .full-width {
   width: 100%;
 }
-#textHeader {
-  text-align: center;
-  color: black;
+
+.layout-alignment {
+  min-height: 10px;
+  padding-bottom: 10px;
+  display: block;
+  background-color: #eee;
 }

@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import * as Lex from 'lexical-parser';
 import {error} from 'util';
 import {UnitService} from './shared/unit.service';
@@ -6,6 +6,10 @@ import {Units} from './unit';
 import {MatSnackBar} from '@angular/material';
 import {Link} from './d3/models/link';
 import {Node} from './d3/models/node';
+import {FormControl} from '@angular/forms';
+import {startWith} from 'rxjs/operators/startWith';
+import {map} from 'rxjs/operators/map';
+import {Observable} from 'rxjs/Observable';
 
 
 @Component({
@@ -20,41 +24,46 @@ export class HomeComponent {
   nodes: Node[] = [];
   links: Link[] = [];
 
+  searchTerm = new FormControl();
+  searchResult: Observable<string[]>;
+  options = [];
+
   constructor(private snackBar: MatSnackBar, private unitService: UnitService) {
     this.addDataGraph();
+    this.syncromized();
   }
 
-  addDataGraph () {
-    const root: Node = new Node('Java', (3 * 200) / 2, 0);
     const child1: Node = new Node('Funciones', 0, 100);
-    const child2: Node = new Node('Variables', 200, 100);
-    const child3: Node = new Node('Constantes', 400, 100);
-    const child4: Node = new Node('Tipos datos', 600, 100);
-    const grandchild1: Node = new Node('boolean', 50, 200);
-    const grandchild2: Node = new Node('int', 250, 200);
-    const grandchild3: Node = new Node('double', 450, 200);
-    this.nodes.push(root);
-    this.nodes.push(child1);
-    this.nodes.push(child2);
-    this.nodes.push(child3);
-    this.nodes.push(child4);
-    this.nodes.push(grandchild1);
-    this.nodes.push(grandchild2);
-    this.nodes.push(grandchild3);
-    const l1: Link = new Link(root, child1);
-    const l2: Link = new Link(root, child2);
-    const l3: Link = new Link(root, child3);
-    const l4: Link = new Link(root, child4);
-    const l5: Link = new Link(child2, grandchild1);
-    const l6: Link = new Link(child2, grandchild2);
-    const l7: Link = new Link(child2, grandchild3);
+  /* EJEMPLO PARA ENRUTAR
+  tickets() {
+    this.router.navigate([HomeComponent.URL, TicketsComponent.URL]);
+  }
+  */
+
+  addDataGraph() {
+
+    const n1: Node = new Node('Animales', 200, 10);
+    const n2: Node = new Node('Perro');
+    n2.x = 10;
+    n2.y = 200;
+    const n3: Node = new Node('Gato', 200, 200);
+    const n4: Node = new Node('Pájaro', 400, 200);
+    const n5: Node = new Node('Caballo', 600, 200);
+
+    this.nodes.push(n1);
+    this.nodes.push(n2);
+    this.nodes.push(n3);
+    this.nodes.push(n4);
+    this.nodes.push(n5);
+    const l1: Link = new Link(n1, n2, 'compose');
+    const l2: Link = new Link(n1, n3);
+    const l3: Link = new Link(n1, n4);
+    const l4: Link = new Link(n1, n5);
     this.links.push(l1);
     this.links.push(l2);
     this.links.push(l3);
     this.links.push(l4);
-    this.links.push(l5);
-    this.links.push(l6);
-    this.links.push(l7);
+
     console.log('Nodos' + this.nodes.length);
     console.log('Links' + this.links.length);
   }
@@ -108,5 +117,23 @@ export class HomeComponent {
         duration: 8000
       });
     });
+  }
+
+  syncromized() {
+    this.searchResult = this.searchTerm.valueChanges
+      .pipe(
+        startWith(''),
+        map(val => this.filter(val))
+      );
+  }
+
+  filter(val: string): string[] {
+    if (val !== '') {
+      this.unitService.filter(val).subscribe(data => {
+        this.options = [data['name'] + ' \t  /hijo de /padre / hijo'];
+      });
+      return this.options.filter(option =>
+        option.toLowerCase().indexOf(val.toLowerCase()) === 0);
+    }
   }
 }

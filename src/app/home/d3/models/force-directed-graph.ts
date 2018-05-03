@@ -40,17 +40,16 @@ export class ForceDirectedGraph {
     this.simulation.stop();
     this.links.push(link);
     this.simulation.alphaTarget(0.1).restart();
-
     this.initLinks();
   }
 
-  initNodes() {
+  /*initNodes() {
     if (!this.simulation) {
       throw new Error('simulation was not initialized yet');
     }
 
     this.simulation.nodes(this.nodes);
-  }
+  }*/
 
   initLinks() {
     if (!this.simulation) {
@@ -89,8 +88,8 @@ export class ForceDirectedGraph {
         ticker.emit(this);
       });
 
-     // this.initNodes();
-     // this.initLinks();
+      // this.initNodes();
+      this.initLinks();
     }
 
     /** Updating the central force of the simulation */
