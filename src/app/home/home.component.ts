@@ -37,6 +37,7 @@ export class HomeComponent implements OnInit {
     this.synchronizedSearch();
   }
 
+  child1: Node = new Node('Funciones', 0, 100);
   /* EJEMPLO PARA ENRUTAR
   tickets() {
     this.router.navigate([HomeComponent.URL, TicketsComponent.URL]);
