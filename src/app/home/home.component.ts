@@ -149,11 +149,15 @@ export class HomeComponent implements OnInit {
     if (val !== '') {
       this.unitService.filter(val).subscribe(data => {
         for (let i = 0 ; i < data.length ; i++) {
-          this.options.push( [data[0].name + ' \t  /hijo de /padre / hijo'] );
+          this.options.push( [data[i].name + ' --- ' + data[i].topUnit.name] + '' );
         }
       });
-      /*return this.options.filter(option =>
-        option.toLowerCase().indexOf(val.toLowerCase()) === 0);*/
+      /*return this.options.filter(option => {
+        for (let i = 0 ; i < this.options.length; i++) {
+          option.toLowerCase().indexOf(val.toLowerCase()) === 0
+        }
+      }
+      );*/
       return this.options;
     }
   }
