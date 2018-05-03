@@ -108,7 +108,7 @@ export class HomeComponent implements OnInit {
           const news = lex.nextToken();
           if (news['type'] === 'new') {
             let unit: Unit;
-            unit = { name: id['lexeme'] };
+            unit = { name: id['name'] };
             this.createUnit(unit);
           } else {
             throw error();
