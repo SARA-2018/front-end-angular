@@ -1,7 +1,7 @@
 import { HttpService } from '../../core/http.service';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import {Units} from '../unit';
+import { Units } from '../unit';
 
 @Injectable()
 export class UnitService {
@@ -17,4 +17,9 @@ export class UnitService {
     });
   }
 
+  filter(id): Observable<any> {
+    return this.httpService.get(UnitService.END_POINT + '/search/' + id).map(data => {
+      return data;
+      });
+  }
 }
