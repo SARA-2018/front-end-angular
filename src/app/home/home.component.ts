@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import * as Lex from 'lexical-parser';
 import {error} from 'util';
-import {UnitService} from './shared/unit.service';
+import {UnitService} from './shared/services/unit.service';
 import {MatSnackBar} from '@angular/material';
 import {Link} from './d3/models/link';
 import {Node} from './d3/models/node';
@@ -9,7 +9,8 @@ import {FormControl} from '@angular/forms';
 import {startWith} from 'rxjs/operators/startWith';
 import {map} from 'rxjs/operators/map';
 import {Observable} from 'rxjs/Observable';
-import { Unit } from './shared/unit.model';
+import {Unit} from './shared/models/unit.model';
+import {RelationUnit} from './shared/models/relation.model';
 
 
 @Component({
@@ -25,10 +26,10 @@ export class HomeComponent implements OnInit {
   nodesNotRelated: Node[] = [];
   links: Link[] = [];
   units: Unit[];
+  relationsUnit: RelationUnit[];
 
-  searchTerm = new FormControl();
-  searchResult: Observable<string[]>;
-  options = [];
+  searchUnit: FormControl;
+  filteredUnits: Observable<RelationUnit[]>;
 
   constructor(private snackBar: MatSnackBar, private unitService: UnitService) {
   }
@@ -50,6 +51,7 @@ export class HomeComponent implements OnInit {
       this.addDataGraph();
     });
   }
+
   addDataGraph() {
 
     /*const n1: Node = new Node('Animales', 200, 10);
@@ -77,7 +79,7 @@ export class HomeComponent implements OnInit {
     let x = 10;
     let y = 20;
     for (const unit of this.units) {
-      console.log(unit.name);
+      //  console.log(unit.name);
       this.nodes.push(new Node(unit.name, x, 10));
       this.nodesNotRelated.push(new Node(unit.name, 75, y));
       x = x + 200;
@@ -101,28 +103,27 @@ export class HomeComponent implements OnInit {
     const lex = new Lex(code, tokenMatchers, ignorePattern);
     const id = lex.nextToken();
     try {
-      if (id['name'] !== 'id') {
+      if (id['type'] !== 'id') {
         throw error();
       } else {
         const sharp = lex.nextToken();
-        if (sharp['name'] !== '#') {
+        if (sharp['type'] !== '#') {
           throw error();
         } else {
           const news = lex.nextToken();
-          if (news['name'] === 'new') {
+          if (news['type'] === 'new') {
             let unit: Unit;
-            unit = { name: id['lexeme'] };
+            unit = {name: id['name']};
             this.createUnit(unit);
+          } else {
+            throw error();
           }
         }
       }
     } catch (err) {
       // Error handling
       if (err.code === 'LEXICAL_ERROR') {
-        console.log(`\n${err.message}\n`);
-        console.log(`Position: ${err.position}`);
-        console.log(`Character: ${err.character}`);
-        console.log(`Nearby code: ${err.nearbyCode}`);
+        this.snackBar.open(err.message, 'X');
       } else {
         this.snackBar.open(err, 'X', {
           duration: 8000
@@ -141,20 +142,20 @@ export class HomeComponent implements OnInit {
   }
 
   synchronizedSearch() {
-    this.searchResult = this.searchTerm.valueChanges
+    this.searchUnit = new FormControl();
+    this.filteredUnits = this.searchUnit.valueChanges
       .pipe(
         startWith(''),
-        map(val => this.filter(val))
+        map(unit => this.filters(unit))
       );
   }
 
-  filter(val: string): string[] {
-    if (val !== '') {
-      this.unitService.filter(val).subscribe(data => {
-        this.options = [data['name'] + ' \t  /hijo de /padre / hijo'];
-      });
-      return this.options.filter(option =>
-        option.toLowerCase().indexOf(val.toLowerCase()) === 0);
+  filters(name: string) {
+    if (name !== '') {
+        this.unitService.filter(name).subscribe(data =>
+          this.relationsUnit = data
+        );
+        return this.relationsUnit;
     }
   }
 }

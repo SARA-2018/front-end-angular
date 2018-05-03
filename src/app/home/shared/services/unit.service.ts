@@ -1,7 +1,7 @@
-import { HttpService } from '../../core/http.service';
+import { HttpService } from '../../../core/http.service';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { Unit } from './unit.model';
+import { Unit } from '../models/unit.model';
 
 @Injectable()
 export class UnitService {

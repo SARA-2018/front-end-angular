@@ -23,11 +23,11 @@
 <mat-card>
   <mat-card-title>Consola</mat-card-title>
   <mat-form-field class="full-width">
-    <input matInput #box type="text" class="full-width" (keyup.enter)="onEnter(box.value)" [formControl]="searchTerm"
+    <input matInput #box type="text" class="full-width" (keyup.enter)="onEnter(box.value)" [formControl]="searchUnit"
            [matAutocomplete]="auto">
-    <mat-autocomplete #auto="matAutocomplete">
-      <mat-option *ngFor="let option of searchResult | async" [value]="option">
-        {{ option }}
+    <mat-autocomplete #auto="matAutocomplete" disabled>
+      <mat-option *ngFor="let relationUnit of filteredUnits | async" [value]="relationUnit.name">
+        {{ relationUnit.name }} &nbsp;  <i><b>{{relationUnit.topUnit.name}}</b></i>
       </mat-option>
     </mat-autocomplete>
   </mat-form-field>

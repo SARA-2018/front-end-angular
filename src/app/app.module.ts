@@ -10,7 +10,7 @@ import { HttpModule, JsonpModule } from '@angular/http';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { HttpService } from './core/http.service';
 import { NgModule } from '@angular/core';
-import { UnitService } from './home/shared/unit.service';
+import { UnitService } from './home/shared/services/unit.service';
 import { D3Service } from './home/d3/d3.service';
 import { DraggableDirective } from './home/d3/directives/draggable.directive';
 import { GraphComponent } from './home/d3/visuals/graph/graph.component';
