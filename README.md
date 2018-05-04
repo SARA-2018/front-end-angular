@@ -1,5 +1,6 @@
 # SARA-Angular
-
+[![Build Status](https://travis-ci.org/SARA-2018/front-end-angular.svg?branch=develop)](https://travis-ci.org/SARA-2018/front-end-angular)
+[![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=sara&metric=alert_status)](https://sonarcloud.io/dashboard?id=sara)
 [![Join the chat at https://gitter.im/SARA-2018/front-end-angular](https://badges.gitter.im/SARA-2018/front-end-angular.svg)](https://gitter.im/SARA-2018/front-end-angular?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.7.4.
