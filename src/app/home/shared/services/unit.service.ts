@@ -1,7 +1,7 @@
 import { HttpService } from '../../../core/http.service';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { Unit } from '../models/unit.model';
+import { UnitModel } from '../models/unit.model';
 
 @Injectable()
 export class UnitService {
@@ -11,7 +11,7 @@ export class UnitService {
   constructor(private httpService: HttpService) {
   }
 
-  create(unit: Unit): Observable<any> {
+  create(unit: UnitModel): Observable<any> {
     return this.httpService.post(UnitService.END_POINT, unit);
   }
 
@@ -21,7 +21,7 @@ export class UnitService {
       });
   }
 
-  getAll(): Observable<Unit[]> {
+  getAll(): Observable<UnitModel[]> {
     return this.httpService.get(UnitService.END_POINT);
   }
 }
