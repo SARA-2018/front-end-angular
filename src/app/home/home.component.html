@@ -27,7 +27,7 @@
            [matAutocomplete]="auto">
     <mat-autocomplete #auto="matAutocomplete" disabled>
       <mat-option *ngFor="let relationUnit of filteredUnits | async" [value]="relationUnit.name">
-        <div *ngIf="relationUnit.topUnit?.name != undefined"> {{ relationUnit.name }}<strong>#{{relationUnit.id}}</strong> &nbsp; &nbsp; &nbsp; <em><strong>{{relationUnit.topUnit.name}}</stromg></em></div>
+        <div *ngIf="relationUnit.topUnit?.name != undefined"> {{ relationUnit.name }}<strong>#{{relationUnit.id}}</strong> &nbsp; &nbsp; &nbsp; <em><strong>{{relationUnit.topUnit.name}}</strong></em></div>
         <div *ngIf="relationUnit.topUnit?.name == undefined"> {{ relationUnit.name }}<strong>#{{relationUnit._id}}</strong></div>
       </mat-option>
     </mat-autocomplete>
