@@ -143,14 +143,12 @@ export class HomeComponent implements OnInit {
           if (news['name'] === 'new') {
             console.log('**********Creo**********');
             let unit: Unit;
-            unit = {name: units['lexeme']};
+            unit = new Unit(units['lexeme']); // {name: units['lexeme']};
             this.createUnit(unit);
           } else {
             if (news['name'] === '#') {
               const id = lex.nextToken();
-              let unit: Unit;
-              unit = {id: id['lexeme']};
-              this.delete(unit);
+              this.delete(id['lexeme']);
               console.log('-----------Borro--------------' + id['lexeme']);
             } else {
               if (news['name'] === 'id') {
