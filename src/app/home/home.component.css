@@ -17,6 +17,10 @@ span {
   color: #ffffff;
 }
 
+#units-card {
+  padding: 0;
+}
+
 #separator-line{
   background-color: #eee;
 }

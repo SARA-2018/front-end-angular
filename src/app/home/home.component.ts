@@ -23,6 +23,7 @@ export class HomeComponent implements OnInit {
 
   static URL = 'home';
   nodes: Node[] = [];
+  nodesNotRelated: Node[] = [];
   links: Link[] = [];
   units: Unit[];
   relationsUnit: RelationUnit[];
@@ -38,7 +39,6 @@ export class HomeComponent implements OnInit {
     this.synchronizedSearch();
   }
 
-  // child1: Node = new Node('Funciones', 0, 100);
   /* EJEMPLO PARA ENRUTAR
   tickets() {
     this.router.navigate([HomeComponent.URL, TicketsComponent.URL]);
@@ -77,14 +77,17 @@ export class HomeComponent implements OnInit {
     this.links.push(l4);*/
 
     let x = 10;
+    let y = 20;
     for (const unit of this.units) {
       //  console.log(unit.name);
       this.nodes.push(new Node(unit.name, x, 10));
+      this.nodesNotRelated.push(new Node(unit.name, 75, y));
       x = x + 200;
+      y = y + 60;
     }
 
-    //  console.log('Nodos' + this.nodes.length);
-    // console.log('Links' + this.links.length);
+   // console.log('Nodos' + this.nodes.length);
+   //  console.log('Links' + this.links.length);
   }
 
   onEnter(code: string) {
