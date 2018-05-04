@@ -1,16 +1,20 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import * as Lex from 'lexical-parser';
-import {error} from 'util';
-import {UnitService} from './shared/services/unit.service';
-import {MatSnackBar} from '@angular/material';
-import {Link} from './d3/models/link';
-import {Node} from './d3/models/node';
-import {FormControl} from '@angular/forms';
-import {startWith} from 'rxjs/operators/startWith';
-import {map} from 'rxjs/operators/map';
-import {Observable} from 'rxjs/Observable';
-import {Unit} from './shared/models/unit.model';
-import {RelationUnit} from './shared/models/relation.model';
+import { error } from 'util';
+import { UnitService } from './shared/services/unit.service';
+import { MatSnackBar } from '@angular/material';
+import { Link } from './d3/models/link';
+import { Node } from './d3/models/node';
+import { FormControl } from '@angular/forms';
+import { startWith } from 'rxjs/operators/startWith';
+import { map } from 'rxjs/operators/map';
+import { Observable } from 'rxjs/Observable';
+import { UnitModel } from './shared/models/unit.model';
+import { RelationModel } from './shared/models/relation.model';
+import { Unit } from './shared/entity/unit.entity';
+import { Relation } from './shared/entity/relation.entity';
+import { createViewState } from '@angular/core/src/render3/instructions';
+import { UnitView } from './shared/entity/unitView.entity';
 
 
 @Component({
@@ -25,11 +29,11 @@ export class HomeComponent implements OnInit {
   nodes: Node[] = [];
   nodesNotRelated: Node[] = [];
   links: Link[] = [];
-  units: Unit[];
-  relationsUnit: RelationUnit[];
+  units: UnitModel[];
+  relationsUnit: RelationModel[];
 
   searchUnit: FormControl;
-  filteredUnits: Observable<RelationUnit[]>;
+  filteredUnits: Observable<RelationModel[]>;
 
   constructor(private snackBar: MatSnackBar, private unitService: UnitService) {
   }
@@ -46,52 +50,77 @@ export class HomeComponent implements OnInit {
   */
 
   synchronizedGraph() {
-    this.unitService.getAll().subscribe(data => {
-      this.units = data;
-      this.addDataGraph();
-    });
+    /* this.unitService.getAll().subscribe(data => {
+       this.units = data;
+       this.addDataGraph();
+     });*/
+    this.addDataGraph();
   }
 
   addDataGraph() {
 
-    /*const n1: Node = new Node('Animales', 200, 10);
-    const n2: Node = new Node('Perro');
-    n2.x = 10;
-    n2.y = 200;
-    const n3: Node = new Node('Gato', 200, 200);
-    const n4: Node = new Node('Pájaro', 400, 200);
-    const n5: Node = new Node('Caballo', 600, 200);
+    const unit1 = { name: 'Animales' };
+    const unit2 = { name: 'Perro' };
+    const unit3 = { name: 'Gato' };
+    const unit4 = { name: 'Delfín' };
+    const unit5 = { name: 'Caballo' };
+    const unit6 = { name: 'Aitor' };
+    const unit7 = { name: 'Roberth' };
+    const unit8 = { name: 'Alberto' };
+    const unit9 = { name: 'Jesus' };
+    const unit10 = { name: 'Luis' };
 
-    this.nodes.push(n1);
-    this.nodes.push(n2);
-    this.nodes.push(n3);
-    this.nodes.push(n4);
-    this.nodes.push(n5);
-    const l1: Link = new Link(n1, n2, 'compose');
-    const l2: Link = new Link(n1, n3);
-    const l3: Link = new Link(n1, n4);
-    const l4: Link = new Link(n1, n5);
-    this.links.push(l1);
-    this.links.push(l2);
-    this.links.push(l3);
-    this.links.push(l4);*/
+    const unitE1 = new Unit(unit1.name);
+    const unitE2 = new Unit(unit2.name);
+    const unitE3 = new Unit(unit3.name);
+    const unitE4 = new Unit(unit4.name);
+    const unitE5 = new Unit(unit5.name);
+    const unitE6 = new Unit(unit6.name);
+    const unitE7 = new Unit(unit7.name);
+    const unitE8 = new Unit(unit8.name);
+    const unitE9 = new Unit(unit9.name);
+    const unitE10 = new Unit(unit10.name);
 
-    let x = 10;
-    let y = 20;
-    for (const unit of this.units) {
-      //  console.log(unit.name);
-      this.nodes.push(new Node(unit.name, x, 10));
-      this.nodesNotRelated.push(new Node(unit.name, 75, y));
-      x = x + 200;
-      y = y + 60;
+    const relation1 = { topUnit: unit1, lowerUnit: unit2 };
+    const relation2 = { topUnit: unit1, lowerUnit: unit3 };
+    const relation3 = { topUnit: unit1, lowerUnit: unit4 };
+    const relation4 = { topUnit: unit1, lowerUnit: unit5 };
+    const relation5 = { topUnit: unit3, lowerUnit: unit6 };
+    const relation6 = { topUnit: unit3, lowerUnit: unit7 };
+    const relation7 = { topUnit: unit3, lowerUnit: unit8 };
+    const relation8 = { topUnit: unit7, lowerUnit: unit9 };
+    const relation9 = { topUnit: unit7, lowerUnit: unit10 };
+
+    const relationE1 = new Relation(unitE1, unitE2);
+    const relationE2 = new Relation(unitE1, unitE3);
+    const relationE3 = new Relation(unitE1, unitE4);
+    const relationE4 = new Relation(unitE1, unitE5);
+    const relationE5 = new Relation(unitE3, unitE6);
+    const relationE6 = new Relation(unitE3, unitE7);
+    const relationE7 = new Relation(unitE3, unitE8);
+    const relationE8 = new Relation(unitE7, unitE9);
+    const relationE9 = new Relation(unitE7, unitE10);
+
+    const root = this.createView(unitE1);
+    root.locate();
+    const nodes: Node[] = root.createNode();
+    this.nodes = nodes;
+
+    console.log('Nodos' + this.nodes.length);
+    console.log('Links' + this.links.length);
+  }
+
+  createView(unit: Unit): UnitView {
+    const root = new UnitView(unit);
+    const childs = unit.getChilds();
+    for (const child of childs) {
+      root.appendChild(this.createView(child));
     }
-
-    // console.log('Nodos' + this.nodes.length);
-    //  console.log('Links' + this.links.length);
+    return root;
   }
 
   onEnter(code: string) {
-// You can specify an exact string or a regex for the token
+    // You can specify an exact string or a regex for the token
     const tokenMatchers = [
       'new', '#', '<',
       ['id', /[0-9]+/],
