@@ -24,4 +24,8 @@ export class UnitService {
   getAll(): Observable<UnitModel[]> {
     return this.httpService.get(UnitService.END_POINT);
   }
+
+  delete(id): Observable<any> {
+    return this.httpService.delete(UnitService.END_POINT + `/${id}`);
+  }
 }

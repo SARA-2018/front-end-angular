@@ -30,8 +30,7 @@ export class HomeComponent implements OnInit {
   nodesNotRelated: Node[] = [];
   links: Link[] = [];
   units: UnitModel[];
-  relationsUnit: RelationModel[];
-
+  relationsUnit: RelationModel[] = [];
   searchUnit: FormControl;
   filteredUnits: Observable<RelationModel[]>;
 
@@ -122,29 +121,55 @@ export class HomeComponent implements OnInit {
   onEnter(code: string) {
     // You can specify an exact string or a regex for the token
     const tokenMatchers = [
-      'new', '#', '<',
+      'new', '#', '~', '<', 'inherit', ':',
       ['id', /[0-9]+/],
-      ['unit', /[a-zA-Z][a-zA-Z0-9]*/]
+      ['units', /[a-zA-Z][a-zA-Z0-9]*/],
     ];
 
     const ignorePattern = '[\n\s \t]+';
 
     const lex = new Lex(code, tokenMatchers, ignorePattern);
-    const unit = lex.nextToken();
-    const sharp = lex.nextToken();
+    const units = lex.nextToken();
     try {
-      if (unit['name'] !== 'unit' && sharp['name'] !== '#') {
+      if (units['name'] !== 'units' && units['name'] !== '~') {
         throw error();
       } else {
-        const news = lex.nextToken();
-        const less = lex.nextToken();
-        if (news['name'] === 'new' || news['name'] === 'id' && less['name'] === '<') {
-          console.log(news);
-          /* let unit: Unit;
-           unit = {name: unit['lexeme']};
-           this.createUnit(unit);/*/
-        } else {
+        const sharp = lex.nextToken();
+        if (sharp['name'] !== 'units' && sharp['name'] !== '#') {
           throw error();
+        } else {
+          const news = lex.nextToken();
+          if (news['name'] === 'new') {
+            console.log('**********Creo**********');
+            let unit: Unit;
+            unit = new Unit(units['lexeme']); // {name: units['lexeme']};
+            this.createUnit(unit);
+          } else {
+            if (news['name'] === '#') {
+              const id = lex.nextToken();
+              this.delete(id['lexeme']);
+              console.log('-----------Borro--------------' + id['lexeme']);
+            } else {
+              if (news['name'] === 'id') {
+                const less = lex.nextToken();
+                if (less['name'] === '<') {
+                  const inherit = lex.nextToken();
+                  const ponits = lex.nextToken();
+                  const relation = lex.nextToken();
+                  const name = lex.nextToken();
+                  const sharp2 = lex.nextToken();
+                  const id = lex.nextToken();
+                  if (inherit['name'] !== 'inherit' || ponits['name'] !== ':' || relation['name'] !== 'units' || name['name'] !== 'units') {
+                    //      throw error();
+                  } else if (sharp2['name'] === '#' || id['name'] === 'id') {
+                    console.log(news['lexeme'] + '-----------creo Herencia--------------' + id['lexeme']);
+                  }
+                } else {
+                  throw error();
+                }
+              }
+            }
+          }
         }
       }
     } catch (err) {
@@ -182,7 +207,14 @@ export class HomeComponent implements OnInit {
       this.unitService.filter(name).subscribe(data =>
         this.relationsUnit = data
       );
-      return this.relationsUnit;
+      return this.relationsUnit.filter(value => value.name.toLowerCase().indexOf(name.toLowerCase()) === 0);
     }
+  }
+
+  delete(unit: Unit) {
+    this.unitService.delete(unit).subscribe(() => this.synchronizedGraph());
+      this.snackBar.open('Eliminado Correctamente !', 'X', {
+        duration: 8000
+      });
   }
 }
