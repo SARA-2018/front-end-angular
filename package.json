@@ -8,7 +8,8 @@
     "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "travis": "sonar-scanner -Dsonar.projectKey=sara -Dsonar.organization=sara-front -Dsonar.sources=. -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=bb12e21d7420709c683c5eeb61d425edffa7681d"
   },
   "private": true,
   "dependencies": {
