@@ -30,8 +30,7 @@ export class HomeComponent implements OnInit {
   nodesNotRelated: Node[] = [];
   links: Link[] = [];
   units: UnitModel[];
-  relationsUnit: RelationModel[];
-
+  relationsUnit: RelationModel[] = [];
   searchUnit: FormControl;
   filteredUnits: Observable<RelationModel[]>;
 
@@ -208,7 +207,7 @@ export class HomeComponent implements OnInit {
       this.unitService.filter(name).subscribe(data =>
         this.relationsUnit = data
       );
-      return this.relationsUnit;
+      return this.relationsUnit.filter(value => value.name.toLowerCase().indexOf(name.toLowerCase()) === 0);
     }
   }
 
