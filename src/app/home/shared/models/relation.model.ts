@@ -1,7 +1,8 @@
-import {Unit} from './unit.model';
+import { UnitModel } from './unit.model';
 
-export interface RelationUnit {
+export interface RelationModel {
   id?: number;
   name: string;
-  topUnit: Unit;
+  topUnit: UnitModel;
+  lowerUnit: UnitModel;
 }
