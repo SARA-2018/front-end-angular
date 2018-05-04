@@ -100,17 +100,18 @@ export class HomeComponent implements OnInit {
     const lex = new Lex(code, tokenMatchers, ignorePattern);
     const id = lex.nextToken();
     try {
-      if (id['type'] !== 'id') {
+      if (id['name'] !== 'id') {
+        console.log(id.name);
         throw error();
       } else {
         const sharp = lex.nextToken();
-        if (sharp['type'] !== '#') {
+        if (sharp['name'] !== '#') {
           throw error();
         } else {
           const news = lex.nextToken();
-          if (news['type'] === 'new') {
+          if (news['name'] === 'new') {
             let unit: Unit;
-            unit = {name: id['name']};
+            unit = {name: id['lexeme']};
             this.createUnit(unit);
           } else {
             throw error();
