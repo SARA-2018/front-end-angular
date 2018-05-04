@@ -86,39 +86,36 @@ export class HomeComponent implements OnInit {
       y = y + 60;
     }
 
-   // console.log('Nodos' + this.nodes.length);
-   //  console.log('Links' + this.links.length);
+    // console.log('Nodos' + this.nodes.length);
+    //  console.log('Links' + this.links.length);
   }
 
   onEnter(code: string) {
 // You can specify an exact string or a regex for the token
     const tokenMatchers = [
-      'new', '#',
-      ['integer', /[0-9]+/],
-      ['id', /[a-zA-Z][a-zA-Z0-9]*/]
+      'new', '#', '<',
+      ['id', /[0-9]+/],
+      ['unit', /[a-zA-Z][a-zA-Z0-9]*/]
     ];
 
     const ignorePattern = '[\n\s \t]+';
 
     const lex = new Lex(code, tokenMatchers, ignorePattern);
-    const id = lex.nextToken();
+    const unit = lex.nextToken();
+    const sharp = lex.nextToken();
     try {
-      if (id['name'] !== 'id') {
-        console.log(id.name);
+      if (unit['name'] !== 'unit' && sharp['name'] !== '#') {
         throw error();
       } else {
-        const sharp = lex.nextToken();
-        if (sharp['name'] !== '#') {
-          throw error();
+        const news = lex.nextToken();
+        const less = lex.nextToken();
+        if (news['name'] === 'new' || news['name'] === 'id' && less['name'] === '<') {
+          console.log(news);
+          /* let unit: Unit;
+           unit = {name: unit['lexeme']};
+           this.createUnit(unit);/*/
         } else {
-          const news = lex.nextToken();
-          if (news['name'] === 'new') {
-            let unit: Unit;
-            unit = {name: id['lexeme']};
-            this.createUnit(unit);
-          } else {
-            throw error();
-          }
+          throw error();
         }
       }
     } catch (err) {
@@ -153,10 +150,10 @@ export class HomeComponent implements OnInit {
 
   filters(name: string) {
     if (name !== '') {
-        this.unitService.filter(name).subscribe(data =>
-          this.relationsUnit = data
-        );
-        return this.relationsUnit;
+      this.unitService.filter(name).subscribe(data =>
+        this.relationsUnit = data
+      );
+      return this.relationsUnit;
     }
   }
 }
