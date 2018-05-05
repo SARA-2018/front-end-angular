@@ -198,13 +198,13 @@ export class HomeComponent implements OnInit {
     this.filteredUnits = this.searchUnit.valueChanges
       .pipe(
         startWith(''),
-        map(unit => this.filters(unit))
+        map(unit => this.filter(unit))
       );
   }
 
-  filters(name: string) {
-    const phrase = new RegExp('[\ns \t:~#<>]+');
-    const parse = name.split(phrase);
+  filter(name: string) {
+    const regExp = new RegExp('[\ns \t:~#<>]+');
+    const parse = name.split(regExp);
     const val = parse.pop();
     if (val !== '') {
       this.unitService.filter(val).subscribe(data =>
@@ -216,7 +216,7 @@ export class HomeComponent implements OnInit {
 
   delete(unit: Unit) {
     this.unitService.delete(unit).subscribe(() => {
-      this.synchronizedGraph();
+     // this.synchronizedGraph();
       this.snackBar.open('Eliminado Correctamente !', 'X', {
         duration: 8000
       });

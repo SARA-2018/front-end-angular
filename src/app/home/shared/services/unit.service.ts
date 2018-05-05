@@ -15,8 +15,8 @@ export class UnitService {
     return this.httpService.post(UnitService.END_POINT, unit);
   }
 
-  filter(id): Observable<any> {
-    return this.httpService.get(UnitService.END_POINT + '/search/' + id).map(data => {
+  filter(name: string): Observable<any> {
+    return this.httpService.get(UnitService.END_POINT + '/search/' + name).map(data => {
       return data;
       });
   }
@@ -25,7 +25,7 @@ export class UnitService {
     return this.httpService.get(UnitService.END_POINT);
   }
 
-  delete(id): Observable<any> {
+  delete(id: UnitModel): Observable<any> {
     return this.httpService.delete(UnitService.END_POINT + `/${id}`);
   }
 }
