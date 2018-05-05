@@ -185,7 +185,7 @@ export class HomeComponent implements OnInit {
   }
 
   createUnit(unit: Unit): void {
-    this.unitService.create(unit).subscribe(data => {
+    this.unitService.create(unit).subscribe(() => {
       this.snackBar.open('Creado Correctamente !', 'X', {
         duration: 8000
       });
@@ -203,18 +203,23 @@ export class HomeComponent implements OnInit {
   }
 
   filters(name: string) {
-    if (name !== '') {
-      this.unitService.filter(name).subscribe(data =>
+    const phrase = new RegExp('[\ns \t:~#<>]+');
+    const parse = name.split(phrase);
+    const val = parse.pop();
+    if (val !== '') {
+      this.unitService.filter(val).subscribe(data =>
         this.relationsUnit = data
       );
-      return this.relationsUnit.filter(value => value.name.toLowerCase().indexOf(name.toLowerCase()) === 0);
+      return this.relationsUnit.filter(value => value.name.indexOf(val) === 0);
     }
   }
 
   delete(unit: Unit) {
-    this.unitService.delete(unit).subscribe(() => this.synchronizedGraph());
+    this.unitService.delete(unit).subscribe(() => {
+      this.synchronizedGraph();
       this.snackBar.open('Eliminado Correctamente !', 'X', {
         duration: 8000
       });
+    });
   }
 }
