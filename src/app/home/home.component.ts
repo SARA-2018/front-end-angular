@@ -14,7 +14,7 @@ import { RelationModel } from './shared/models/relation.model';
 import { Unit } from './shared/entity/unit.entity';
 import { Relation } from './shared/entity/relation.entity';
 import { createViewState } from '@angular/core/src/render3/instructions';
-import { UnitView } from './shared/entity/unitView.entity';
+import { UnitView } from './shared/entity/unit-view.entity';
 
 
 @Component({
@@ -103,7 +103,9 @@ export class HomeComponent implements OnInit {
     const root = this.createView(unitE1);
     root.locate();
     const nodes: Node[] = root.createNode();
+    const links: Link[] = root.createLink();
     this.nodes = nodes;
+    this.links = links;
 
     console.log('Nodos' + this.nodes.length);
     console.log('Links' + this.links.length);

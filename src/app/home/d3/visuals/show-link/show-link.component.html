@@ -1,8 +1,8 @@
 <svg:line
         class="link"
-        [attr.x1]="link.source.x"
-        [attr.y1]="link.source.y"
-        [attr.x2]="link.target.x"
+        [attr.x1]="link.source_middle"
+        [attr.y1]="link.source_height"
+        [attr.x2]="link.target_middle"
         [attr.y2]="link.target.y"
 ></svg:line>
 <svg:polyline [attr.points]="link.points.toString()" stroke="black" stroke-width="3"

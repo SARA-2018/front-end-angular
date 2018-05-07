@@ -7,6 +7,10 @@ export class Link implements d3.SimulationLinkDatum<Node> {
   // must - defining enforced implementation properties
   source: Node;
   target: Node;
+  source_middle: number;
+  source_height: number;
+  target_middle: number;
+
   type: string;
   points = [];
 
@@ -14,8 +18,14 @@ export class Link implements d3.SimulationLinkDatum<Node> {
     this.source = source;
     this.target = target;
     this.type = type;
-
+    this.centerLink();
     this.generatePolyline(this.type);
+  }
+
+  centerLink() {
+    this.source_middle = this.source.x + 75;
+    this.source_height = this.source.y + 35;
+    this.target_middle = this.target.x + 75;
   }
 
   generatePolyline(type: string) {
