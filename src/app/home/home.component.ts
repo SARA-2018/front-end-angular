@@ -123,7 +123,7 @@ export class HomeComponent implements OnInit {
   onEnter(code: string) {
     // You can specify an exact string or a regex for the token
     const tokenMatchers = [
-      'new', '#', '~', '<', 'inherit', ':',
+      'new', '#', '~', '<', 'inherit', ':', '>',
       ['id', /[0-9]+/],
       ['units', /[a-zA-Z][a-zA-Z0-9]*/],
     ];
@@ -134,41 +134,74 @@ export class HomeComponent implements OnInit {
     const units = lex.nextToken();
     try {
       const sharp = lex.nextToken();
-      if (units['name'] !== 'units' && units['name'] !== '~' || sharp['name'] !== 'units' && sharp['name'] !== '#') {
+      if (units['name'] !== '~' && units['name'] !== 'units' || sharp['name'] !== 'units' && sharp['name'] !== '#') {
       } else {
-        const news = lex.nextToken();
-        if (news['name'] === 'new') {
+        const idSharp = lex.nextToken();
+        if (idSharp['name'] === 'new') {
           console.log('**********Creo**********');
-          /*let unit: Unit;
-          unit = new Unit(units['lexeme']); // {name: units['lexeme']};
+          /*let unit: UnitEntity;
+          unit = new UnitEntity(units['lexeme']); // {name: units['lexeme']};
           this.createUnit(unit);*/
-        } else if (news['name'] === '#') {
+        } else if (idSharp['name'] === '#') {
           const id = lex.nextToken();
           if (id['name'] === 'id') {
             // this.delete(id['lexeme']);
             console.log('-----------Borro--------------' + id['lexeme']);
           } else {
-            //  throw error();
+            throw error();
           }
-        } else {
-          if (news['name'] === 'id') {
-            const less = lex.nextToken();
-            if (less['name'] === '<') {
-              const inherit = lex.nextToken();
-              const ponits = lex.nextToken();
-              const relation = lex.nextToken();
-              const name = lex.nextToken();
-              const sharp2 = lex.nextToken();
-              const id = lex.nextToken();
-              if (inherit['name'] !== 'inherit' || ponits['name'] !== ':' || relation['name'] !== 'units' || name['name'] !== 'units') {
-                //      throw error();
-              } else if (sharp2['name'] === '#' || id['name'] === 'id') {
-                console.log(news['lexeme'] + '-----------creo Herencia--------------' + id['lexeme']);
-              }
+        } else if (idSharp['name'] === 'id') {
+          const less = lex.nextToken();
+          if (less['name'] !== '<') {
+            if (less['name'] !== 'inherit') {
             } else {
-              //    throw error();
+              const ponits = lex.nextToken();
+              if (ponits['name'] !== ':') {
+              } else {
+                const relation = lex.nextToken();
+                if (relation['name'] !== 'units') {
+                } else {
+                  const more = lex.nextToken();
+                  if (more['name'] !== '>') {
+                  } else {
+                    const nameUnit = lex.nextToken();
+                    const sharp2 = lex.nextToken();
+                    if (nameUnit['name'] !== 'units' || sharp2['name'] !== '#') {
+                    } else {
+                      const id = lex.nextToken();
+                      if (id['name'] === 'id') {
+                        console.log(idSharp['lexeme'] + '-----------creo Herencia Hija--------------' + id['lexeme']);
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          } else {
+            const inherit = lex.nextToken();
+            if (inherit['name'] !== 'inherit') {
+            } else {
+              const ponits = lex.nextToken();
+              if (ponits['name'] !== ':') {
+              } else {
+                const relation = lex.nextToken();
+                if (relation['name'] !== 'units') {
+                } else {
+                  const nameUnit = lex.nextToken();
+                  const sharp2 = lex.nextToken();
+                  if (nameUnit['name'] !== 'units' || sharp2['name'] !== '#') {
+                  } else {
+                    const id = lex.nextToken();
+                    if (id['name'] === 'id') {
+                      console.log(idSharp['lexeme'] + '-----------creo Herencia Padre--------------' + id['lexeme']);
+                    }
+                  }
+                }
+              }
             }
           }
+        } else {
+          throw error();
         }
       }
     } catch (err) {
