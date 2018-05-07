@@ -1,7 +1,10 @@
 export class Unit {
+
     id: number;
     name: string;
     childs: Unit[] = [];
+    relation: string;
+
     constructor(name) {
       this.name = name;
     }
@@ -12,5 +15,9 @@ export class Unit {
 
     getChilds(): Unit[] {
       return this.childs;
+    }
+
+    setRelation(type: string) {
+      this.relation = type;
     }
 }

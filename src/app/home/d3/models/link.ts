@@ -7,18 +7,59 @@ export class Link implements d3.SimulationLinkDatum<Node> {
   // must - defining enforced implementation properties
   source: Node;
   target: Node;
+  sourceMiddle: number;
+  sourceHeight: number;
+  targetMiddle: number;
+  linkPoints = [];
+
   type: string;
-  points = [];
+  relationPoints = [];
+  relationColor = 'none';
 
   constructor(source, target, type?) {
     this.source = source;
     this.target = target;
     this.type = type;
-
-    this.generatePolyline(this.type);
+    this.centerLink();
+    this.generateLink();
+    this.generateRelation(this.type);
   }
 
-  generatePolyline(type: string) {
+  centerLink() {
+    this.sourceMiddle = this.source.x + 75;
+    this.sourceHeight = this.source.y + 35;
+    this.targetMiddle = this.target.x + 75;
+  }
+
+  generateLink() {
+    this.linkPoints.push(this.targetMiddle);
+    this.linkPoints.push(this.target.y);
+    this.linkPoints.push(this.targetMiddle);
+    this.linkPoints.push(this.target.y - 10);
+    this.linkPoints.push(this.sourceMiddle);
+    this.linkPoints.push(this.sourceHeight + 25);
+    this.linkPoints.push(this.sourceMiddle);
+    switch (this.type) {
+      case 'association' : {
+        this.linkPoints.push(this.sourceHeight);
+        break;
+      }
+      case 'use' : {
+        this.linkPoints.push(this.sourceHeight);
+        break;
+      }
+      case 'inherit' : {
+        this.linkPoints.push(this.sourceHeight + 10);
+        break;
+      }
+      case 'compose' : {
+        this.linkPoints.push(this.sourceHeight + 20);
+        break;
+      }
+    }
+  }
+
+  generateRelation(type: string) {
     switch (type) {
       case 'association' : {
         this.drawAssociation();
@@ -39,26 +80,26 @@ export class Link implements d3.SimulationLinkDatum<Node> {
   }
 
   drawAssociation() {
-    // Ver de donde viene para rotación
-    this.points.push(this.source.x - 10);
-    this.points.push(this.source.y + 10);
-    this.points.push(this.source.x);
-    this.points.push(this.source.y);
-    this.points.push(this.source.x + 10);
-    this.points.push(this.source.y + 10);
+    this.relationPoints.push(this.sourceMiddle - 10);
+    this.relationPoints.push(this.sourceHeight + 10);
+    this.relationPoints.push(this.sourceMiddle);
+    this.relationPoints.push(this.sourceHeight);
+    this.relationPoints.push(this.sourceMiddle + 10);
+    this.relationPoints.push(this.sourceHeight + 10);
   }
 
   drawCompose() {
     this.drawAssociation();
-    this.points.push(this.source.x);
-    this.points.push(this.source.y + 20);
-    this.points.push(this.source.x - 10);
-    this.points.push(this.source.y + 10);
+    this.relationPoints.push(this.sourceMiddle);
+    this.relationPoints.push(this.sourceHeight + 20);
+    this.relationPoints.push(this.sourceMiddle - 10);
+    this.relationPoints.push(this.sourceHeight + 10);
+    this.relationColor = '#FF9A23';
   }
 
   drawInherit() {
     this.drawAssociation();
-    this.points.push(this.source.x - 10);
-    this.points.push(this.source.y + 10);
+    this.relationPoints.push(this.sourceMiddle - 10);
+    this.relationPoints.push(this.sourceHeight + 10);
   }
 }
