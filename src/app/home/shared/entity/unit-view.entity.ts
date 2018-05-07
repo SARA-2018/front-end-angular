@@ -1,25 +1,31 @@
-import { Unit } from './unit.entity';
+import { UnitEntity } from './unit.entity';
 import { Node } from '../../d3/models/node';
+import { Link } from '../../d3/models/link';
+import { RelationEntity } from './relation.entity';
 
-export class UnitView {
+export class UnitViewEntity {
 
-    unit: Unit;
-    childs: UnitView[] = [];
+    unit: UnitEntity;
+    childs: UnitViewEntity[] = [];
     x: number;
+    xMiddle: number;
     y: number;
     xBlock: number;
     yBlock: number;
     widthBlock: number;
+
     constructor(unit) {
         this.unit = unit;
         this.x = 0;
         this.y = 0;
+        this.xMiddle = 75;
     }
 
-    appendChild(child: UnitView) {
+    appendChild(child: UnitViewEntity) {
         this.childs.push(child);
     }
-    getChilds(): UnitView[] {
+
+    getChilds(): UnitViewEntity[] {
         return this.childs;
     }
 
@@ -30,6 +36,7 @@ export class UnitView {
             this.xBlock = 0;
             this.yBlock = 0;
             this.widthBlock = 150;
+            this.xMiddle = 75;
         } else {
             for (const child of this.childs) {
                 child.locate();
@@ -44,6 +51,7 @@ export class UnitView {
             this.xBlock = 0;
             this.yBlock = 0;
             this.widthBlock = xShift;
+            this.xMiddle = this.x + 75;
         }
     }
 
@@ -68,4 +76,17 @@ export class UnitView {
         }
         return nodes;
     }
+
+    createLink(): Link[] {
+        const links: Link[] = [];
+        for (const child of this.childs) {
+            const relation = new Link(this, child, this.unit.relation);
+            links.push(relation);
+            for (const link of child.createLink()) {
+                links.push(link);
+            }
+        }
+        return links;
+    }
+
 }

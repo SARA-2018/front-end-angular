@@ -1,4 +1,12 @@
 .link {
     stroke-width: 3;
     stroke: #FF9A23;
+    fill: none;
+}
+
+.relation {
+    stroke-width: 3;
+    stroke: #FF9A23;
+    stroke-linecap: round;
+    stroke-linejoin: round;
 }
