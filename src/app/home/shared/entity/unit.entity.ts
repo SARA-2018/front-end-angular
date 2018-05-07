@@ -1,19 +1,19 @@
-export class Unit {
+export class UnitEntity {
 
     id: number;
     name: string;
-    childs: Unit[] = [];
+    childs: UnitEntity[] = [];
     relation: string;
 
     constructor(name) {
       this.name = name;
     }
 
-    appendChild(child: Unit) {
+    appendChild(child: UnitEntity) {
       this.childs.push(child);
     }
 
-    getChilds(): Unit[] {
+    getChilds(): UnitEntity[] {
       return this.childs;
     }
 

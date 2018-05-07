@@ -1,12 +1,12 @@
-import { Unit } from './unit.entity';
+import { UnitEntity } from './unit.entity';
 import { Node } from '../../d3/models/node';
 import { Link } from '../../d3/models/link';
-import { Relation } from './relation.entity';
+import { RelationEntity } from './relation.entity';
 
-export class UnitView {
+export class UnitViewEntity {
 
-    unit: Unit;
-    childs: UnitView[] = [];
+    unit: UnitEntity;
+    childs: UnitViewEntity[] = [];
     x: number;
     xMiddle: number;
     y: number;
@@ -21,11 +21,11 @@ export class UnitView {
         this.xMiddle = 75;
     }
 
-    appendChild(child: UnitView) {
+    appendChild(child: UnitViewEntity) {
         this.childs.push(child);
     }
 
-    getChilds(): UnitView[] {
+    getChilds(): UnitViewEntity[] {
         return this.childs;
     }
 
