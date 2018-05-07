@@ -6,12 +6,15 @@ export class Relation {
   name: string;
   topUnit: Unit;
   lowerUnit: Unit;
+  type: string;
 
-  constructor(topUnit, lowerUnit, name?) {
+  constructor(topUnit, lowerUnit, type?, name?) {
     this.topUnit = topUnit;
     this.lowerUnit = lowerUnit;
+    this.type = type;
     this.name = name;
     this.topUnit.appendChild(lowerUnit);
+    this.topUnit.setRelation(type);
   }
 
 }

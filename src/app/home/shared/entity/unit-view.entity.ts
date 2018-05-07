@@ -80,7 +80,7 @@ export class UnitView {
     createLink(): Link[] {
         const links: Link[] = [];
         for (const child of this.childs) {
-            const relation = new Link(this, child, 'compose');
+            const relation = new Link(this, child, this.unit.relation);
             links.push(relation);
             for (const link of child.createLink()) {
                 links.push(link);

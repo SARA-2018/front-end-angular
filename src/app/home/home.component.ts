@@ -79,26 +79,28 @@ export class HomeComponent implements OnInit {
     const unitE8 = new Unit(unit8.name);
     const unitE9 = new Unit(unit9.name);
     const unitE10 = new Unit(unit10.name);
+    const unitR = new Unit('Raquel');
 
-    const relation1 = { topUnit: unit1, lowerUnit: unit2 };
-    const relation2 = { topUnit: unit1, lowerUnit: unit3 };
-    const relation3 = { topUnit: unit1, lowerUnit: unit4 };
-    const relation4 = { topUnit: unit1, lowerUnit: unit5 };
-    const relation5 = { topUnit: unit3, lowerUnit: unit6 };
-    const relation6 = { topUnit: unit3, lowerUnit: unit7 };
-    const relation7 = { topUnit: unit3, lowerUnit: unit8 };
-    const relation8 = { topUnit: unit7, lowerUnit: unit9 };
-    const relation9 = { topUnit: unit7, lowerUnit: unit10 };
+   /* const relation1 = { topUnit: unit1, lowerUnit: unit2, type: 'use' };
+    const relation2 = { topUnit: unit1, lowerUnit: unit3, type: 'use' };
+    const relation3 = { topUnit: unit1, lowerUnit: unit4, type: 'use' };
+    const relation4 = { topUnit: unit1, lowerUnit: unit5, type: 'use' };
+    const relation5 = { topUnit: unit3, lowerUnit: unit6, type: 'inherit' };
+    const relation6 = { topUnit: unit3, lowerUnit: unit7, type: 'inherit'  };
+    const relation7 = { topUnit: unit3, lowerUnit: unit8, type: 'inherit'  };
+    const relation8 = { topUnit: unit7, lowerUnit: unit9, type: 'compose'  };
+    const relation9 = { topUnit: unit7, lowerUnit: unit10, type: 'compose'  };*/
 
-    const relationE1 = new Relation(unitE1, unitE2);
-    const relationE2 = new Relation(unitE1, unitE3);
-    const relationE3 = new Relation(unitE1, unitE4);
-    const relationE4 = new Relation(unitE1, unitE5);
-    const relationE5 = new Relation(unitE3, unitE6);
-    const relationE6 = new Relation(unitE3, unitE7);
-    const relationE7 = new Relation(unitE3, unitE8);
-    const relationE8 = new Relation(unitE7, unitE9);
-    const relationE9 = new Relation(unitE7, unitE10);
+    const relationE1 = new Relation(unitE1, unitE2, 'compose');
+    const relationE2 = new Relation(unitE1, unitE3, 'compose');
+    const relationE3 = new Relation(unitE1, unitE4, 'use');
+    const relationE4 = new Relation(unitE1, unitE5, 'compose');
+    const relationE5 = new Relation(unitE3, unitE6, 'inherit');
+    const relationE6 = new Relation(unitE3, unitE7, 'inherit');
+    const relationE7 = new Relation(unitE3, unitE8, 'inherit');
+    const relationE8 = new Relation(unitE7, unitE9, 'inherit');
+    const relationE9 = new Relation(unitE7, unitE10, 'association');
+    const relationR = new Relation(unitE4, unitR , 'inherit');
 
     const root = this.createView(unitE1);
     root.locate();

@@ -7,13 +7,13 @@ export class Link implements d3.SimulationLinkDatum<Node> {
   // must - defining enforced implementation properties
   source: Node;
   target: Node;
-  source_middle: number;
-  source_height: number;
-  target_middle: number;
-  link_points = [];
+  sourceMiddle: number;
+  sourceHeight: number;
+  targetMiddle: number;
+  linkPoints = [];
 
   type: string;
-  relation_points = [];
+  relationPoints = [];
   relationColor = 'none';
 
   constructor(source, target, type?) {
@@ -26,34 +26,34 @@ export class Link implements d3.SimulationLinkDatum<Node> {
   }
 
   centerLink() {
-    this.source_middle = this.source.x + 75;
-    this.source_height = this.source.y + 35;
-    this.target_middle = this.target.x + 75;
+    this.sourceMiddle = this.source.x + 75;
+    this.sourceHeight = this.source.y + 35;
+    this.targetMiddle = this.target.x + 75;
   }
 
   generateLink() {
-    this.link_points.push(this.target_middle);
-    this.link_points.push(this.target.y);
-    this.link_points.push(this.target_middle);
-    this.link_points.push(this.target.y - 10);
-    this.link_points.push(this.source_middle);
-    this.link_points.push(this.source_height + 25);
-    this.link_points.push(this.source_middle);
+    this.linkPoints.push(this.targetMiddle);
+    this.linkPoints.push(this.target.y);
+    this.linkPoints.push(this.targetMiddle);
+    this.linkPoints.push(this.target.y - 10);
+    this.linkPoints.push(this.sourceMiddle);
+    this.linkPoints.push(this.sourceHeight + 25);
+    this.linkPoints.push(this.sourceMiddle);
     switch (this.type) {
       case 'association' : {
-        this.link_points.push(this.source_height);
+        this.linkPoints.push(this.sourceHeight);
         break;
       }
       case 'use' : {
-        this.link_points.push(this.source_height);
+        this.linkPoints.push(this.sourceHeight);
         break;
       }
       case 'inherit' : {
-        this.link_points.push(this.source_height + 10);
+        this.linkPoints.push(this.sourceHeight + 10);
         break;
       }
       case 'compose' : {
-        this.link_points.push(this.source_height + 20);
+        this.linkPoints.push(this.sourceHeight + 20);
         break;
       }
     }
@@ -80,26 +80,26 @@ export class Link implements d3.SimulationLinkDatum<Node> {
   }
 
   drawAssociation() {
-    this.relation_points.push(this.source_middle - 10);
-    this.relation_points.push(this.source_height + 10);
-    this.relation_points.push(this.source_middle);
-    this.relation_points.push(this.source_height);
-    this.relation_points.push(this.source_middle + 10);
-    this.relation_points.push(this.source_height + 10);
+    this.relationPoints.push(this.sourceMiddle - 10);
+    this.relationPoints.push(this.sourceHeight + 10);
+    this.relationPoints.push(this.sourceMiddle);
+    this.relationPoints.push(this.sourceHeight);
+    this.relationPoints.push(this.sourceMiddle + 10);
+    this.relationPoints.push(this.sourceHeight + 10);
   }
 
   drawCompose() {
     this.drawAssociation();
-    this.relation_points.push(this.source_middle);
-    this.relation_points.push(this.source_height + 20);
-    this.relation_points.push(this.source_middle - 10);
-    this.relation_points.push(this.source_height + 10);
+    this.relationPoints.push(this.sourceMiddle);
+    this.relationPoints.push(this.sourceHeight + 20);
+    this.relationPoints.push(this.sourceMiddle - 10);
+    this.relationPoints.push(this.sourceHeight + 10);
     this.relationColor = '#FF9A23';
   }
 
   drawInherit() {
     this.drawAssociation();
-    this.relation_points.push(this.source_middle - 10);
-    this.relation_points.push(this.source_height + 10);
+    this.relationPoints.push(this.sourceMiddle - 10);
+    this.relationPoints.push(this.sourceHeight + 10);
   }
 }
