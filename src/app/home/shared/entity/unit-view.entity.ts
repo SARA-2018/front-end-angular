@@ -8,7 +8,7 @@ export class UnitView {
     unit: Unit;
     childs: UnitView[] = [];
     x: number;
-    x_middle: number;
+    xMiddle: number;
     y: number;
     xBlock: number;
     yBlock: number;
@@ -18,7 +18,7 @@ export class UnitView {
         this.unit = unit;
         this.x = 0;
         this.y = 0;
-        this.x_middle = 75;
+        this.xMiddle = 75;
     }
 
     appendChild(child: UnitView) {
@@ -36,7 +36,7 @@ export class UnitView {
             this.xBlock = 0;
             this.yBlock = 0;
             this.widthBlock = 150;
-            this.x_middle = 75;
+            this.xMiddle = 75;
         } else {
             for (const child of this.childs) {
                 child.locate();
@@ -51,7 +51,7 @@ export class UnitView {
             this.xBlock = 0;
             this.yBlock = 0;
             this.widthBlock = xShift;
-            this.x_middle = this.x + 75;
+            this.xMiddle = this.x + 75;
         }
     }
 
@@ -80,7 +80,7 @@ export class UnitView {
     createLink(): Link[] {
         const links: Link[] = [];
         for (const child of this.childs) {
-            const relation = new Link(this, child, 'inherit');
+            const relation = new Link(this, child, 'compose');
             links.push(relation);
             for (const link of child.createLink()) {
                 links.push(link);

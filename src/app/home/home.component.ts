@@ -102,10 +102,8 @@ export class HomeComponent implements OnInit {
 
     const root = this.createView(unitE1);
     root.locate();
-    const nodes: Node[] = root.createNode();
-    const links: Link[] = root.createLink();
-    this.nodes = nodes;
-    this.links = links;
+    this.nodes = root.createNode();
+    this.links = root.createLink();
 
     console.log('Nodos' + this.nodes.length);
     console.log('Links' + this.links.length);
