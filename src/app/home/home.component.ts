@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import * as Lex from 'lexical-parser';
 import { error } from 'util';
 import { UnitService } from './shared/services/unit.service';
@@ -133,43 +133,40 @@ export class HomeComponent implements OnInit {
     const lex = new Lex(code, tokenMatchers, ignorePattern);
     const units = lex.nextToken();
     try {
-      if (units['name'] !== 'units' && units['name'] !== '~') {
-        throw error();
+      const sharp = lex.nextToken();
+      if (units['name'] !== 'units' && units['name'] !== '~' || sharp['name'] !== 'units' && sharp['name'] !== '#') {
       } else {
-        const sharp = lex.nextToken();
-        if (sharp['name'] !== 'units' && sharp['name'] !== '#') {
-          throw error();
-        } else {
-          const news = lex.nextToken();
-          if (news['name'] === 'new') {
-            console.log('**********Creo**********');
-            let unit: UnitEntity;
-            unit = new UnitEntity(units['lexeme']); // {name: units['lexeme']};
-            this.createUnit(unit);
+        const news = lex.nextToken();
+        if (news['name'] === 'new') {
+          console.log('**********Creo**********');
+          /*let unit: Unit;
+          unit = new Unit(units['lexeme']); // {name: units['lexeme']};
+          this.createUnit(unit);*/
+        } else if (news['name'] === '#') {
+          const id = lex.nextToken();
+          if (id['name'] === 'id') {
+            // this.delete(id['lexeme']);
+            console.log('-----------Borro--------------' + id['lexeme']);
           } else {
-            if (news['name'] === '#') {
+            //  throw error();
+          }
+        } else {
+          if (news['name'] === 'id') {
+            const less = lex.nextToken();
+            if (less['name'] === '<') {
+              const inherit = lex.nextToken();
+              const ponits = lex.nextToken();
+              const relation = lex.nextToken();
+              const name = lex.nextToken();
+              const sharp2 = lex.nextToken();
               const id = lex.nextToken();
-              this.delete(id['lexeme']);
-              console.log('-----------Borro--------------' + id['lexeme']);
-            } else {
-              if (news['name'] === 'id') {
-                const less = lex.nextToken();
-                if (less['name'] === '<') {
-                  const inherit = lex.nextToken();
-                  const ponits = lex.nextToken();
-                  const relation = lex.nextToken();
-                  const name = lex.nextToken();
-                  const sharp2 = lex.nextToken();
-                  const id = lex.nextToken();
-                  if (inherit['name'] !== 'inherit' || ponits['name'] !== ':' || relation['name'] !== 'units' || name['name'] !== 'units') {
-                    //      throw error();
-                  } else if (sharp2['name'] === '#' || id['name'] === 'id') {
-                    console.log(news['lexeme'] + '-----------creo Herencia--------------' + id['lexeme']);
-                  }
-                } else {
-                  throw error();
-                }
+              if (inherit['name'] !== 'inherit' || ponits['name'] !== ':' || relation['name'] !== 'units' || name['name'] !== 'units') {
+                //      throw error();
+              } else if (sharp2['name'] === '#' || id['name'] === 'id') {
+                console.log(news['lexeme'] + '-----------creo Herencia--------------' + id['lexeme']);
               }
+            } else {
+              //    throw error();
             }
           }
         }
@@ -179,14 +176,14 @@ export class HomeComponent implements OnInit {
       if (err.code === 'LEXICAL_ERROR') {
         this.snackBar.open(err.message, 'X');
       } else {
-        this.snackBar.open(err, 'X', {
+        this.snackBar.open('Syntax error', 'X', {
           duration: 8000
         });
       }
     }
   }
 
-  createUnit(unit: UnitEntity): void {
+  createUnit(unit: Unit): void {
     this.unitService.create(unit).subscribe(data => {
       this.snackBar.open('Creado Correctamente !', 'X', {
         duration: 8000
@@ -200,23 +197,27 @@ export class HomeComponent implements OnInit {
     this.filteredUnits = this.searchUnit.valueChanges
       .pipe(
         startWith(''),
-        map(unit => this.filters(unit))
+        map(unit => this.filter(unit))
       );
   }
 
-  filters(name: string) {
-    if (name !== '') {
-      this.unitService.filter(name).subscribe(data =>
+  filter(name: string) {
+    const regExp = new RegExp('[\ns \t:~#<>]+');
+    const parse = name.split(regExp);
+    const val = parse.pop();
+    if (val !== '') {
+      this.unitService.filter(val).subscribe(data =>
         this.relationsUnit = data
       );
-      return this.relationsUnit.filter(value => value.name.toLowerCase().indexOf(name.toLowerCase()) === 0);
+      return this.relationsUnit.filter(value => value.name.indexOf(val) === 0);
     }
   }
 
-  delete(unit: UnitEntity) {
+  delete(unit: Unit) {
     this.unitService.delete(unit).subscribe(() => this.synchronizedGraph());
       this.snackBar.open('Eliminado Correctamente !', 'X', {
         duration: 8000
       });
+    });
   }
 }
