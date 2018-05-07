@@ -11,10 +11,10 @@ import { map } from 'rxjs/operators/map';
 import { Observable } from 'rxjs/Observable';
 import { UnitModel } from './shared/models/unit.model';
 import { RelationModel } from './shared/models/relation.model';
-import { Unit } from './shared/entity/unit.entity';
-import { Relation } from './shared/entity/relation.entity';
+import { UnitEntity } from './shared/entity/unit.entity';
+import { RelationEntity } from './shared/entity/relation.entity';
 import { createViewState } from '@angular/core/src/render3/instructions';
-import { UnitView } from './shared/entity/unit-view.entity';
+import { UnitViewEntity } from './shared/entity/unit-view.entity';
 
 
 @Component({
@@ -69,17 +69,17 @@ export class HomeComponent implements OnInit {
     const unit9 = { name: 'Jesus' };
     const unit10 = { name: 'Luis' };
 
-    const unitE1 = new Unit(unit1.name);
-    const unitE2 = new Unit(unit2.name);
-    const unitE3 = new Unit(unit3.name);
-    const unitE4 = new Unit(unit4.name);
-    const unitE5 = new Unit(unit5.name);
-    const unitE6 = new Unit(unit6.name);
-    const unitE7 = new Unit(unit7.name);
-    const unitE8 = new Unit(unit8.name);
-    const unitE9 = new Unit(unit9.name);
-    const unitE10 = new Unit(unit10.name);
-    const unitR = new Unit('Raquel');
+    const unitE1 = new UnitEntity(unit1.name);
+    const unitE2 = new UnitEntity(unit2.name);
+    const unitE3 = new UnitEntity(unit3.name);
+    const unitE4 = new UnitEntity(unit4.name);
+    const unitE5 = new UnitEntity(unit5.name);
+    const unitE6 = new UnitEntity(unit6.name);
+    const unitE7 = new UnitEntity(unit7.name);
+    const unitE8 = new UnitEntity(unit8.name);
+    const unitE9 = new UnitEntity(unit9.name);
+    const unitE10 = new UnitEntity(unit10.name);
+    const unitR = new UnitEntity('Raquel');
 
    /* const relation1 = { topUnit: unit1, lowerUnit: unit2, type: 'use' };
     const relation2 = { topUnit: unit1, lowerUnit: unit3, type: 'use' };
@@ -91,16 +91,16 @@ export class HomeComponent implements OnInit {
     const relation8 = { topUnit: unit7, lowerUnit: unit9, type: 'compose'  };
     const relation9 = { topUnit: unit7, lowerUnit: unit10, type: 'compose'  };*/
 
-    const relationE1 = new Relation(unitE1, unitE2, 'compose');
-    const relationE2 = new Relation(unitE1, unitE3, 'compose');
-    const relationE3 = new Relation(unitE1, unitE4, 'use');
-    const relationE4 = new Relation(unitE1, unitE5, 'compose');
-    const relationE5 = new Relation(unitE3, unitE6, 'inherit');
-    const relationE6 = new Relation(unitE3, unitE7, 'inherit');
-    const relationE7 = new Relation(unitE3, unitE8, 'inherit');
-    const relationE8 = new Relation(unitE7, unitE9, 'inherit');
-    const relationE9 = new Relation(unitE7, unitE10, 'association');
-    const relationR = new Relation(unitE4, unitR , 'inherit');
+    const relationE1 = new RelationEntity(unitE1, unitE2, 'compose');
+    const relationE2 = new RelationEntity(unitE1, unitE3, 'compose');
+    const relationE3 = new RelationEntity(unitE1, unitE4, 'use');
+    const relationE4 = new RelationEntity(unitE1, unitE5, 'compose');
+    const relationE5 = new RelationEntity(unitE3, unitE6, 'inherit');
+    const relationE6 = new RelationEntity(unitE3, unitE7, 'inherit');
+    const relationE7 = new RelationEntity(unitE3, unitE8, 'inherit');
+    const relationE8 = new RelationEntity(unitE7, unitE9, 'inherit');
+    const relationE9 = new RelationEntity(unitE7, unitE10, 'association');
+    const relationR = new RelationEntity(unitE4, unitR , 'inherit');
 
     const root = this.createView(unitE1);
     root.locate();
@@ -111,8 +111,8 @@ export class HomeComponent implements OnInit {
     console.log('Links' + this.links.length);
   }
 
-  createView(unit: Unit): UnitView {
-    const root = new UnitView(unit);
+  createView(unit: UnitEntity): UnitViewEntity {
+    const root = new UnitViewEntity(unit);
     const childs = unit.getChilds();
     for (const child of childs) {
       root.appendChild(this.createView(child));
@@ -143,8 +143,8 @@ export class HomeComponent implements OnInit {
           const news = lex.nextToken();
           if (news['name'] === 'new') {
             console.log('**********Creo**********');
-            let unit: Unit;
-            unit = new Unit(units['lexeme']); // {name: units['lexeme']};
+            let unit: UnitEntity;
+            unit = new UnitEntity(units['lexeme']); // {name: units['lexeme']};
             this.createUnit(unit);
           } else {
             if (news['name'] === '#') {
@@ -186,7 +186,7 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  createUnit(unit: Unit): void {
+  createUnit(unit: UnitEntity): void {
     this.unitService.create(unit).subscribe(data => {
       this.snackBar.open('Creado Correctamente !', 'X', {
         duration: 8000
@@ -213,7 +213,7 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  delete(unit: Unit) {
+  delete(unit: UnitEntity) {
     this.unitService.delete(unit).subscribe(() => this.synchronizedGraph());
       this.snackBar.open('Eliminado Correctamente !', 'X', {
         duration: 8000

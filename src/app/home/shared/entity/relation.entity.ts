@@ -1,11 +1,11 @@
-import { Unit } from './unit.entity';
+import { UnitEntity } from './unit.entity';
 
-export class Relation {
+export class RelationEntity {
 
   id: number;
   name: string;
-  topUnit: Unit;
-  lowerUnit: Unit;
+  topUnit: UnitEntity;
+  lowerUnit: UnitEntity;
   type: string;
 
   constructor(topUnit, lowerUnit, type?, name?) {
