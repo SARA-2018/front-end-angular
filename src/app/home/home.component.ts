@@ -183,7 +183,7 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  createUnit(unit: Unit): void {
+  createUnit(unit: UnitEntity): void {
     this.unitService.create(unit).subscribe(data => {
       this.snackBar.open('Creado Correctamente !', 'X', {
         duration: 8000
@@ -213,11 +213,10 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  delete(unit: Unit) {
+  delete(unit: UnitEntity) {
     this.unitService.delete(unit).subscribe(() => this.synchronizedGraph());
-      this.snackBar.open('Eliminado Correctamente !', 'X', {
-        duration: 8000
-      });
+    this.snackBar.open('Eliminado Correctamente !', 'X', {
+      duration: 8000
     });
   }
 }
