@@ -15,6 +15,8 @@ import { UnitEntity } from './shared/entity/unit.entity';
 import { RelationEntity } from './shared/entity/relation.entity';
 import { createViewState } from '@angular/core/src/render3/instructions';
 import { UnitViewEntity } from './shared/entity/unit-view.entity';
+import {switchMap, distinctUntilChanged, debounceTime} from 'rxjs/operators';
+import {DEFAULT_CONFIG} from 'tslint/lib/configuration';
 
 
 @Component({
@@ -139,13 +141,13 @@ export class HomeComponent implements OnInit {
         const idSharp = lex.nextToken();
         if (idSharp['name'] === 'new') {
           console.log('**********Creo**********');
-          /*let unit: UnitEntity;
+          let unit: UnitEntity;
           unit = new UnitEntity(units['lexeme']); // {name: units['lexeme']};
-          this.createUnit(unit);*/
+          this.createUnit(unit);
         } else if (idSharp['name'] === '#') {
           const id = lex.nextToken();
           if (id['name'] === 'id') {
-            // this.delete(id['lexeme']);
+             this.delete(id['lexeme']);
             console.log('-----------Borro--------------' + id['lexeme']);
           } else {
             throw error();
@@ -229,8 +231,8 @@ export class HomeComponent implements OnInit {
     this.searchUnit = new FormControl();
     this.filteredUnits = this.searchUnit.valueChanges
       .pipe(
-        startWith(''),
-        map(unit => this.filter(unit))
+        debounceTime(200),
+        map(val => this.filter(val))
       );
   }
 
@@ -239,7 +241,7 @@ export class HomeComponent implements OnInit {
     const parse = name.split(regExp);
     const val = parse.pop();
     if (val !== '') {
-      this.unitService.filter(val).subscribe(data =>
+       this.unitService.filter(val).subscribe(data =>
         this.relationsUnit = data
       );
       return this.relationsUnit.filter(value => value.name.indexOf(val) === 0);
