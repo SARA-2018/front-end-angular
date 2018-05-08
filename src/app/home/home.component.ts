@@ -15,6 +15,7 @@ import { UnitEntity } from './shared/entity/unit.entity';
 import { RelationEntity } from './shared/entity/relation.entity';
 import { createViewState } from '@angular/core/src/render3/instructions';
 import { UnitViewEntity } from './shared/entity/unit-view.entity';
+import { BlockViewEntity } from './shared/entity/block-view.entity';
 
 
 @Component({
@@ -93,13 +94,13 @@ export class HomeComponent implements OnInit {
 
     const relationE1 = new RelationEntity(unitE1, unitE2, 'compose');
     const relationE2 = new RelationEntity(unitE1, unitE3, 'compose');
-    const relationE3 = new RelationEntity(unitE1, unitE4, 'use');
+    const relationE3 = new RelationEntity(unitE1, unitE4, 'compose');
     const relationE4 = new RelationEntity(unitE1, unitE5, 'compose');
     const relationE5 = new RelationEntity(unitE3, unitE6, 'inherit');
     const relationE6 = new RelationEntity(unitE3, unitE7, 'inherit');
     const relationE7 = new RelationEntity(unitE3, unitE8, 'inherit');
     const relationE8 = new RelationEntity(unitE7, unitE9, 'inherit');
-    const relationE9 = new RelationEntity(unitE7, unitE10, 'association');
+    const relationE9 = new RelationEntity(unitE7, unitE10, 'inherit');
     const relationR = new RelationEntity(unitE4, unitR , 'inherit');
 
     const root = this.createView(unitE1);
@@ -113,9 +114,13 @@ export class HomeComponent implements OnInit {
 
   createView(unit: UnitEntity): UnitViewEntity {
     const root = new UnitViewEntity(unit);
-    const childs = unit.getChilds();
-    for (const child of childs) {
-      root.appendChild(this.createView(child));
+    const blocks = unit.getBlocks();
+    if (blocks.length === 1) {
+      for (const child of blocks[0].Units) {
+        root.appendChild(this.createView(child), blocks[0].getType());
+      }
+    } else {
+      console.log('PASA POR EL ELSE' + unit.name);
     }
     return root;
   }

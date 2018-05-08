@@ -1,23 +1,35 @@
+import { BlockEntity } from './block.entity';
+
 export class UnitEntity {
 
-    id: number;
-    name: string;
-    childs: UnitEntity[] = [];
-    relation: string;
+  id: number;
+  name: string;
+  childsBlock: BlockEntity[] = [];
+  relation: string;
 
-    constructor(name) {
-      this.name = name;
-    }
+  constructor(name) {
+    this.name = name;
+  }
 
-    appendChild(child: UnitEntity) {
-      this.childs.push(child);
+  appendChild(child: UnitEntity, type: string) {
+    let find = false;
+    for (const block of this.childsBlock) {
+      if (block.getType() === type) {
+        block.appendUnit(child);
+        find = true;
+      }
     }
+    if (!find) {
+      const block = new BlockEntity(type, child);
+      this.childsBlock.push(block);
+    }
+  }
 
-    getChilds(): UnitEntity[] {
-      return this.childs;
-    }
+  getBlocks(): BlockEntity[] {
+    return this.childsBlock;
+  }
 
-    setRelation(type: string) {
-      this.relation = type;
-    }
+  setRelation(type: string) {
+    this.relation = type;
+  }
 }

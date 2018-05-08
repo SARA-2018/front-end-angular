@@ -13,8 +13,7 @@ export class RelationEntity {
     this.lowerUnit = lowerUnit;
     this.type = type;
     this.name = name;
-    this.topUnit.appendChild(lowerUnit);
-    this.topUnit.setRelation(type);
+    this.topUnit.appendChild(lowerUnit, type);
   }
 
 }
