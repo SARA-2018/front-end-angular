@@ -2,9 +2,9 @@ import { UnitEntity } from './unit.entity';
 
 export class BlockEntity {
 
-    type: string;
-    semantics: string;
-    units: UnitEntity[] = [];
+    private type: string;
+    private semantics: string;
+    private units: UnitEntity[] = [];
 
     constructor(type: string, unit: UnitEntity) {
         this.type = type;
@@ -15,11 +15,15 @@ export class BlockEntity {
         this.units.push(unit);
     }
 
-    getType() {
+    get Type() {
         return this.type;
     }
 
     get Units() {
         return this.units;
+    }
+
+    get Semantics() {
+        return this.semantics;
     }
 }

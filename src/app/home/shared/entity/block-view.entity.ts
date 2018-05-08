@@ -5,14 +5,14 @@ import { UnitViewEntity } from './unit-view.entity';
 
 export class BlockViewEntity {
 
-    type: string;
-    semantics: string;
-    units: UnitViewEntity[] = [];
+    private type: string;
+    private semantics: string;
+    private units: UnitViewEntity[] = [];
 
-    x: number;
-    y: number;
-    widthBlock: number;
-    heightBlock: number;
+    private x: number;
+    private y: number;
+    private widthBlock: number;
+    private heightBlock: number;
 
     constructor(type: string, unit: UnitViewEntity) {
         this.x = 0;
@@ -25,8 +25,7 @@ export class BlockViewEntity {
         this.units.push(unit);
     }
 
-    // Geters y seters
-    getType() {
+    get Type() {
         return this.type;
     }
 
@@ -34,15 +33,19 @@ export class BlockViewEntity {
         return this.units;
     }
 
+    get WidthBlock() {
+        return this.widthBlock;
+    }
+
     locate() {
         for (const unit of this.units) {
             unit.locate();
-            this.widthBlock += unit.widthBlock;
+            this.widthBlock += unit.WidthBlock;
         }
         let xShift = 0;
         for (const unit of this.units) {
             unit.shift(xShift, 70);
-            xShift += unit.widthBlock + 10;
+            xShift += unit.WidthBlock + 10;
         }
         this.x = xShift / 2 - 75;
         this.y = 0;

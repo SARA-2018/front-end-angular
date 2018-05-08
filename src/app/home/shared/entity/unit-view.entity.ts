@@ -6,16 +6,16 @@ import { BlockViewEntity } from './block-view.entity';
 
 export class UnitViewEntity {
 
-    unit: UnitEntity;
-    childsBlock: BlockViewEntity[] = [];
-    x: number;
-    xMiddle: number;
-    y: number;
-    xBlock: number;
-    yBlock: number;
-    widthBlock: number;
+    private unit: UnitEntity;
+    private childsBlock: BlockViewEntity[] = [];
+    private x: number;
+    private xMiddle: number;
+    private y: number;
+    private xBlock: number;
+    private yBlock: number;
+    private widthBlock: number;
 
-    constructor(unit) {
+    constructor(unit: UnitEntity) {
         this.unit = unit;
         this.x = 0;
         this.y = 0;
@@ -25,7 +25,7 @@ export class UnitViewEntity {
     appendChild(child: UnitViewEntity, type: string) {
         let find = false;
         for (const block of this.childsBlock) {
-            if (block.getType() === type) {
+            if (block.Type === type) {
                 block.appendUnit(child);
                 find = true;
             }
@@ -36,10 +36,13 @@ export class UnitViewEntity {
         }
     }
 
-    getchildsBlock(): BlockViewEntity[] {
+    get ChildsBlock() {
         return this.childsBlock;
     }
 
+    get WidthBlock() {
+        return this.widthBlock;
+    }
    /* locate() {
         if (this.childsBlock.length === 0) {
             this.x = 0;
@@ -91,7 +94,7 @@ export class UnitViewEntity {
             let xShift = 0;
             for (const child of this.childsBlock) {
                 child.shift(xShift, 70);
-                xShift += child.widthBlock + 10;
+                xShift += child.WidthBlock + 10;
             }
             this.x = xShift / 2 - 75;
             this.y = 0;
@@ -114,10 +117,10 @@ export class UnitViewEntity {
 
     createNode(): Node[] {
         const nodes: Node[] = [];
-        const root: Node = new Node(this.unit.name, this.x, this.y);
+        const root: Node = new Node(this.unit.Name, this.x, this.y);
         nodes.push(root);
         for (const child of this.childsBlock) {
-            for (const unit of child.units) {
+            for (const unit of child.Units) {
                 for (const node of unit.createNode()) {
                     nodes.push(node);
                 }
@@ -129,8 +132,8 @@ export class UnitViewEntity {
     createLink(): Link[] {
         const links: Link[] = [];
         for (const child of this.childsBlock) {
-            for (const unit of child.units) {
-                const relation = new Link(this, unit, child.getType());
+            for (const unit of child.Units) {
+                const relation = new Link(this, unit, child.Type);
                 links.push(relation);
                 for (const link of unit.createLink()) {
                     links.push(link);

@@ -114,13 +114,13 @@ export class HomeComponent implements OnInit {
 
   createView(unit: UnitEntity): UnitViewEntity {
     const root = new UnitViewEntity(unit);
-    const blocks = unit.getBlocks();
+    const blocks = unit.ChildsBlock;
     if (blocks.length === 1) {
       for (const child of blocks[0].Units) {
-        root.appendChild(this.createView(child), blocks[0].getType());
+        root.appendChild(this.createView(child), blocks[0].Type);
       }
     } else {
-      console.log('PASA POR EL ELSE' + unit.name);
+      console.log('PASA POR EL ELSE' + unit.Name);
     }
     return root;
   }

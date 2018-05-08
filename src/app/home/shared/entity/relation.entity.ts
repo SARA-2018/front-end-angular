@@ -2,13 +2,13 @@ import { UnitEntity } from './unit.entity';
 
 export class RelationEntity {
 
-  id: number;
-  name: string;
-  topUnit: UnitEntity;
-  lowerUnit: UnitEntity;
-  type: string;
+  private id: number;
+  private name: string;
+  private topUnit: UnitEntity;
+  private lowerUnit: UnitEntity;
+  private type: string;
 
-  constructor(topUnit, lowerUnit, type?, name?) {
+  constructor(topUnit: UnitEntity, lowerUnit: UnitEntity, type?: string, name?: string) {
     this.topUnit = topUnit;
     this.lowerUnit = lowerUnit;
     this.type = type;
