@@ -1,86 +1,69 @@
-import { UnitEntity } from './unit.entity';
+import { Unit } from './unit.entity';
 import { Node } from '../../d3/models/node';
 import { Link } from '../../d3/models/link';
-import { RelationEntity } from './relation.entity';
-import { BlockViewEntity } from './block-view.entity';
+import { Relation } from './relation.entity';
+import { BlockView } from './block-view.entity';
 
-export class UnitViewEntity {
+export class UnitView {
 
-    private unit: UnitEntity;
-    private childsBlock: BlockViewEntity[] = [];
+    private unit: Unit;
     private x: number;
-    private xMiddle: number;
     private y: number;
     private xBlock: number;
     private yBlock: number;
-    private widthBlock: number;
+    private blockViews: BlockView[] = [];
+    private widthBlock: number; // Local
+    private xMiddle: number; // TO DO Reconvertir a funcion privada.
 
-    constructor(unit: UnitEntity) {
+    constructor(unit: Unit) {
         this.unit = unit;
         this.x = 0;
         this.y = 0;
         this.xMiddle = 75;
+        for (const block of unit.Blocks) {
+            this.append(new BlockView(block));
+        }
     }
 
-    appendChild(child: UnitViewEntity, type: string) {
-        let find = false;
-        for (const block of this.childsBlock) {
-            if (block.Type === type) {
-                block.appendUnit(child);
-                find = true;
+    log(margin: string) {
+        console.log(margin + this.Unit.Name);
+        for (const block of this.BlockViews) {
+            block.log(margin + '   ');
+        }
+    }
+
+    createNode(): Node[] {
+        const result: Node[] = [];
+        const root: Node = new Node(this.unit.Name, this.x, this.y);
+        console.log('Nodo ' + this.unit.Name);
+        result.push(root);
+        for (const block of this.blockViews) {
+            for (const node of block.createNode()) {
+                result.push(node);
             }
         }
-        if (!find) {
-            const block = new BlockViewEntity(type, child);
-            this.childsBlock.push(block);
-        }
+        console.log('Unit result ' + result + ' de Nodo ' + this.unit.Name);
+        return result;
     }
 
-    get ChildsBlock() {
-        return this.childsBlock;
+    append(block: BlockView) {
+        this.blockViews.push(block);
+    }
+
+    get BlockViews() {
+        return this.blockViews;
     }
 
     get WidthBlock() {
         return this.widthBlock;
     }
-   /* locate() {
-        if (this.childsBlock.length === 0) {
-            this.x = 0;
-            this.y = 0;
-            this.xBlock = 0;
-            this.yBlock = 0;
-            this.widthBlock = 150;
-            this.xMiddle = 75;
-        } else {
-            for (const child of this.childsBlock) {
-                child.locate();
-            }
-            let xShift = 0;
-            for (const child of this.childsBlock) {
-                child.shift(xShift, 70);
-                xShift += child.widthBlock + 10;
-            }
-            this.x = xShift / 2 - 75;
-            this.y = 0;
-            this.xBlock = 0;
-            this.yBlock = 0;
-            this.widthBlock = xShift;
-            this.xMiddle = this.x + 75;
-        }
-    }
 
-    shift(x: number, y: number) {
-        this.x += x;
-        this.y += y;
-        this.xBlock += x;
-        this.yBlock += y;
-        for (const child of this.childsBlock) {
-            child.shift(x, y);
-        }
-    } */
+    get Unit() {
+        return this.unit;
+    }
 
     locate() {
-        if (this.childsBlock.length === 0) {
+        if (this.blockViews.length === 0) {
             this.x = 0;
             this.y = 0;
             this.xBlock = 0;
@@ -88,13 +71,13 @@ export class UnitViewEntity {
             this.widthBlock = 150;
             this.xMiddle = 75;
         } else {
-            for (const child of this.childsBlock) {
-                child.locate();
+            for (const blockView of this.blockViews) {
+                blockView.locate();
             }
             let xShift = 0;
-            for (const child of this.childsBlock) {
-                child.shift(xShift, 70);
-                xShift += child.WidthBlock + 10;
+            for (const blockView of this.blockViews) {
+                blockView.shift(xShift, 70);
+                xShift += blockView.WidthBlock + 10;
             }
             this.x = xShift / 2 - 75;
             this.y = 0;
@@ -110,30 +93,16 @@ export class UnitViewEntity {
         this.y += y;
         this.xBlock += x;
         this.yBlock += y;
-        for (const child of this.childsBlock) {
-            child.shift(x, y);
+        for (const block of this.blockViews) {
+            block.shift(x, y);
         }
-    }
-
-    createNode(): Node[] {
-        const nodes: Node[] = [];
-        const root: Node = new Node(this.unit.Name, this.x, this.y);
-        nodes.push(root);
-        for (const child of this.childsBlock) {
-            for (const unit of child.Units) {
-                for (const node of unit.createNode()) {
-                    nodes.push(node);
-                }
-            }
-        }
-        return nodes;
     }
 
     createLink(): Link[] {
         const links: Link[] = [];
-        for (const child of this.childsBlock) {
-            for (const unit of child.Units) {
-                const relation = new Link(this, unit, child.Type);
+        for (const block of this.blockViews) {
+            for (const unit of block.UnitViews) {
+                const relation = new Link(this, unit, block.Block.Type);
                 links.push(relation);
                 for (const link of unit.createLink()) {
                     links.push(link);

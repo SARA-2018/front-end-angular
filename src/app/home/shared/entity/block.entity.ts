@@ -1,17 +1,23 @@
-import { UnitEntity } from './unit.entity';
+import { Unit } from './unit.entity';
 
-export class BlockEntity {
+export class Block {
 
     private type: string;
     private semantics: string;
-    private units: UnitEntity[] = [];
+    private units: Unit[] = [];
 
-    constructor(type: string, unit: UnitEntity) {
+    constructor(type: string, unit: Unit) {
         this.type = type;
         this.units.push(unit);
     }
 
-    appendUnit(unit: UnitEntity) {
+    log(block: Block, margin: string) {
+        for (const unit of block.Units) {
+            unit.log(margin);
+        }
+    }
+
+    appendUnit(unit: Unit) {
         this.units.push(unit);
     }
 
@@ -26,4 +32,6 @@ export class BlockEntity {
     get Semantics() {
         return this.semantics;
     }
+
+
 }
