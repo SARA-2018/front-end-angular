@@ -1,20 +1,19 @@
-import { UnitEntity } from './unit.entity';
+import { Unit } from './unit.entity';
 
-export class RelationEntity {
+export class Relation {
 
-  id: number;
-  name: string;
-  topUnit: UnitEntity;
-  lowerUnit: UnitEntity;
-  type: string;
+  private id: number;
+  private type: string;
+  private semantics: string;
+  private topUnit: Unit;
+  private lowerUnit: Unit;
 
-  constructor(topUnit, lowerUnit, type?, name?) {
+  constructor(topUnit: Unit, lowerUnit: Unit, type?: string, semantics?: string) {
     this.topUnit = topUnit;
     this.lowerUnit = lowerUnit;
     this.type = type;
-    this.name = name;
-    this.topUnit.appendChild(lowerUnit);
-    this.topUnit.setRelation(type);
+    this.semantics = semantics;
+    this.topUnit.appendUnit(lowerUnit, type);
   }
 
 }
