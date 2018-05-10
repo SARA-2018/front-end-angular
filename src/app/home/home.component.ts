@@ -109,7 +109,8 @@ export class HomeComponent implements OnInit {
 
   onEnter(command: string) {
     try {
-      return new LexEntity(command, this.unitService, this.snackBar);
+      const lex = new LexEntity(this.unitService, this.snackBar);
+      lex.analyzeCommand(command);
     } catch (err) {
       if (err.code === 'LEXICAL_ERROR') {
         this.snackBar.open(err.message, 'X');
