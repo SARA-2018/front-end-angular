@@ -17,7 +17,7 @@ export class UnitService {
   }
 
   filter(name: string): Observable<any> {
-    return this.httpService.get(UnitService.END_POINT + '/search/' + name).map(data => {
+    return this.httpService.get(UnitService.END_POINT + '/search' + `/${name}`).map(data => {
       return data;
       });
   }

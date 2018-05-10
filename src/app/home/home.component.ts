@@ -1,12 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import * as Lex from 'lexical-parser';
-import { error } from 'util';
 import { UnitService } from './shared/services/unit.service';
 import { MatSnackBar } from '@angular/material';
 import { Link } from './d3/models/link';
 import { Node } from './d3/models/node';
 import { FormControl } from '@angular/forms';
-import { startWith } from 'rxjs/operators/startWith';
 import { map } from 'rxjs/operators/map';
 import { Observable } from 'rxjs/Observable';
 import { UnitModel } from './shared/models/unit.model';
@@ -17,6 +14,8 @@ import { createViewState } from '@angular/core/src/render3/instructions';
 import { UnitView } from './shared/entity/unit-view.entity';
 import { BlockView } from './shared/entity/block-view.entity';
 import { Block } from './shared/entity/block.entity';
+import { debounceTime } from 'rxjs/operators';
+import { LexEntity } from './shared/entity/lex.entity';
 
 
 @Component({
@@ -31,12 +30,11 @@ export class HomeComponent implements OnInit {
   nodes: Node[] = [];
   nodesNotRelated: Node[] = [];
   links: Link[] = [];
-  units: UnitModel[];
   relationsUnit: RelationModel[] = [];
   searchUnit: FormControl;
   filteredUnits: Observable<RelationModel[]>;
 
-  constructor(private snackBar: MatSnackBar, private unitService: UnitService) {
+  constructor(private snackBar: MatSnackBar, public unitService: UnitService) {
   }
 
   ngOnInit(): void {
@@ -109,103 +107,42 @@ export class HomeComponent implements OnInit {
 
 
 
-  onEnter(code: string) {
-    // You can specify an exact string or a regex for the token
-    const tokenMatchers = [
-      'new', '#', '~', '<', 'inherit', ':',
-      ['id', /[0-9]+/],
-      ['units', /[a-zA-Z][a-zA-Z0-9]*/],
-    ];
-
-    const ignorePattern = '[\n\s \t]+';
-
-    const lex = new Lex(code, tokenMatchers, ignorePattern);
-    const units = lex.nextToken();
+  onEnter(command: string) {
     try {
-      const sharp = lex.nextToken();
-      if (units['name'] !== 'units' && units['name'] !== '~' || sharp['name'] !== 'units' && sharp['name'] !== '#') {
-      } else {
-        const news = lex.nextToken();
-        if (news['name'] === 'new') {
-          console.log('**********Creo**********');
-          /*let unit: Unit;
-          unit = new Unit(units['lexeme']); // {name: units['lexeme']};
-          this.createUnit(unit);*/
-        } else if (news['name'] === '#') {
-          const id = lex.nextToken();
-          if (id['name'] === 'id') {
-            // this.delete(id['lexeme']);
-            console.log('-----------Borro--------------' + id['lexeme']);
-          } else {
-            //  throw error();
-          }
-        } else {
-          if (news['name'] === 'id') {
-            const less = lex.nextToken();
-            if (less['name'] === '<') {
-              const inherit = lex.nextToken();
-              const ponits = lex.nextToken();
-              const relation = lex.nextToken();
-              const name = lex.nextToken();
-              const sharp2 = lex.nextToken();
-              const id = lex.nextToken();
-              if (inherit['name'] !== 'inherit' || ponits['name'] !== ':' || relation['name'] !== 'units' || name['name'] !== 'units') {
-                //      throw error();
-              } else if (sharp2['name'] === '#' || id['name'] === 'id') {
-                console.log(news['lexeme'] + '-----------creo Herencia--------------' + id['lexeme']);
-              }
-            } else {
-              //    throw error();
-            }
-          }
-        }
-      }
+      return new LexEntity(command, this.unitService, this.snackBar);
     } catch (err) {
-      // Error handling
       if (err.code === 'LEXICAL_ERROR') {
         this.snackBar.open(err.message, 'X');
-      } else {
-        this.snackBar.open('Syntax error', 'X', {
-          duration: 8000
-        });
       }
     }
-  }
-
-  createUnit(unit: Unit): void {
-    this.unitService.create(unit).subscribe(data => {
-      this.snackBar.open('Creado Correctamente !', 'X', {
-        duration: 8000
-      });
-      this.synchronizedGraph();
-    });
   }
 
   synchronizedSearch() {
     this.searchUnit = new FormControl();
     this.filteredUnits = this.searchUnit.valueChanges
       .pipe(
-        startWith(''),
-        map(unit => this.filter(unit))
+        debounceTime(200),
+        map(val => this.filter(val))
       );
   }
 
-  filter(name: string) {
+  filter(unitName: string) {
     const regExp = new RegExp('[\ns \t:~#<>]+');
-    const parse = name.split(regExp);
-    const val = parse.pop();
-    if (val !== '') {
-      this.unitService.filter(val).subscribe(data =>
-        this.relationsUnit = data
+    const parse = unitName.split(regExp);
+    const unit = parse.pop();
+    if (unit !== '') {
+      this.unitService.filter(unit).subscribe(data => {
+        this.relationsUnit = data;
+        if (data.length === 0) {
+          this.snackBar.open('No existe ' + unitName, '', {
+            duration: 2000
+          });
+        }
+      }
       );
-      return this.relationsUnit.filter(value => value.name.indexOf(val) === 0);
+      return this.relationsUnit.filter(value =>
+        value.name.toLowerCase().indexOf(unit.toString().toLowerCase()) === 0
+      );
     }
-  }
-
-  delete(unit: Unit) {
-    this.unitService.delete(unit).subscribe(() => this.synchronizedGraph());
-    this.snackBar.open('Eliminado Correctamente !', 'X', {
-      duration: 8000
-    });
   }
 }

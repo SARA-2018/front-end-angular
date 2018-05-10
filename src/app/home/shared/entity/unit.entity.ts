@@ -1,4 +1,6 @@
 import { Block } from './block.entity';
+import {MatSnackBar} from '@angular/material';
+import {UnitService} from '../services/unit.service';
 
 export class Unit {
 
@@ -44,4 +46,14 @@ export class Unit {
       this.blocks.push(new Block(type, unit));
     }
   }
+
+  /*createUnit(unit: UnitEntity, unitService: UnitService, snackBar: MatSnackBar) {
+    unitService.create(name).subscribe(data => {
+      snackBar.open('Creado Correctamente !', 'X', {
+        duration: 8000
+      });
+      //  this.synchronizedGraph();
+    });
+  }*/
 }
+
