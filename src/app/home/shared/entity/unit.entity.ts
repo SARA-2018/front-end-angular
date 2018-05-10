@@ -1,29 +1,51 @@
+import { Block } from './block.entity';
 import {MatSnackBar} from '@angular/material';
 import {UnitService} from '../services/unit.service';
 
-export class UnitEntity {
+export class Unit {
 
-    id: number;
-    name: string;
-    childs: UnitEntity[] = [];
-    relation: string;
+  private id: number;
+  private name: string;
+  private blocks: Block[] = [];
 
-    constructor(name) {
-      this.name = name;
-      console.log(name);
+  constructor(name: string) {
+    this.name = name;
+  }
+
+  log(margin: string) {
+    console.log(margin + this.getName());
+    for (const block of this.getBlocks()) {
+      block.log(block, margin + '   ');
     }
+  }
 
-    appendChild(child: UnitEntity) {
-      this.childs.push(child);
-    }
+  getId() {
+    return this.id;
+  }
 
-    getChilds(): UnitEntity[] {
-      return this.childs;
-    }
+  getBlocks() {
+    return this.blocks;
+  }
 
-    setRelation(type: string) {
-      this.relation = type;
+  getName() {
+    return this.name;
+  }
+
+  appendUnit(unit: Unit, type: string) {
+    if (this.blocks.length > 0) {
+      let i = 0;
+      while (type !== this.blocks[i].getType() && (i < this.blocks.length - 1)) {
+        i++;
+      }
+      if (type === this.blocks[i].getType()) {
+        this.blocks[i].appendUnit(unit);
+      } else {
+        this.blocks.push(new Block(type, unit));
+      }
+    } else {
+      this.blocks.push(new Block(type, unit));
     }
+  }
 
   /*createUnit(unit: UnitEntity, unitService: UnitService, snackBar: MatSnackBar) {
     unitService.create(name).subscribe(data => {
@@ -34,3 +56,4 @@ export class UnitEntity {
     });
   }*/
 }
+

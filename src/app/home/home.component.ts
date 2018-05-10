@@ -1,5 +1,4 @@
-///<reference path="shared/entity/lex.entity.ts"/>
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UnitService } from './shared/services/unit.service';
 import { MatSnackBar } from '@angular/material';
 import { Link } from './d3/models/link';
@@ -9,11 +8,14 @@ import { map } from 'rxjs/operators/map';
 import { Observable } from 'rxjs/Observable';
 import { UnitModel } from './shared/models/unit.model';
 import { RelationModel } from './shared/models/relation.model';
-import { UnitEntity } from './shared/entity/unit.entity';
-import { RelationEntity } from './shared/entity/relation.entity';
-import { UnitViewEntity } from './shared/entity/unit-view.entity';
-import {debounceTime} from 'rxjs/operators';
-import {LexEntity} from './shared/entity/lex.entity';
+import { Unit } from './shared/entity/unit.entity';
+import { Relation } from './shared/entity/relation.entity';
+import { createViewState } from '@angular/core/src/render3/instructions';
+import { UnitView } from './shared/entity/unit-view.entity';
+import { BlockView } from './shared/entity/block-view.entity';
+import { Block } from './shared/entity/block.entity';
+import { debounceTime } from 'rxjs/operators';
+import { LexEntity } from './shared/entity/lex.entity';
 
 
 @Component({
@@ -56,67 +58,54 @@ export class HomeComponent implements OnInit {
 
   addDataGraph() {
 
-    const unit1 = {name: 'Animales'};
-    const unit2 = {name: 'Perro'};
-    const unit3 = {name: 'Gato'};
-    const unit4 = {name: 'Delfín'};
-    const unit5 = {name: 'Caballo'};
-    const unit6 = {name: 'Aitor'};
-    const unit7 = {name: 'Roberth'};
-    const unit8 = {name: 'Alberto'};
-    const unit9 = {name: 'Jesus'};
-    const unit10 = {name: 'Luis'};
+    const unit1 = { name: 'Animales' };
+    const unit2 = { name: 'Perro' };
+    const unit3 = { name: 'Gato' };
+    const unit4 = { name: 'Delfín' };
+    const unit5 = { name: 'Caballo' };
+    const unit6 = { name: 'Aitor' };
+    const unit7 = { name: 'Roberth' };
+    const unit8 = { name: 'Alberto' };
+    const unit9 = { name: 'Jesus' };
+    const unit10 = { name: 'Luis' };
 
-    const unitE1 = new UnitEntity(unit1.name);
-    const unitE2 = new UnitEntity(unit2.name);
-    const unitE3 = new UnitEntity(unit3.name);
-    const unitE4 = new UnitEntity(unit4.name);
-    const unitE5 = new UnitEntity(unit5.name);
-    const unitE6 = new UnitEntity(unit6.name);
-    const unitE7 = new UnitEntity(unit7.name);
-    const unitE8 = new UnitEntity(unit8.name);
-    const unitE9 = new UnitEntity(unit9.name);
-    const unitE10 = new UnitEntity(unit10.name);
-    const unitR = new UnitEntity('Raquel');
+    const root = new Unit(unit1.name);
+    const unitE2 = new Unit(unit2.name);
+    const unitE3 = new Unit(unit3.name);
+    const unitE4 = new Unit(unit4.name);
+    const unitE5 = new Unit(unit5.name);
+    const unitE6 = new Unit(unit6.name);
+    const unitE7 = new Unit(unit7.name);
+    const unitE8 = new Unit(unit8.name);
+    const unitE9 = new Unit(unit9.name);
+    const unitE10 = new Unit(unit10.name);
+    const unitR = new Unit('Raquel');
 
-    /* const relation1 = { topUnit: unit1, lowerUnit: unit2, type: 'use' };
-     const relation2 = { topUnit: unit1, lowerUnit: unit3, type: 'use' };
-     const relation3 = { topUnit: unit1, lowerUnit: unit4, type: 'use' };
-     const relation4 = { topUnit: unit1, lowerUnit: unit5, type: 'use' };
-     const relation5 = { topUnit: unit3, lowerUnit: unit6, type: 'inherit' };
-     const relation6 = { topUnit: unit3, lowerUnit: unit7, type: 'inherit'  };
-     const relation7 = { topUnit: unit3, lowerUnit: unit8, type: 'inherit'  };
-     const relation8 = { topUnit: unit7, lowerUnit: unit9, type: 'compose'  };
-     const relation9 = { topUnit: unit7, lowerUnit: unit10, type: 'compose'  };*/
+    const relationE1 = new Relation(root, unitE2, 'compose');
+    const relationE2 = new Relation(root, unitE3, 'compose');
+    const relationE3 = new Relation(root, unitE4, 'compose');
+    const relationE4 = new Relation(root, unitE5, 'compose');
+    const relationE5 = new Relation(unitE3, unitE6, 'inherit');
+    const relationE6 = new Relation(unitE3, unitE7, 'inherit');
+    const relationE7 = new Relation(unitE3, unitE8, 'inherit');
+    const relationE8 = new Relation(unitE7, unitE9, 'inherit');
+    const relationE9 = new Relation(unitE7, unitE10, 'use');
+    const relationR = new Relation(unitE4, unitR, 'inherit');
 
-    const relationE1 = new RelationEntity(unitE1, unitE2, 'compose');
-    const relationE2 = new RelationEntity(unitE1, unitE3, 'compose');
-    const relationE3 = new RelationEntity(unitE1, unitE4, 'use');
-    const relationE4 = new RelationEntity(unitE1, unitE5, 'compose');
-    const relationE5 = new RelationEntity(unitE3, unitE6, 'inherit');
-    const relationE6 = new RelationEntity(unitE3, unitE7, 'inherit');
-    const relationE7 = new RelationEntity(unitE3, unitE8, 'inherit');
-    const relationE8 = new RelationEntity(unitE7, unitE9, 'inherit');
-    const relationE9 = new RelationEntity(unitE7, unitE10, 'association');
-    const relationR = new RelationEntity(unitE4, unitR, 'inherit');
-
-    const root = this.createView(unitE1);
-    root.locate();
-    this.nodes = root.createNode();
-    this.links = root.createLink();
+    console.log('MODELOS: ');
+    root.log('');
+    const rootView = new UnitView(root);
+    console.log('VISTAS: ');
+    rootView.log('');
+    rootView.locate();
+    this.nodes = rootView.createNode();
+    this.links = rootView.createLink();
 
     console.log('Nodos' + this.nodes.length);
     console.log('Links' + this.links.length);
   }
 
-  createView(unit: UnitEntity): UnitViewEntity {
-    const root = new UnitViewEntity(unit);
-    const childs = unit.getChilds();
-    for (const child of childs) {
-      root.appendChild(this.createView(child));
-    }
-    return root;
-  }
+
 
   onEnter(command: string) {
     try {
@@ -127,14 +116,6 @@ export class HomeComponent implements OnInit {
       }
     }
   }
-  /*createUnit(unit: UnitEntity) {
-    this.unitService.create(unit).subscribe(data => {
-      this.snackBar.open('Creado Correctamente !', 'X', {
-        duration: 8000
-      });
-      this.synchronizedGraph();
-    });
-  }*/
 
   synchronizedSearch() {
     this.searchUnit = new FormControl();
@@ -151,13 +132,13 @@ export class HomeComponent implements OnInit {
     const unit = parse.pop();
     if (unit !== '') {
       this.unitService.filter(unit).subscribe(data => {
-          this.relationsUnit = data;
-          if (data.length === 0) {
-            this.snackBar.open('No existe ' + unitName, '', {
-              duration: 2000
-            });
-          }
+        this.relationsUnit = data;
+        if (data.length === 0) {
+          this.snackBar.open('No existe ' + unitName, '', {
+            duration: 2000
+          });
         }
+      }
       );
       return this.relationsUnit.filter(value =>
         value.name.toLowerCase().indexOf(unit.toString().toLowerCase()) === 0

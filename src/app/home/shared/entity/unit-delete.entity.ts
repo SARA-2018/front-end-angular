@@ -1,5 +1,6 @@
 import {UnitService} from '../services/unit.service';
 import {MatSnackBar} from '@angular/material';
+import { Unit } from './unit.entity';
 
 export class UnitDeleteEntity {
 
@@ -12,9 +13,9 @@ export class UnitDeleteEntity {
     this.snackBar = snackBar;
   }
 
-  deletes(id: number): void {
+  deletes(unit: Unit): void {
     //  this.synchronizedGraph()
-    this.unitService.delete(id).subscribe(() => {
+    this.unitService.delete(unit).subscribe(() => {
       this.snackBar.open('Eliminado Correctamente !', 'X', {
         duration: 8000
       });
