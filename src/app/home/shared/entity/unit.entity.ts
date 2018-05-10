@@ -47,13 +47,13 @@ export class Unit {
     }
   }
 
-  /*createUnit(unit: UnitEntity, unitService: UnitService, snackBar: MatSnackBar) {
-    unitService.create(name).subscribe(data => {
+  saveUnit(unitService: UnitService, snackBar: MatSnackBar) {
+    unitService.create(this).subscribe(data => {
       snackBar.open('Creado Correctamente !', 'X', {
         duration: 8000
       });
       //  this.synchronizedGraph();
     });
-  }*/
+  }
 }
 

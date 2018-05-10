@@ -7,11 +7,11 @@ import {MatSnackBar} from '@angular/material';
 
 export class LexEntity {
 
-  chain: string;
+  command: string;
 
-  constructor(chain, unitService: UnitService, snackBar: MatSnackBar) {
-    this.chain = chain;
-    this.analyzeCommand(chain, unitService, snackBar);
+  constructor(command, unitService: UnitService, snackBar: MatSnackBar) {
+    this.command = command;
+    this.analyzeCommand(command, unitService, snackBar);
   }
 
   analyzeCommand(command: string, unitService: UnitService, snackBar: MatSnackBar) {
@@ -35,6 +35,7 @@ export class LexEntity {
         case 'text':
           const text = command.split(token['lexeme']);
           command = text.pop();
+          console.log('Caso de crear');
           return analyzeCommandCreateUnit(command, token);
         default:
           return error();
@@ -69,7 +70,7 @@ export class LexEntity {
       console.log('analyzeCommandDeleteRelation');
     }
 
-    function analyzeCommandCreateUnit(commandCreate: string, unit: object) {
+    function analyzeCommandCreateUnit(commandCreate: string, name: object) {
       const lex = new Lex(commandCreate, tokenMatchers, ignorePattern);
       const sharp = lex.nextToken();
       if (sharp['name'] !== '#') {
@@ -78,11 +79,12 @@ export class LexEntity {
       }
       const id = lex.nextToken();
       if (id['name'] === 'new') {
-        return new Unit(unit['lexeme']); // .createUnit(unitService, snackBar);
+        const unit =  new Unit(name['lexeme']);
+        return unit.saveUnit(unitService, snackBar);
       } else if (id['name'] === 'id') {
         const token = lex.nextToken();
         if (token['name'] === ':') {
-          return analyzeCommandUpdate(id, unit);
+          return analyzeCommandUpdate(id, name);
         } else if (token['name'] === '<') {
           // sdf
         }
