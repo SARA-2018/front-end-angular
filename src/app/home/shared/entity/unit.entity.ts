@@ -11,36 +11,37 @@ export class Unit {
   }
 
   log(margin: string) {
-    console.log(margin + this.Name);
-    for (const block of this.Blocks) {
+    console.log(margin + this.getName());
+    for (const block of this.getBlocks()) {
       block.log(block, margin + '   ');
     }
   }
 
-  get Id() {
+  getId() {
     return this.id;
   }
 
-  get Blocks() {
+  getBlocks() {
     return this.blocks;
   }
 
-  get Name() {
+  getName() {
     return this.name;
   }
 
   appendUnit(unit: Unit, type: string) {
-    let find = false;
-    for (const block of this.blocks) {
-      if (block.Type === type) {
-        block.appendUnit(unit);
-        find = true;
+    if (this.blocks.length > 0) {
+      let i = 0;
+      while (type !== this.blocks[i].getType() && (i < this.blocks.length - 1)) {
+        i++;
       }
-    }
-    if (!find) {
+      if (type === this.blocks[i].getType()) {
+        this.blocks[i].appendUnit(unit);
+      } else {
+        this.blocks.push(new Block(type, unit));
+      }
+    } else {
       this.blocks.push(new Block(type, unit));
     }
   }
-
-
 }

@@ -10,33 +10,30 @@ export class BlockView {
     private x: number;
     private y: number;
     private widthBlock: number;
-    private heightBlock: number;
     private unitViews: UnitView[] = [];
 
     constructor(block: Block) {
         this.x = 0;
         this.y = 0;
         this.block = block;
-        for (const unit of this.block.Units) {
+        for (const unit of this.block.getUnits()) {
             this.appendUnit(new UnitView(unit));
         }
     }
 
     log(margin: string) {
-        for (const unit of this.UnitViews) {
+        for (const unit of this.getUnitViews()) {
             unit.log(margin);
         }
     }
 
-
     createNode(): Node[] {
         const result = [];
-        for (const unitView of this.UnitViews) {
+        for (const unitView of this.getUnitViews()) {
             for (const node of unitView.createNode()) {
                 result.push(node);
             }
         }
-        console.log('Block result ' + result);
         return result;
     }
 
@@ -44,15 +41,15 @@ export class BlockView {
         this.unitViews.push(unit);
     }
 
-    get UnitViews() {
+    getUnitViews() {
         return this.unitViews;
     }
 
-    get WidthBlock() {
+    getWidthBlock() {
         return this.widthBlock;
     }
 
-    get Block() {
+    getBlock() {
         return this.block;
     }
 
@@ -63,7 +60,7 @@ export class BlockView {
         let xShift = 0;
         for (const unit of this.unitViews) {
             unit.shift(xShift, 70);
-            xShift += unit.WidthBlock + 10;
+            xShift += unit.getWidthBlock() + 10;
         }
         this.x = xShift / 2 - 75;
         this.y = 0;

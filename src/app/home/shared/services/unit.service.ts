@@ -13,7 +13,7 @@ export class UnitService {
   }
 
   create(unit: Unit): Observable<any> {
-    return this.httpService.post(UnitService.END_POINT, unit.Name);
+    return this.httpService.post(UnitService.END_POINT, unit.getName());
   }
 
   filter(name: string): Observable<any> {
@@ -27,6 +27,6 @@ export class UnitService {
   }
 
   delete(unit: Unit): Observable<any> {
-    return this.httpService.delete(UnitService.END_POINT + `/${unit.Id}`);
+    return this.httpService.delete(UnitService.END_POINT + `/${unit.getId()}`);
   }
 }

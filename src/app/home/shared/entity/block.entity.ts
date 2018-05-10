@@ -12,7 +12,7 @@ export class Block {
     }
 
     log(block: Block, margin: string) {
-        for (const unit of block.Units) {
+        for (const unit of block.getUnits()) {
             unit.log(margin);
         }
     }
@@ -21,17 +21,15 @@ export class Block {
         this.units.push(unit);
     }
 
-    get Type() {
+    getType() {
         return this.type;
     }
 
-    get Units() {
+    getUnits() {
         return this.units;
     }
 
-    get Semantics() {
+    getSemantics() {
         return this.semantics;
     }
-
-
 }
