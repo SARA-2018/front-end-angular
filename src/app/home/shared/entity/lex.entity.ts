@@ -9,7 +9,7 @@ export class LexEntity {
 
   tokenMatchers = [
     'new', '#', '~', '<', 'inherit', ':', '>', 'relation',
-    'asociation', 'use', 'compose',
+    'asociation', 'use', 'compose', ',',
     ['id', /[0-9]+/],
     ['text', /[a-zA-Z][a-zA-Z0-9]*/],
   ];
@@ -76,7 +76,7 @@ export class LexEntity {
     */
   }
 
-  analyzeCommandUpdate(id: object, unit: object) {
+  analyzeCommandUpdateUnit(id: object, unit: object) {
     console.log('Update');
     console.log(unit['lexeme']);
     console.log(id['lexeme']);
@@ -95,7 +95,7 @@ export class LexEntity {
     } else if (id['name'] === 'id') {
       const token = lex.nextToken();
       if (token['name'] === ':') {
-        this.analyzeCommandUpdate(id, name);
+        this.analyzeCommandUpdateUnit(id, name);
       } else if (token['name'] === '<') {
         this.analyzeCommandRelationInherit(command, id);
       }
@@ -103,30 +103,6 @@ export class LexEntity {
       return error();
     }
   }
-
- /* analyzeCommandRelation(commandRelation: string, unit: object) {
-    const sharp = commandRelation.split('#');
-    commandRelation = sharp.pop();
-    const lex = new Lex(commandRelation, this.tokenMatchers, this.ignorePattern);
-    const id = lex.nextToken();
-    if (id['name'] !== 'id') {
-      return error();
-    }
-    const token = lex.nextToken();
-    if (token['name'] === ':') {
-      this.analyzeCommandUpdate(id, unit);
-    } else if (token['name'] === '<') {
-      // return analyzeCommandRelationInheritFatherToSon(id);
-    } else if (token['name'] === 'inherit') {
-
-    } else {
-      return error();
-    }
-    const relation = lex.nextToken();
-    if (relation['name'] !== 'inherit' && relation['name'] !== 'compose' &&
-      relation['name'] !== 'asociation' && relation['name'] !== 'use') {
-      return error();
-    }*/
 
    analyzeCommandRelationInherit(command: string, idUnit: object) {
      const lex = new Lex(command, this.tokenMatchers, this.ignorePattern);
@@ -157,17 +133,42 @@ export class LexEntity {
          return error();
        }
        const token = lex.nextToken();
-       console.log(token);
        if (token === undefined) {
          console.log('exito');
          /*
          * const unit = new Unit(name['lexeme']);
       unit.saveUnit(this.unitService, this.snackBar);
          * */
-
+       } else if (token['name'] === ',') {
+         let ids;
+         const key = [];
+         do {
+           ids = lex.nextToken();
+           if (ids !== undefined ) {
+             if (ids['name'] === 'id') {
+               key.push(ids['lexeme']);
+             }
+           }
+         } while (ids);
+         key.unshift(id['lexeme']);
+         for (let j = 0; j < key.length; j++) {
+           console.log(idUnit['lexeme'] + key[j]);
+         }
+       } else {
+         return error();
        }
-     } else {
-
+     } /*else if (token['name'] === 'text') {
+         const sharp = lex.nextToken();
+         if (sharp['name'] !== '#') {
+           return error();
+         }
+         const id = lex.nextToken();
+         if (id['name'] !== 'id') {
+           return error();
+         }
+       } else {
+         return error();
+       }
      }
 
      /*const lex = new Lex(commandRelation, tokenMatchers, ignorePattern);
