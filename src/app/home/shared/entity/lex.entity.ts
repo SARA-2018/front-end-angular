@@ -1,7 +1,7 @@
 import {error} from 'util';
 import * as Lex from 'lexical-parser';
 import {UnitDeleteEntity} from './unit-delete.entity';
-import {UnitEntity} from './unit.entity';
+import {Unit} from './unit.entity';
 import {UnitService} from '../services/unit.service';
 import {MatSnackBar} from '@angular/material';
 
@@ -78,7 +78,7 @@ export class LexEntity {
       }
       const id = lex.nextToken();
       if (id['name'] === 'new') {
-        return new UnitEntity(unit['lexeme']); // .createUnit(unitService, snackBar);
+        return new Unit(unit['lexeme']); // .createUnit(unitService, snackBar);
       } else if (id['name'] === 'id') {
         const token = lex.nextToken();
         if (token['name'] === ':') {
