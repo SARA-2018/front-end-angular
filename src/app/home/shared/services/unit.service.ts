@@ -13,7 +13,7 @@ export class UnitService {
   }
 
   create(unit: Unit): Observable<any> {
-    return this.httpService.post(UnitService.END_POINT, unit.getName());
+    return this.httpService.post(UnitService.END_POINT, unit);
   }
 
   filter(name: string): Observable<any> {
