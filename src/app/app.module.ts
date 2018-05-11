@@ -32,6 +32,7 @@ import {
   MatTabsModule, MatToolbarModule, MatTooltipModule,
   MatStepperModule,
 } from '@angular/material';
+import {RelationService} from './home/shared/services/relation.service';
 
 @NgModule({
   imports: [
@@ -93,6 +94,7 @@ import {
     D3Service,
     HttpService,
     UnitService,
+    RelationService,
   ]
 
 })

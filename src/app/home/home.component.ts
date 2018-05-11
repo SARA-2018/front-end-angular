@@ -9,13 +9,14 @@ import { Observable } from 'rxjs/Observable';
 import { UnitModel } from './shared/models/unit.model';
 import { RelationModel } from './shared/models/relation.model';
 import { Unit } from './shared/entity/unit.entity';
-import { Relation } from './shared/entity/relation.entity';
+import { RelationView } from './shared/entity/relation-view.entity';
 import { createViewState } from '@angular/core/src/render3/instructions';
 import { UnitView } from './shared/entity/unit-view.entity';
 import { BlockView } from './shared/entity/block-view.entity';
 import { Block } from './shared/entity/block.entity';
 import { debounceTime } from 'rxjs/operators';
 import { LexEntity } from './shared/entity/lex.entity';
+import { RelationService } from './shared/services/relation.service';
 
 
 @Component({
@@ -34,7 +35,7 @@ export class HomeComponent implements OnInit {
   searchUnit: FormControl;
   filteredUnits: Observable<RelationModel[]>;
 
-  constructor(private snackBar: MatSnackBar, public unitService: UnitService) {
+  constructor(private snackBar: MatSnackBar, public unitService: UnitService, public relationService: RelationService) {
   }
 
   ngOnInit(): void {
@@ -81,17 +82,16 @@ export class HomeComponent implements OnInit {
     const unitR = new Unit('Raquel');
     const unitA = new Unit('Alvaro');
 
-    const relationE1 = new Relation(root, unitE2, 'compose');
-    const relationE2 = new Relation(root, unitE3, 'compose');
-    const relationE3 = new Relation(root, unitE4, 'compose');
-    const relationE4 = new Relation(root, unitE5, 'compose');
-    const relationE5 = new Relation(unitE3, unitE6, 'inherit');
-    const relationE6 = new Relation(unitE3, unitE7, 'inherit');
-    const relationE7 = new Relation(unitE3, unitE8, 'inherit');
-    const relationE8 = new Relation(unitE7, unitE9, 'inherit');
-    const relationE9 = new Relation(unitE7, unitE10, 'use');
-    const relationR = new Relation(unitE4, unitR, 'inherit');
-    const relationA = new Relation(unitE4, unitA, 'compose');
+    const relationE1 = new RelationView(root, unitE2, 'compose');
+    const relationE2 = new RelationView(root, unitE3, 'compose');
+    const relationE3 = new RelationView(root, unitE4, 'compose');
+    const relationE4 = new RelationView(root, unitE5, 'compose');
+    const relationE5 = new RelationView(unitE3, unitE6, 'inherit');
+    const relationE6 = new RelationView(unitE3, unitE7, 'inherit');
+    const relationE7 = new RelationView(unitE3, unitE8, 'inherit');
+    const relationE8 = new RelationView(unitE7, unitE9, 'inherit');
+    const relationE9 = new RelationView(unitE7, unitE10, 'use');
+    const relationR = new RelationView(unitE4, unitR, 'inherit');
 
 
     const unitPadre = new Unit('Padre');
@@ -125,7 +125,8 @@ export class HomeComponent implements OnInit {
 
   onEnter(command: string) {
     try {
-      return new LexEntity(command, this.unitService, this.snackBar);
+      const lex = new LexEntity(this.unitService, this.relationService, this.snackBar);
+      lex.analyzeCommand(command);
     } catch (err) {
       if (err.code === 'LEXICAL_ERROR') {
         this.snackBar.open(err.message, 'X');
