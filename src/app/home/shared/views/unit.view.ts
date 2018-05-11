@@ -1,8 +1,8 @@
-import { Unit } from './unit.entity';
+import { Unit } from '../models/unit.model';
 import { Node } from '../../d3/models/node';
 import { Link } from '../../d3/models/link';
-import { RelationView } from './relation-view.entity';
-import { BlockView } from './block-view.entity';
+import { RelationView } from './relation.view';
+import { BlockView } from './block.view';
 
 export class UnitView {
 

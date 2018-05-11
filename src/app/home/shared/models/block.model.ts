@@ -1,4 +1,4 @@
-import { Unit } from './unit.entity';
+import { Unit } from './unit.model';
 
 export class Block {
 

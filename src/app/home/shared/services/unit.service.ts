@@ -1,8 +1,8 @@
 import { HttpService } from '../../../core/http.service';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { UnitModel } from '../models/unit.model';
-import { Unit } from '../entity/unit.entity';
+import { UnitDto } from '../dtos/unit.dto';
+import { Unit } from '../models/unit.model';
 
 @Injectable()
 export class UnitService {
@@ -22,7 +22,7 @@ export class UnitService {
       });
   }
 
-  getAll(): Observable<UnitModel[]> {
+  getAll(): Observable<UnitDto[]> {
     return this.httpService.get(UnitService.END_POINT);
   }
 
