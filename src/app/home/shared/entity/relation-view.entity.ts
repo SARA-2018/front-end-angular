@@ -8,7 +8,7 @@ export class RelationView {
   private topUnit: Unit;
   private lowerUnit: Unit;
 
-  constructor(topUnit: Unit, lowerUnit: Unit,  semantics?: string, type?: string, ) {
+  constructor(topUnit: Unit, lowerUnit: Unit, type?: string,  semantics?: string ) {
     this.topUnit = topUnit;
     this.lowerUnit = lowerUnit;
     this.type = type;
