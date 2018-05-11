@@ -6,16 +6,16 @@ import { Node } from './d3/models/node';
 import { FormControl } from '@angular/forms';
 import { map } from 'rxjs/operators/map';
 import { Observable } from 'rxjs/Observable';
-import { UnitModel } from './shared/models/unit.model';
-import { RelationModel } from './shared/models/relation.model';
-import { Unit } from './shared/entity/unit.entity';
-import { RelationView } from './shared/entity/relation-view.entity';
+import { UnitDto } from './shared/dtos/unit.dto';
+import { RelationDto } from './shared/dtos/relation.dto';
+import { Unit } from './shared/models/unit.model';
+import { RelationView } from './shared/views/relation.view';
 import { createViewState } from '@angular/core/src/render3/instructions';
-import { UnitView } from './shared/entity/unit-view.entity';
-import { BlockView } from './shared/entity/block-view.entity';
-import { Block } from './shared/entity/block.entity';
+import { UnitView } from './shared/views/unit.view';
+import { BlockView } from './shared/views/block.view';
+import { Block } from './shared/models/block.model';
 import { debounceTime } from 'rxjs/operators';
-import { LexEntity } from './shared/entity/lex.entity';
+import { LexEntity } from './shared/models/lex.model';
 import { RelationService } from './shared/services/relation.service';
 
 
@@ -31,9 +31,9 @@ export class HomeComponent implements OnInit {
   nodes: Node[] = [];
   nodesNotRelated: Node[] = [];
   links: Link[] = [];
-  relationsUnit: RelationModel[] = [];
+  relationsUnit: RelationDto[] = [];
   searchUnit: FormControl;
-  filteredUnits: Observable<RelationModel[]>;
+  filteredUnits: Observable<RelationDto[]>;
 
   constructor(private snackBar: MatSnackBar, public unitService: UnitService, public relationService: RelationService) {
   }

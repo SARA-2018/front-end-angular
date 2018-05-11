@@ -1,6 +1,6 @@
 import {UnitService} from '../services/unit.service';
 import {MatSnackBar} from '@angular/material';
-import { Unit } from './unit.entity';
+import { Unit } from './unit.model';
 
 export class UnitDeleteEntity {
 

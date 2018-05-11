@@ -1,4 +1,4 @@
-import { Unit } from './unit.entity';
+import { Unit } from '../models/unit.model';
 
 export class RelationView {
 
