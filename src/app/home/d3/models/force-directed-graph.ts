@@ -20,47 +20,7 @@ export class ForceDirectedGraph {
     this.nodes = nodes;
     this.links = links;
 
-  /*  console.log('Force-directed');
-    console.log(this.nodes[0].id);
-    console.log(this.nodes[0].x + ' / ' + this.nodes[0].y);
-    console.log(this.nodes[1].id);
-    console.log(this.nodes[1].x + ' / ' + this.nodes[1].y);*/
-
     this.initSimulation(options);
-  }
-/*
-  connectNodes(source, target) {
-    let link;
-
-    if (!this.nodes[source] || !this.nodes[target]) {
-      throw new Error('One of the nodes does not exist');
-    }
-
-    link = new Link(source, target);
-    this.simulation.stop();
-    this.links.push(link);
-    this.simulation.alphaTarget(0.1).restart();
-    this.initLinks();
-  }
-
-  /*initNodes() {
-    if (!this.simulation) {
-      throw new Error('simulation was not initialized yet');
-    }
-
-    this.simulation.nodes(this.nodes);
-  }*/
-
-  initLinks() {
-    if (!this.simulation) {
-      throw new Error('simulation was not initialized yet');
-    }
-
-    this.simulation.force('links',
-      d3.forceLink(this.links)
-        .id(d => d['id'])
-        .strength(FORCES.LINKS)
-    );
   }
 
   initSimulation(options) {
@@ -87,9 +47,6 @@ export class ForceDirectedGraph {
       this.simulation.on('tick', function () {
         ticker.emit(this);
       });
-
-      // this.initNodes();
-      this.initLinks();
     }
 
     /** Updating the central force of the simulation */
