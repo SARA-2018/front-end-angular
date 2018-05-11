@@ -1,7 +1,7 @@
 import { Unit } from './unit.entity';
 import { Node } from '../../d3/models/node';
 import { Link } from '../../d3/models/link';
-import { Relation } from './relation.entity';
+import { RelationView } from './relation-view.entity';
 import { BlockView } from './block-view.entity';
 
 export class UnitView {

@@ -49,10 +49,9 @@ export class Unit {
 
   saveUnit(unitService: UnitService, snackBar: MatSnackBar) {
     unitService.create(this).subscribe(data => {
-      snackBar.open('Creado Correctamente !', 'X', {
-        duration: 8000
+      snackBar.open('Creado Correctamente !', '', {
+        duration: 2000
       });
-      //  this.synchronizedGraph();
     });
   }
 }

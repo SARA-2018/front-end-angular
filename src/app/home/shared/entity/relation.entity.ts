@@ -1,19 +1,26 @@
-import { Unit } from './unit.entity';
+import {Unit} from './unit.entity';
+import {MatSnackBar} from '@angular/material';
+import {RelationService} from '../services/relation.service';
 
 export class Relation {
 
-  private id: number;
   private type: string;
   private semantics: string;
-  private topUnit: Unit;
-  private lowerUnit: Unit;
+  private idTopUnit: Unit;
+  private idLowerUnit: Unit;
 
-  constructor(topUnit: Unit, lowerUnit: Unit, type?: string, semantics?: string) {
-    this.topUnit = topUnit;
-    this.lowerUnit = lowerUnit;
+  constructor(type: string, idTopUnit: Unit, idLowerUnit: Unit, semantics?: string) {
+    this.idTopUnit = idTopUnit;
+    this.idLowerUnit = idLowerUnit;
     this.type = type;
     this.semantics = semantics;
-    this.topUnit.appendUnit(lowerUnit, type);
   }
 
+  saveRelation(relationService: RelationService, snackBar: MatSnackBar) {
+    relationService.create(this).subscribe(() => {
+      snackBar.open('Creado Correctamente !', '', {
+        duration: 2000
+      });
+    });
+  }
 }
