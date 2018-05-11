@@ -1,10 +1,10 @@
 import {error} from 'util';
 import * as Lex from 'lexical-parser';
-import {UnitDeleteEntity} from './unit-delete.entity';
-import {Unit} from './unit.entity';
+import {UnitDeleteEntity} from './unit-delete.model';
+import {Unit} from './unit.model';
 import {UnitService} from '../services/unit.service';
 import {MatSnackBar} from '@angular/material';
-import {Relation} from './relation.entity';
+import {Relation} from './relation.model';
 import {TypeRelation} from './type-relation.enum';
 import {RelationService} from '../services/relation.service';
 
