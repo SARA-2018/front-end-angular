@@ -17,7 +17,6 @@ export class Link implements d3.SimulationLinkDatum<Node> {
     this.type = type;
     this.sourceHeight = this.source.y + 35;
     this.generateLink();
-    console.log('TYPE: ' + this.type);
     this.generateRelation(this.type);
 
   }
