@@ -59,8 +59,8 @@ export class BlockView {
         }
         let xShift = 0;
         for (const unit of this.unitViews) {
-            unit.shift(xShift, 70);
-            xShift += unit.getWidthBlock() + 10;
+            unit.shift(xShift, 35);
+            xShift += unit.getWidthBlock();
         }
         this.x = xShift / 2 - 75;
         this.y = 0;
@@ -74,7 +74,4 @@ export class BlockView {
             unit.shift(x, y);
         }
     }
-
-
-
 }

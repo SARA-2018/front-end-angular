@@ -13,13 +13,11 @@ export class UnitView {
     private yBlock: number;
     private blockViews: BlockView[] = [];
     private widthBlock: number; // Local
-    private xMiddle: number; // TO DO Reconvertir a funcion privada.
 
     constructor(unit: Unit) {
         this.unit = unit;
         this.x = 0;
         this.y = 0;
-        this.xMiddle = 75;
         for (const block of unit.getBlocks()) {
             this.append(new BlockView(block));
         }
@@ -67,22 +65,20 @@ export class UnitView {
             this.xBlock = 0;
             this.yBlock = 0;
             this.widthBlock = 150;
-            this.xMiddle = 75;
         } else {
             for (const blockView of this.blockViews) {
                 blockView.locate();
             }
             let xShift = 0;
             for (const blockView of this.blockViews) {
-                blockView.shift(xShift, 70);
+                blockView.shift(xShift, 35);
                 xShift += blockView.getWidthBlock() + 10;
             }
-            this.x = xShift / 2 - 75;
+            this.x = (xShift - 10) / 2 - 75;
             this.y = 0;
             this.xBlock = 0;
             this.yBlock = 0;
             this.widthBlock = xShift;
-            this.xMiddle = this.x + 75;
         }
     }
 
@@ -96,15 +92,36 @@ export class UnitView {
         }
     }
 
+    getXMiddle() {
+        return this.x + 75;
+    }
+
     createLink(): Link[] {
         const links: Link[] = [];
-        for (const block of this.blockViews) {
-            for (const unit of block.getUnitViews()) {
-                const relation = new Link(this, unit, block.getBlock().getType());
-                links.push(relation);
-                for (const link of unit.createLink()) {
-                    links.push(link);
+        if (this.getBlockViews().length <= 1) {
+            for (const block of this.blockViews) {
+                for (const unit of block.getUnitViews()) {
+                    const relation = new Link(this, unit, block.getBlock().getType());
+                    links.push(relation);
+                    for (const link of unit.createLink()) {
+                        links.push(link);
+                    }
                 }
+            }
+        } else {
+            console.log('Create Link ' + this.unit.getName());
+            const nodeDivisionForLink = 150 / (this.getBlockViews().length + 1);
+            console.log(' X ' + this.x + ' Y ' + this.y);
+            for (let i = 0; i < this.blockViews.length; i++) {
+                 this.x += (nodeDivisionForLink * i);
+                for (const unit of this.blockViews[i].getUnitViews()) {
+                    const relation = new Link(this, unit, this.blockViews[i].getBlock().getType());
+                    links.push(relation);
+                    for (const link of unit.createLink()) {
+                        links.push(link);
+                    }
+                }
+                console.log('FOR X ' + this.x + ' Y ' + this.y);
             }
         }
         return links;
