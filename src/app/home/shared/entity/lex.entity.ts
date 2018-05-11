@@ -4,6 +4,9 @@ import {UnitDeleteEntity} from './unit-delete.entity';
 import {Unit} from './unit.entity';
 import {UnitService} from '../services/unit.service';
 import {MatSnackBar} from '@angular/material';
+import {Relation} from './relation.entity';
+import {TypeRelation} from './type-relation.enum';
+import {RelationService} from '../services/relation.service';
 
 export class LexEntity {
 
@@ -17,9 +20,11 @@ export class LexEntity {
 
   unitService: any;
   snackBar: any;
+  relationService: any;
 
-  constructor(unitService: UnitService, snackBar: MatSnackBar) {
+  constructor(unitService: UnitService, relationService: RelationService, snackBar: MatSnackBar) {
     this.unitService = unitService;
+    this.relationService = relationService;
     this.snackBar = snackBar;
   }
 
@@ -104,7 +109,7 @@ export class LexEntity {
     }
   }
 
-   analyzeCommandRelationInherit(command: string, idUnit: object) {
+   analyzeCommandRelationInherit(command: string, idTopUnit: object) {
      const lex = new Lex(command, this.tokenMatchers, this.ignorePattern);
      for (let i = 0; i < 2; i++) {
        lex.nextToken();
@@ -116,8 +121,8 @@ export class LexEntity {
      }
      const point = lex.nextToken();
      if (point['name'] === ':') {
-       const semantic = lex.nextToken();
-       if (semantic['name'] !== 'text') {
+       const semantics = lex.nextToken();
+       if (semantics['name'] !== 'text') {
          return error();
        }
        const name = lex.nextToken();
@@ -128,36 +133,44 @@ export class LexEntity {
        if (sharp['name'] !== '#') {
          return error();
        }
-       const id = lex.nextToken();
-       if (id['name'] !== 'id') {
+       const idLowerUnit = lex.nextToken();
+       if (idLowerUnit['name'] !== 'id') {
          return error();
        }
        const token = lex.nextToken();
        if (token === undefined) {
-         console.log('exito');
-         /*
-         * const unit = new Unit(name['lexeme']);
-      unit.saveUnit(this.unitService, this.snackBar);
-         * */
+         console.log('Exito');
+         const relation = new Relation(TypeRelation.INHERIT, idTopUnit['lexeme'], idLowerUnit['lexeme']);
+         console.log(relation);
+         relation.saveRelation(this.relationService, this.snackBar);
        } else if (token['name'] === ',') {
-         let ids;
-         const key = [];
-         do {
-           ids = lex.nextToken();
-           if (ids !== undefined ) {
-             if (ids['name'] === 'id') {
-               key.push(ids['lexeme']);
-             }
-           }
-         } while (ids);
-         key.unshift(id['lexeme']);
-         for (let j = 0; j < key.length; j++) {
-           console.log(idUnit['lexeme'] + key[j]);
-         }
+         this.sequenceUnit(lex, idTopUnit, idLowerUnit);
        } else {
          return error();
        }
-     } /*else if (token['name'] === 'text') {
+     }
+   }
+
+  sequenceUnit(lex, idTopUnit, idLowerUnit) {
+    let ids;
+    const key = [];
+    do {
+      ids = lex.nextToken();
+      if (ids !== undefined) {
+        if (ids['name'] === 'id') {
+          key.push(ids['lexeme']);
+        }
+      }
+    } while (ids);
+    key.unshift(idLowerUnit['lexeme']);
+    for (let j = 0; j < key.length; j++) {
+      console.log(idTopUnit['lexeme'] + key[j]);
+    }
+  }
+
+
+
+     /*else if (token['name'] === 'text') {
          const sharp = lex.nextToken();
          if (sharp['name'] !== '#') {
            return error();
@@ -185,5 +198,5 @@ export class LexEntity {
          console.log(/// bien);
        }
      }*/
-   }
+   // }
 }
