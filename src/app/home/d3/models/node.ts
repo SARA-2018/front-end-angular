@@ -8,6 +8,8 @@ export class Node implements d3.SimulationNodeDatum {
   fx?: number | null;
   fy?: number | null;
 
+  links: number;
+
   readonly xMiddle = 75;
 
   constructor(id, x, y) {
@@ -17,6 +19,10 @@ export class Node implements d3.SimulationNodeDatum {
   }
 
   getXMiddle(): number {
-    return this.x + this.xMiddle;
+    if (this.links <= 1) {
+      return this.x + this.xMiddle;
+    } else {
+      return this.x;
+    }
   }
 }

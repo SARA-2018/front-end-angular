@@ -98,13 +98,30 @@ export class UnitView {
 
     createLink(): Link[] {
         const links: Link[] = [];
-        for (const block of this.blockViews) {
-            for (const unit of block.getUnitViews()) {
-                const relation = new Link(this, unit, block.getBlock().getType());
-                links.push(relation);
-                for (const link of unit.createLink()) {
-                    links.push(link);
+        if (this.getBlockViews().length <= 1) {
+            for (const block of this.blockViews) {
+                for (const unit of block.getUnitViews()) {
+                    const relation = new Link(this, unit, block.getBlock().getType());
+                    links.push(relation);
+                    for (const link of unit.createLink()) {
+                        links.push(link);
+                    }
                 }
+            }
+        } else {
+            console.log('Create Link ' + this.unit.getName());
+            const nodeDivisionForLink = 150 / (this.getBlockViews().length + 1);
+            console.log(' X ' + this.x + ' Y ' + this.y);
+            for (let i = 0; i < this.blockViews.length; i++) {
+                 this.x += (nodeDivisionForLink * i);
+                for (const unit of this.blockViews[i].getUnitViews()) {
+                    const relation = new Link(this, unit, this.blockViews[i].getBlock().getType());
+                    links.push(relation);
+                    for (const link of unit.createLink()) {
+                        links.push(link);
+                    }
+                }
+                console.log('FOR X ' + this.x + ' Y ' + this.y);
             }
         }
         return links;

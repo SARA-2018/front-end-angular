@@ -56,8 +56,7 @@ export class HomeComponent implements OnInit {
     this.addDataGraph();
   }
 
-  addDataGraph() {
-
+  generateData(): Unit {
     const unit1 = { name: 'Animales' };
     const unit2 = { name: 'Perro' };
     const unit3 = { name: 'Gato' };
@@ -92,18 +91,25 @@ export class HomeComponent implements OnInit {
     const relationE8 = new Relation(unitE7, unitE9, 'inherit');
     const relationE9 = new Relation(unitE7, unitE10, 'use');
     const relationR = new Relation(unitE4, unitR, 'inherit');
-    const relationA = new Relation(unitE4, unitA, 'inherit');
+    const relationA = new Relation(unitE4, unitA, 'compose');
 
 
     const unitPadre = new Unit('Padre');
     const unitHijo = new Unit('Hijo');
     const RelationPH = new Relation(unitPadre, unitHijo, 'inherit');
+
     // root
     // UnitE4 1 - 1
     // UnitE7 1 - 2
     // UnitE3 1 - 3 - 2
+    return root;
+  }
+
+  addDataGraph() {
+
+    const root = this.generateData();
     console.log('MODELOS: ');
-    unitE4.log('');
+    root.log('');
     const rootView = new UnitView(root);
     console.log('VISTAS: ');
     rootView.log('');
