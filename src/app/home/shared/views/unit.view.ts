@@ -3,16 +3,17 @@ import { Node } from '../../d3/models/node';
 import { Link } from '../../d3/models/link';
 import { RelationView } from './relation.view';
 import { BlockView } from './block.view';
+import { UnitViewInterface } from './unit-view.interface';
+import { BlockViewInterface } from './block-view.interface';
 
-export class UnitView {
+export class UnitView implements UnitViewInterface {
 
     private unit: Unit;
     private x: number;
     private y: number;
     private xBlock: number;
     private yBlock: number;
-    private blockViews: BlockView[] = [];
-    private widthBlock: number; // Local
+    private blockViews: BlockViewInterface[] = [];
 
     constructor(unit: Unit) {
         this.unit = unit;
@@ -25,7 +26,7 @@ export class UnitView {
 
     log(margin: string) {
         console.log(margin + this.getUnit().getName());
-        for (const block of this.getBlockViews()) {
+        for (const block of this.blockViews) {
             block.log(margin + '   ');
         }
     }
@@ -50,8 +51,16 @@ export class UnitView {
         return this.blockViews;
     }
 
-    getWidthBlock() {
-        return this.widthBlock;
+    calculateWidthBlock(): number {
+        let width = 0;
+        if (this.blockViews.length === 0) {
+            width = 150;
+        } else {
+            for (const blockView of this.blockViews) {
+                width += blockView.calculateWidthBlock() + 10;
+            }
+        }
+        return width;
     }
 
     getUnit() {
@@ -64,7 +73,7 @@ export class UnitView {
             this.y = 0;
             this.xBlock = 0;
             this.yBlock = 0;
-            this.widthBlock = 150;
+            this.calculateWidthBlock();
         } else {
             for (const blockView of this.blockViews) {
                 blockView.locate();
@@ -72,13 +81,12 @@ export class UnitView {
             let xShift = 0;
             for (const blockView of this.blockViews) {
                 blockView.shift(xShift, 35);
-                xShift += blockView.getWidthBlock() + 10;
+                xShift += blockView.calculateWidthBlock() + 10;
             }
             this.x = (xShift - 10) / 2 - 75;
             this.y = 0;
             this.xBlock = 0;
             this.yBlock = 0;
-            this.widthBlock = xShift;
         }
     }
 
@@ -110,10 +118,10 @@ export class UnitView {
             }
         } else {
             console.log('Create Link ' + this.unit.getName());
-            const nodeDivisionForLink = 150 / (this.getBlockViews().length + 1);
+            const nodeDivisionForLink = 150 / (this.blockViews.length + 1);
             console.log(' X ' + this.x + ' Y ' + this.y);
             for (let i = 0; i < this.blockViews.length; i++) {
-                 this.x += (nodeDivisionForLink * i);
+                this.x += (nodeDivisionForLink * i);
                 for (const unit of this.blockViews[i].getUnitViews()) {
                     const relation = new Link(this, unit, this.blockViews[i].getBlock().getType());
                     links.push(relation);

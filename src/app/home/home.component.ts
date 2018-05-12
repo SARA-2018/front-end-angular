@@ -97,6 +97,11 @@ export class HomeComponent implements OnInit {
    // const relationR2 = new RelationView(unitE4, unitR2, 'inherit');
     // const relationR3 = new RelationView(unitE4, unitR3, 'inherit');
     const relationA = new RelationView(unitE4, unitA, 'use');
+    const relat = new RelationView(unitE4, unitE9, 'inherit' );
+    const relat1 = new RelationView(unitE10, unitR2, 'inherit' );
+    const relat2 = new RelationView(unitE10, unitR3, 'inherit' );
+    const relat3 = new RelationView(unitE10, unitA, 'use' );
+
 
 
     const unitPadre = new Unit('Padre');
