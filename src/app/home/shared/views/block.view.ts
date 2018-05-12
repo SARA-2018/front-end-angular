@@ -3,14 +3,15 @@ import { Link } from '../../d3/models/link';
 import { RelationView } from './relation.view';
 import { UnitView } from './unit.view';
 import { Block } from '../models/block.model';
+import { UnitViewInterface } from './unit-view.interface';
+import { BlockViewInterface } from './block-view.interface';
 
-export class BlockView {
+export class BlockView implements BlockViewInterface {
 
     private block: Block;
     private x: number;
     private y: number;
-    private widthBlock: number;
-    private unitViews: UnitView[] = [];
+    private unitViews: UnitViewInterface[] = [];
 
     constructor(block: Block) {
         this.x = 0;
@@ -45,8 +46,12 @@ export class BlockView {
         return this.unitViews;
     }
 
-    getWidthBlock() {
-        return this.widthBlock;
+    calculateWidthBlock(): number {
+        let width = 0;
+        for (const unitView of this.unitViews) {
+            width += unitView.calculateWidthBlock() + 10;
+        }
+        return width;
     }
 
     getBlock() {
@@ -60,11 +65,10 @@ export class BlockView {
         let xShift = 0;
         for (const unit of this.unitViews) {
             unit.shift(xShift, 35);
-            xShift += unit.getWidthBlock();
+            xShift += unit.calculateWidthBlock();
         }
         this.x = xShift / 2 - 75;
         this.y = 0;
-        this.widthBlock = xShift;
     }
 
     shift(x: number, y: number) {

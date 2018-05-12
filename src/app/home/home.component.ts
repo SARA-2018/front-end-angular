@@ -80,6 +80,8 @@ export class HomeComponent implements OnInit {
     const unitE9 = new Unit(unit9.name);
     const unitE10 = new Unit(unit10.name);
     const unitR = new Unit('Raquel');
+    const unitR2 = new Unit('Raquel2');
+    const unitR3 = new Unit('Raquel3');
     const unitA = new Unit('Alvaro');
 
     const relationE1 = new RelationView(root, unitE2, 'compose');
@@ -92,6 +94,14 @@ export class HomeComponent implements OnInit {
     const relationE8 = new RelationView(unitE7, unitE9, 'inherit');
     const relationE9 = new RelationView(unitE7, unitE10, 'use');
     const relationR = new RelationView(unitE4, unitR, 'inherit');
+     const relationA = new RelationView(unitE4, unitA, 'use');
+     const relat = new RelationView(unitE4, unitE9, 'inherit' );
+    const relat1 = new RelationView(unitE10, unitR2, 'inherit' );
+    const relat2 = new RelationView(unitE10, unitR3, 'inherit' );
+    const relat3 = new RelationView(unitE10, unitA, 'use' );
+     const relat4 = new RelationView(unitE4, unitA, 'compose' );
+
+
 
 
     const unitPadre = new Unit('Padre');
