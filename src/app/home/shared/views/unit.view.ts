@@ -54,7 +54,7 @@ export class UnitView implements UnitViewInterface {
     calculateWidthBlock(): number {
         let width = 0;
         if (this.blockViews.length === 0) {
-            width = 150;
+            width = 150 + 10;
         } else {
             for (const blockView of this.blockViews) {
                 width += blockView.calculateWidthBlock() + 10;
@@ -108,6 +108,7 @@ export class UnitView implements UnitViewInterface {
         const links: Link[] = [];
         if (this.getBlockViews().length <= 1) {
             for (const block of this.blockViews) {
+                this.x += 75;
                 for (const unit of block.getUnitViews()) {
                     const relation = new Link(this, unit, block.getBlock().getType());
                     links.push(relation);
@@ -121,7 +122,8 @@ export class UnitView implements UnitViewInterface {
             const nodeDivisionForLink = 150 / (this.blockViews.length + 1);
             console.log(' X ' + this.x + ' Y ' + this.y);
             for (let i = 0; i < this.blockViews.length; i++) {
-                this.x += (nodeDivisionForLink * i);
+                this.x += nodeDivisionForLink;
+                console.log('X: ' + this.x);
                 for (const unit of this.blockViews[i].getUnitViews()) {
                     const relation = new Link(this, unit, this.blockViews[i].getBlock().getType());
                     links.push(relation);
@@ -129,7 +131,6 @@ export class UnitView implements UnitViewInterface {
                         links.push(link);
                     }
                 }
-                console.log('FOR X ' + this.x + ' Y ' + this.y);
             }
         }
         return links;

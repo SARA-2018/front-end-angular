@@ -18,7 +18,6 @@ export class Link implements d3.SimulationLinkDatum<Node> {
     this.sourceHeight = this.source.y + 35;
     this.generateLink();
     this.generateRelation(this.type);
-
   }
 
   generateLink() {
@@ -26,9 +25,9 @@ export class Link implements d3.SimulationLinkDatum<Node> {
     this.linkPoints.push(this.target.y);
     this.linkPoints.push(this.target.getXMiddle());
     this.linkPoints.push(this.target.y - 10);
-    this.linkPoints.push(this.source.getXMiddle());
+    this.linkPoints.push(this.source.x);
     this.linkPoints.push(this.sourceHeight + 25);
-    this.linkPoints.push(this.source.getXMiddle());
+    this.linkPoints.push(this.source.x);
     switch (this.type) {
       case 'association':
       case 'use':
@@ -58,26 +57,26 @@ export class Link implements d3.SimulationLinkDatum<Node> {
   }
 
   drawAssociation() {
-    this.relationPoints.push(this.source.getXMiddle() - 10);
+    this.relationPoints.push(this.source.x - 10);
     this.relationPoints.push(this.sourceHeight + 10);
-    this.relationPoints.push(this.source.getXMiddle());
+    this.relationPoints.push(this.source.x);
     this.relationPoints.push(this.sourceHeight);
-    this.relationPoints.push(this.source.getXMiddle() + 10);
+    this.relationPoints.push(this.source.x + 10);
     this.relationPoints.push(this.sourceHeight + 10);
   }
 
   drawCompose() {
     this.drawAssociation();
-    this.relationPoints.push(this.source.getXMiddle());
+    this.relationPoints.push(this.source.x);
     this.relationPoints.push(this.sourceHeight + 20);
-    this.relationPoints.push(this.source.getXMiddle() - 10);
+    this.relationPoints.push(this.source.x - 10);
     this.relationPoints.push(this.sourceHeight + 10);
     this.relationColor = '#FF9A23';
   }
 
   drawInherit() {
     this.drawAssociation();
-    this.relationPoints.push(this.source.getXMiddle() - 10);
+    this.relationPoints.push(this.source.x - 10);
     this.relationPoints.push(this.sourceHeight + 10);
   }
 }

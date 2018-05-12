@@ -94,13 +94,13 @@ export class HomeComponent implements OnInit {
     const relationE8 = new RelationView(unitE7, unitE9, 'inherit');
     const relationE9 = new RelationView(unitE7, unitE10, 'use');
     const relationR = new RelationView(unitE4, unitR, 'inherit');
-   // const relationR2 = new RelationView(unitE4, unitR2, 'inherit');
-    // const relationR3 = new RelationView(unitE4, unitR3, 'inherit');
-    const relationA = new RelationView(unitE4, unitA, 'use');
-    const relat = new RelationView(unitE4, unitE9, 'inherit' );
+     const relationA = new RelationView(unitE4, unitA, 'use');
+     const relat = new RelationView(unitE4, unitE9, 'inherit' );
     const relat1 = new RelationView(unitE10, unitR2, 'inherit' );
     const relat2 = new RelationView(unitE10, unitR3, 'inherit' );
     const relat3 = new RelationView(unitE10, unitA, 'use' );
+     const relat4 = new RelationView(unitE4, unitA, 'compose' );
+
 
 
 
@@ -112,7 +112,7 @@ export class HomeComponent implements OnInit {
     // UnitE4 1 - 1
     // UnitE7 1 - 2
     // UnitE3 1 - 3 - 2
-    return unitE7;
+    return root;
   }
 
   addDataGraph() {
