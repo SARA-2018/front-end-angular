@@ -104,6 +104,18 @@ export class UnitView implements UnitViewInterface {
         return this.x + 75;
     }
 
+    getY(): number {
+        return this.y;
+    }
+
+    getX(): number {
+        return this.x;
+    }
+
+    getYSouth(): number {
+        return this.y + 35;
+    }
+
     createLink(): Link[] {
         const links: Link[] = [];
         if (this.getBlockViews().length <= 1) {
@@ -118,12 +130,9 @@ export class UnitView implements UnitViewInterface {
                 }
             }
         } else {
-            console.log('Create Link ' + this.unit.getName());
             const nodeDivisionForLink = 150 / (this.blockViews.length + 1);
-            console.log(' X ' + this.x + ' Y ' + this.y);
             for (let i = 0; i < this.blockViews.length; i++) {
                 this.x += nodeDivisionForLink;
-                console.log('X: ' + this.x);
                 for (const unit of this.blockViews[i].getUnitViews()) {
                     const relation = new Link(this, unit, this.blockViews[i].getBlock().getType());
                     links.push(relation);

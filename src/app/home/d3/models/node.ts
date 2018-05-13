@@ -16,7 +16,19 @@ export class Node implements d3.SimulationNodeDatum {
     this.y = y;
   }
 
-  getXMiddle(): number {
-     return this.x + this.xMiddle;
+  getXMiddle() {
+    return this.x + 75;
+  }
+
+  getY(): number {
+    return this.y;
+  }
+
+  getX(): number {
+    return this.x;
+  }
+
+  getYSouth(): number {
+    return this.y + 35;
   }
 }
