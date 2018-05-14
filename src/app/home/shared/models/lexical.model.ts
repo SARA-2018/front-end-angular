@@ -4,7 +4,7 @@ import {UnitDelete} from './unit-delete.model';
 import {Unit} from './unit.model';
 import {UnitService} from '../services/unit.service';
 import {MatSnackBar} from '@angular/material';
-import {RelationOutput} from './relation.model';
+import {RelationOutput} from './relation-output.model';
 import {TypeRelation} from './type-relation.enum';
 import {RelationService} from '../services/relation.service';
 
@@ -108,7 +108,7 @@ export class Lexical {
         }
         this.analyzeCommandRelationInherit(lex, command, id);
       } else if (token['name'] === 'inherit') {
-        this.analyzeCommandRelationInherit(null, command, id);
+        this.analyzeCommandRelationInherit(lex, command, id);
       }
     } else {
       return error();
@@ -116,30 +116,38 @@ export class Lexical {
   }
 
    analyzeCommandRelationInherit(lex, command, idTopUnit: object) {
-     /*const lex = new Lex(command, this.tokenMatchers, this.ignorePattern);
-     for (let i = 0; i <= 3; i++) {
-       lex.nextToken();
-     }*/
      const point = lex.nextToken();
-     console.log(point);
      if (point['name'] === ':') {
        const semantics = lex.nextToken();
        if (semantics['name'] !== 'text') {
          return error();
        }
-       this.sequenceUnit(lex, idTopUnit, semantics['lexeme']);
-     } else {
-       console.log(command);
        const lex2 = new Lex(command, this.tokenMatchers, this.ignorePattern);
-       for (let i = 0; i <= 3; i++) {
+       for (let i = 0; i <= 4; i++) {
          lex2.nextToken();
        }
-       console.log(lex2);
-       this.sequenceUnit(lex2, idTopUnit);
+       const token = lex2.nextToken();
+       if (token['name'] === '>') {
+         this.sequenceUnit(lex2, idTopUnit, '>', semantics['lexeme']);
+       } else {
+         this.sequenceUnit(lex, idTopUnit, '<', semantics['lexeme']);
+       }
+     } else {
+       const lex2 = new Lex(command, this.tokenMatchers, this.ignorePattern);
+       let operator;
+       for (let i = 0; i <= 3; i++) {
+         operator = lex2.nextToken();
+         if (operator['name'] === '<') {
+           lex2.nextToken();
+           this.sequenceUnit(lex2, idTopUnit, operator['name']);
+         } else if (operator['name'] === '>') {
+           this.sequenceUnit(lex2, idTopUnit, operator['name']);
+         }
+       }
      }
    }
 
-  sequenceUnit(lex, idTopUnit, semantics?) {
+  sequenceUnit(lex, idTopUnit, operator?, semantics?) {
     const name = lex.nextToken();
     if (name['name'] !== 'text') {
       return error();
@@ -154,7 +162,11 @@ export class Lexical {
     }
     const token = lex.nextToken();
     if (token === undefined) {
-      this.createRelationInherit(TypeRelation.INHERIT, idTopUnit['lexeme'], idLowerUnit['lexeme'], semantics);
+      if (operator === '<') {
+        this.createRelationInherit(TypeRelation.INHERIT, idTopUnit['lexeme'], idLowerUnit['lexeme'], semantics);
+      } else if (operator === '>') {
+        this.createRelationInherit(TypeRelation.INHERIT, idLowerUnit['lexeme'], idTopUnit['lexeme'], semantics);
+      }
     } else if (token['name'] === ',') {
       let ids;
       const idLowerUnits = [];
@@ -168,14 +180,18 @@ export class Lexical {
       } while (ids);
       idLowerUnits.unshift(idLowerUnit['lexeme']);
       for (let j = 0; j < idLowerUnits.length; j++) {
-        this.createRelationInherit(TypeRelation.INHERIT, idTopUnit['lexeme'], idLowerUnits[j], semantics);
+        if (operator === '<') {
+          this.createRelationInherit(TypeRelation.INHERIT, idTopUnit['lexeme'], idLowerUnits[j], semantics);
+        } else if (operator === '>') {
+          this.createRelationInherit(TypeRelation.INHERIT,  idLowerUnits[j], idTopUnit['lexeme'], semantics);
+        }
       }
     } else {
       return error();
     }
   }
 
-  private createRelationInherit(INHERIT: TypeRelation, idTopUnit: Unit, idLowerUnit: Unit, semantics: string): RelationOutput {
+  private createRelationInherit(INHERIT: TypeRelation, idTopUnit: number, idLowerUnit: number, semantics: string): RelationOutput {
     const relation = new RelationOutput(INHERIT, idTopUnit, idLowerUnit, semantics);
     relation.saveRelation(this.relationService, this.snackBar);
     return relation;
