@@ -1,7 +1,7 @@
 import { Unit } from '../models/unit.model';
 import { Node } from '../../d3/models/node';
 import { Link } from '../../d3/models/link';
-import { RelationView } from './relation.view';
+import { RelationInput } from '../models/relation-input.model';
 import { BlockView } from './block.view';
 import { UnitViewInterface } from './unit-view.interface';
 import { BlockViewInterface } from './block-view.interface';
