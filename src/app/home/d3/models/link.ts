@@ -7,6 +7,7 @@ export class Link implements d3.SimulationLinkDatum<Node> {
   target: Node;
   linkPoints = [];
 
+  semantics: string;
   type: string;
   relationPoints = [];
   fillRelationColor = 'none';
@@ -16,10 +17,11 @@ export class Link implements d3.SimulationLinkDatum<Node> {
   readonly ten = 10;
   readonly twenty = 20;
 
-  constructor(source, target, type) {
+  constructor(source, target, type, semantics?) {
     this.source = source;
     this.target = target;
     this.type = type;
+    this.semantics = semantics;
     this.generateLink();
     this.generateRelation(this.type);
   }

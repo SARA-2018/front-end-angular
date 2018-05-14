@@ -14,7 +14,7 @@ export class BlockView implements BlockViewInterface {
     private unitViews: UnitViewInterface[] = [];
 
     readonly xSpaceBetweenBlocks = 10;
-    readonly ySpaceBetweenBlocks = 35;
+    readonly ySpaceBetweenBlocks = 60;
     readonly halfSizeBlock = 75;
 
     constructor(block: Block) {
