@@ -106,24 +106,20 @@ export class Lexical {
         if (inherit['name'] !== 'inherit') {
           return error();
         }
-        const lex2 = new Lex(command, this.tokenMatchers, this.ignorePattern);
-        for (let i = 0; i <= 3; i++) {
-          lex2.nextToken();
-        }
-        this.analyzeCommandRelationInherit(lex2, id);
+        this.analyzeCommandRelationInherit(lex, command, id);
       } else if (token['name'] === 'inherit') {
-        this.analyzeCommandRelationInherit(command, id);
+        this.analyzeCommandRelationInherit(null, command, id);
       }
     } else {
       return error();
     }
   }
 
-   analyzeCommandRelationInherit(lex, idTopUnit: object) {
-    // const lex = new Lex(command, this.tokenMatchers, this.ignorePattern);
+   analyzeCommandRelationInherit(lex, command, idTopUnit: object) {
+     /*const lex = new Lex(command, this.tokenMatchers, this.ignorePattern);
      for (let i = 0; i <= 3; i++) {
        lex.nextToken();
-     }
+     }*/
      const point = lex.nextToken();
      console.log(point);
      if (point['name'] === ':') {
@@ -133,11 +129,13 @@ export class Lexical {
        }
        this.sequenceUnit(lex, idTopUnit, semantics['lexeme']);
      } else {
-      // const lex2 = new Lex(command, this.tokenMatchers, this.ignorePattern);
+       console.log(command);
+       const lex2 = new Lex(command, this.tokenMatchers, this.ignorePattern);
        for (let i = 0; i <= 3; i++) {
-         lex.nextToken();
+         lex2.nextToken();
        }
-       this.sequenceUnit(lex, idTopUnit);
+       console.log(lex2);
+       this.sequenceUnit(lex2, idTopUnit);
      }
    }
 
@@ -170,15 +168,16 @@ export class Lexical {
       } while (ids);
       idLowerUnits.unshift(idLowerUnit['lexeme']);
       for (let j = 0; j < idLowerUnits.length; j++) {
-        this.createRelationInherit(TypeRelation.INHERIT, idTopUnit['lexeme'], idLowerUnit[j], semantics);
+        this.createRelationInherit(TypeRelation.INHERIT, idTopUnit['lexeme'], idLowerUnits[j], semantics);
       }
     } else {
       return error();
     }
   }
 
-  private createRelationInherit(INHERIT: TypeRelation, idTopUnit: Unit, idLowerUnit: Unit, semantics: string) {
+  private createRelationInherit(INHERIT: TypeRelation, idTopUnit: Unit, idLowerUnit: Unit, semantics: string): RelationOutput {
     const relation = new RelationOutput(INHERIT, idTopUnit, idLowerUnit, semantics);
     relation.saveRelation(this.relationService, this.snackBar);
+    return relation;
   }
 }

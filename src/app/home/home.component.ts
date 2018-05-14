@@ -15,7 +15,7 @@ import { UnitView } from './shared/views/unit.view';
 import { BlockView } from './shared/views/block.view';
 import { Block } from './shared/models/block.model';
 import { debounceTime } from 'rxjs/operators';
-import { Lexical } from './shared/models/lex.model';
+import { Lexical } from './shared/models/lexical.model';
 import { RelationService } from './shared/services/relation.service';
 
 
