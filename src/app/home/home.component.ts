@@ -97,6 +97,7 @@ export class HomeComponent implements OnInit {
     const relationA = new RelationInput(unitE4, unitA, 'use');
     const relat = new RelationInput(unitE4, unitE9, 'inherit', 'sem2');
     const relat22 = new RelationInput(unitE4, new Unit('asdf'), 'inherit', 'sem2');
+    const relat23 = new RelationInput(unitE4, new Unit('kkkkkk'), 'inherit', 'sem1');
     const relat1 = new RelationInput(unitE10, unitR2, 'inherit', 'semantica1');
     const relat2 = new RelationInput(unitE10, unitR3, 'inherit', 'semantica2');
     const relat3 = new RelationInput(unitE10, unitA, 'use');
@@ -106,7 +107,7 @@ export class HomeComponent implements OnInit {
     // UnitE4 1 - 1
     // UnitE7 1 - 2
     // UnitE3 1 - 3 - 2
-    return unitE4;
+    return root;
   }
 
   addDataGraph() {

@@ -26,24 +26,12 @@ export class BlockView implements BlockViewInterface {
         }
     }
 
-    log(margin: string) {
-        for (const unit of this.getUnitViews()) {
-            unit.log(margin);
-        }
-    }
-
-    createNode(): Node[] {
-        const result = [];
-        for (const unitView of this.getUnitViews()) {
-            for (const node of unitView.createNode()) {
-                result.push(node);
-            }
-        }
-        return result;
-    }
-
     appendUnit(unit: UnitView) {
         this.unitViews.push(unit);
+    }
+
+    getBlock() {
+        return this.block;
     }
 
     getUnitViews() {
@@ -58,18 +46,14 @@ export class BlockView implements BlockViewInterface {
         return width;
     }
 
-    getBlock() {
-        return this.block;
-    }
-
     locate() {
         for (const unit of this.unitViews) {
             unit.locate();
         }
         let xShift = 0;
-        for (const unit of this.unitViews) {
-            unit.shift(xShift, this.ySpaceBetweenBlocks);
-            xShift += unit.calculateWidthBlock();
+        for (const unitView of this.unitViews) {
+            unitView.shift(xShift, this.ySpaceBetweenBlocks);
+            xShift += unitView.calculateWidthBlock();
         }
         this.x = xShift / 2 - this.halfSizeBlock;
         this.y = 0;
@@ -78,8 +62,24 @@ export class BlockView implements BlockViewInterface {
     shift(x: number, y: number) {
         this.x += x;
         this.y += y;
-        for (const unit of this.unitViews) {
-            unit.shift(x, y);
+        for (const unitView of this.unitViews) {
+            unitView.shift(x, y);
+        }
+    }
+
+    createNode(): Node[] {
+        const result = [];
+        for (const unitView of this.getUnitViews()) {
+            for (const node of unitView.createNode()) {
+                result.push(node);
+            }
+        }
+        return result;
+    }
+
+    log(margin: string) {
+        for (const unitView of this.getUnitViews()) {
+            unitView.log(margin);
         }
     }
 }
