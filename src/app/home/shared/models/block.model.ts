@@ -6,7 +6,7 @@ export class Block {
     private semantics: string;
     private units: Unit[] = [];
 
-    constructor(type: string, unit: Unit, semantics?: string) {
+    constructor(unit: Unit, type: string, semantics?: string) {
         this.type = type;
         this.semantics = semantics;
         this.units.push(unit);
