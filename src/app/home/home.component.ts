@@ -109,19 +109,11 @@ export class HomeComponent implements OnInit {
   }
 
   addDataGraph() {
-
     const root = this.generateData();
-    /* console.log('MODELOS: ');
-    root.log(''); */
     const rootView = new UnitView(root);
-    /* console.log('VISTAS: ');
-    rootView.log(''); */
     rootView.locate();
     this.nodes = rootView.createNode();
     this.links = rootView.createLink();
-
-    console.log('Nodos: ' + this.nodes.length);
-    console.log('Links: ' + this.links.length);
   }
 
   onEnter(command: string) {

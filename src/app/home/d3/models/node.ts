@@ -9,6 +9,7 @@ export class Node implements d3.SimulationNodeDatum {
   fy?: number | null;
 
   readonly xMiddle = 75;
+  readonly ySouth = 35;
 
   constructor(id, x, y) {
     this.id = id;
@@ -17,7 +18,7 @@ export class Node implements d3.SimulationNodeDatum {
   }
 
   getXMiddle() {
-    return this.x + 75;
+    return this.x + this.xMiddle;
   }
 
   getY(): number {
@@ -29,6 +30,6 @@ export class Node implements d3.SimulationNodeDatum {
   }
 
   getYSouth(): number {
-    return this.y + 35;
+    return this.y + this.ySouth;
   }
 }

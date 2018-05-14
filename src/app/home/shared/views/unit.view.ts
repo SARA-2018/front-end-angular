@@ -15,6 +15,12 @@ export class UnitView implements UnitViewInterface {
     private yBlock: number;
     private blockViews: BlockViewInterface[] = [];
 
+    readonly xSize = 150;
+    readonly xHalfSize = 75;
+    readonly ySize = 35;
+    readonly xSpaceBetweenUnits = 10;
+    readonly ySpaceBetweenUnits = 35;
+
     constructor(unit: Unit) {
         this.unit = unit;
         this.x = 0;
@@ -54,10 +60,10 @@ export class UnitView implements UnitViewInterface {
     calculateWidthBlock(): number {
         let width = 0;
         if (this.blockViews.length === 0) {
-            width = 150 + 10;
+            width = this.xSize + this.xSpaceBetweenUnits;
         } else {
             for (const blockView of this.blockViews) {
-                width += blockView.calculateWidthBlock() + 10;
+                width += blockView.calculateWidthBlock() + this.xSpaceBetweenUnits;
             }
         }
         return width;
@@ -80,10 +86,10 @@ export class UnitView implements UnitViewInterface {
             }
             let xShift = 0;
             for (const blockView of this.blockViews) {
-                blockView.shift(xShift, 35);
-                xShift += blockView.calculateWidthBlock() + 10;
+                blockView.shift(xShift, this.ySpaceBetweenUnits);
+                xShift += blockView.calculateWidthBlock() + this.xSpaceBetweenUnits;
             }
-            this.x = (xShift - 10) / 2 - 75;
+            this.x = (xShift - this.xSpaceBetweenUnits) / 2 - this.xHalfSize;
             this.y = 0;
             this.xBlock = 0;
             this.yBlock = 0;
@@ -101,7 +107,7 @@ export class UnitView implements UnitViewInterface {
     }
 
     getXMiddle() {
-        return this.x + 75;
+        return this.x + this.xHalfSize;
     }
 
     getY(): number {
@@ -113,14 +119,14 @@ export class UnitView implements UnitViewInterface {
     }
 
     getYSouth(): number {
-        return this.y + 35;
+        return this.y + this.ySize;
     }
 
     createLink(): Link[] {
         const links: Link[] = [];
         if (this.getBlockViews().length <= 1) {
             for (const block of this.blockViews) {
-                this.x += 75;
+                this.x += this.xHalfSize;
                 for (const unit of block.getUnitViews()) {
                     const relation = new Link(this, unit, block.getBlock().getType());
                     links.push(relation);
@@ -130,7 +136,7 @@ export class UnitView implements UnitViewInterface {
                 }
             }
         } else {
-            const nodeDivisionForLink = 150 / (this.blockViews.length + 1);
+            const nodeDivisionForLink = this.xSize / (this.blockViews.length + 1);
             for (let i = 0; i < this.blockViews.length; i++) {
                 this.x += nodeDivisionForLink;
                 for (const unit of this.blockViews[i].getUnitViews()) {

@@ -13,6 +13,10 @@ export class BlockView implements BlockViewInterface {
     private y: number;
     private unitViews: UnitViewInterface[] = [];
 
+    readonly xSpaceBetweenBlocks = 10;
+    readonly ySpaceBetweenBlocks = 35;
+    readonly halfSizeBlock = 75;
+
     constructor(block: Block) {
         this.x = 0;
         this.y = 0;
@@ -49,7 +53,7 @@ export class BlockView implements BlockViewInterface {
     calculateWidthBlock(): number {
         let width = 0;
         for (const unitView of this.unitViews) {
-            width += unitView.calculateWidthBlock() + 10;
+            width += unitView.calculateWidthBlock() + this.xSpaceBetweenBlocks;
         }
         return width;
     }
@@ -64,10 +68,10 @@ export class BlockView implements BlockViewInterface {
         }
         let xShift = 0;
         for (const unit of this.unitViews) {
-            unit.shift(xShift, 35);
+            unit.shift(xShift, this.ySpaceBetweenBlocks);
             xShift += unit.calculateWidthBlock();
         }
-        this.x = xShift / 2 - 75;
+        this.x = xShift / 2 - this.halfSizeBlock;
         this.y = 0;
     }
 
