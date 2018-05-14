@@ -14,8 +14,8 @@ import { UnitService } from './home/shared/services/unit.service';
 import { D3Service } from './home/d3/d3.service';
 import { DraggableDirective } from './home/d3/directives/draggable.directive';
 import { GraphComponent } from './home/d3/views/graph/graph.component';
-import { ShowLinkComponent } from './home/d3/views/show-link/show-link.component';
-import { ShowNodeComponent } from './home/d3/views/show-node/show-node.component';
+import { LinkComponent } from './home/d3/views/link/link.component';
+import { NodeComponent } from './home/d3/views/node/node.component';
 import { UnitsNotRelatedComponent } from './home/d3/views/units-not-related/units-not-related.component';
 import { ZoomableDirective } from './home/d3/directives/zoomable.directive';
 
@@ -83,8 +83,8 @@ import {RelationService} from './home/shared/services/relation.service';
     AppRoutingModule.DIALOGS_COMPONENTS,
     DraggableDirective,
     GraphComponent,
-    ShowLinkComponent,
-    ShowNodeComponent,
+    LinkComponent,
+    NodeComponent,
     UnitsNotRelatedComponent,
     ZoomableDirective,
   ],
