@@ -1,14 +1,14 @@
 import {error} from 'util';
 import * as Lex from 'lexical-parser';
-import {UnitDeleteEntity} from './unit-delete.model';
+import {UnitDelete} from './unit-delete.model';
 import {Unit} from './unit.model';
 import {UnitService} from '../services/unit.service';
 import {MatSnackBar} from '@angular/material';
-import {Relation} from './relation.model';
+import {RelationOutput} from './relation.model';
 import {TypeRelation} from './type-relation.enum';
 import {RelationService} from '../services/relation.service';
 
-export class LexEntity {
+export class Lexical {
 
   tokenMatchers = [
     'new', '#', '~', '<', 'inherit', ':', '>', 'relation',
@@ -64,7 +64,7 @@ export class LexEntity {
     }
     const relation = lex.nextToken();
     if (relation === undefined) {
-      const deleteUnit = new UnitDeleteEntity(this.unitService, this.snackBar);
+      const deleteUnit = new UnitDelete(this.unitService, this.snackBar);
       deleteUnit.deletes(id['lexeme']);
     } else {
       if (relation['name'] === 'relation') {
@@ -74,7 +74,7 @@ export class LexEntity {
   }
 
   analyzeCommandDeleteRelation() {
-    console.log('Delete Relation falta!');
+    console.log('Delete RelationOutput falta!');
     /*
     * ~X#n relation X#n, X#n, ...
       ~X#n relation:semantica1 X#n, X#n, ...
@@ -102,6 +102,16 @@ export class LexEntity {
       if (token['name'] === ':') {
         this.analyzeCommandUpdateUnit(id, name);
       } else if (token['name'] === '<') {
+        const inherit = lex.nextToken();
+        if (inherit['name'] !== 'inherit') {
+          return error();
+        }
+        const lex2 = new Lex(command, this.tokenMatchers, this.ignorePattern);
+        for (let i = 0; i <= 3; i++) {
+          lex2.nextToken();
+        }
+        this.analyzeCommandRelationInherit(lex2, id);
+      } else if (token['name'] === 'inherit') {
         this.analyzeCommandRelationInherit(command, id);
       }
     } else {
@@ -109,94 +119,66 @@ export class LexEntity {
     }
   }
 
-   analyzeCommandRelationInherit(command: string, idTopUnit: object) {
-     const lex = new Lex(command, this.tokenMatchers, this.ignorePattern);
-     for (let i = 0; i < 2; i++) {
+   analyzeCommandRelationInherit(lex, idTopUnit: object) {
+    // const lex = new Lex(command, this.tokenMatchers, this.ignorePattern);
+     for (let i = 0; i <= 3; i++) {
        lex.nextToken();
      }
-     console.log(lex.nextToken().name);
-     const inherit = lex.nextToken();
-     if (inherit['name'] !== 'inherit') {
-       return error();
-     }
      const point = lex.nextToken();
+     console.log(point);
      if (point['name'] === ':') {
        const semantics = lex.nextToken();
        if (semantics['name'] !== 'text') {
          return error();
        }
-       const name = lex.nextToken();
-       if (name['name'] !== 'text') {
-         return error();
+       this.sequenceUnit(lex, idTopUnit, semantics['lexeme']);
+     } else {
+      // const lex2 = new Lex(command, this.tokenMatchers, this.ignorePattern);
+       for (let i = 0; i <= 3; i++) {
+         lex.nextToken();
        }
-       const sharp = lex.nextToken();
-       if (sharp['name'] !== '#') {
-         return error();
-       }
-       const idLowerUnit = lex.nextToken();
-       if (idLowerUnit['name'] !== 'id') {
-         return error();
-       }
-       const token = lex.nextToken();
-       if (token === undefined) {
-         console.log('Exito');
-         const relation = new Relation(TypeRelation.INHERIT, idTopUnit['lexeme'], idLowerUnit['lexeme']);
-         console.log(relation);
-         relation.saveRelation(this.relationService, this.snackBar);
-       } else if (token['name'] === ',') {
-         this.sequenceUnit(lex, idTopUnit, idLowerUnit);
-       } else {
-         return error();
-       }
+       this.sequenceUnit(lex, idTopUnit);
      }
    }
 
-  sequenceUnit(lex, idTopUnit, idLowerUnit) {
-    let ids;
-    const key = [];
-    do {
-      ids = lex.nextToken();
-      if (ids !== undefined) {
-        if (ids['name'] === 'id') {
-          key.push(ids['lexeme']);
+  sequenceUnit(lex, idTopUnit, semantics?) {
+    const name = lex.nextToken();
+    if (name['name'] !== 'text') {
+      return error();
+    }
+    const sharp = lex.nextToken();
+    if (sharp['name'] !== '#') {
+      return error();
+    }
+    const idLowerUnit = lex.nextToken();
+    if (idLowerUnit['name'] !== 'id') {
+      return error();
+    }
+    const token = lex.nextToken();
+    if (token === undefined) {
+      this.createRelationInherit(TypeRelation.INHERIT, idTopUnit['lexeme'], idLowerUnit['lexeme'], semantics);
+    } else if (token['name'] === ',') {
+      let ids;
+      const idLowerUnits = [];
+      do {
+        ids = lex.nextToken();
+        if (ids !== undefined) {
+          if (ids['name'] === 'id') {
+            idLowerUnits.push(ids['lexeme']);
+          }
         }
+      } while (ids);
+      idLowerUnits.unshift(idLowerUnit['lexeme']);
+      for (let j = 0; j < idLowerUnits.length; j++) {
+        this.createRelationInherit(TypeRelation.INHERIT, idTopUnit['lexeme'], idLowerUnit[j], semantics);
       }
-    } while (ids);
-    key.unshift(idLowerUnit['lexeme']);
-    for (let j = 0; j < key.length; j++) {
-      console.log(idTopUnit['lexeme'] + key[j]);
+    } else {
+      return error();
     }
   }
 
-
-
-     /*else if (token['name'] === 'text') {
-         const sharp = lex.nextToken();
-         if (sharp['name'] !== '#') {
-           return error();
-         }
-         const id = lex.nextToken();
-         if (id['name'] !== 'id') {
-           return error();
-         }
-       } else {
-         return error();
-       }
-     }
-
-     /*const lex = new Lex(commandRelation, tokenMatchers, ignorePattern);
-     const relation = lex.nextToken();
-     if (relation['name'] !== 'inherit') {
-       return error();
-     }
-     const point = lex.nextToken();
-     if (point['name'] === ':') {
-       const semantic = lex.nextToken();
-       if (semantic['name'] !== 'text') {
-         return error();
-       } else {
-         console.log(/// bien);
-       }
-     }*/
-   // }
+  private createRelationInherit(INHERIT: TypeRelation, idTopUnit: Unit, idLowerUnit: Unit, semantics: string) {
+    const relation = new RelationOutput(INHERIT, idTopUnit, idLowerUnit, semantics);
+    relation.saveRelation(this.relationService, this.snackBar);
+  }
 }
