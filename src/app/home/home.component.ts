@@ -93,11 +93,11 @@ export class HomeComponent implements OnInit {
     const relationE7 = new RelationView(unitE3, unitE8, 'inherit');
     const relationE8 = new RelationView(unitE7, unitE9, 'inherit');
     const relationE9 = new RelationView(unitE7, unitE10, 'use');
-    const relationR = new RelationView(unitE4, unitR, 'inherit');
+    const relationR = new RelationView(unitE4, unitR, 'inherit', 'sem1');
     const relationA = new RelationView(unitE4, unitA, 'use');
-    const relat = new RelationView(unitE4, unitE9, 'inherit');
-    const relat1 = new RelationView(unitE10, unitR2, 'inherit');
-    const relat2 = new RelationView(unitE10, unitR3, 'inherit');
+    const relat = new RelationView(unitE4, unitE9, 'inherit', 'sem2');
+    const relat1 = new RelationView(unitE10, unitR2, 'inherit', 'semantica1');
+    const relat2 = new RelationView(unitE10, unitR3, 'inherit', 'semantica2');
     const relat3 = new RelationView(unitE10, unitA, 'use');
     const relat4 = new RelationView(unitE4, unitA, 'compose');
 

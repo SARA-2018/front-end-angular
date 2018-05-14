@@ -140,7 +140,8 @@ export class UnitView implements UnitViewInterface {
             for (let i = 0; i < this.blockViews.length; i++) {
                 this.x += nodeDivisionForLink;
                 for (const unit of this.blockViews[i].getUnitViews()) {
-                    const relation = new Link(this, unit, this.blockViews[i].getBlock().getType());
+                    const relation = new Link(this, unit, this.blockViews[i].getBlock().getType(),
+                                             this.blockViews[i].getBlock().getSemantics());
                     links.push(relation);
                     for (const link of unit.createLink()) {
                         links.push(link);
