@@ -15,7 +15,7 @@ import { UnitView } from './shared/views/unit.view';
 import { BlockView } from './shared/views/block.view';
 import { Block } from './shared/models/block.model';
 import { debounceTime } from 'rxjs/operators';
-import { LexEntity } from './shared/models/lex.model';
+import { Lexical } from './shared/models/lex.model';
 import { RelationService } from './shared/services/relation.service';
 
 
@@ -118,7 +118,7 @@ export class HomeComponent implements OnInit {
 
   onEnter(command: string) {
     try {
-      const lex = new LexEntity(this.unitService, this.relationService, this.snackBar);
+      const lex = new Lexical(this.unitService, this.relationService, this.snackBar);
       lex.analyzeCommand(command);
     } catch (err) {
       if (err.code === 'LEXICAL_ERROR') {
