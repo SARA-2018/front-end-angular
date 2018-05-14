@@ -4,7 +4,7 @@ import {UnitDelete} from './unit-delete.model';
 import {Unit} from './unit.model';
 import {UnitService} from '../services/unit.service';
 import {MatSnackBar} from '@angular/material';
-import {RelationOutput} from './relation.model';
+import {RelationOutput} from './relation-output.model';
 import {TypeRelation} from './type-relation.enum';
 import {RelationService} from '../services/relation.service';
 
