@@ -13,10 +13,10 @@ import { NgModule } from '@angular/core';
 import { UnitService } from './home/shared/services/unit.service';
 import { D3Service } from './home/d3/d3.service';
 import { DraggableDirective } from './home/d3/directives/draggable.directive';
-import { GraphComponent } from './home/d3/visuals/graph/graph.component';
-import { ShowLinkComponent } from './home/d3/visuals/show-link/show-link.component';
-import { ShowNodeComponent } from './home/d3/visuals/show-node/show-node.component';
-import { UnitsNotRelatedComponent } from './home/d3/visuals/units-not-related/units-not-related.component';
+import { GraphComponent } from './home/d3/views/graph/graph.component';
+import { ShowLinkComponent } from './home/d3/views/show-link/show-link.component';
+import { ShowNodeComponent } from './home/d3/views/show-node/show-node.component';
+import { UnitsNotRelatedComponent } from './home/d3/views/units-not-related/units-not-related.component';
 import { ZoomableDirective } from './home/d3/directives/zoomable.directive';
 
 import {

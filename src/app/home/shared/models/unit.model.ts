@@ -31,19 +31,27 @@ export class Unit {
     return this.name;
   }
 
-  appendUnit(unit: Unit, type: string) {
+  appendUnit(unit: Unit, type: string, semantics?: string) {
     if (this.blocks.length > 0) {
       let i = 0;
       while (type !== this.blocks[i].getType() && (i < this.blocks.length - 1)) {
         i++;
       }
       if (type === this.blocks[i].getType()) {
-        this.blocks[i].appendUnit(unit);
+        if (semantics !== undefined) {
+          if (semantics === this.blocks[i].getSemantics()) {
+            this.blocks[i].appendUnit(unit);
+          } else {
+            this.blocks.push(new Block(type, unit, semantics));
+          }
+        } else {
+          this.blocks[i].appendUnit(unit);
+        }
       } else {
-        this.blocks.push(new Block(type, unit));
+        this.blocks.push(new Block(type, unit, semantics));
       }
     } else {
-      this.blocks.push(new Block(type, unit));
+      this.blocks.push(new Block(type, unit, semantics));
     }
   }
 

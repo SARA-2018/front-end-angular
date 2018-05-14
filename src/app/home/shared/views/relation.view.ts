@@ -8,11 +8,11 @@ export class RelationView {
   private topUnit: Unit;
   private lowerUnit: Unit;
 
-  constructor(topUnit: Unit, lowerUnit: Unit, type?: string,  semantics?: string ) {
+  constructor(topUnit: Unit, lowerUnit: Unit, type?: string, semantics?: string) {
     this.topUnit = topUnit;
     this.lowerUnit = lowerUnit;
     this.type = type;
     this.semantics = semantics;
-    this.topUnit.appendUnit(lowerUnit, type);
+    this.topUnit.appendUnit(lowerUnit, type, semantics);
   }
 }
