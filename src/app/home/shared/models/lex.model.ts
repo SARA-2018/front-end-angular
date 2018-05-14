@@ -4,7 +4,7 @@ import {UnitDelete} from './unit-delete.model';
 import {Unit} from './unit.model';
 import {UnitService} from '../services/unit.service';
 import {MatSnackBar} from '@angular/material';
-import {Relation} from './relation.model';
+import {RelationOutput} from './relation.model';
 import {TypeRelation} from './type-relation.enum';
 import {RelationService} from '../services/relation.service';
 
@@ -74,7 +74,7 @@ export class Lexical {
   }
 
   analyzeCommandDeleteRelation() {
-    console.log('Delete Relation falta!');
+    console.log('Delete RelationOutput falta!');
     /*
     * ~X#n relation X#n, X#n, ...
       ~X#n relation:semantica1 X#n, X#n, ...
@@ -102,6 +102,16 @@ export class Lexical {
       if (token['name'] === ':') {
         this.analyzeCommandUpdateUnit(id, name);
       } else if (token['name'] === '<') {
+        const inherit = lex.nextToken();
+        if (inherit['name'] !== 'inherit') {
+          return error();
+        }
+        const lex2 = new Lex(command, this.tokenMatchers, this.ignorePattern);
+        for (let i = 0; i <= 3; i++) {
+          lex2.nextToken();
+        }
+        this.analyzeCommandRelationInherit(lex2, id);
+      } else if (token['name'] === 'inherit') {
         this.analyzeCommandRelationInherit(command, id);
       }
     } else {
@@ -109,16 +119,13 @@ export class Lexical {
     }
   }
 
-   analyzeCommandRelationInherit(command: string, idTopUnit: object) {
-     const lex = new Lex(command, this.tokenMatchers, this.ignorePattern);
-     for (let i = 0; i <= 2; i++) {
+   analyzeCommandRelationInherit(lex, idTopUnit: object) {
+    // const lex = new Lex(command, this.tokenMatchers, this.ignorePattern);
+     for (let i = 0; i <= 3; i++) {
        lex.nextToken();
      }
-     const inherit = lex.nextToken();
-     if (inherit['name'] !== 'inherit') {
-       return error();
-     }
      const point = lex.nextToken();
+     console.log(point);
      if (point['name'] === ':') {
        const semantics = lex.nextToken();
        if (semantics['name'] !== 'text') {
@@ -126,11 +133,11 @@ export class Lexical {
        }
        this.sequenceUnit(lex, idTopUnit, semantics['lexeme']);
      } else {
-       const lex2 = new Lex(command, this.tokenMatchers, this.ignorePattern);
+      // const lex2 = new Lex(command, this.tokenMatchers, this.ignorePattern);
        for (let i = 0; i <= 3; i++) {
-         lex2.nextToken();
+         lex.nextToken();
        }
-       this.sequenceUnit(lex2, idTopUnit);
+       this.sequenceUnit(lex, idTopUnit);
      }
    }
 
@@ -149,8 +156,7 @@ export class Lexical {
     }
     const token = lex.nextToken();
     if (token === undefined) {
-      const relation = new Relation(TypeRelation.INHERIT, idTopUnit['lexeme'], idLowerUnit['lexeme'], semantics);
-      relation.saveRelation(this.relationService, this.snackBar);
+      this.createRelationInherit(TypeRelation.INHERIT, idTopUnit['lexeme'], idLowerUnit['lexeme'], semantics);
     } else if (token['name'] === ',') {
       let ids;
       const idLowerUnits = [];
@@ -164,11 +170,15 @@ export class Lexical {
       } while (ids);
       idLowerUnits.unshift(idLowerUnit['lexeme']);
       for (let j = 0; j < idLowerUnits.length; j++) {
-         const relation = new Relation(TypeRelation.INHERIT, idTopUnit['lexeme'], idLowerUnits[j], semantics);
-         relation.saveRelation(this.relationService, this.snackBar);
+        this.createRelationInherit(TypeRelation.INHERIT, idTopUnit['lexeme'], idLowerUnit[j], semantics);
       }
     } else {
       return error();
     }
+  }
+
+  private createRelationInherit(INHERIT: TypeRelation, idTopUnit: Unit, idLowerUnit: Unit, semantics: string) {
+    const relation = new RelationOutput(INHERIT, idTopUnit, idLowerUnit, semantics);
+    relation.saveRelation(this.relationService, this.snackBar);
   }
 }

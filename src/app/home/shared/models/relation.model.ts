@@ -2,7 +2,7 @@ import {Unit} from './unit.model';
 import {MatSnackBar} from '@angular/material';
 import {RelationService} from '../services/relation.service';
 
-export class Relation {
+export class RelationOutput {
 
   private type: string;
   private semantics: string;
