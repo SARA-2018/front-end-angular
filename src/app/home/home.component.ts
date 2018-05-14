@@ -96,7 +96,6 @@ export class HomeComponent implements OnInit {
     const relationR = new RelationInput(unitE4, unitR, 'inherit', 'sem1');
     const relationA = new RelationInput(unitE4, unitA, 'use');
     const relat = new RelationInput(unitE4, unitE9, 'inherit', 'sem2');
-    const relat22 = new RelationInput(unitE4, new Unit('asdf'), 'inherit', 'sem2');
     const relat1 = new RelationInput(unitE10, unitR2, 'inherit', 'semantica1');
     const relat2 = new RelationInput(unitE10, unitR3, 'inherit', 'semantica2');
     const relat3 = new RelationInput(unitE10, unitA, 'use');

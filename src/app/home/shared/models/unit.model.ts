@@ -12,17 +12,6 @@ export class Unit {
     this.name = name;
   }
 
-  log(margin: string) {
-    console.log(margin + this.getName());
-    for (const block of this.getBlocks()) {
-      block.log(block, margin + '   ');
-    }
-  }
-
-  getId() {
-    return this.id;
-  }
-
   getBlocks() {
     return this.blocks;
   }
@@ -33,22 +22,10 @@ export class Unit {
 
   appendUnit(unit: Unit, type: string, semantics?: string) {
     if (this.blocks.length > 0) {
-      let i = 0;
-      if (semantics !== undefined) {
-        while (semantics !== this.blocks[i].getSemantics() && (i < this.blocks.length - 1)) {
-          i++;
-        }
-      } else {
-        while (type !== this.blocks[i].getType() && (i < this.blocks.length - 1)) {
-          i++;
-        }
-      }
+      const i = this.searchBlock(type, semantics);
       if (type === this.blocks[i].getType()) {
         if (semantics !== undefined) {
-          console.log('semanticsTOP: ' + semantics);
-          console.log('semanticsDOWN: ' + this.blocks[i].getSemantics());
           if (semantics === this.blocks[i].getSemantics()) {
-            console.log('append');
             this.blocks[i].appendUnit(unit);
           } else {
             this.blocks.push(new Block(unit, type, semantics));
@@ -64,12 +41,33 @@ export class Unit {
     }
   }
 
+  searchBlock(type: string, semantics: string): number {
+    let i = 0;
+    if (semantics !== undefined) {
+      while (semantics !== this.blocks[i].getSemantics() && (i < this.blocks.length - 1)) {
+        i++;
+      }
+    } else {
+      while (type !== this.blocks[i].getType() && (i < this.blocks.length - 1)) {
+        i++;
+      }
+    }
+    return i;
+  }
+
   saveUnit(unitService: UnitService, snackBar: MatSnackBar) {
     unitService.create(this).subscribe(data => {
       snackBar.open('Creado Correctamente !', '', {
         duration: 2000
       });
     });
+  }
+
+  log(margin: string) {
+    console.log(margin + this.getName());
+    for (const block of this.getBlocks()) {
+      block.log(block, margin + '   ');
+    }
   }
 }
 

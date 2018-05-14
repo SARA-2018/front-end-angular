@@ -30,31 +30,24 @@ export class UnitView implements UnitViewInterface {
         }
     }
 
-    log(margin: string) {
-        console.log(margin + this.getUnit().getName());
-        for (const block of this.blockViews) {
-            block.log(margin + '   ');
-        }
-    }
-
-    createNode(): Node[] {
-        const result: Node[] = [];
-        const root: Node = new Node(this.unit.getName(), this.x, this.y);
-        result.push(root);
-        for (const block of this.blockViews) {
-            for (const node of block.createNode()) {
-                result.push(node);
-            }
-        }
-        return result;
-    }
-
     append(block: BlockView) {
         this.blockViews.push(block);
     }
 
-    getBlockViews() {
-        return this.blockViews;
+    getX(): number {
+        return this.x;
+    }
+
+    getY(): number {
+        return this.y;
+    }
+
+    getXMiddle() {
+        return this.x + this.xHalfSize;
+    }
+
+    getYSouth(): number {
+        return this.y + this.ySize;
     }
 
     calculateWidthBlock(): number {
@@ -67,10 +60,6 @@ export class UnitView implements UnitViewInterface {
             }
         }
         return width;
-    }
-
-    getUnit() {
-        return this.unit;
     }
 
     locate() {
@@ -106,49 +95,39 @@ export class UnitView implements UnitViewInterface {
         }
     }
 
-    getXMiddle() {
-        return this.x + this.xHalfSize;
-    }
-
-    getY(): number {
-        return this.y;
-    }
-
-    getX(): number {
-        return this.x;
-    }
-
-    getYSouth(): number {
-        return this.y + this.ySize;
+    createNode(): Node[] {
+        const result: Node[] = [];
+        const root: Node = new Node(this.unit.getName(), this.x, this.y);
+        result.push(root);
+        for (const blockView of this.blockViews) {
+            for (const node of blockView.createNode()) {
+                result.push(node);
+            }
+        }
+        return result;
     }
 
     createLink(): Link[] {
         const links: Link[] = [];
-        if (this.getBlockViews().length <= 1) {
-            for (const block of this.blockViews) {
-                this.x += this.xHalfSize;
-                for (const unit of block.getUnitViews()) {
-                    const relation = new Link(this, unit, block.getBlock().getType());
-                    links.push(relation);
-                    for (const link of unit.createLink()) {
-                        links.push(link);
-                    }
-                }
-            }
-        } else {
-            const nodeDivisionForLink = this.xSize / (this.blockViews.length + 1);
-            for (let i = 0; i < this.blockViews.length; i++) {
-                this.x += nodeDivisionForLink;
-                for (const unit of this.blockViews[i].getUnitViews()) {
-                    const relation = new Link(this, unit, this.blockViews[i].getBlock().getType(),
-                                             this.blockViews[i].getBlock().getSemantics());
-                    links.push(relation);
-                    for (const link of unit.createLink()) {
-                        links.push(link);
-                    }
+        const nodeDivisionForLink = this.xSize / (this.blockViews.length + 1);
+        for (const blockView of this.blockViews) {
+            this.x += nodeDivisionForLink;
+            for (const unit of blockView.getUnitViews()) {
+                const relation = new Link(this, unit, blockView.getBlock().getType(),
+                    blockView.getBlock().getSemantics());
+                links.push(relation);
+                for (const link of unit.createLink()) {
+                    links.push(link);
                 }
             }
         }
         return links;
+    }
+
+    log(margin: string) {
+        console.log(margin + this.unit.getName());
+        for (const blockView of this.blockViews) {
+            blockView.log(margin + '   ');
+        }
     }
 }

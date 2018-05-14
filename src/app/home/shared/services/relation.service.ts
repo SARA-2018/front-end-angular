@@ -1,7 +1,7 @@
 import { HttpService } from '../../../core/http.service';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import {RelationOutput} from '../models/relation-output.model';
+import { RelationOutput } from '../models/relation-output.model';
 import { RelationDto } from '../dtos/relation.dto';
 
 @Injectable()

@@ -12,12 +12,6 @@ export class Block {
         this.units.push(unit);
     }
 
-    log(block: Block, margin: string) {
-        for (const unit of block.getUnits()) {
-            unit.log(margin);
-        }
-    }
-
     appendUnit(unit: Unit) {
         this.units.push(unit);
     }
@@ -32,5 +26,11 @@ export class Block {
 
     getSemantics() {
         return this.semantics;
+    }
+
+    log(block: Block, margin: string) {
+        for (const unit of block.getUnits()) {
+            unit.log(margin);
+        }
     }
 }

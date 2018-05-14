@@ -1,6 +1,6 @@
 import { Directive, Input, ElementRef, OnInit } from '@angular/core';
 import { Node } from '../models/node';
-import { ForceDirectedGraph } from '../models/force-directed-graph';
+import { Graph} from '../models/graph';
 import { D3Service } from '../d3.service';
 
 @Directive({
@@ -9,7 +9,7 @@ import { D3Service } from '../d3.service';
 })
 export class DraggableDirective implements OnInit {
     @Input('draggableNode') draggableNode: Node;
-    @Input('draggableInGraph') draggableInGraph: ForceDirectedGraph;
+    @Input('draggableInGraph') draggableInGraph: Graph;
 
     constructor(private d3Service: D3Service, private _element: ElementRef) { }
 

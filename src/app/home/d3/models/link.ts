@@ -8,18 +8,17 @@ export class Link implements d3.SimulationLinkDatum<Node> {
 
   topUnit: UnitView;
   lowerUnit: UnitView;
-  semantics: string;
   type: string;
+  semantics: string;
   linkPoints = [];
   relationPoints = [];
   fillRelationColor = 'none';
 
   readonly lowerUnitUP = 10;
   readonly topUnitDOWN = 25;
-  readonly ten = 10;
-  readonly twenty = 20;
+  readonly sizeArrowRelation = 10;
 
-  constructor(topUnit: UnitView, lowerUnit: UnitView, type, semantics?) {
+  constructor(topUnit: UnitView, lowerUnit: UnitView, type: string, semantics?: string) {
     this.topUnit = topUnit;
     this.lowerUnit = lowerUnit;
     this.type = type;
@@ -42,10 +41,10 @@ export class Link implements d3.SimulationLinkDatum<Node> {
         this.linkPoints.push(this.topUnit.getYSouth());
         break;
       case 'inherit':
-        this.linkPoints.push(this.topUnit.getYSouth() + this.ten);
+        this.linkPoints.push(this.topUnit.getYSouth() + this.sizeArrowRelation);
         break;
       case 'compose':
-        this.linkPoints.push(this.topUnit.getYSouth() + this.twenty);
+        this.linkPoints.push(this.topUnit.getYSouth() + (this.sizeArrowRelation * 2));
         break;
     }
   }
@@ -65,26 +64,26 @@ export class Link implements d3.SimulationLinkDatum<Node> {
   }
 
   drawAssociation() {
-    this.relationPoints.push(this.topUnit.getX() - this.ten);
-    this.relationPoints.push(this.topUnit.getYSouth() + this.ten);
+    this.relationPoints.push(this.topUnit.getX() - this.sizeArrowRelation);
+    this.relationPoints.push(this.topUnit.getYSouth() + this.sizeArrowRelation);
     this.relationPoints.push(this.topUnit.getX());
     this.relationPoints.push(this.topUnit.getYSouth());
-    this.relationPoints.push(this.topUnit.getX() + this.ten);
-    this.relationPoints.push(this.topUnit.getYSouth() + this.ten);
+    this.relationPoints.push(this.topUnit.getX() + this.sizeArrowRelation);
+    this.relationPoints.push(this.topUnit.getYSouth() + this.sizeArrowRelation);
   }
 
   drawCompose() {
     this.drawAssociation();
     this.relationPoints.push(this.topUnit.getX());
-    this.relationPoints.push(this.topUnit.getYSouth() + this.twenty);
-    this.relationPoints.push(this.topUnit.getX() - this.ten);
-    this.relationPoints.push(this.topUnit.getYSouth() + this.ten);
+    this.relationPoints.push(this.topUnit.getYSouth() + (this.sizeArrowRelation * 2));
+    this.relationPoints.push(this.topUnit.getX() - this.sizeArrowRelation);
+    this.relationPoints.push(this.topUnit.getYSouth() + this.sizeArrowRelation);
     this.fillRelationColor = '#FF9A23';
   }
 
   drawInherit() {
     this.drawAssociation();
-    this.relationPoints.push(this.topUnit.getX() - this.ten);
-    this.relationPoints.push(this.topUnit.getYSouth() + this.ten);
+    this.relationPoints.push(this.topUnit.getX() - this.sizeArrowRelation);
+    this.relationPoints.push(this.topUnit.getYSouth() + this.sizeArrowRelation);
   }
 }
