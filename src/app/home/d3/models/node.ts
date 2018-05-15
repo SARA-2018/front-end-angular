@@ -11,7 +11,7 @@ export class Node implements d3.SimulationNodeDatum {
   readonly xMiddle = 75;
   readonly ySouth = 35;
 
-  constructor(id, x, y) {
+  constructor(id: string, x: number, y: number) {
     this.id = id;
     this.x = x;
     this.y = y;

@@ -28,12 +28,17 @@ import { RelationService } from './shared/services/relation.service';
 export class HomeComponent implements OnInit {
 
   static URL = 'home';
+  unitsDto: UnitDto[];
+  units: Unit[] = [];
+  relationsDto: RelationDto[];
   nodes: Node[] = [];
   nodesNotRelated: Node[] = [];
   links: Link[] = [];
   relationsUnit: RelationDto[] = [];
   searchUnit: FormControl;
   filteredUnits: Observable<RelationDto[]>;
+
+  readonly db = false;
 
   constructor(private snackBar: MatSnackBar, public unitService: UnitService, public relationService: RelationService) {
   }
@@ -50,11 +55,17 @@ export class HomeComponent implements OnInit {
   */
 
   synchronizedGraph() {
-    /* this.unitService.getAll().subscribe(data => {
-       this.units = data;
-       this.addDataGraph();
-     });*/
-    this.addDataGraph();
+    if (this.db) {
+      this.unitService.getAll().subscribe(units => {
+        this.unitsDto = units;
+        this.relationService.getAll().subscribe(relations => {
+          this.relationsDto = relations;
+          this.addDataGraph();
+        });
+      });
+    } else {
+      this.addDataGraph();
+    }
   }
 
   generateData(): Unit {
@@ -105,11 +116,20 @@ export class HomeComponent implements OnInit {
     // UnitE4 1 - 1
     // UnitE7 1 - 2
     // UnitE3 1 - 3 - 2
-    return unitE4;
+    return root;
   }
 
   addDataGraph() {
-    const root = this.generateData();
+    let root;
+    if (this.db) {
+      for (const unitDto of this.unitsDto) {
+        this.units.push(new Unit(unitDto.name));
+      }
+      // FOR RELATIONS
+      root = this.units[0];
+    } else {
+      root = this.generateData();
+    }
     const rootView = new UnitView(root);
     rootView.locate();
     this.nodes = rootView.createNode();
