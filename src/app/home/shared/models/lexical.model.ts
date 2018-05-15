@@ -10,17 +10,17 @@ import {RelationService} from '../services/relation.service';
 
 export class Lexical {
 
-  tokenMatchers = [
+  readonly tokenMatchers = [
     'new', '#', '~', '<', 'inherit', ':', '>', 'relation',
     'asociation', 'use', 'compose', ',',
     ['id', /[0-9]+/],
     ['text', /[a-zA-Z][a-zA-Z0-9]*/],
   ];
-  ignorePattern = '[\n\s \t]+';
+  readonly ignorePattern = '[\n\s \t]+';
 
-  unitService: any;
-  snackBar: any;
-  relationService: any;
+  unitService: UnitService;
+  snackBar: MatSnackBar;
+  relationService: RelationService;
 
   constructor(unitService: UnitService, relationService: RelationService, snackBar: MatSnackBar) {
     this.unitService = unitService;
@@ -115,39 +115,43 @@ export class Lexical {
     }
   }
 
-   analyzeCommandRelationInherit(lex, command, idTopUnit: object) {
+   analyzeCommandRelationInherit(lex, command: string, idTopUnit: object) {
      const point = lex.nextToken();
      if (point['name'] === ':') {
        const semantics = lex.nextToken();
        if (semantics['name'] !== 'text') {
          return error();
        }
-       const lex2 = new Lex(command, this.tokenMatchers, this.ignorePattern);
-       for (let i = 0; i <= 4; i++) {
-         lex2.nextToken();
-       }
-       const token = lex2.nextToken();
-       if (token['name'] === '>') {
-         this.sequenceUnit(lex2, idTopUnit, '>', semantics['lexeme']);
-       } else {
-         this.sequenceUnit(lex, idTopUnit, '<', semantics['lexeme']);
+       const lexAux = new Lex(command, this.tokenMatchers, this.ignorePattern);
+       let operator;
+       for (let i = 0; i <= 5; i++) {
+         operator = lexAux.nextToken();
+        if (operator !== undefined) {
+          if (operator['name'] === '>') {
+            this.sequenceUnit(lexAux, idTopUnit, operator['lexeme'], semantics['lexeme']);
+          } else if (operator['name'] === '<') {
+            this.sequenceUnit(lex, idTopUnit, operator['lexeme'], semantics['lexeme']);
+          }
+        }
        }
      } else {
-       const lex2 = new Lex(command, this.tokenMatchers, this.ignorePattern);
+       const lexAux = new Lex(command, this.tokenMatchers, this.ignorePattern);
        let operator;
        for (let i = 0; i <= 3; i++) {
-         operator = lex2.nextToken();
-         if (operator['name'] === '<') {
-           lex2.nextToken();
-           this.sequenceUnit(lex2, idTopUnit, operator['name']);
-         } else if (operator['name'] === '>') {
-           this.sequenceUnit(lex2, idTopUnit, operator['name']);
+         operator = lexAux.nextToken();
+         if (operator !== undefined) {
+           if (operator['lexeme'] === '<') {
+             lexAux.nextToken();
+             this.sequenceUnit(lexAux, idTopUnit, operator['lexeme']);
+           } else if (operator['lexeme'] === '>') {
+             this.sequenceUnit(lexAux, idTopUnit, operator['lexeme']);
+           }
          }
        }
      }
    }
 
-  sequenceUnit(lex, idTopUnit, operator?, semantics?) {
+  sequenceUnit(lex, idTopUnit, operator, semantics?) {
     const name = lex.nextToken();
     if (name['name'] !== 'text') {
       return error();

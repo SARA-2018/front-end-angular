@@ -105,7 +105,7 @@ export class HomeComponent implements OnInit {
     // UnitE4 1 - 1
     // UnitE7 1 - 2
     // UnitE3 1 - 3 - 2
-    return root;
+    return unitE4;
   }
 
   addDataGraph() {
@@ -122,7 +122,14 @@ export class HomeComponent implements OnInit {
       lex.analyzeCommand(command);
     } catch (err) {
       if (err.code === 'LEXICAL_ERROR') {
-        this.snackBar.open(err.message, 'X');
+        this.snackBar.open(err.message, '', {
+          duration: 2000
+        });
+      } else {
+        console.log(err);
+        this.snackBar.open(err, '', {
+          duration: 2000
+        });
       }
     }
   }

@@ -6,16 +6,10 @@ export class Block {
     private semantics: string;
     private units: Unit[] = [];
 
-    constructor(type: string, unit: Unit, semantics?: string) {
+    constructor(unit: Unit, type: string, semantics?: string) {
         this.type = type;
         this.semantics = semantics;
         this.units.push(unit);
-    }
-
-    log(block: Block, margin: string) {
-        for (const unit of block.getUnits()) {
-            unit.log(margin);
-        }
     }
 
     appendUnit(unit: Unit) {
@@ -32,5 +26,11 @@ export class Block {
 
     getSemantics() {
         return this.semantics;
+    }
+
+    log(block: Block, margin: string) {
+        for (const unit of block.getUnits()) {
+            unit.log(margin);
+        }
     }
 }

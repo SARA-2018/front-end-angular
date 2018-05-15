@@ -1,6 +1,6 @@
 import { Component, Input, ChangeDetectorRef, HostListener, ChangeDetectionStrategy, OnInit, AfterViewInit } from '@angular/core';
 import { D3Service } from '../../d3.service';
-import { ForceDirectedGraph } from '../../models/force-directed-graph';
+import { Graph } from '../../models/graph';
 import { Node } from '../../models/node';
 
 @Component({
@@ -9,13 +9,11 @@ import { Node } from '../../models/node';
 })
 export class UnitsNotRelatedComponent implements OnInit {
   @Input('nodes') nodes;
-  graph: ForceDirectedGraph;
-  private _options: { width, height } = { width: 400, height: 400 };
+  graph: Graph;
 
-  constructor(private d3Service: D3Service, private ref: ChangeDetectorRef) {}
+  constructor(private d3Service: D3Service) {}
 
   ngOnInit() {
-    /** Receiving an initialized simulated graph from our custom d3 service */
-    this.graph = this.d3Service.getForceDirectedGraph(this.nodes, null, this._options);
+    this.graph = this.d3Service.getGraph(this.nodes, null);
   }
 }

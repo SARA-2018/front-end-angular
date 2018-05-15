@@ -1,7 +1,7 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { Node } from './models/node';
 import { Link } from './models/link';
-import { ForceDirectedGraph } from './models/force-directed-graph';
+import { Graph } from './models/graph';
 import * as d3 from 'd3';
 
 @Injectable()
@@ -24,7 +24,7 @@ export class D3Service {
     svg.call(zoom);
   }
 
-  applyDraggableBehaviour(element, node: Node, graph: ForceDirectedGraph) {
+  applyDraggableBehaviour(element, node: Node, graph: Graph) {
     const d3element = d3.select(element);
 
     function started() {
@@ -55,8 +55,7 @@ export class D3Service {
       .on('start', started));
   }
 
-  getForceDirectedGraph(nodes: Node[], links: Link[], options: { width, height }) {
-    const sg = new ForceDirectedGraph(nodes, links, options);
-    return sg;
+  getGraph(nodes: Node[], links: Link[]) {
+    return new Graph(nodes, links);
   }
 }

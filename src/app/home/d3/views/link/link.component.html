@@ -1,3 +1,5 @@
 <svg:polyline class="link" [attr.points]="link.linkPoints.toString()"/> 
-<svg:text class="text" [attr.transform]="'translate(' + link.linkPoints[2] + ',' + link.linkPoints[3] + ')'">{{link.semantics}}</svg:text>
+<svg:text class="text" [attr.transform]="'translate(' + link.linkPoints[2] + ',' + link.linkPoints[3] + ')'">
+    {{link.semantics}}
+</svg:text>
 <svg:polyline class="relation" [attr.points]="link.relationPoints.toString()" [attr.fill]="link.fillRelationColor"/> 

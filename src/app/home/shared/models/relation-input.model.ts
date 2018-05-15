@@ -8,7 +8,7 @@ export class RelationInput {
   private topUnit: Unit;
   private lowerUnit: Unit;
 
-  constructor(topUnit: Unit, lowerUnit: Unit, type?: string, semantics?: string) {
+  constructor(topUnit: Unit, lowerUnit: Unit, type: string, semantics?: string) {
     this.topUnit = topUnit;
     this.lowerUnit = lowerUnit;
     this.type = type;
