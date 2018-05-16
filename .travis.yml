@@ -3,7 +3,7 @@ node_js:
     - "9.2.1"
 script: 
     - npm run travis
-    - ng test
+    - ng test --single-run
 
 before_script:
     - npm install
