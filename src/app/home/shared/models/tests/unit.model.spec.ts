@@ -20,7 +20,7 @@ describe('HomeComponent UnitModel', () => {
         unit.appendUnit(new Unit('TestUnit3'), 'inherit', 'semantics1');
         expect(unit.getBlocks().length).toEqual(1);
         unit.appendUnit(new Unit('TestUnit4'), 'inherit', 'semantics2');
-        expect(unit.getBlocks().length).toEqual(3);
+        expect(unit.getBlocks().length).toEqual(2);
     });
 
     it ('#searchBlock without semantics', () => {
