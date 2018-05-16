@@ -142,7 +142,14 @@ export class HomeComponent implements OnInit {
       lex.analyzeCommand(command);
     } catch (err) {
       if (err.code === 'LEXICAL_ERROR') {
-        this.snackBar.open(err.message, 'X');
+        this.snackBar.open(err.message, '', {
+          duration: 2000
+        });
+      } else {
+        console.log(err);
+        this.snackBar.open(err, '', {
+          duration: 2000
+        });
       }
     }
   }
