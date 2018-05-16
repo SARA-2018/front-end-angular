@@ -7,3 +7,4 @@ script:
 
 before_script:
     - npm install
+    - export CHROME_BIN=chromium-browser
