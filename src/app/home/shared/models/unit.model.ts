@@ -41,7 +41,7 @@ export class Unit {
     }
   }
 
-  searchBlock(type: string, semantics: string): number {
+  searchBlock(type: string, semantics?: string): number {
     let i = 0;
     if (semantics !== undefined) {
       while (semantics !== this.blocks[i].getSemantics() && (i < this.blocks.length - 1)) {
