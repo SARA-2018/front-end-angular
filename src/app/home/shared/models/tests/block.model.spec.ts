@@ -3,16 +3,15 @@ import { Unit } from '../unit.model';
 
 describe('HomeComponent BlockModel', () => {
 
-    // tslint:disable-next-line:prefer-const
     let block: Block;
 
-    beforeEach(() => {
-        this.block = new Block(new Unit('TestUnit'), 'inherit');
+    beforeAll(() => {
+        block = new Block(new Unit('TestUnit'), 'inherit');
     });
 
-    it ('appendUnit', () => {
-        expect(this.block.getUnits().length).toEqual(1);
-        this.block.appendUnit(new Unit('TestUnit2'));
-        expect(this.block.getUnits().length).toEqual(2);
+    it ('#appendUnit should add new unit', () => {
+        expect(block.getUnits().length).toEqual(1);
+        block.appendUnit(new Unit('TestUnit2'));
+        expect(block.getUnits().length).toEqual(2);
     });
 });
