@@ -1,7 +1,9 @@
 language: node_js
 node_js:
     - "9.2.1"
-script: npm run travis
+script: 
+    - npm run travis
+    - npm test
 
 before_script:
     - npm install
