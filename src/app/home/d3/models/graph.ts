@@ -9,7 +9,7 @@ export class Graph {
   public nodes: Node[] = [];
   public links: Link[] = [];
 
-  constructor(nodes, links) {
+  constructor(nodes: Node[], links: Link[]) {
     this.nodes = nodes;
     this.links = links;
     this.initSimulation();
