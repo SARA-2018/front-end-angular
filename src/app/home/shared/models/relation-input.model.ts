@@ -15,4 +15,12 @@ export class RelationInput {
     this.semantics = semantics;
     this.topUnit.appendUnit(lowerUnit, type, semantics);
   }
+
+  getTopUnit(): Unit {
+    return this.topUnit;
+  }
+
+  getLowerUnit(): Unit {
+    return this.lowerUnit;
+  }
 }

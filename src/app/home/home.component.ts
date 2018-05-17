@@ -31,6 +31,7 @@ export class HomeComponent implements OnInit {
   unitsDto: UnitDto[];
   units: Unit[] = [];
   relationsDto: RelationDto[];
+  relations: RelationInput[] = [];
   nodes: Node[] = [];
   nodesNotRelated: Node[] = [];
   links: Link[] = [];
@@ -119,21 +120,57 @@ export class HomeComponent implements OnInit {
     return root;
   }
 
+  isRelated(unit: Unit): boolean {
+    for (let i = 0; i < this.relations.length; i++) {
+      if ((this.relations[i].getTopUnit().getName() === unit.getName()) ||
+        (this.relations[i].getLowerUnit().getName() === unit.getName())) {
+          return true;
+      }
+    }
+    return false;
+  }
+
   addDataGraph() {
     let root;
+    const unitsNotRelated: Unit[] = [];
     if (this.db) {
       for (const unitDto of this.unitsDto) {
         this.units.push(new Unit(unitDto.name));
       }
-      // FOR RELATIONS
+      for (const relationDto of this.relationsDto) {
+        const topUnit = this.units.find(unit => unit.getName() === relationDto.topUnit.name);
+        const lowerUnit = this.units.find(unit => unit.getName() === relationDto.topUnit.name);
+        this.relations.push(new RelationInput(topUnit, lowerUnit, relationDto.type, relationDto.semantics));
+      }
+      /*for (let i = 0; i < this.units.length; i++ ) {
+        if (!this.isRelated(this.units[i])) {
+          const view = new UnitView(this.units[i]);
+          unitsNotRelated.push(view);
+        }
+      }*/
       root = this.units[0];
     } else {
       root = this.generateData();
+      unitsNotRelated.push(new Unit('UnitNR1'));
+      unitsNotRelated.push(new Unit('UnitNR2'));
+      console.log(unitsNotRelated.length);
+      const nodesNo: Node[] = [];
+      let y = 10;
+      for (const unitView of unitsNotRelated) {
+        const view = new UnitView(unitView);
+        view.shift(30, y);
+        nodesNo.push(view.createNode()[0]);
+        y += 50;
+      }
+      console.log('nodesNo' + nodesNo.length);
+      this.nodesNotRelated = nodesNo;
     }
     const rootView = new UnitView(root);
     rootView.locate();
     this.nodes = rootView.createNode();
     this.links = rootView.createLink();
+    console.log('Nodos ' + this.nodes.length);
+    console.log('Links ' + this.links.length);
   }
 
   onEnter(command: string) {
