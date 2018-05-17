@@ -140,8 +140,6 @@ export class HomeComponent implements OnInit {
       for (const relationDto of this.relationsDto) {
         const topUnit = this.units.find(unit => unit.getName() === relationDto.topUnit.name);
         const lowerUnit = this.units.find(unit => unit.getName() === relationDto.lowerUnit.name);
-        console.log('TOPUNIT ' + topUnit.getName());
-        console.log('LOWERUNIT ' + lowerUnit.getName());
         this.relations.push(new RelationInput(topUnit, lowerUnit, relationDto.type, relationDto.semantics));
       }
       let y = 20;
@@ -153,10 +151,7 @@ export class HomeComponent implements OnInit {
           y += 60;
         }
       }
-      console.log('Units: ' + this.units.length);
-      console.log('Relations: ' + this.relations.length);
       root = this.units[0];
-      console.log(this.units[0].getBlocks().length);
     } else {
       const unitsNotRelated: Unit[] = [];
       root = this.generateData();
@@ -174,7 +169,6 @@ export class HomeComponent implements OnInit {
     }
     root.log(' ');
     const rootView = new UnitViewImp(root);
-    console.log('Despues rootView');
     rootView.locate();
     this.nodes = rootView.createNode();
     this.links = rootView.createLink();
