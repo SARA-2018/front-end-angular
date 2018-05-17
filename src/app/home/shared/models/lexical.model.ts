@@ -14,8 +14,8 @@ export class Lexical {
     'new', '#', '~', '<', 'inherit', ':', '>', 'relation',
     'asociation', 'use', 'compose', ',', '*', '+',
     ['id', /[0-9]+/],
-    ['text', /[a-záéíóúA-Z][a-zA-ZÁáÀàÉéÈèÍíÌìÓóÒòÚúÙùÑñüÜ0-9]*/],
-    ['cardinal', /[nm*+0-1][.(0-1+*nm)]+/],
+    ['text', /[a-záéíóúA-ZÁáÀàÉéÈèÍíÌìÓóÒòÚúÙùÑñüÜ][a-zA-ZÁáÀàÉéÈèÍíÌìÓóÒòÚúÙùÑñüÜ0-9]*/],
+    ['cardinal', /\W[n|m*+0-9][.(0-9+*n|m)]+/],
   ];
   readonly ignorePattern = '[\n\s \t]+';
 
@@ -104,10 +104,12 @@ export class Lexical {
         const cardinal = lex.nextToken();
         if (cardinal === undefined) {
           this.analyzeCommandUpdateUnit(id, name);
-        } else if (cardinal['name'] === 'cardinal' || cardinal['name'] === 'id'
-          || cardinal['name'] === '+' || cardinal['name'] === '*') {
-          this.analyzeCommandRelationCompose(command, id, cardinal);
+        } else if (cardinal['name'] === 'id' || cardinal['name'] === '+' || cardinal['name'] === '*') {
+          this.analyzeCommandRelationCompose(command, id, cardinal['lexeme']);
         }
+      } else if ( token['name'] === 'cardinal') {
+        const cardinals = token['lexeme'].split(':');
+        this.analyzeCommandRelationCompose(command, id, cardinals[1]);
       } else if (token['name'] === '<') {
         const relation = lex.nextToken();
         if (relation['name'] === 'inherit') {
@@ -126,6 +128,7 @@ export class Lexical {
       return error();
     }
   }
+
   analyzeCommandRelationCompose(command: string, idTopUnit: object, cardinal?: string) {
     const lexAux = new Lex(command, this.tokenMatchers, this.ignorePattern);
     for (let i = 0; i <= 3; i++) {
@@ -134,17 +137,15 @@ export class Lexical {
     let token;
     const operator = [];
     const lex = new Lex(command, this.tokenMatchers, this.ignorePattern);
-    for (let i = 0; i <= 5; i++) {
+    for (let i = 0; i <= 4; i++) {
       token = lex.nextToken();
       operator.push(token['name']);
     }
-    console.log(operator);
-    if (operator[4] + operator[5] === '<compose') {
-      this.sequenceUnit(TypeRelation.COMPOSE, lex, idTopUnit, '<compose', undefined, cardinal['lexeme']);
+    if (operator[3] + operator[4] === '<compose') {
+      this.sequenceUnit(TypeRelation.COMPOSE, lex, idTopUnit, '<compose', undefined, cardinal);
     } else if (operator[2] + operator[3] === '<compose') {
       this.sequenceUnit(TypeRelation.COMPOSE, lexAux, idTopUnit, '<compose');
     } else if (operator[2] + operator[3] === 'compose>') {
-      console.log(lexAux);
       this.sequenceUnit(TypeRelation.COMPOSE, lexAux, idTopUnit, 'compose>');
     }
   }
@@ -202,32 +203,52 @@ export class Lexical {
       } else if (operator === 'inherit>' || operator === 'compose>') {
         this.createRelation(relation, idLowerUnit['lexeme'], idTopUnit['lexeme'], semantics, cardinal);
       }
-    } else if (token['name'] === ',') {
-      let ids;
-      const idLowerUnits = [];
-      do {
-        ids = lex.nextToken();
-        if (ids !== undefined) {
-          if (ids['name'] === 'id') {
-            idLowerUnits.push(ids['lexeme']);
-          }
-        }
-      } while (ids);
-      idLowerUnits.unshift(idLowerUnit['lexeme']);
-      for (let j = 0; j < idLowerUnits.length; j++) {
-        if (operator === '<inherit' || operator === '<compose') {
-          this.createRelation(relation, idTopUnit['lexeme'], idLowerUnits[j], semantics, cardinal);
-        } else if (operator === 'inherit>') {
-          this.createRelation(relation,  idLowerUnits[j], idTopUnit['lexeme'], semantics, cardinal);
+    } else if (token['name'] === 'cardinal') {
+       cardinal = token['lexeme'].split(':');
+      if (operator === 'compose>') {
+        const point = lex.nextToken();
+        if (point === undefined) {
+          this.createRelation(relation, idLowerUnit['lexeme'], idTopUnit['lexeme'], semantics, cardinal[1]);
+        } else if (point['name'] === ',') {
+          this.createMoreRelations(lex, idTopUnit, idLowerUnit, operator, relation, semantics, cardinal[1]);
         }
       }
+    } else if (token['name'] === ',') {
+      this.createMoreRelations(lex, idTopUnit, idLowerUnit, operator, relation, semantics, cardinal);
     } else {
       return error();
     }
   }
 
-  createRelation(relations: TypeRelation, idTopUnit: number, idLowerUnit: number, semantics: string,
-                        cardinal: string): RelationOutput {
+  createMoreRelations(lex, idTopUnit, idLowerUnit, operator, relation, semantics, cardinal) {
+    let ids;
+    const idLowerUnits = [];
+    const cardinals = [];
+    do {
+      ids = lex.nextToken();
+      if (ids !== undefined) {
+        if (ids['name'] === 'id') {
+          idLowerUnits.push(ids['lexeme']);
+        } else if (ids['name'] === 'cardinal') {
+          const cardinalAux = ids['lexeme'].split(':');
+          cardinals.push(cardinalAux[1]);
+        } else if (ids['name'] === 'id' || ids['name'] === '+' || ids['name'] === '*') {
+          cardinals.push(ids['lexeme']);
+        }
+      }
+    } while (ids);
+    idLowerUnits.unshift(idLowerUnit['lexeme']);
+    cardinals.unshift(cardinal);
+    for (let j = 0; j < idLowerUnits.length; j++) {
+      if (operator === '<inherit' || operator === '<compose') {
+        this.createRelation(relation, idTopUnit['lexeme'], idLowerUnits[j], semantics, cardinal);
+      } else if (operator === 'inherit>' || operator === 'compose>') {
+        this.createRelation(relation, idLowerUnits[j], idTopUnit['lexeme'], semantics, cardinals[j]);
+      }
+    }
+  }
+
+  createRelation(relations: TypeRelation, idTopUnit: number, idLowerUnit: number, semantics: string, cardinal: string): RelationOutput {
     const relation = new RelationOutput(relations, idTopUnit, idLowerUnit, semantics, cardinal);
     relation.saveRelation(this.relationService, this.snackBar);
     return relation;
