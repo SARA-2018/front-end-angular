@@ -56,6 +56,8 @@ export class HomeComponent implements OnInit {
   */
 
   synchronizedGraph() {
+    this.unitsDto = [];
+    this.relationsDto = [];
     if (this.db) {
       this.unitService.getAll().subscribe(units => {
         this.unitsDto = units;
@@ -132,7 +134,6 @@ export class HomeComponent implements OnInit {
 
   addDataGraph() {
     let root;
-    const unitsNotRelated: Unit[] = [];
     if (this.db) {
       for (const unitDto of this.unitsDto) {
         this.units.push(new Unit(unitDto.name));
@@ -142,14 +143,18 @@ export class HomeComponent implements OnInit {
         const lowerUnit = this.units.find(unit => unit.getName() === relationDto.topUnit.name);
         this.relations.push(new RelationInput(topUnit, lowerUnit, relationDto.type, relationDto.semantics));
       }
-      /*for (let i = 0; i < this.units.length; i++ ) {
+      let y = 20;
+      for (let i = 0; i < this.units.length; i++ ) {
         if (!this.isRelated(this.units[i])) {
-          const view = new UnitView(this.units[i]);
-          unitsNotRelated.push(view);
+          const view = new UnitViewImp(this.units[i]);
+          view.shift(75, y);
+          this.nodesNotRelated.push(view.createNode()[0]);
+          y += 60;
         }
-      }*/
+      }
       root = this.units[0];
     } else {
+      const unitsNotRelated: Unit[] = [];
       root = this.generateData();
       unitsNotRelated.push(new Unit('UnitNR1'));
       unitsNotRelated.push(new Unit('UnitNR2'));
@@ -158,7 +163,7 @@ export class HomeComponent implements OnInit {
       let y = 10;
       for (const unitView of unitsNotRelated) {
         const view = new UnitViewImp(unitView);
-        view.shift(30, y);
+        view.shift(75, y);
         nodesNo.push(view.createNode()[0]);
         y += 50;
       }
