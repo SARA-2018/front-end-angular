@@ -38,7 +38,7 @@ export class HomeComponent implements OnInit {
   searchUnit: FormControl;
   filteredUnits: Observable<RelationDto[]>;
 
-  readonly db = false;
+  readonly db = true;
 
   constructor(private snackBar: MatSnackBar, public unitService: UnitService, public relationService: RelationService) {
   }
@@ -139,7 +139,7 @@ export class HomeComponent implements OnInit {
       }
       for (const relationDto of this.relationsDto) {
         const topUnit = this.units.find(unit => unit.getName() === relationDto.topUnit.name);
-        const lowerUnit = this.units.find(unit => unit.getName() === relationDto.topUnit.name);
+        const lowerUnit = this.units.find(unit => unit.getName() === relationDto.lowerUnit.name);
         this.relations.push(new RelationInput(topUnit, lowerUnit, relationDto.type, relationDto.semantics));
       }
       let y = 20;
@@ -157,7 +157,6 @@ export class HomeComponent implements OnInit {
       root = this.generateData();
       unitsNotRelated.push(new Unit('UnitNR1'));
       unitsNotRelated.push(new Unit('UnitNR2'));
-      console.log(unitsNotRelated.length);
       const nodesNo: Node[] = [];
       let y = 10;
       for (const unitView of unitsNotRelated) {
@@ -166,9 +165,9 @@ export class HomeComponent implements OnInit {
         nodesNo.push(view.createNode()[0]);
         y += 50;
       }
-      console.log('nodesNo' + nodesNo.length);
       this.nodesNotRelated = nodesNo;
     }
+    root.log(' ');
     const rootView = new UnitViewImp(root);
     rootView.locate();
     this.nodes = rootView.createNode();

@@ -1,25 +1,25 @@
-import { UnitView } from '../unit.view';
+import { UnitViewImp } from '../unit.view';
 import { Unit } from '../../models/unit.model';
-import { BlockView } from '../block.view';
+import { BlockViewImp } from '../block.view';
 import { Block } from '../../models/block.model';
 
-describe('HomeComponent UnitView ', () => {
+describe('HomeComponent UnitViewImp ', () => {
 
-    let unitViewRoot: UnitView;
-    let unitViewRoot2: UnitView;
-    let unitViewLeaf: UnitView;
+    let unitViewRoot: UnitViewImp;
+    let unitViewRoot2: UnitViewImp;
+    let unitViewLeaf: UnitViewImp;
 
     beforeAll(() => {
-        unitViewRoot = new UnitView(new Unit('TestUnitRoot'));
+        unitViewRoot = new UnitViewImp(new Unit('TestUnitRoot'));
         const unitLeaf = new Unit('TestUnitLeaf');
-        unitViewLeaf = new UnitView(unitLeaf);
-        unitViewRoot.append(new BlockView(new Block(unitLeaf, 'inherit')));
+        unitViewLeaf = new UnitViewImp(unitLeaf);
+        unitViewRoot.append(new BlockViewImp(new Block(unitLeaf, 'inherit')));
 
-        unitViewRoot2 = new UnitView(new Unit('TestUnitRoot2'));
+        unitViewRoot2 = new UnitViewImp(new Unit('TestUnitRoot2'));
         const unitMedium = new Unit ('TestUnitMedium1');
         unitMedium.appendUnit(unitLeaf, 'inherit');
-        unitViewRoot2.append(new BlockView(new Block(unitMedium, 'inherit')));
-        unitViewRoot2.append(new BlockView(new Block(new Unit('TestUnitViewMedium2'), 'compose')));
+        unitViewRoot2.append(new BlockViewImp(new Block(unitMedium, 'inherit')));
+        unitViewRoot2.append(new BlockViewImp(new Block(new Unit('TestUnitViewImpMedium2'), 'compose')));
     });
 
     it('#locate leaf', () => {
