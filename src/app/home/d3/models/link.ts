@@ -1,13 +1,13 @@
 import { Node } from './node';
-import { UnitView } from '../../shared/views/unit.view';
+import { UnitViewImp } from '../../shared/views/unit.view';
 
 export class Link implements d3.SimulationLinkDatum<Node> {
 
   source: Node;
   target: Node;
 
-  topUnit: UnitView;
-  lowerUnit: UnitView;
+  topUnit: UnitViewImp;
+  lowerUnit: UnitViewImp;
   type: string;
   semantics: string;
   linkPoints = [];
@@ -18,7 +18,7 @@ export class Link implements d3.SimulationLinkDatum<Node> {
   readonly topUnitDOWN = 25;
   readonly sizeArrowRelation = 10;
 
-  constructor(topUnit: UnitView, lowerUnit: UnitView, type: string, semantics?: string) {
+  constructor(topUnit: UnitViewImp, lowerUnit: UnitViewImp, type: string, semantics?: string) {
     this.topUnit = topUnit;
     this.lowerUnit = lowerUnit;
     this.type = type;

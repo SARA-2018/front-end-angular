@@ -11,8 +11,8 @@ import { RelationDto } from './shared/dtos/relation.dto';
 import { Unit } from './shared/models/unit.model';
 import { RelationInput } from './shared/models/relation-input.model';
 import { createViewState } from '@angular/core/src/render3/instructions';
-import { UnitView } from './shared/views/unit.view';
-import { BlockView } from './shared/views/block.view';
+import { UnitViewImp } from './shared/views/unit.view';
+import { BlockViewImp } from './shared/views/block.view';
 import { Block } from './shared/models/block.model';
 import { debounceTime } from 'rxjs/operators';
 import { Lexical } from './shared/models/lexical.model';
@@ -157,7 +157,7 @@ export class HomeComponent implements OnInit {
       const nodesNo: Node[] = [];
       let y = 10;
       for (const unitView of unitsNotRelated) {
-        const view = new UnitView(unitView);
+        const view = new UnitViewImp(unitView);
         view.shift(30, y);
         nodesNo.push(view.createNode()[0]);
         y += 50;
@@ -165,7 +165,7 @@ export class HomeComponent implements OnInit {
       console.log('nodesNo' + nodesNo.length);
       this.nodesNotRelated = nodesNo;
     }
-    const rootView = new UnitView(root);
+    const rootView = new UnitViewImp(root);
     rootView.locate();
     this.nodes = rootView.createNode();
     this.links = rootView.createLink();
