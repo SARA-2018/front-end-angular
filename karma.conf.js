@@ -15,6 +15,8 @@ module.exports = function (config) {
     client:{
       clearContext: false // leave Jasmine Spec Runner output visible in browser
     },
+    browserDisconnectTimeout: 300000,
+    browserNoActivityTimeout: 300000,
     coverageIstanbulReporter: {
       reports: [ 'html', 'lcovonly' ],
       fixWebpackSourcePaths: true
@@ -28,6 +30,16 @@ module.exports = function (config) {
     logLevel: config.LOG_INFO,
     autoWatch: true,
     browsers: ['Chrome'],
+    customLaunchers: {
+        Chrome_travis_ci: {
+          base: 'Chrome',
+          flags: ['--no-sandbox']
+        }
+    },
     singleRun: false
   });
+
+  if(process.env.TRAVIS){
+    config.browsers = ['Chrome_travis_ci'];
+  }
 };

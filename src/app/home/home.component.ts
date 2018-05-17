@@ -11,8 +11,8 @@ import { RelationDto } from './shared/dtos/relation.dto';
 import { Unit } from './shared/models/unit.model';
 import { RelationInput } from './shared/models/relation-input.model';
 import { createViewState } from '@angular/core/src/render3/instructions';
-import { UnitView } from './shared/views/unit.view';
-import { BlockView } from './shared/views/block.view';
+import { UnitViewImp } from './shared/views/unit.view';
+import { BlockViewImp } from './shared/views/block.view';
 import { Block } from './shared/models/block.model';
 import { debounceTime } from 'rxjs/operators';
 import { Lexical } from './shared/models/lexical.model';
@@ -30,6 +30,7 @@ export class HomeComponent implements OnInit {
   static URL = 'home';
   unitsDto: UnitDto[];
   units: Unit[] = [];
+  relations: RelationInput[] = [];
   relationsDto: RelationDto[] = [];
   nodes: Node[] = [];
   nodesNotRelated: Node[] = [];
@@ -54,6 +55,8 @@ export class HomeComponent implements OnInit {
   */
 
   synchronizedGraph() {
+    this.unitsDto = [];
+    this.relationsDto = [];
     if (this.db) {
       this.unitService.getAll().subscribe(units => {
         this.unitsDto = units;
@@ -118,21 +121,60 @@ export class HomeComponent implements OnInit {
     return root;
   }
 
+  isRelated(unit: Unit): boolean {
+    for (let i = 0; i < this.relations.length; i++) {
+      if ((this.relations[i].getTopUnit().getName() === unit.getName()) ||
+        (this.relations[i].getLowerUnit().getName() === unit.getName())) {
+          return true;
+      }
+    }
+    return false;
+  }
+
   addDataGraph() {
     let root;
     if (this.db) {
       for (const unitDto of this.unitsDto) {
         this.units.push(new Unit(unitDto.name));
       }
-      // FOR RELATIONS
+      for (const relationDto of this.relationsDto) {
+        const topUnit = this.units.find(unit => unit.getName() === relationDto.topUnit.name);
+        const lowerUnit = this.units.find(unit => unit.getName() === relationDto.topUnit.name);
+        this.relations.push(new RelationInput(topUnit, lowerUnit, relationDto.type, relationDto.semantics));
+      }
+      let y = 20;
+      for (let i = 0; i < this.units.length; i++ ) {
+        if (!this.isRelated(this.units[i])) {
+          const view = new UnitViewImp(this.units[i]);
+          view.shift(75, y);
+          this.nodesNotRelated.push(view.createNode()[0]);
+          y += 60;
+        }
+      }
       root = this.units[0];
     } else {
+      const unitsNotRelated: Unit[] = [];
       root = this.generateData();
+      unitsNotRelated.push(new Unit('UnitNR1'));
+      unitsNotRelated.push(new Unit('UnitNR2'));
+      console.log(unitsNotRelated.length);
+      const nodesNo: Node[] = [];
+      let y = 10;
+      for (const unitView of unitsNotRelated) {
+        const view = new UnitViewImp(unitView);
+        view.shift(75, y);
+        nodesNo.push(view.createNode()[0]);
+        y += 50;
+      }
+      console.log('nodesNo' + nodesNo.length);
+      this.nodesNotRelated = nodesNo;
     }
-    const rootView = new UnitView(root);
+    const rootView = new UnitViewImp(root);
     rootView.locate();
     this.nodes = rootView.createNode();
     this.links = rootView.createLink();
+    console.log('Nodos ' + this.nodes.length);
+    console.log('Links ' + this.links.length);
   }
 
   onEnter(command: string) {
