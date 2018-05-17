@@ -188,7 +188,7 @@ export class HomeComponent implements OnInit {
         });
       } else {
         console.log(err);
-        this.snackBar.open(err, '', {
+        this.snackBar.open('Commando Erroneo', '', {
           duration: 2000
         });
       }
@@ -210,13 +210,8 @@ export class HomeComponent implements OnInit {
     const unit = parse.pop();
     if (unit !== '') {
       this.unitService.filter(unit).subscribe(data => {
-        this.relationsDto = data;
-        if (data.length === 0) {
-          this.snackBar.open('No existe ' + unitName, '', {
-            duration: 2000
-          });
+          this.relationsDto = data;
         }
-      }
       );
       return this.relationsDto.filter(value =>
         value.name.toLowerCase().indexOf(unit.toString().toLowerCase()) === 0
