@@ -30,11 +30,10 @@ export class HomeComponent implements OnInit {
   static URL = 'home';
   unitsDto: UnitDto[];
   units: Unit[] = [];
-  relationsDto: RelationDto[];
+  relationsDto: RelationDto[] = [];
   nodes: Node[] = [];
   nodesNotRelated: Node[] = [];
   links: Link[] = [];
-  relationsUnit: RelationDto[] = [];
   searchUnit: FormControl;
   filteredUnits: Observable<RelationDto[]>;
 
@@ -169,7 +168,7 @@ export class HomeComponent implements OnInit {
     const unit = parse.pop();
     if (unit !== '') {
       this.unitService.filter(unit).subscribe(data => {
-        this.relationsUnit = data;
+        this.relationsDto = data;
         if (data.length === 0) {
           this.snackBar.open('No existe ' + unitName, '', {
             duration: 2000
@@ -177,7 +176,7 @@ export class HomeComponent implements OnInit {
         }
       }
       );
-      return this.relationsUnit.filter(value =>
+      return this.relationsDto.filter(value =>
         value.name.toLowerCase().indexOf(unit.toString().toLowerCase()) === 0
       );
     }
