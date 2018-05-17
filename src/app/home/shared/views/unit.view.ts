@@ -2,18 +2,18 @@ import { Unit } from '../models/unit.model';
 import { Node } from '../../d3/models/node';
 import { Link } from '../../d3/models/link';
 import { RelationInput } from '../models/relation-input.model';
-import { BlockView } from './block.view';
-import { UnitViewInterface } from './unit-view.interface';
-import { BlockViewInterface } from './block-view.interface';
+import { BlockViewImp } from './block.view';
+import { UnitView } from './unit-view.interface';
+import { BlockView } from './block-view.interface';
 
-export class UnitView implements UnitViewInterface {
+export class UnitViewImp implements UnitView {
 
     private unit: Unit;
     private x: number;
     private y: number;
     private xBlock: number;
     private yBlock: number;
-    private blockViews: BlockViewInterface[] = [];
+    private blockViews: BlockView[] = [];
 
     readonly xSize = 150;
     readonly xHalfSize = 75;
@@ -26,7 +26,7 @@ export class UnitView implements UnitViewInterface {
         this.x = 0;
         this.y = 0;
         for (const block of unit.getBlocks()) {
-            this.append(new BlockView(block));
+            this.append(new BlockViewImp(block));
         }
     }
 

@@ -1,17 +1,17 @@
 import { Node } from '../../d3/models/node';
 import { Link } from '../../d3/models/link';
 import { RelationInput } from '../models/relation-input.model';
-import { UnitView } from './unit.view';
+import { UnitViewImp } from './unit.view';
 import { Block } from '../models/block.model';
-import { UnitViewInterface } from './unit-view.interface';
-import { BlockViewInterface } from './block-view.interface';
+import { UnitView } from './unit-view.interface';
+import { BlockView } from './block-view.interface';
 
-export class BlockView implements BlockViewInterface {
+export class BlockViewImp implements BlockView {
 
     private block: Block;
     private x: number;
     private y: number;
-    private unitViews: UnitViewInterface[] = [];
+    private unitViews: UnitView[] = [];
 
     readonly xSpaceBetweenBlocks = 10;
     readonly ySpaceBetweenBlocks = 60;
@@ -22,11 +22,11 @@ export class BlockView implements BlockViewInterface {
         this.y = 0;
         this.block = block;
         for (const unit of this.block.getUnits()) {
-            this.appendUnit(new UnitView(unit));
+            this.appendUnit(new UnitViewImp(unit));
         }
     }
 
-    appendUnit(unit: UnitView) {
+    appendUnit(unit: UnitViewImp) {
         this.unitViews.push(unit);
     }
 

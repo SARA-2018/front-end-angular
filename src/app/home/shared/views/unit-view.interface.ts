@@ -1,7 +1,4 @@
-import { BlockView } from './block.view';
-import { Unit } from '../models/unit.model';
-
-export interface UnitViewInterface {
+export interface UnitView {
 
     log(margin: string);
 
