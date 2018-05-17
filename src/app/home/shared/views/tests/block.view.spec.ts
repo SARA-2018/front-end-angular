@@ -1,16 +1,16 @@
-import { BlockView } from '../block.view';
+import { BlockViewImp } from '../block.view';
 import { Block } from '../../models/block.model';
 import { Unit } from '../../models/unit.model';
-import { UnitView } from '../unit.view';
+import { UnitViewImp } from '../unit.view';
 
-describe('HomeComponent BlockView ', () => {
+describe('HomeComponent BlockViewImp ', () => {
 
-    let block: BlockView;
+    let block: BlockViewImp;
 
     beforeAll(() => {
-        block = new BlockView(new Block(new Unit('TestUnit1'), 'inherit'));
-        block.appendUnit(new UnitView(new Unit('TestUnit2')));
-        block.appendUnit(new UnitView(new Unit('TestUnit3')));
+        block = new BlockViewImp(new Block(new Unit('TestUnit1'), 'inherit'));
+        block.appendUnit(new UnitViewImp(new Unit('TestUnit2')));
+        block.appendUnit(new UnitViewImp(new Unit('TestUnit3')));
     });
 
     it ('#calculateWidthBlock' , () => {
