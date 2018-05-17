@@ -38,7 +38,7 @@ export class HomeComponent implements OnInit {
   searchUnit: FormControl;
   filteredUnits: Observable<RelationDto[]>;
 
-  readonly db = false;
+  readonly db = true;
 
   constructor(private snackBar: MatSnackBar, public unitService: UnitService, public relationService: RelationService) {
   }
@@ -139,7 +139,9 @@ export class HomeComponent implements OnInit {
       }
       for (const relationDto of this.relationsDto) {
         const topUnit = this.units.find(unit => unit.getName() === relationDto.topUnit.name);
-        const lowerUnit = this.units.find(unit => unit.getName() === relationDto.topUnit.name);
+        const lowerUnit = this.units.find(unit => unit.getName() === relationDto.lowerUnit.name);
+        console.log('TOPUNIT ' + topUnit.getName());
+        console.log('LOWERUNIT ' + lowerUnit.getName());
         this.relations.push(new RelationInput(topUnit, lowerUnit, relationDto.type, relationDto.semantics));
       }
       let y = 20;
@@ -151,13 +153,15 @@ export class HomeComponent implements OnInit {
           y += 60;
         }
       }
+      console.log('Units: ' + this.units.length);
+      console.log('Relations: ' + this.relations.length);
       root = this.units[0];
+      console.log(this.units[0].getBlocks().length);
     } else {
       const unitsNotRelated: Unit[] = [];
       root = this.generateData();
       unitsNotRelated.push(new Unit('UnitNR1'));
       unitsNotRelated.push(new Unit('UnitNR2'));
-      console.log(unitsNotRelated.length);
       const nodesNo: Node[] = [];
       let y = 10;
       for (const unitView of unitsNotRelated) {
@@ -166,10 +170,11 @@ export class HomeComponent implements OnInit {
         nodesNo.push(view.createNode()[0]);
         y += 50;
       }
-      console.log('nodesNo' + nodesNo.length);
       this.nodesNotRelated = nodesNo;
     }
+    root.log(' ');
     const rootView = new UnitViewImp(root);
+    console.log('Despues rootView');
     rootView.locate();
     this.nodes = rootView.createNode();
     this.links = rootView.createLink();

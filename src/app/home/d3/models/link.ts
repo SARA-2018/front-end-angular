@@ -1,5 +1,6 @@
 import { Node } from './node';
 import { UnitViewImp } from '../../shared/views/unit.view';
+import { TypeRelation } from '../../shared/models/type-relation.enum';
 
 export class Link implements d3.SimulationLinkDatum<Node> {
 
@@ -36,14 +37,14 @@ export class Link implements d3.SimulationLinkDatum<Node> {
     this.linkPoints.push(this.topUnit.getYSouth() + this.topUnitDOWN);
     this.linkPoints.push(this.topUnit.getX());
     switch (this.type) {
-      case 'association':
-      case 'use':
+      case TypeRelation.ASSOCIATION:
+      case TypeRelation.USE:
         this.linkPoints.push(this.topUnit.getYSouth());
         break;
-      case 'inherit':
+      case TypeRelation.INHERIT:
         this.linkPoints.push(this.topUnit.getYSouth() + this.sizeArrowRelation);
         break;
-      case 'compose':
+      case TypeRelation.COMPOSE:
         this.linkPoints.push(this.topUnit.getYSouth() + (this.sizeArrowRelation * 2));
         break;
     }
@@ -51,14 +52,14 @@ export class Link implements d3.SimulationLinkDatum<Node> {
 
   generateRelation(type: string) {
     switch (type) {
-      case 'association':
-      case 'use':
+      case TypeRelation.ASSOCIATION:
+      case TypeRelation.USE:
         this.drawAssociation();
         break;
-      case 'inherit':
+      case TypeRelation.INHERIT:
         this.drawInherit();
         break;
-      case 'compose':
+      case TypeRelation.COMPOSE:
         this.drawCompose();
     }
   }
