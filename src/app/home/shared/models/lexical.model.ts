@@ -16,7 +16,7 @@ export class Lexical {
     'asociation', 'use', 'compose', ',', '*', '+',
     ['code', /[0-9]+/],
     ['text', /[a-záéíóúA-ZÁáÀàÉéÈèÍíÌìÓóÒòÚúÙùÑñüÜ][a-zA-ZÁáÀàÉéÈèÍíÌìÓóÒòÚúÙùÑñüÜ0-9]*/],
-    ['cardinal', /\W[n|m*+0-9][.(0-9+*n|m)]+/],
+    ['cardinal', /\W.[n|m*+.(n|m*+)][0-9.(nm*+0-9)]+/],
   ];
   readonly ignorePattern = '[\n\s \t]+';
 
@@ -106,11 +106,10 @@ export class Lexical {
       const lex = new Lex(command, this.tokenMatchers, this.ignorePattern);
       const sharp = lex.nextToken();
       if (sharp['name'] !== '#') {
-        observer.error();
         return error();
       }
-      const code = lex.nextToken();
-      if (code['name'] === 'new') {
+      const idTopUnit = lex.nextToken();
+      if (idTopUnit['name'] === 'new') {
         const unit = new Unit(name['lexeme']);
         console.log('3 - Llamar a guardar unidad');
         unit.saveUnit(this.unitService, this.snackBar).subscribe(
@@ -119,41 +118,51 @@ export class Lexical {
             observer.complete();
           }
         );
-      } else if (code['name'] === 'code') {
+      } else if (idTopUnit['name'] === 'code') {
         const token = lex.nextToken();
         if (token['name'] === ':') {
           const cardinal = lex.nextToken();
           if (cardinal === undefined) {
-            this.analyzeCommandUpdateUnit(code, name);
+            this.analyzeCommandUpdateUnit(idTopUnit, name);
           } else if (cardinal['name'] === 'code' || cardinal['name'] === '+' || cardinal['name'] === '*') {
-            this.analyzeCommandRelationCompose(command, code, cardinal['lexeme']);
+            const more = lex.nextToken();
+            const relation = lex.nextToken();
+            if (more['name'] === '<') {
+              if (relation['name'] === 'compose') {
+                this.analyzeCommandRelationCompose(command, idTopUnit, cardinal['lexeme']);
+              } else if (relation['name'] === 'asociation') {
+                this.analyzeCommandRelationAsociation(command, idTopUnit, cardinal['lexeme']);
+              }
+            } else if (more['name'] === 'asociation') {
+              this.analyzeCommandRelationAsociation(command, idTopUnit, cardinal['lexeme']);
+            }
           } else {
             return error();
           }
         } else if (token['name'] === 'cardinal') {
-          const cardinals = token['lexeme'].split(':');
-          this.analyzeCommandRelationCompose(command, code, cardinals[1]);
+          const cardinal = token['lexeme'].split(':');
+          this.analyzeCommandRelationCompose(command, idTopUnit, cardinal[1]);
         } else if (token['name'] === '<') {
           const relation = lex.nextToken();
           if (relation['name'] === 'inherit') {
-            this.analyzeCommandRelationInherit(lex, command, code);
+            this.analyzeCommandRelationInherit(command, idTopUnit, lex);
           } else if (relation['name'] === 'compose') {
-            this.analyzeCommandRelationCompose(command, code);
+            this.analyzeCommandRelationCompose(command, idTopUnit);
           } else {
             return error();
           }
         } else if (token['name'] === 'inherit') {
-          this.analyzeCommandRelationInherit(lex, command, code);
+          this.analyzeCommandRelationInherit(command, idTopUnit, lex);
         } else if (token['name'] === 'compose') {
-          this.analyzeCommandRelationCompose(command, code);
+          this.analyzeCommandRelationCompose(command, idTopUnit);
+        } else {
+          return error();
         }
-      } else {
-        return error();
       }
     });
   }
 
-  analyzeCommandRelationCompose(command: string, idTopUnit: object, cardinal?: string) {
+  private analyzeCommandRelationCompose(command: string, idTopUnit: object, cardinal?: string) {
     const lexAux = new Lex(command, this.tokenMatchers, this.ignorePattern);
     for (let i = 0; i <= 3; i++) {
       lexAux.nextToken();
@@ -177,7 +186,10 @@ export class Lexical {
     }
   }
 
-  analyzeCommandRelationInherit(lex, command: string, idTopUnit: object) {
+  private analyzeCommandRelationAsociation(command: string, idTopUnit: object, cardinal?: string) {
+    console.log('sdffdsdsf');
+  }
+  private analyzeCommandRelationInherit(command: string, idTopUnit: object, lex) {
     const point = lex.nextToken();
     if (point['name'] === ':') {
       const semantics = lex.nextToken();
@@ -210,7 +222,7 @@ export class Lexical {
     }
   }
 
-  sequenceUnit(relation, lex, idTopUnit, operator: string, semantics?: string, cardinal?: string) {
+  private sequenceUnit(relation, lex, idTopUnit, operator: string, semantics?: string, cardinal?: string) {
     const name = lex.nextToken();
     if (name['name'] !== 'text') {
       return error();
@@ -266,20 +278,23 @@ export class Lexical {
     }
   }
 
-  createMoreRelations(lex, idTopUnit, idLowerUnit, operator, relation, semantics, cardinal) {
+  private createMoreRelations(lex, idTopUnit, idLowerUnit, operator, relation, semantics, cardinal) {
     let codes;
     const idLowerUnits = [];
     const cardinals = [];
     do {
       codes = lex.nextToken();
       if (codes !== undefined) {
-        if (codes['name'] === 'id') {
+        if (codes['name'] === 'code') {
           idLowerUnits.push(codes['lexeme']);
         } else if (codes['name'] === 'cardinal') {
           const cardinalAux = codes['lexeme'].split(':');
           cardinals.push(cardinalAux[1]);
-        } else if (codes['name'] === 'code' || codes['name'] === '+' || codes['name'] === '*') {
-          cardinals.push(codes['lexeme']);
+        } else if (codes['name'] === ':') {
+          codes = lex.nextToken();
+          if (codes['name'] === 'code' || codes['name'] === '+' || codes['name'] === '*') {
+            cardinals.push(codes['lexeme']);
+          }
         }
       }
     } while (codes);
@@ -296,7 +311,8 @@ export class Lexical {
     }
   }
 
-  createRelation(relations: TypeRelation, idTopUnit: number, idLowerUnit: number, semantics: string, cardinal: string): RelationOutput {
+  private createRelation(relations: TypeRelation, idTopUnit: number, idLowerUnit: number,
+    semantics: string, cardinal: string): RelationOutput {
     const relation = new RelationOutput(relations, idTopUnit, idLowerUnit, semantics, cardinal);
     relation.saveRelation(this.relationService, this.snackBar);
     return relation;
