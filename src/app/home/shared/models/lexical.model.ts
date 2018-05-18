@@ -1,12 +1,13 @@
-import {error} from 'util';
+import { error } from 'util';
 import * as Lex from 'lexical-parser';
-import {UnitDelete} from './unit-delete.model';
-import {Unit} from './unit.model';
-import {UnitService} from '../services/unit.service';
-import {MatSnackBar} from '@angular/material';
-import {RelationOutput} from './relation-output.model';
-import {TypeRelation} from './type-relation.enum';
-import {RelationService} from '../services/relation.service';
+import { UnitDelete } from './unit-delete.model';
+import { Unit } from './unit.model';
+import { UnitService } from '../services/unit.service';
+import { MatSnackBar } from '@angular/material';
+import { RelationOutput } from './relation-output.model';
+import { TypeRelation } from './type-relation.enum';
+import { RelationService } from '../services/relation.service';
+import { Observable } from 'rxjs/Observable';
 
 export class Lexical {
 
@@ -29,23 +30,35 @@ export class Lexical {
     this.snackBar = snackBar;
   }
 
-  analyzeCommand(command: string) {
-    const lex = new Lex(command, this.tokenMatchers, this.ignorePattern);
-    const token = lex.nextToken();
-    switch (token['name']) {
-      case '~':
-        const val = command.split('~');
-        command = val.pop();
-        this.analyzeCommandDeleteUnit(command);
-        break;
-      case 'text':
-        const text = command.split(token['lexeme']);
-        command = text.pop();
-        this.analyzeCommandCreateUnit(command, token);
-        break;
-      default:
-        return error();
-    }
+  analyzeCommand(command: string): Observable<any> {
+    return new Observable(observer => {
+      const lex = new Lex(command, this.tokenMatchers, this.ignorePattern);
+      const token = lex.nextToken();
+      console.log('1 - analizar comando');
+      switch (token['name']) {
+        case '~':
+          const val = command.split('~');
+          command = val.pop();
+          this.analyzeCommandDeleteUnit(command);
+          observer.next();
+          observer.complete();
+          break;
+        case 'text':
+          const text = command.split(token['lexeme']);
+          command = text.pop();
+          this.analyzeCommandCreateUnit(command, token).subscribe(
+            () => {
+              observer.next();
+              observer.complete();
+              console.log('7 - Observador completo ');
+            });
+
+          break;
+        default:
+          observer.error();
+          return error();
+      }
+    });
   }
 
   analyzeCommandDeleteUnit(commandDelete: string) {
@@ -87,59 +100,66 @@ export class Lexical {
     console.log(code['lexeme']);
   }
 
-  analyzeCommandCreateUnit(command: string, name: object) {
-    const lex = new Lex(command, this.tokenMatchers, this.ignorePattern);
-    const sharp = lex.nextToken();
-    if (sharp['name'] !== '#') {
-      return error();
-    }
-    const idTopUnit = lex.nextToken();
-    if (idTopUnit['name'] === 'new') {
-      const unit = new Unit(name['lexeme']);
-      unit.saveUnit(this.unitService, this.snackBar);
-    } else if (idTopUnit['name'] === 'code') {
-      const token = lex.nextToken();
-      if (token['name'] === ':') {
-        const cardinal = lex.nextToken();
-        if (cardinal === undefined) {
-          this.analyzeCommandUpdateUnit(idTopUnit, name);
-        } else if (cardinal['name'] === 'code' || cardinal['name'] === '+' || cardinal['name'] === '*') {
-          const more = lex.nextToken();
-          const relation = lex.nextToken();
-          if (more['name'] === '<' ) {
-            if (relation['name'] === 'compose') {
-              this.analyzeCommandRelationCompose(command, idTopUnit, cardinal['lexeme']);
-            } else if (relation['name'] === 'asociation') {
+  analyzeCommandCreateUnit(command: string, name: object): Observable<any> {
+    return new Observable(observer => {
+      console.log('2 - Analizar comando crear');
+      const lex = new Lex(command, this.tokenMatchers, this.ignorePattern);
+      const sharp = lex.nextToken();
+      if (sharp['name'] !== '#') {
+        return error();
+      }
+      const idTopUnit = lex.nextToken();
+      if (idTopUnit['name'] === 'new') {
+        const unit = new Unit(name['lexeme']);
+        console.log('3 - Llamar a guardar unidad');
+        unit.saveUnit(this.unitService, this.snackBar).subscribe(
+          () => {
+            observer.next();
+            observer.complete();
+          }
+        );
+      } else if (idTopUnit['name'] === 'code') {
+        const token = lex.nextToken();
+        if (token['name'] === ':') {
+          const cardinal = lex.nextToken();
+          if (cardinal === undefined) {
+            this.analyzeCommandUpdateUnit(idTopUnit, name);
+          } else if (cardinal['name'] === 'code' || cardinal['name'] === '+' || cardinal['name'] === '*') {
+            const more = lex.nextToken();
+            const relation = lex.nextToken();
+            if (more['name'] === '<') {
+              if (relation['name'] === 'compose') {
+                this.analyzeCommandRelationCompose(command, idTopUnit, cardinal['lexeme']);
+              } else if (relation['name'] === 'asociation') {
+                this.analyzeCommandRelationAsociation(command, idTopUnit, cardinal['lexeme']);
+              }
+            } else if (more['name'] === 'asociation') {
               this.analyzeCommandRelationAsociation(command, idTopUnit, cardinal['lexeme']);
             }
-          } else if (more['name'] === 'asociation') {
-            this.analyzeCommandRelationAsociation(command, idTopUnit, cardinal['lexeme']);
+          } else {
+            return error();
           }
-        } else {
-          return error();
-        }
-      } else if ( token['name'] === 'cardinal') {
-        const cardinal = token['lexeme'].split(':');
-        this.analyzeCommandRelationCompose(command, idTopUnit, cardinal[1]);
-      } else if (token['name'] === '<') {
-        const relation = lex.nextToken();
-        if (relation['name'] === 'inherit') {
+        } else if (token['name'] === 'cardinal') {
+          const cardinal = token['lexeme'].split(':');
+          this.analyzeCommandRelationCompose(command, idTopUnit, cardinal[1]);
+        } else if (token['name'] === '<') {
+          const relation = lex.nextToken();
+          if (relation['name'] === 'inherit') {
+            this.analyzeCommandRelationInherit(command, idTopUnit, lex);
+          } else if (relation['name'] === 'compose') {
+            this.analyzeCommandRelationCompose(command, idTopUnit);
+          } else {
+            return error();
+          }
+        } else if (token['name'] === 'inherit') {
           this.analyzeCommandRelationInherit(command, idTopUnit, lex);
-        } else if (relation['name'] === 'compose') {
+        } else if (token['name'] === 'compose') {
           this.analyzeCommandRelationCompose(command, idTopUnit);
         } else {
           return error();
         }
-      } else if (token['name'] === 'inherit') {
-        this.analyzeCommandRelationInherit(command, idTopUnit, lex);
-      } else if (token['name'] === 'compose') {
-        this.analyzeCommandRelationCompose(command, idTopUnit);
-      } else {
-        return error();
       }
-    } else {
-      return error();
-    }
+    });
   }
 
   private analyzeCommandRelationCompose(command: string, idTopUnit: object, cardinal?: string) {
@@ -156,7 +176,7 @@ export class Lexical {
     }
     if (operator[4] + operator[5] === '<compose') {
       this.sequenceUnit(TypeRelation.COMPOSE, lex, idTopUnit, '<compose', undefined, cardinal);
-    } else if (operator[3] + operator [4] === '<compose') {
+    } else if (operator[3] + operator[4] === '<compose') {
       lexAux.nextToken();
       this.sequenceUnit(TypeRelation.COMPOSE, lexAux, idTopUnit, '<compose', undefined, cardinal);
     } else if (operator[2] + operator[3] === '<compose' || operator[2] + operator[3] === 'compose>') {
@@ -167,7 +187,7 @@ export class Lexical {
   }
 
   private analyzeCommandRelationAsociation(command: string, idTopUnit: object, cardinal?: string) {
-console.log('sdffdsdsf');
+    console.log('sdffdsdsf');
   }
   private analyzeCommandRelationInherit(command: string, idTopUnit: object, lex) {
     const point = lex.nextToken();
@@ -226,7 +246,7 @@ console.log('sdffdsdsf');
         return error();
       }
     } else if (token['name'] === 'cardinal') {
-       cardinal = token['lexeme'].split(':');
+      cardinal = token['lexeme'].split(':');
       if (operator === 'compose>') {
         const point = lex.nextToken();
         if (point === undefined) {
@@ -237,7 +257,7 @@ console.log('sdffdsdsf');
       }
     } else if (token['name'] === ':') {
       if (operator === 'compose>') {
-       cardinal = lex.nextToken();
+        cardinal = lex.nextToken();
         if (cardinal['name'] === 'code' || cardinal['name'] === '+' || cardinal['name'] === '*') {
           const point = lex.nextToken();
           if (point === undefined) {
@@ -292,7 +312,7 @@ console.log('sdffdsdsf');
   }
 
   private createRelation(relations: TypeRelation, idTopUnit: number, idLowerUnit: number,
-                         semantics: string, cardinal: string): RelationOutput {
+    semantics: string, cardinal: string): RelationOutput {
     const relation = new RelationOutput(relations, idTopUnit, idLowerUnit, semantics, cardinal);
     relation.saveRelation(this.relationService, this.snackBar);
     return relation;
