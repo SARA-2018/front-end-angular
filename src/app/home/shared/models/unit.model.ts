@@ -56,7 +56,9 @@ export class Unit {
   }
 
   saveUnit(unitService: UnitService, snackBar: MatSnackBar) {
+    console.log('4- saveUnit');
     unitService.create(this).subscribe(data => {
+      console.log('5 - Creado correctamente');
       snackBar.open('Creado Correctamente !', '', {
         duration: 2000
       });

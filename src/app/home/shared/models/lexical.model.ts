@@ -7,6 +7,7 @@ import {MatSnackBar} from '@angular/material';
 import {RelationOutput} from './relation-output.model';
 import {TypeRelation} from './type-relation.enum';
 import {RelationService} from '../services/relation.service';
+import { Observable } from 'rxjs/Observable';
 
 export class Lexical {
 
@@ -29,23 +30,32 @@ export class Lexical {
     this.snackBar = snackBar;
   }
 
-  analyzeCommand(command: string) {
-    const lex = new Lex(command, this.tokenMatchers, this.ignorePattern);
-    const token = lex.nextToken();
-    switch (token['name']) {
-      case '~':
-        const val = command.split('~');
-        command = val.pop();
-        this.analyzeCommandDeleteUnit(command);
-        break;
-      case 'text':
-        const text = command.split(token['lexeme']);
-        command = text.pop();
-        this.analyzeCommandCreateUnit(command, token);
-        break;
-      default:
-        return error();
-    }
+  analyzeCommand(command: string): Observable<any> {
+    return new Observable(observer => {
+      const lex = new Lex(command, this.tokenMatchers, this.ignorePattern);
+      const token = lex.nextToken();
+      console.log('1 - analizar comando');
+      switch (token['name']) {
+        case '~':
+          const val = command.split('~');
+          command = val.pop();
+          this.analyzeCommandDeleteUnit(command);
+          observer.next();
+          observer.complete();
+          break;
+        case 'text':
+          const text = command.split(token['lexeme']);
+          command = text.pop();
+          this.analyzeCommandCreateUnit(command, token);
+          console.log('7 - Observador completo ');
+          observer.next();
+          observer.complete();
+          break;
+        default:
+          observer.error();
+          return error();
+      }
+    });
   }
 
   analyzeCommandDeleteUnit(commandDelete: string) {
@@ -88,6 +98,7 @@ export class Lexical {
   }
 
   analyzeCommandCreateUnit(command: string, name: object) {
+    console.log('2 - Analizar comando crear');
     const lex = new Lex(command, this.tokenMatchers, this.ignorePattern);
     const sharp = lex.nextToken();
     if (sharp['name'] !== '#') {
@@ -96,7 +107,9 @@ export class Lexical {
     const code = lex.nextToken();
     if (code['name'] === 'new') {
       const unit = new Unit(name['lexeme']);
+      console.log('3 - Llamar a guardar unidad');
       unit.saveUnit(this.unitService, this.snackBar);
+      console.log('6- Sale de guardar y debe actualizar');
     } else if (code['name'] === 'code') {
       const token = lex.nextToken();
       if (token['name'] === ':') {
