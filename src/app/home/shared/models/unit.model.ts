@@ -1,6 +1,7 @@
 import { Block } from './block.model';
 import { MatSnackBar } from '@angular/material';
 import { UnitService } from '../services/unit.service';
+import { Observable } from 'rxjs/Observable';
 
 export class Unit {
 
@@ -55,12 +56,16 @@ export class Unit {
     return i;
   }
 
-  saveUnit(unitService: UnitService, snackBar: MatSnackBar) {
+  saveUnit(unitService: UnitService, snackBar: MatSnackBar): Observable<any> {
     console.log('4- saveUnit');
-    unitService.create(this).subscribe(data => {
-      console.log('5 - Creado correctamente');
-      snackBar.open('Creado Correctamente !', '', {
-        duration: 2000
+    return new Observable(observer => {
+      unitService.create(this).subscribe(data => {
+        console.log('5 - Creado correctamente');
+        snackBar.open('Creado Correctamente !', '', {
+          duration: 2000
+        });
+        observer.next();
+        observer.complete();
       });
     });
   }

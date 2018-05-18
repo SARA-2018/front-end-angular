@@ -57,6 +57,11 @@ export class HomeComponent implements OnInit {
   synchronizedGraph() {
     this.unitsDto = [];
     this.relationsDto = [];
+    this.units = [];
+    this.relations = [];
+    this.nodes = [];
+    this.links = [];
+    this.nodesNotRelated = [];
     if (this.db) {
       this.unitService.getAll().subscribe(units => {
         this.unitsDto = units;
@@ -180,7 +185,10 @@ export class HomeComponent implements OnInit {
     try {
       const lex = new Lexical(this.unitService, this.relationService, this.snackBar);
       lex.analyzeCommand(command).subscribe(
-        () => console.log('FINISH DEBE SINCRONIZAR')
+        () => {
+          console.log('FINISH DEBE SINCRONIZAR');
+          this.synchronizedGraph();
+        }
       );
 
     } catch (err) {

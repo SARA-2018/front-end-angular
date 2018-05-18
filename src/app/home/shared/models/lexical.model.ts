@@ -1,12 +1,12 @@
-import {error} from 'util';
+import { error } from 'util';
 import * as Lex from 'lexical-parser';
-import {UnitDelete} from './unit-delete.model';
-import {Unit} from './unit.model';
-import {UnitService} from '../services/unit.service';
-import {MatSnackBar} from '@angular/material';
-import {RelationOutput} from './relation-output.model';
-import {TypeRelation} from './type-relation.enum';
-import {RelationService} from '../services/relation.service';
+import { UnitDelete } from './unit-delete.model';
+import { Unit } from './unit.model';
+import { UnitService } from '../services/unit.service';
+import { MatSnackBar } from '@angular/material';
+import { RelationOutput } from './relation-output.model';
+import { TypeRelation } from './type-relation.enum';
+import { RelationService } from '../services/relation.service';
 import { Observable } from 'rxjs/Observable';
 
 export class Lexical {
@@ -46,10 +46,13 @@ export class Lexical {
         case 'text':
           const text = command.split(token['lexeme']);
           command = text.pop();
-          this.analyzeCommandCreateUnit(command, token);
-          console.log('7 - Observador completo ');
-          observer.next();
-          observer.complete();
+          this.analyzeCommandCreateUnit(command, token).subscribe(
+            () => {
+              observer.next();
+              observer.complete();
+              console.log('7 - Observador completo ');
+            });
+
           break;
         default:
           observer.error();
@@ -97,50 +100,57 @@ export class Lexical {
     console.log(code['lexeme']);
   }
 
-  analyzeCommandCreateUnit(command: string, name: object) {
-    console.log('2 - Analizar comando crear');
-    const lex = new Lex(command, this.tokenMatchers, this.ignorePattern);
-    const sharp = lex.nextToken();
-    if (sharp['name'] !== '#') {
-      return error();
-    }
-    const code = lex.nextToken();
-    if (code['name'] === 'new') {
-      const unit = new Unit(name['lexeme']);
-      console.log('3 - Llamar a guardar unidad');
-      unit.saveUnit(this.unitService, this.snackBar);
-      console.log('6- Sale de guardar y debe actualizar');
-    } else if (code['name'] === 'code') {
-      const token = lex.nextToken();
-      if (token['name'] === ':') {
-        const cardinal = lex.nextToken();
-        if (cardinal === undefined) {
-          this.analyzeCommandUpdateUnit(code, name);
-        } else if (cardinal['name'] === 'code' || cardinal['name'] === '+' || cardinal['name'] === '*') {
-          this.analyzeCommandRelationCompose(command, code, cardinal['lexeme']);
-        } else {
-          return error();
-        }
-      } else if ( token['name'] === 'cardinal') {
-        const cardinals = token['lexeme'].split(':');
-        this.analyzeCommandRelationCompose(command, code, cardinals[1]);
-      } else if (token['name'] === '<') {
-        const relation = lex.nextToken();
-        if (relation['name'] === 'inherit') {
-          this.analyzeCommandRelationInherit(lex, command, code);
-        } else if (relation['name'] === 'compose') {
-          this.analyzeCommandRelationCompose(command, code);
-        } else {
-          return error();
-        }
-      } else if (token['name'] === 'inherit') {
-        this.analyzeCommandRelationInherit(lex, command, code);
-      } else if (token['name'] === 'compose') {
-        this.analyzeCommandRelationCompose(command, code);
+  analyzeCommandCreateUnit(command: string, name: object): Observable<any> {
+    return new Observable(observer => {
+      console.log('2 - Analizar comando crear');
+      const lex = new Lex(command, this.tokenMatchers, this.ignorePattern);
+      const sharp = lex.nextToken();
+      if (sharp['name'] !== '#') {
+        observer.error();
+        return error();
       }
-    } else {
-      return error();
-    }
+      const code = lex.nextToken();
+      if (code['name'] === 'new') {
+        const unit = new Unit(name['lexeme']);
+        console.log('3 - Llamar a guardar unidad');
+        unit.saveUnit(this.unitService, this.snackBar).subscribe(
+          () => {
+            observer.next();
+            observer.complete();
+          }
+        );
+      } else if (code['name'] === 'code') {
+        const token = lex.nextToken();
+        if (token['name'] === ':') {
+          const cardinal = lex.nextToken();
+          if (cardinal === undefined) {
+            this.analyzeCommandUpdateUnit(code, name);
+          } else if (cardinal['name'] === 'code' || cardinal['name'] === '+' || cardinal['name'] === '*') {
+            this.analyzeCommandRelationCompose(command, code, cardinal['lexeme']);
+          } else {
+            return error();
+          }
+        } else if (token['name'] === 'cardinal') {
+          const cardinals = token['lexeme'].split(':');
+          this.analyzeCommandRelationCompose(command, code, cardinals[1]);
+        } else if (token['name'] === '<') {
+          const relation = lex.nextToken();
+          if (relation['name'] === 'inherit') {
+            this.analyzeCommandRelationInherit(lex, command, code);
+          } else if (relation['name'] === 'compose') {
+            this.analyzeCommandRelationCompose(command, code);
+          } else {
+            return error();
+          }
+        } else if (token['name'] === 'inherit') {
+          this.analyzeCommandRelationInherit(lex, command, code);
+        } else if (token['name'] === 'compose') {
+          this.analyzeCommandRelationCompose(command, code);
+        }
+      } else {
+        return error();
+      }
+    });
   }
 
   analyzeCommandRelationCompose(command: string, idTopUnit: object, cardinal?: string) {
@@ -157,7 +167,7 @@ export class Lexical {
     }
     if (operator[4] + operator[5] === '<compose') {
       this.sequenceUnit(TypeRelation.COMPOSE, lex, idTopUnit, '<compose', undefined, cardinal);
-    } else if (operator[3] + operator [4] === '<compose') {
+    } else if (operator[3] + operator[4] === '<compose') {
       lexAux.nextToken();
       this.sequenceUnit(TypeRelation.COMPOSE, lexAux, idTopUnit, '<compose', undefined, cardinal);
     } else if (operator[2] + operator[3] === '<compose' || operator[2] + operator[3] === 'compose>') {
@@ -224,7 +234,7 @@ export class Lexical {
         return error();
       }
     } else if (token['name'] === 'cardinal') {
-       cardinal = token['lexeme'].split(':');
+      cardinal = token['lexeme'].split(':');
       if (operator === 'compose>') {
         const point = lex.nextToken();
         if (point === undefined) {
@@ -235,7 +245,7 @@ export class Lexical {
       }
     } else if (token['name'] === ':') {
       if (operator === 'compose>') {
-       cardinal = lex.nextToken();
+        cardinal = lex.nextToken();
         if (cardinal['name'] === 'code' || cardinal['name'] === '+' || cardinal['name'] === '*') {
           const point = lex.nextToken();
           if (point === undefined) {
