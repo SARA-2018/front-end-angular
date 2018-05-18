@@ -57,6 +57,11 @@ export class HomeComponent implements OnInit {
   synchronizedGraph() {
     this.unitsDto = [];
     this.relationsDto = [];
+    this.units = [];
+    this.relations = [];
+    this.nodes = [];
+    this.links = [];
+    this.nodesNotRelated = [];
     if (this.db) {
       this.unitService.getAll().subscribe(units => {
         this.unitsDto = units;
@@ -125,7 +130,7 @@ export class HomeComponent implements OnInit {
     for (let i = 0; i < this.relations.length; i++) {
       if ((this.relations[i].getTopUnit().getName() === unit.getName()) ||
         (this.relations[i].getLowerUnit().getName() === unit.getName())) {
-          return true;
+        return true;
       }
     }
     return false;
@@ -143,7 +148,7 @@ export class HomeComponent implements OnInit {
         this.relations.push(new RelationInput(topUnit, lowerUnit, relationDto.type, relationDto.semantics));
       }
       let y = 20;
-      for (let i = 0; i < this.units.length; i++ ) {
+      for (let i = 0; i < this.units.length; i++) {
         if (!this.isRelated(this.units[i])) {
           const view = new UnitViewImp(this.units[i]);
           view.shift(75, y);
@@ -176,10 +181,16 @@ export class HomeComponent implements OnInit {
     console.log('Links ' + this.links.length);
   }
 
-  onEnter(command: string) {
+  async onEnter(command: string) {
     try {
       const lex = new Lexical(this.unitService, this.relationService, this.snackBar);
-      lex.analyzeCommand(command);
+      lex.analyzeCommand(command).subscribe(
+        () => {
+          console.log('FINISH DEBE SINCRONIZAR');
+          this.synchronizedGraph();
+        }
+      );
+
     } catch (err) {
       if (err.code === 'LEXICAL_ERROR') {
         this.snackBar.open(err.message, '', {
@@ -209,8 +220,8 @@ export class HomeComponent implements OnInit {
     const unit = parse.pop();
     if (unit !== '') {
       this.unitService.filter(unit).subscribe(data => {
-          this.relationsDto = data;
-        }
+        this.relationsDto = data;
+      }
       );
       return this.relationsDto.filter(value =>
         value.name.toLowerCase().indexOf(unit.toString().toLowerCase()) === 0
