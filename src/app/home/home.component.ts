@@ -40,7 +40,7 @@ export class HomeComponent implements OnInit {
 
   readonly db = true;
 
-  constructor(private snackBar: MatSnackBar, public unitService: UnitService, public relationService: RelationService) {
+  constructor(private lexical: Lexical, private snackBar: MatSnackBar, public unitService: UnitService, public relationService: RelationService) {
   }
 
   ngOnInit(): void {
@@ -183,8 +183,7 @@ export class HomeComponent implements OnInit {
 
   async onEnter(command: string) {
     try {
-      const lex = new Lexical(this.unitService, this.relationService, this.snackBar);
-      lex.analyzeCommand(command).subscribe(
+      this.lexical.analyzeCommand(command).subscribe(
         () => {
           console.log('FINISH DEBE SINCRONIZAR');
           this.synchronizedGraph();

@@ -8,7 +8,9 @@ import { RelationOutput } from './relation-output.model';
 import { TypeRelation } from './type-relation.enum';
 import { RelationService } from '../services/relation.service';
 import { Observable } from 'rxjs/Observable';
+import {Injectable} from '@angular/core';
 
+@Injectable()
 export class Lexical {
 
   readonly tokenMatchers = [
@@ -21,13 +23,11 @@ export class Lexical {
   readonly ignorePattern = '[\n\s \t]+';
 
   unitService: UnitService;
-  snackBar: MatSnackBar;
   relationService: RelationService;
 
-  constructor(unitService: UnitService, relationService: RelationService, snackBar: MatSnackBar) {
+  constructor(unitService: UnitService, relationService: RelationService, public snackBar: MatSnackBar) {
     this.unitService = unitService;
     this.relationService = relationService;
-    this.snackBar = snackBar;
   }
 
   analyzeCommand(command: string): Observable<any> {
@@ -81,23 +81,9 @@ export class Lexical {
       deleteUnit.deletes(code['lexeme']);
     } else {
       if (relation['name'] === 'relation') {
-        this.analyzeCommandDeleteRelation();
+       // this.analyzeCommandDeleteRelation();
       }
     }
-  }
-
-  analyzeCommandDeleteRelation() {
-    console.log('Delete RelationOutput falta!');
-    /*
-    * ~X#n relation X#n, X#n, ...
-      ~X#n relation:semantica1 X#n, X#n, ...
-    */
-  }
-
-  analyzeCommandUpdateUnit(code: object, unit: object) {
-    console.log('Update');
-    console.log(unit);
-    console.log(code['lexeme']);
   }
 
   analyzeCommandCreateUnit(command: string, name: object): Observable<any> {
@@ -123,7 +109,7 @@ export class Lexical {
         if (token['name'] === ':') {
           const cardinal = lex.nextToken();
           if (cardinal === undefined) {
-            this.analyzeCommandUpdateUnit(idTopUnit, name);
+           // this.analyzeCommandUpdateUnit(idTopUnit, name);
           } else if (cardinal['name'] === 'code' || cardinal['name'] === '+' || cardinal['name'] === '*') {
             const more = lex.nextToken();
             const relation = lex.nextToken();
