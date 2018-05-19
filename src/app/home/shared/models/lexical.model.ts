@@ -106,59 +106,7 @@ export class Lexical {
           }
         );
       } else if (idTopUnit['name'] === 'code') {
-        const token = lex.nextToken();
-        if (token['name'] === ':') {
-          const cardinal = lex.nextToken();
-          if (cardinal === undefined) {
-           // this.analyzeCommandUpdateUnit(idTopUnit, name);
-          } else if (cardinal['name'] === 'code' || cardinal['name'] === '+' || cardinal['name'] === '*') {
-            const more = lex.nextToken();
-            const relation = lex.nextToken();
-            if (more['name'] === '<') {
-              if (relation['name'] === 'compose') {
-                this.analyzeCommandRelationCompose(command, idTopUnit, cardinal['lexeme']);
-              } else if (relation['name'] === 'asociation') {
-                this.analyzeCommandRelationAsociation(command, idTopUnit, cardinal['lexeme']);
-              }
-            } else if (more['name'] === 'asociation') {
-              this.analyzeCommandRelationAsociation(command, idTopUnit, cardinal['lexeme']);
-            }
-          } else {
-            return error();
-          }
-        } else if (token['name'] === 'cardinal') {
-          const cardinal = token['lexeme'].split(':');
-          const more = lex.nextToken();
-          if (more['name'] === '<') {
-            const relation = lex.nextToken();
-            if (relation['name'] === 'compose') {
-              this.analyzeCommandRelationCompose(command, idTopUnit, cardinal[1]);
-            } else if (relation['name'] === 'asociation') {
-              this.analyzeCommandRelationAsociation(command, idTopUnit, cardinal[1]);
-            }
-          } else if (more['name'] === 'asociation') {
-            this.analyzeCommandRelationAsociation(command, idTopUnit, cardinal[1]);
-          }
-        } else if (token['name'] === '<') {
-          const relation = lex.nextToken();
-          if (relation['name'] === 'inherit') {
-            this.analyzeCommandRelationInherit(command, idTopUnit, lex);
-          } else if (relation['name'] === 'compose') {
-            this.analyzeCommandRelationCompose(command, idTopUnit);
-          } else if (relation['name'] === 'asociation') {
-            this.analyzeCommandRelationAsociation(command, idTopUnit);
-          } else {
-            return error();
-          }
-        } else if (token['name'] === 'inherit') {
-          this.analyzeCommandRelationInherit(command, idTopUnit, lex);
-        } else if (token['name'] === 'compose') {
-          this.analyzeCommandRelationCompose(command, idTopUnit);
-        } else if (token['name'] === 'asociation') {
-          this.analyzeCommandRelationAsociation(command, idTopUnit);
-        } else {
-          return error();
-        }
+        this.analyzeCommandUpdateUnit(command, lex, idTopUnit);
       } else {
         return error();
       }
@@ -365,5 +313,73 @@ export class Lexical {
     const relation = new RelationOutput(relations, idTopUnit, idLowerUnit, semantics, cardinal);
     relation.saveRelation(this.relationService, this.snackBar);
     return relation;
+  }
+
+  private analyzeCommandUpdateUnit(command: string, lex, idTopUnit) {
+    const token = lex.nextToken();
+    if (token['name'] === ':') {
+      const cardinal = lex.nextToken();
+      if (cardinal === undefined) {
+        // Update Unit;
+      } else if (cardinal['name'] === 'code' || cardinal['name'] === '+' || cardinal['name'] === '*') {
+        this.analyzeCommandRelationByOperatorCardinal(command, lex, idTopUnit, cardinal);
+      } else {
+        return error();
+      }
+    } else if (token['name'] === 'cardinal') {
+        this.analyzeCommandRelationByCardinal(command, lex, token, idTopUnit);
+    } else if (token['name'] === '<') {
+        this.analyzeCommandRelationByNotCardinal(command, idTopUnit, lex);
+    } else if (token['name'] === 'inherit') {
+      this.analyzeCommandRelationInherit(command, idTopUnit, lex);
+    } else if (token['name'] === 'compose') {
+      this.analyzeCommandRelationCompose(command, idTopUnit);
+    } else if (token['name'] === 'asociation') {
+      this.analyzeCommandRelationAsociation(command, idTopUnit);
+    } else {
+      return error();
+    }
+  }
+
+  private analyzeCommandRelationByOperatorCardinal(command: string, lex, idTopUnit, cardinal) {
+    const more = lex.nextToken();
+    const relation = lex.nextToken();
+    if (more['name'] === '<') {
+      if (relation['name'] === 'compose') {
+        this.analyzeCommandRelationCompose(command, idTopUnit, cardinal['lexeme']);
+      } else if (relation['name'] === 'asociation') {
+        this.analyzeCommandRelationAsociation(command, idTopUnit, cardinal['lexeme']);
+      }
+    } else if (more['name'] === 'asociation') {
+      this.analyzeCommandRelationAsociation(command, idTopUnit, cardinal['lexeme']);
+    }
+  }
+
+  private analyzeCommandRelationByCardinal(command: string, lex, token, idTopUnit) {
+    const cardinal = token['lexeme'].split(':');
+    const more = lex.nextToken();
+    if (more['name'] === '<') {
+      const relation = lex.nextToken();
+      if (relation['name'] === 'compose') {
+        this.analyzeCommandRelationCompose(command, idTopUnit, cardinal[1]);
+      } else if (relation['name'] === 'asociation') {
+        this.analyzeCommandRelationAsociation(command, idTopUnit, cardinal[1]);
+      }
+    } else if (more['name'] === 'asociation') {
+      this.analyzeCommandRelationAsociation(command, idTopUnit, cardinal[1]);
+    }
+  }
+
+  private analyzeCommandRelationByNotCardinal(command: string, idTopUnit, lex) {
+    const relation = lex.nextToken();
+    if (relation['name'] === 'inherit') {
+      this.analyzeCommandRelationInherit(command, idTopUnit, lex);
+    } else if (relation['name'] === 'compose') {
+      this.analyzeCommandRelationCompose(command, idTopUnit);
+    } else if (relation['name'] === 'asociation') {
+      this.analyzeCommandRelationAsociation(command, idTopUnit);
+    } else {
+      return error();
+    }
   }
 }
