@@ -10,10 +10,7 @@ import { UnitDto } from './shared/dtos/unit.dto';
 import { RelationDto } from './shared/dtos/relation.dto';
 import { Unit } from './shared/models/unit.model';
 import { RelationInput } from './shared/models/relation-input.model';
-import { createViewState } from '@angular/core/src/render3/instructions';
 import { UnitViewImp } from './shared/views/unit.view';
-import { BlockViewImp } from './shared/views/block.view';
-import { Block } from './shared/models/block.model';
 import { debounceTime } from 'rxjs/operators';
 import { Lexical } from './shared/models/lexical.model';
 import { RelationService } from './shared/services/relation.service';
@@ -40,7 +37,8 @@ export class HomeComponent implements OnInit {
 
   readonly db = true;
 
-  constructor(private lexical: Lexical, private snackBar: MatSnackBar, public unitService: UnitService, public relationService: RelationService) {
+  constructor(private lexical: Lexical, private snackBar: MatSnackBar, private unitService: UnitService,
+              private relationService: RelationService) {
   }
 
   ngOnInit(): void {
@@ -196,7 +194,7 @@ export class HomeComponent implements OnInit {
           duration: 2000
         });
       } else {
-        console.log(err);
+        // console.log(err);
         this.snackBar.open('Commando Erroneo', '', {
           duration: 2000
         });
@@ -220,11 +218,8 @@ export class HomeComponent implements OnInit {
     if (unit !== '') {
       this.unitService.filter(unit).subscribe(data => {
         this.relationsDto = data;
-      }
-      );
-      return this.relationsDto.filter(value =>
-        value.name.toLowerCase().indexOf(unit.toString().toLowerCase()) === 0
-      );
+      });
+      return this.relationsDto.filter(value => value.name.indexOf(unit.toString()) === 0);
     }
   }
 }
