@@ -211,7 +211,7 @@ export class HomeComponent implements OnInit {
       );
   }
 
-  filter(unitName: string) {
+  filter(unitName: string): RelationDto[] {
     const regExp = new RegExp('[\ns \t:~#<>]+');
     const parse = unitName.split(regExp);
     const unit = parse.pop();
