@@ -194,7 +194,7 @@ export class HomeComponent implements OnInit {
           duration: 2000
         });
       } else {
-        // console.log(err);
+         console.log(err);
         this.snackBar.open('Commando Erroneo', '', {
           duration: 2000
         });
