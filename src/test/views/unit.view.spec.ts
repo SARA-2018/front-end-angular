@@ -1,7 +1,8 @@
-import { UnitViewImp } from '../unit.view';
-import { Unit } from '../../models/unit.model';
-import { BlockViewImp } from '../block.view';
-import { Block } from '../../models/block.model';
+import { UnitViewImp } from '../../app/home/shared/views/unit.view';
+import { Unit } from '../../app/home/shared/models/unit.model';
+import { BlockViewImp } from '../../app/home/shared/views/block.view';
+import { Block } from '../../app/home/shared/models/block.model';
+
 
 describe('HomeComponent UnitViewImp ', () => {
 
