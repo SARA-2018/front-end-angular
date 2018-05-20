@@ -12,7 +12,6 @@ export class UnitDelete {
   }
 
   deletes(id: number): void {
-    //  this.synchronizedGraph()
     this.unitService.delete(id).subscribe(() => {
       this.snackBar.open('Eliminado Correctamente !', 'X', {
         duration: 8000
