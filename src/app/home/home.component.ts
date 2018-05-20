@@ -60,9 +60,6 @@ export class HomeComponent implements OnInit {
     this.relationsDto = [];
     this.units = [];
     this.relations = [];
-    this.nodes = [];
-    this.links = [];
-    this.nodesNotRelated = [];
     if (this.db) {
       this.unitService.getAll().subscribe(units => {
         this.unitsDto = units;
@@ -138,6 +135,9 @@ export class HomeComponent implements OnInit {
   }
 
   addDataGraph() {
+    this.nodes = [];
+    this.links = [];
+    this.nodesNotRelated = [];
     let root;
     if (this.db) {
       for (const unitDto of this.unitsDto) {
@@ -157,7 +157,6 @@ export class HomeComponent implements OnInit {
           y += 60;
         }
       }
-      console.log('RELATIONS ' + this.relations.length);
       root = this.units[0];
     } else {
       const unitsNotRelated: Unit[] = [];
