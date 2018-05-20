@@ -273,35 +273,25 @@ export class Lexical {
       }
     } else if (token['name'] === ':') {
       const cardinal = lex.nextToken();
-      if (relation === 'compose>') {
-        if (cardinal['name'] === 'code' || cardinal['name'] === '+' || cardinal['name'] === '*') {
-          const point = lex.nextToken();
-          if (point === undefined) {
+      if (cardinal['name'] === 'code' || cardinal['name'] === '+' || cardinal['name'] === '*') {
+        const point = lex.nextToken();
+        if (point === undefined) {
+          if (relation === 'compose>') {
             this.createRelation(relationType, idLowerUnit['lexeme'], idTopUnit['lexeme'], semantics, undefined, cardinal['lexeme']);
-          } else if (point['name'] === ',') {
-            this.createMoreRelations(lex, idTopUnit, idLowerUnit, relation, relationType, semantics, undefined, cardinal['lexeme']);
-          }
-        } else {
-          return error();
-        }
-      } else if (relation === '<asociation') {
-        if (cardinal['name'] === 'code' || cardinal['name'] === '+' || cardinal['name'] === '*') {
-          const point = lex.nextToken();
-          if (point === undefined) {
+          } else if (relation === '<asociation') {
             this.createRelation(relationType, idTopUnit['lexeme'], idLowerUnit['lexeme'], semantics, cardinalTopUnit, cardinal['lexeme']);
-          } else if (point['name'] === ',') {
-            this.createMoreRelations(lex, idTopUnit, idLowerUnit, relation, relationType, semantics, cardinalTopUnit, cardinal['lexeme']);
-          }
-        } else {
-          return error();
-        }
-      } else if (relation === 'asociation>') {
-        if (cardinal['name'] === 'code' || cardinal['name'] === '+' || cardinal['name'] === '*') {
-          const point = lex.nextToken();
-          if (point === undefined) {
+          } else if (relation === 'asociation>') {
             this.createRelation(relationType, idLowerUnit['lexeme'], idTopUnit['lexeme'], semantics, cardinal['lexeme'], cardinalTopUnit);
-          } else if (point['name'] === ',') {
+          } else {
+            return error();
+          }
+        } else if (point['name'] === ',') {
+          if (relation === 'compose>') {
+            this.createMoreRelations(lex, idTopUnit, idLowerUnit, relation, relationType, semantics, undefined, cardinal['lexeme']);
+          } else if (relation === '<asociation' || relation === 'asociation>') {
             this.createMoreRelations(lex, idTopUnit, idLowerUnit, relation, relationType, semantics, cardinalTopUnit, cardinal['lexeme']);
+          } else {
+            return error();
           }
         } else {
           return error();
@@ -343,7 +333,6 @@ export class Lexical {
     } while (codes);
     idLowerUnits.unshift(idLowerUnit['lexeme']);
     cardinals.unshift(cardinalLowerUnit);
-    console.log(idLowerUnits)
     for (let j = 0; j < idLowerUnits.length; j++) {
       if (relation === '<inherit' || relation === '<compose') {
         this.createRelation(relationType, idTopUnit['lexeme'], idLowerUnits[j], semantics, cardinalTopUnit, undefined);
