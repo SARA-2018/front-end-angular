@@ -7,14 +7,16 @@ export class RelationOutput {
   private semantics: string;
   private idTopUnit: number;
   private idLowerUnit: number;
-  private cardinal: string;
+  private cardinalTopUnit: string;
+  private cardinalLowerUnit: string;
 
-  constructor(type: string, idTopUnit: number, idLowerUnit: number, semantics?: string, cardinal?: string) {
+  constructor(type: string, idTopUnit: number, idLowerUnit: number, semantics?: string, cardinalTopUnit?: string, cardinalLowerUnit?: string) {
     this.idTopUnit = idTopUnit;
     this.idLowerUnit = idLowerUnit;
     this.type = type;
     this.semantics = semantics;
-    this.cardinal = cardinal;
+    this.cardinalTopUnit = cardinalTopUnit;
+    this.cardinalLowerUnit = cardinalLowerUnit;
   }
 
   saveRelation(relationService: RelationService, snackBar: MatSnackBar) {

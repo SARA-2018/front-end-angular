@@ -37,7 +37,7 @@ export class Link implements d3.SimulationLinkDatum<Node> {
     this.linkPoints.push(this.topUnit.getYSouth() + this.topUnitDOWN);
     this.linkPoints.push(this.topUnit.getX());
     switch (this.type) {
-      case TypeRelation.ASSOCIATION:
+      case TypeRelation.ASOCIATION:
       case TypeRelation.USE:
         this.linkPoints.push(this.topUnit.getYSouth());
         break;
@@ -52,7 +52,7 @@ export class Link implements d3.SimulationLinkDatum<Node> {
 
   generateRelation(type: string) {
     switch (type) {
-      case TypeRelation.ASSOCIATION:
+      case TypeRelation.ASOCIATION:
       case TypeRelation.USE:
         this.drawAssociation();
         break;
