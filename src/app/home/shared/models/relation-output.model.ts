@@ -1,5 +1,5 @@
-import {MatSnackBar} from '@angular/material';
-import {RelationService} from '../services/relation.service';
+import { MatSnackBar } from '@angular/material';
+import { RelationService } from '../services/relation.service';
 
 export class RelationOutput {
 
@@ -10,7 +10,8 @@ export class RelationOutput {
   private cardinalTopUnit: string;
   private cardinalLowerUnit: string;
 
-  constructor(type: string, idTopUnit: number, idLowerUnit: number, semantics?: string, cardinalTopUnit?: string, cardinalLowerUnit?: string) {
+  constructor(type: string, idTopUnit: number, idLowerUnit: number, semantics?: string,
+    cardinalTopUnit?: string, cardinalLowerUnit?: string) {
     this.idTopUnit = idTopUnit;
     this.idLowerUnit = idLowerUnit;
     this.type = type;
@@ -20,10 +21,6 @@ export class RelationOutput {
   }
 
   saveRelation(relationService: RelationService, snackBar: MatSnackBar) {
-    relationService.create(this).subscribe(() => {
-      snackBar.open('Creado Correctamente !', '', {
-        duration: 2000
-      });
-    });
+    relationService.create(this);
   }
 }

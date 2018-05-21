@@ -56,18 +56,10 @@ export class Unit {
     return i;
   }
 
-  saveUnit(unitService: UnitService, snackBar: MatSnackBar): Observable<any> {
-    console.log('4- saveUnit');
-    return new Observable(observer => {
-      unitService.create(this).subscribe(data => {
-        console.log('5 - Creado correctamente');
-        snackBar.open('Creado Correctamente !', '', {
-          duration: 2000
-        });
-        observer.next();
-        observer.complete();
-      });
-    });
+  saveUnit(unitService: UnitService, snackBar: MatSnackBar) {
+
+    unitService.create(this);
+
   }
 
   log(margin: string) {

@@ -39,7 +39,7 @@ export class HomeComponent implements OnInit {
   readonly db = true;
 
   constructor(private lexical: Lexical, private snackBar: MatSnackBar, private unitService: UnitService,
-              private relationService: RelationService) {
+    private relationService: RelationService) {
   }
 
   ngOnInit(): void {
@@ -59,13 +59,16 @@ export class HomeComponent implements OnInit {
     this.units = [];
     this.relations = [];
     if (this.db) {
-      this.unitService.getAll().subscribe(units => {
-        this.unitsDto = units;
-        this.relationService.getAll().subscribe(relations => {
-          this.relationsDto = relations;
-          this.addDataGraph();
-        });
-      });
+      console.log('-- SINCRONIZAR');
+       this.unitService.getAll().subscribe(units => {
+         this.unitsDto = units;
+         this.relationService.getAll().subscribe(relations => {
+           this.relationsDto = relations;
+           console.log('--- UNITS: ' + this.units.length);
+           console.log('--- RELATIONS: ' + this.relations.length);
+           this.addDataGraph();
+         });
+       });
     } else {
       this.addDataGraph();
     }
@@ -136,6 +139,9 @@ export class HomeComponent implements OnInit {
     this.nodes = [];
     this.links = [];
     this.nodesNotRelated = [];
+    this.units = [];
+    this.relations = [];
+    console.log('-- NODES ANTES: ' + this.nodes.length);
     let root;
     if (this.db) {
       for (const unitDto of this.unitsDto) {
@@ -155,6 +161,7 @@ export class HomeComponent implements OnInit {
           y += 60;
         }
       }
+      console.log('units LENgth' + this.units.length);
       root = this.units[0];
     } else {
       const unitsNotRelated: Unit[] = [];
@@ -176,6 +183,8 @@ export class HomeComponent implements OnInit {
     rootView.locate();
     this.nodes = rootView.createNode();
     this.links = rootView.createLink();
+    console.log('-- NODES DESPUES: ' + this.nodes.length);
+
     console.log('Nodos ' + this.nodes.length);
     console.log('Links ' + this.links.length);
   }
@@ -195,7 +204,7 @@ export class HomeComponent implements OnInit {
           duration: 2000
         });
       } else {
-         console.log(err);
+        console.log(err);
         this.snackBar.open('Commando Erroneo', '', {
           duration: 2000
         });

@@ -40,12 +40,7 @@ export class Lexical {
         case 'text':
           const text = command.split(token['lexeme']);
           command = text.pop();
-          this.analyzeCommandCreateUnit(command, token).subscribe(
-            () => {
-              observer.next();
-              observer.complete();
-              console.log('7 - Observador completo ');
-            });
+          this.analyzeCommandCreateUnit(command, token);
           break;
         default:
           observer.error();
@@ -70,16 +65,7 @@ export class Lexical {
     }
     const relation = lex.nextToken();
     if (relation === undefined) {
-      this.unitService.delete(code['lexeme']).subscribe(() => {
-          this.snackBar.open('Eliminado Correctamente !', '', {
-            duration: 8000
-          });
-        },
-        () => {
-          this.snackBar.open('Recurso no encontrado !', '', {
-            duration: 8000
-          });
-        });
+      this.unitService.delete(code['lexeme']);
     } else {
       if (relation['name'] === 'relation') {
        // this.analyzeCommandDeleteRelation();
@@ -87,8 +73,7 @@ export class Lexical {
     }
   }
 
-  private analyzeCommandCreateUnit(command: string, name: object): Observable<any> {
-    return new Observable(observer => {
+  private analyzeCommandCreateUnit(command: string, name: object) {
       console.log('2 - Analizar comando crear');
       const lex = new Lex(command, this.tokenMatchers, this.ignorePattern);
       const sharp = lex.nextToken();
@@ -99,18 +84,12 @@ export class Lexical {
       if (idTopUnit['name'] === 'new') {
         const unit = new Unit(name['lexeme']);
         console.log('3 - Llamar a guardar unidad');
-        unit.saveUnit(this.unitService, this.snackBar).subscribe(
-          () => {
-            observer.next();
-            observer.complete();
-          }
-        );
+        unit.saveUnit(this.unitService, this.snackBar);
       } else if (idTopUnit['name'] === 'code') {
         this.analyzeCommandUpdateUnit(command, lex, idTopUnit);
       } else {
         return error();
       }
-    });
   }
 
   private analyzeCommandUpdateUnit(command: string, lex, idTopUnit) {
