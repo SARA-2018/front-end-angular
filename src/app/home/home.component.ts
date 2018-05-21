@@ -14,6 +14,7 @@ import { UnitViewImp } from './shared/views/unit.view';
 import { debounceTime } from 'rxjs/operators';
 import { Lexical } from './shared/models/lexical.model';
 import { RelationService } from './shared/services/relation.service';
+import { TypeRelation } from './shared/models/type-relation.enum';
 
 
 @Component({
@@ -57,9 +58,6 @@ export class HomeComponent implements OnInit {
     this.relationsDto = [];
     this.units = [];
     this.relations = [];
-    this.nodes = [];
-    this.links = [];
-    this.nodesNotRelated = [];
     if (this.db) {
       this.unitService.getAll().subscribe(units => {
         this.unitsDto = units;
@@ -100,22 +98,22 @@ export class HomeComponent implements OnInit {
     const unitR3 = new Unit('Raquel3');
     const unitA = new Unit('Alvaro');
 
-    const relationE1 = new RelationInput(root, unitE2, 'compose');
-    const relationE2 = new RelationInput(root, unitE3, 'compose');
-    const relationE3 = new RelationInput(root, unitE4, 'compose');
-    const relationE4 = new RelationInput(root, unitE5, 'compose');
-    const relationE5 = new RelationInput(unitE3, unitE6, 'inherit');
-    const relationE6 = new RelationInput(unitE3, unitE7, 'inherit');
-    const relationE7 = new RelationInput(unitE3, unitE8, 'inherit');
-    const relationE8 = new RelationInput(unitE7, unitE9, 'inherit');
-    const relationE9 = new RelationInput(unitE7, unitE10, 'use');
-    const relationR = new RelationInput(unitE4, unitR, 'inherit', 'sem1');
-    const relationA = new RelationInput(unitE4, unitA, 'use');
-    const relat = new RelationInput(unitE4, unitE9, 'inherit', 'sem2');
-    const relat1 = new RelationInput(unitE10, unitR2, 'inherit', 'semantica1');
-    const relat2 = new RelationInput(unitE10, unitR3, 'inherit', 'semantica2');
-    const relat3 = new RelationInput(unitE10, unitA, 'use');
-    const relat4 = new RelationInput(unitE4, unitA, 'compose');
+    const relationE1 = new RelationInput(root, unitE2, TypeRelation.COMPOSE);
+    const relationE2 = new RelationInput(root, unitE3, TypeRelation.COMPOSE);
+    const relationE3 = new RelationInput(root, unitE4, TypeRelation.COMPOSE);
+    const relationE4 = new RelationInput(root, unitE5, TypeRelation.COMPOSE);
+    const relationE5 = new RelationInput(unitE3, unitE6, TypeRelation.INHERIT);
+    const relationE6 = new RelationInput(unitE3, unitE7, TypeRelation.INHERIT);
+    const relationE7 = new RelationInput(unitE3, unitE8, TypeRelation.INHERIT);
+    const relationE8 = new RelationInput(unitE7, unitE9, TypeRelation.INHERIT);
+    const relationE9 = new RelationInput(unitE7, unitE10, TypeRelation.USE);
+    const relationR = new RelationInput(unitE4, unitR, TypeRelation.INHERIT, 'sem1');
+    const relationA = new RelationInput(unitE4, unitA, TypeRelation.USE);
+    const relat = new RelationInput(unitE4, unitE9, TypeRelation.INHERIT, 'sem2');
+    const relat1 = new RelationInput(unitE10, unitR2, TypeRelation.INHERIT, 'semantica1');
+    const relat2 = new RelationInput(unitE10, unitR3, TypeRelation.INHERIT, 'semantica2');
+    const relat3 = new RelationInput(unitE10, unitA, TypeRelation.USE);
+    const relat4 = new RelationInput(unitE4, unitA, TypeRelation.COMPOSE);
 
     // root
     // UnitE4 1 - 1
@@ -135,6 +133,9 @@ export class HomeComponent implements OnInit {
   }
 
   addDataGraph() {
+    this.nodes = [];
+    this.links = [];
+    this.nodesNotRelated = [];
     let root;
     if (this.db) {
       for (const unitDto of this.unitsDto) {
