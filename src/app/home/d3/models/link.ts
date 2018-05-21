@@ -37,7 +37,7 @@ export class Link implements d3.SimulationLinkDatum<Node> {
     this.linkPoints.push(this.topUnit.getYSouth() + this.topUnitDOWN);
     this.linkPoints.push(this.topUnit.getX());
     switch (this.type) {
-      case TypeRelation.ASOCIATION:
+      case TypeRelation.ASSOCIATION:
       case TypeRelation.USE:
         this.linkPoints.push(this.topUnit.getYSouth());
         break;
@@ -52,9 +52,9 @@ export class Link implements d3.SimulationLinkDatum<Node> {
 
   generateRelation(type: string) {
     switch (type) {
-      case TypeRelation.ASOCIATION:
+      case TypeRelation.ASSOCIATION:
       case TypeRelation.USE:
-        this.drawAssociation();
+        this.drawAssociationUP();
         break;
       case TypeRelation.INHERIT:
         this.drawInherit();
@@ -64,7 +64,7 @@ export class Link implements d3.SimulationLinkDatum<Node> {
     }
   }
 
-  drawAssociation() {
+  drawAssociationUP() {
     this.relationPoints.push(this.topUnit.getX() - this.sizeArrowRelation);
     this.relationPoints.push(this.topUnit.getYSouth() + this.sizeArrowRelation);
     this.relationPoints.push(this.topUnit.getX());
@@ -74,7 +74,7 @@ export class Link implements d3.SimulationLinkDatum<Node> {
   }
 
   drawCompose() {
-    this.drawAssociation();
+    this.drawAssociationUP();
     this.relationPoints.push(this.topUnit.getX());
     this.relationPoints.push(this.topUnit.getYSouth() + (this.sizeArrowRelation * 2));
     this.relationPoints.push(this.topUnit.getX() - this.sizeArrowRelation);
@@ -83,7 +83,7 @@ export class Link implements d3.SimulationLinkDatum<Node> {
   }
 
   drawInherit() {
-    this.drawAssociation();
+    this.drawAssociationUP();
     this.relationPoints.push(this.topUnit.getX() - this.sizeArrowRelation);
     this.relationPoints.push(this.topUnit.getYSouth() + this.sizeArrowRelation);
   }
