@@ -113,6 +113,90 @@ export class Lexical {
     });
   }
 
+  private analyzeCommandUpdateUnit(command: string, lex, idTopUnit) {
+    const token = lex.nextToken();
+    if (token['name'] === ':') {
+      const cardinal = lex.nextToken();
+      if (cardinal === undefined) {
+        // Update Unit;
+      } else if (cardinal['name'] === 'code' || cardinal['name'] === '+' || cardinal['name'] === '*') {
+        this.analyzeCommandRelationByOperatorCardinal(command, lex, idTopUnit, cardinal);
+      } else {
+        return error();
+      }
+    } else if (token['name'] === 'cardinal') {
+      this.analyzeCommandRelationByCardinal(command, lex, token, idTopUnit);
+    } else if (token['name'] === '<') {
+      this.analyzeCommandRelationByNotCardinal(command, idTopUnit, lex);
+    } else if (token['name'] === 'inherit') {
+      this.analyzeCommandRelationInherit(command, idTopUnit, lex);
+    } else if (token['name'] === 'compose') {
+      this.analyzeCommandRelationCompose(command, idTopUnit);
+    } else if (token['name'] === 'association') {
+      this.analyzeCommandRelationAssociationOrUse(command, idTopUnit, lex, TypeRelation.ASSOCIATION);
+    } else if (token['name'] === 'use') {
+      this.analyzeCommandRelationAssociationOrUse(command, idTopUnit, lex, TypeRelation.USE);
+    } else {
+      return error();
+    }
+  }
+
+  private analyzeCommandRelationByOperatorCardinal(command: string, lex, idTopUnit, cardinalTopUnit) {
+    const more = lex.nextToken();
+    if (more['name'] === '<') {
+      const relation = lex.nextToken();
+      if (relation['name'] === 'compose') {
+        this.analyzeCommandRelationCompose(command, idTopUnit, cardinalTopUnit['lexeme']);
+      } else if (relation['name'] === 'association') {
+        this.analyzeCommandRelationAssociationOrUse(command, idTopUnit, lex, TypeRelation.ASSOCIATION, cardinalTopUnit['lexeme']);
+      } else if (relation['name'] === 'use') {
+        this.analyzeCommandRelationAssociationOrUse(command, idTopUnit, lex, TypeRelation.USE, cardinalTopUnit['lexeme']);
+      } else {
+        return error();
+      }
+    } else if (more['name'] === 'association') {
+      this.analyzeCommandRelationAssociationOrUse(command, idTopUnit, lex, TypeRelation.ASSOCIATION, cardinalTopUnit['lexeme']);
+    } else if (more['name'] === 'use') {
+      this.analyzeCommandRelationAssociationOrUse(command, idTopUnit, lex, TypeRelation.USE, cardinalTopUnit['lexeme']);
+    } else {
+      return error();
+    }
+  }
+
+  private analyzeCommandRelationByCardinal(command: string, lex, token, idTopUnit) {
+    const cardinalTopUnit = token['lexeme'].split(':');
+    const more = lex.nextToken();
+    if (more['name'] === '<') {
+      const relation = lex.nextToken();
+      if (relation['name'] === 'compose') {
+        this.analyzeCommandRelationCompose(command, idTopUnit, cardinalTopUnit[1]);
+      } else if (relation['name'] === 'association') {
+        this.analyzeCommandRelationAssociationOrUse(command, idTopUnit, lex, TypeRelation.ASSOCIATION, cardinalTopUnit[1]);
+      } else if (relation['name'] === 'use') {
+        this.analyzeCommandRelationAssociationOrUse(command, idTopUnit, lex, TypeRelation.USE, cardinalTopUnit[1]);
+      }
+    } else if (more['name'] === 'association') {
+      this.analyzeCommandRelationAssociationOrUse(command, idTopUnit, lex, TypeRelation.ASSOCIATION, cardinalTopUnit[1]);
+    } else if (more['name'] === 'use') {
+      this.analyzeCommandRelationAssociationOrUse(command, idTopUnit, lex, TypeRelation.USE, cardinalTopUnit[1]);
+    }
+  }
+
+  private analyzeCommandRelationByNotCardinal(command: string, idTopUnit, lex) {
+    const relation = lex.nextToken();
+    if (relation['name'] === 'inherit') {
+      this.analyzeCommandRelationInherit(command, idTopUnit, lex);
+    } else if (relation['name'] === 'compose') {
+      this.analyzeCommandRelationCompose(command, idTopUnit);
+    } else if (relation['name'] === 'association') {
+      this.analyzeCommandRelationAssociationOrUse(command, idTopUnit, lex, TypeRelation.ASSOCIATION);
+    } else if (relation['name'] === 'use') {
+      this.analyzeCommandRelationAssociationOrUse(command, idTopUnit, lex, TypeRelation.USE);
+    } else {
+      return error();
+    }
+  }
+
   private analyzeCommandRelationCompose(command: string, idTopUnit: object, cardinalTopUnit?: string) {
     const lexByOperator = new Lex(command, this.tokenMatchers, this.ignorePattern);
     for (let i = 0; i <= 3; i++) {
@@ -305,11 +389,10 @@ export class Lexical {
         return error();
       }
     } else if (token['name'] === ',') {
-      /*if (relation === '<inherit' || relation === '<compose' || relation === '<association') {
+      if (relation === '<inherit' || relation === '<compose' || relation === '<association' || relation === '<use'
+        || relation === 'inherit>' || relation === 'compose>' || relation === 'association>' || relation === 'use>') {
         this.createMoreRelations(lex, idTopUnit, idLowerUnit, relation, relationType, semantics, cardinalTopUnit, cardinalLowerUnit);
-      } else if (relation === 'inherit>' || relation === 'compose>' || relation === 'association>') {
-        this.createMoreRelations(lex, idLowerUnit, idTopUnit, relation, relationType, semantics, cardinalLowerUnit, cardinalTopUnit);
-      }*/
+      }
     } else {
       return error();
     }
@@ -358,89 +441,5 @@ export class Lexical {
     const relation = new RelationOutput(relations, idTopUnit, idLowerUnit, semantics, cardinalTopUnit, cardinalLowerUnit);
     relation.saveRelation(this.relationService, this.snackBar);
     return relation;
-  }
-
-  private analyzeCommandUpdateUnit(command: string, lex, idTopUnit) {
-    const token = lex.nextToken();
-    if (token['name'] === ':') {
-      const cardinal = lex.nextToken();
-      if (cardinal === undefined) {
-        // Update Unit;
-      } else if (cardinal['name'] === 'code' || cardinal['name'] === '+' || cardinal['name'] === '*') {
-        this.analyzeCommandRelationByOperatorCardinal(command, lex, idTopUnit, cardinal);
-      } else {
-        return error();
-      }
-    } else if (token['name'] === 'cardinal') {
-        this.analyzeCommandRelationByCardinal(command, lex, token, idTopUnit);
-    } else if (token['name'] === '<') {
-        this.analyzeCommandRelationByNotCardinal(command, idTopUnit, lex);
-    } else if (token['name'] === 'inherit') {
-      this.analyzeCommandRelationInherit(command, idTopUnit, lex);
-    } else if (token['name'] === 'compose') {
-      this.analyzeCommandRelationCompose(command, idTopUnit);
-    } else if (token['name'] === 'association') {
-      this.analyzeCommandRelationAssociationOrUse(command, idTopUnit, lex, TypeRelation.ASSOCIATION);
-    } else if (token['name'] === 'use') {
-      this.analyzeCommandRelationAssociationOrUse(command, idTopUnit, lex, TypeRelation.USE);
-    } else {
-      return error();
-    }
-  }
-
-  private analyzeCommandRelationByOperatorCardinal(command: string, lex, idTopUnit, cardinalTopUnit) {
-    const more = lex.nextToken();
-    const relation = lex.nextToken();
-    if (more['name'] === '<') {
-      if (relation['name'] === 'compose') {
-        this.analyzeCommandRelationCompose(command, idTopUnit, cardinalTopUnit['lexeme']);
-      } else if (relation['name'] === 'association') {
-        this.analyzeCommandRelationAssociationOrUse(command, idTopUnit, lex, TypeRelation.ASSOCIATION, cardinalTopUnit['lexeme']);
-      } else if (relation['name'] === 'use') {
-        this.analyzeCommandRelationAssociationOrUse(command, idTopUnit, lex, TypeRelation.USE, cardinalTopUnit['lexeme']);
-      } else {
-        return error();
-      }
-    } else if (more['name'] === 'association') {
-      this.analyzeCommandRelationAssociationOrUse(command, idTopUnit, lex, TypeRelation.ASSOCIATION, cardinalTopUnit['lexeme']);
-    } else if (more['name'] === 'use') {
-      this.analyzeCommandRelationAssociationOrUse(command, idTopUnit, lex, TypeRelation.USE, cardinalTopUnit['lexeme']);
-    } else {
-      return error();
-    }
-  }
-
-  private analyzeCommandRelationByCardinal(command: string, lex, token, idTopUnit) {
-    const cardinalTopUnit = token['lexeme'].split(':');
-    const more = lex.nextToken();
-    if (more['name'] === '<') {
-      const relation = lex.nextToken();
-      if (relation['name'] === 'compose') {
-        this.analyzeCommandRelationCompose(command, idTopUnit, cardinalTopUnit[1]);
-      } else if (relation['name'] === 'association') {
-        this.analyzeCommandRelationAssociationOrUse(command, idTopUnit, lex, TypeRelation.ASSOCIATION, cardinalTopUnit[1]);
-      } else if (relation['name'] === 'use') {
-        this.analyzeCommandRelationAssociationOrUse(command, idTopUnit, lex, TypeRelation.USE, cardinalTopUnit[1]);
-      }
-    } else if (more['name'] === 'association') {
-      this.analyzeCommandRelationAssociationOrUse(command, idTopUnit, lex, TypeRelation.ASSOCIATION, cardinalTopUnit[1]);
-    } else if (more['name'] === 'use') {
-      this.analyzeCommandRelationAssociationOrUse(command, idTopUnit, lex, TypeRelation.USE, cardinalTopUnit[1]);
-    }
-  }
-
-  private analyzeCommandRelationByNotCardinal(command: string, idTopUnit, lex) {
-    const relation = lex.nextToken();
-    if (relation['name'] === 'inherit') {
-      this.analyzeCommandRelationInherit(command, idTopUnit, lex);
-    } else if (relation['name'] === 'compose') {
-      this.analyzeCommandRelationCompose(command, idTopUnit);
-    } else if (relation['name'] === 'association') {
-      this.analyzeCommandRelationAssociationOrUse(command, idTopUnit, lex, TypeRelation.ASSOCIATION);
-    } else if (relation['name'] === 'use') {
-      this.analyzeCommandRelationAssociationOrUse(command, idTopUnit, lex, TypeRelation.USE);
-    } else {
-      return error();
-    }
   }
 }
