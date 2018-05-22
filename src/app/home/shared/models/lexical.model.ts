@@ -28,7 +28,6 @@ export class Lexical {
     return new Observable(observer => {
       const lex = new Lex(command, this.tokenMatchers, this.ignorePattern);
       const token = lex.nextToken();
-      console.log('1 - analizar comando');
       switch (token['name']) {
         case '~':
           const val = command.split('~');
@@ -40,12 +39,9 @@ export class Lexical {
         case 'text':
           const text = command.split(token['lexeme']);
           command = text.pop();
-          this.analyzeCommandCreateUnit(command, token).subscribe(
-            () => {
-              observer.next();
-              observer.complete();
-              console.log('7 - Observador completo ');
-            });
+          this.analyzeCommandCreateUnit(command, token);
+          observer.next();
+          observer.complete();
           break;
         default:
           observer.error();
@@ -70,16 +66,7 @@ export class Lexical {
     }
     const relation = lex.nextToken();
     if (relation === undefined) {
-      this.unitService.delete(code['lexeme']).subscribe(() => {
-          this.snackBar.open('Eliminado Correctamente !', '', {
-            duration: 8000
-          });
-        },
-        () => {
-          this.snackBar.open('Recurso no encontrado !', '', {
-            duration: 8000
-          });
-        });
+      this.unitService.delete(code['lexeme']);
     } else {
       if (relation['name'] === 'relation') {
        // this.analyzeCommandDeleteRelation();
@@ -87,9 +74,7 @@ export class Lexical {
     }
   }
 
-  private analyzeCommandCreateUnit(command: string, name: object): Observable<any> {
-    return new Observable(observer => {
-      console.log('2 - Analizar comando crear');
+  private analyzeCommandCreateUnit(command: string, name: object) {
       const lex = new Lex(command, this.tokenMatchers, this.ignorePattern);
       const sharp = lex.nextToken();
       if (sharp['name'] !== '#') {
@@ -98,19 +83,12 @@ export class Lexical {
       const idTopUnit = lex.nextToken();
       if (idTopUnit['name'] === 'new') {
         const unit = new Unit(name['lexeme']);
-        console.log('3 - Llamar a guardar unidad');
-        unit.saveUnit(this.unitService, this.snackBar).subscribe(
-          () => {
-            observer.next();
-            observer.complete();
-          }
-        );
+        unit.saveUnit(this.unitService);
       } else if (idTopUnit['name'] === 'code') {
         this.analyzeCommandUpdateUnit(command, lex, idTopUnit);
       } else {
         return error();
       }
-    });
   }
 
   private analyzeCommandUpdateUnit(command: string, lex, idTopUnit) {
@@ -439,7 +417,7 @@ export class Lexical {
   private createRelation(relations: TypeRelation, idTopUnit: number, idLowerUnit: number, semantics: string,
                          cardinalTopUnit: string, cardinalLowerUnit: string): RelationOutput {
     const relation = new RelationOutput(relations, idTopUnit, idLowerUnit, semantics, cardinalTopUnit, cardinalLowerUnit);
-    relation.saveRelation(this.relationService, this.snackBar);
+    relation.saveRelation(this.relationService);
     return relation;
   }
 }

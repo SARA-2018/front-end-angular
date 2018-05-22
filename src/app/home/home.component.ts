@@ -39,7 +39,7 @@ export class HomeComponent implements OnInit {
   readonly db = true;
 
   constructor(private lexical: Lexical, private snackBar: MatSnackBar, private unitService: UnitService,
-              private relationService: RelationService) {
+    private relationService: RelationService) {
   }
 
   ngOnInit(): void {
@@ -59,12 +59,12 @@ export class HomeComponent implements OnInit {
     this.units = [];
     this.relations = [];
     if (this.db) {
-      this.unitService.getAll().subscribe(units => {
-        this.unitsDto = units;
-        this.relationService.getAll().subscribe(relations => {
+       this.unitService.getAll().subscribe(units => {
+         this.unitsDto = units;
+         this.relationService.getAll().subscribe(relations => {
           this.relationsDto = relations;
           this.addDataGraph();
-        });
+       });
       });
     } else {
       this.addDataGraph();
@@ -124,8 +124,8 @@ export class HomeComponent implements OnInit {
 
   isRelated(unit: Unit): boolean {
     for (let i = 0; i < this.relations.length; i++) {
-      if ((this.relations[i].getTopUnit().getName() === unit.getName()) ||
-        (this.relations[i].getLowerUnit().getName() === unit.getName())) {
+      if ((this.relations[i].getTopUnit().getId() === unit.getId()) ||
+        (this.relations[i].getLowerUnit().getId() === unit.getId())) {
         return true;
       }
     }
@@ -136,14 +136,16 @@ export class HomeComponent implements OnInit {
     this.nodes = [];
     this.links = [];
     this.nodesNotRelated = [];
+    this.units = [];
+    this.relations = [];
     let root;
     if (this.db) {
       for (const unitDto of this.unitsDto) {
-        this.units.push(new Unit(unitDto.name));
+        this.units.push(new Unit(unitDto.name, unitDto._id));
       }
       for (const relationDto of this.relationsDto) {
-        const topUnit = this.units.find(unit => unit.getName() === relationDto.topUnit.name);
-        const lowerUnit = this.units.find(unit => unit.getName() === relationDto.lowerUnit.name);
+        const topUnit = this.units.find(unit => unit.getId() === relationDto.topUnit._id);
+        const lowerUnit = this.units.find(unit => unit.getId() === relationDto.lowerUnit._id);
         this.relations.push(new RelationInput(topUnit, lowerUnit, relationDto.type, relationDto.semantics));
       }
       let y = 20;
@@ -176,26 +178,19 @@ export class HomeComponent implements OnInit {
     rootView.locate();
     this.nodes = rootView.createNode();
     this.links = rootView.createLink();
-    console.log('Nodos ' + this.nodes.length);
-    console.log('Links ' + this.links.length);
   }
 
   async onEnter(command: string) {
     try {
       this.lexical.analyzeCommand(command).subscribe(
-        () => {
-          console.log('FINISH DEBE SINCRONIZAR');
-          this.synchronizedGraph();
-        }
+        () => this.synchronizedGraph()
       );
-
     } catch (err) {
       if (err.code === 'LEXICAL_ERROR') {
         this.snackBar.open(err.message, '', {
           duration: 2000
         });
       } else {
-         console.log(err);
         this.snackBar.open('Commando Erroneo', '', {
           duration: 2000
         });

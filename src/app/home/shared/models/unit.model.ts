@@ -9,15 +9,20 @@ export class Unit {
   private name: string;
   private blocks: Block[] = [];
 
-  constructor(name: string) {
+  constructor(name: string, id?: number) {
     this.name = name;
+    this.id = id;
   }
 
-  getBlocks() {
+  getId(): number {
+    return this.id;
+  }
+
+  getBlocks(): Block[] {
     return this.blocks;
   }
 
-  getName() {
+  getName(): string {
     return this.name;
   }
 
@@ -56,18 +61,8 @@ export class Unit {
     return i;
   }
 
-  saveUnit(unitService: UnitService, snackBar: MatSnackBar): Observable<any> {
-    console.log('4- saveUnit');
-    return new Observable(observer => {
-      unitService.create(this).subscribe(data => {
-        console.log('5 - Creado correctamente');
-        snackBar.open('Creado Correctamente !', '', {
-          duration: 2000
-        });
-        observer.next();
-        observer.complete();
-      });
-    });
+  saveUnit(unitService: UnitService) {
+    unitService.create(this);
   }
 
   log(margin: string) {
