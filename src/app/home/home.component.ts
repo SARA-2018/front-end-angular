@@ -39,7 +39,7 @@ export class HomeComponent implements OnInit {
   readonly db = true;
 
   constructor(private lexical: Lexical, private snackBar: MatSnackBar, private unitService: UnitService,
-              private relationService: RelationService) {
+    private relationService: RelationService) {
   }
 
   ngOnInit(): void {
@@ -59,12 +59,12 @@ export class HomeComponent implements OnInit {
     this.units = [];
     this.relations = [];
     if (this.db) {
-      this.unitService.getAll().subscribe(units => {
-        this.unitsDto = units;
-        this.relationService.getAll().subscribe(relations => {
+       this.unitService.getAll().subscribe(units => {
+         this.unitsDto = units;
+         this.relationService.getAll().subscribe(relations => {
           this.relationsDto = relations;
           this.addDataGraph();
-        });
+       });
       });
     } else {
       this.addDataGraph();
@@ -136,6 +136,8 @@ export class HomeComponent implements OnInit {
     this.nodes = [];
     this.links = [];
     this.nodesNotRelated = [];
+    this.units = [];
+    this.relations = [];
     let root;
     if (this.db) {
       for (const unitDto of this.unitsDto) {
@@ -176,6 +178,7 @@ export class HomeComponent implements OnInit {
     rootView.locate();
     this.nodes = rootView.createNode();
     this.links = rootView.createLink();
+
     console.log('Nodos ' + this.nodes.length);
     console.log('Links ' + this.links.length);
   }
@@ -183,19 +186,15 @@ export class HomeComponent implements OnInit {
   async onEnter(command: string) {
     try {
       this.lexical.analyzeCommand(command).subscribe(
-        () => {
-          console.log('FINISH DEBE SINCRONIZAR');
-          this.synchronizedGraph();
-        }
+        () => this.synchronizedGraph()
       );
-
     } catch (err) {
       if (err.code === 'LEXICAL_ERROR') {
         this.snackBar.open(err.message, '', {
           duration: 2000
         });
       } else {
-         console.log(err);
+        console.log(err);
         this.snackBar.open('Commando Erroneo', '', {
           duration: 2000
         });
