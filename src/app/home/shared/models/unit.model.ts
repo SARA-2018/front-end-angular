@@ -9,15 +9,20 @@ export class Unit {
   private name: string;
   private blocks: Block[] = [];
 
-  constructor(name: string) {
+  constructor(name: string, id?: number) {
     this.name = name;
+    this.id = id;
   }
 
-  getBlocks() {
+  getId(): number {
+    return this.id;
+  }
+
+  getBlocks(): Block[] {
     return this.blocks;
   }
 
-  getName() {
+  getName(): string {
     return this.name;
   }
 
