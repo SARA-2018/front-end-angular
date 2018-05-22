@@ -10,14 +10,14 @@ import { HttpModule, JsonpModule } from '@angular/http';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { HttpService } from './core/http.service';
 import { NgModule } from '@angular/core';
-import { UnitService } from './home/shared/services/unit.service';
-import { D3Service } from './home/d3/d3.service';
-import { DraggableDirective } from './home/d3/directives/draggable.directive';
-import { GraphComponent } from './home/d3/views/graph/graph.component';
-import { LinkComponent } from './home/d3/views/link/link.component';
-import { NodeComponent } from './home/d3/views/node/node.component';
-import { UnitsNotRelatedComponent } from './home/d3/views/units-not-related/units-not-related.component';
-import { ZoomableDirective } from './home/d3/directives/zoomable.directive';
+import { UnitService } from './teacher/shared/services/unit.service';
+import { D3Service } from './teacher/d3/d3.service';
+import { DraggableDirective } from './teacher/d3/directives/draggable.directive';
+import { GraphComponent } from './teacher/d3/views/graph/graph.component';
+import { LinkComponent } from './teacher/d3/views/link/link.component';
+import { NodeComponent } from './teacher/d3/views/node/node.component';
+import { UnitsNotRelatedComponent } from './teacher/d3/views/units-not-related/units-not-related.component';
+import { ZoomableDirective } from './teacher/d3/directives/zoomable.directive';
 
 import {
   MatAutocompleteModule, MatButtonModule, MatButtonToggleModule,
@@ -32,8 +32,8 @@ import {
   MatTabsModule, MatToolbarModule, MatTooltipModule,
   MatStepperModule,
 } from '@angular/material';
-import {RelationService} from './home/shared/services/relation.service';
-import {Lexical} from './home/shared/models/lexical.model';
+import {RelationService} from './teacher/shared/services/relation.service';
+import {Lexical} from './teacher/shared/models/lexical.model';
 
 @NgModule({
   imports: [
