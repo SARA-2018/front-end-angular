@@ -178,9 +178,6 @@ export class HomeComponent implements OnInit {
     rootView.locate();
     this.nodes = rootView.createNode();
     this.links = rootView.createLink();
-
-    console.log('Nodos ' + this.nodes.length);
-    console.log('Links ' + this.links.length);
   }
 
   async onEnter(command: string) {
@@ -194,7 +191,6 @@ export class HomeComponent implements OnInit {
           duration: 2000
         });
       } else {
-        console.log(err);
         this.snackBar.open('Commando Erroneo', '', {
           duration: 2000
         });
