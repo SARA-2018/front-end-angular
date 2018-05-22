@@ -124,8 +124,8 @@ export class HomeComponent implements OnInit {
 
   isRelated(unit: Unit): boolean {
     for (let i = 0; i < this.relations.length; i++) {
-      if ((this.relations[i].getTopUnit().getName() === unit.getName()) ||
-        (this.relations[i].getLowerUnit().getName() === unit.getName())) {
+      if ((this.relations[i].getTopUnit().getId() === unit.getId()) ||
+        (this.relations[i].getLowerUnit().getId() === unit.getId())) {
         return true;
       }
     }
@@ -141,11 +141,11 @@ export class HomeComponent implements OnInit {
     let root;
     if (this.db) {
       for (const unitDto of this.unitsDto) {
-        this.units.push(new Unit(unitDto.name));
+        this.units.push(new Unit(unitDto.name, unitDto._id));
       }
       for (const relationDto of this.relationsDto) {
-        const topUnit = this.units.find(unit => unit.getName() === relationDto.topUnit.name);
-        const lowerUnit = this.units.find(unit => unit.getName() === relationDto.lowerUnit.name);
+        const topUnit = this.units.find(unit => unit.getId() === relationDto.topUnit._id);
+        const lowerUnit = this.units.find(unit => unit.getId() === relationDto.lowerUnit._id);
         this.relations.push(new RelationInput(topUnit, lowerUnit, relationDto.type, relationDto.semantics));
       }
       let y = 20;
