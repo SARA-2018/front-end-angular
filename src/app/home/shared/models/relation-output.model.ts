@@ -20,7 +20,7 @@ export class RelationOutput {
     this.cardinalLowerUnit = cardinalLowerUnit;
   }
 
-  saveRelation(relationService: RelationService, snackBar: MatSnackBar) {
+  saveRelation(relationService: RelationService) {
     relationService.create(this);
   }
 }

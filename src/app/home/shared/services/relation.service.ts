@@ -23,6 +23,10 @@ export class RelationService {
         this.snackBar.open('Creado Correctamente !', '', {
           duration: 2000
         });
+      }, error => {
+        this.snackBar.open('No ha podido crearse la unidad.', '', {
+          duration: 8000
+        });
       });
   }
 

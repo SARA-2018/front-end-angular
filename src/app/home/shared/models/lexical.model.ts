@@ -28,7 +28,6 @@ export class Lexical {
     return new Observable(observer => {
       const lex = new Lex(command, this.tokenMatchers, this.ignorePattern);
       const token = lex.nextToken();
-      console.log('1 - analizar comando');
       switch (token['name']) {
         case '~':
           const val = command.split('~');
@@ -41,6 +40,8 @@ export class Lexical {
           const text = command.split(token['lexeme']);
           command = text.pop();
           this.analyzeCommandCreateUnit(command, token);
+          observer.next();
+          observer.complete();
           break;
         default:
           observer.error();
@@ -74,7 +75,6 @@ export class Lexical {
   }
 
   private analyzeCommandCreateUnit(command: string, name: object) {
-      console.log('2 - Analizar comando crear');
       const lex = new Lex(command, this.tokenMatchers, this.ignorePattern);
       const sharp = lex.nextToken();
       if (sharp['name'] !== '#') {
@@ -83,8 +83,7 @@ export class Lexical {
       const idTopUnit = lex.nextToken();
       if (idTopUnit['name'] === 'new') {
         const unit = new Unit(name['lexeme']);
-        console.log('3 - Llamar a guardar unidad');
-        unit.saveUnit(this.unitService, this.snackBar);
+        unit.saveUnit(this.unitService);
       } else if (idTopUnit['name'] === 'code') {
         this.analyzeCommandUpdateUnit(command, lex, idTopUnit);
       } else {
@@ -418,7 +417,7 @@ export class Lexical {
   private createRelation(relations: TypeRelation, idTopUnit: number, idLowerUnit: number, semantics: string,
                          cardinalTopUnit: string, cardinalLowerUnit: string): RelationOutput {
     const relation = new RelationOutput(relations, idTopUnit, idLowerUnit, semantics, cardinalTopUnit, cardinalLowerUnit);
-    relation.saveRelation(this.relationService, this.snackBar);
+    relation.saveRelation(this.relationService);
     return relation;
   }
 }

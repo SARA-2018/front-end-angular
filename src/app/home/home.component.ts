@@ -59,16 +59,13 @@ export class HomeComponent implements OnInit {
     this.units = [];
     this.relations = [];
     if (this.db) {
-      console.log('-- SINCRONIZAR');
        this.unitService.getAll().subscribe(units => {
          this.unitsDto = units;
          this.relationService.getAll().subscribe(relations => {
-           this.relationsDto = relations;
-           console.log('--- UNITS: ' + this.units.length);
-           console.log('--- RELATIONS: ' + this.relations.length);
-           this.addDataGraph();
-         });
+          this.relationsDto = relations;
+          this.addDataGraph();
        });
+      });
     } else {
       this.addDataGraph();
     }
@@ -141,7 +138,6 @@ export class HomeComponent implements OnInit {
     this.nodesNotRelated = [];
     this.units = [];
     this.relations = [];
-    console.log('-- NODES ANTES: ' + this.nodes.length);
     let root;
     if (this.db) {
       for (const unitDto of this.unitsDto) {
@@ -161,7 +157,6 @@ export class HomeComponent implements OnInit {
           y += 60;
         }
       }
-      console.log('units LENgth' + this.units.length);
       root = this.units[0];
     } else {
       const unitsNotRelated: Unit[] = [];
@@ -183,7 +178,6 @@ export class HomeComponent implements OnInit {
     rootView.locate();
     this.nodes = rootView.createNode();
     this.links = rootView.createLink();
-    console.log('-- NODES DESPUES: ' + this.nodes.length);
 
     console.log('Nodos ' + this.nodes.length);
     console.log('Links ' + this.links.length);
@@ -192,12 +186,8 @@ export class HomeComponent implements OnInit {
   async onEnter(command: string) {
     try {
       this.lexical.analyzeCommand(command).subscribe(
-        () => {
-          console.log('FINISH DEBE SINCRONIZAR');
-          this.synchronizedGraph();
-        }
+        () => this.synchronizedGraph()
       );
-
     } catch (err) {
       if (err.code === 'LEXICAL_ERROR') {
         this.snackBar.open(err.message, '', {

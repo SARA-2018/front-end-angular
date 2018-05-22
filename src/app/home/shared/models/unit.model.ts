@@ -56,10 +56,8 @@ export class Unit {
     return i;
   }
 
-  saveUnit(unitService: UnitService, snackBar: MatSnackBar) {
-
+  saveUnit(unitService: UnitService) {
     unitService.create(this);
-
   }
 
   log(margin: string) {

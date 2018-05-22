@@ -26,7 +26,7 @@ export class UnitService {
         });
       },
       error => {
-        this.snackBar.open('Recurso no encontrado !', '', {
+        this.snackBar.open('No ha podido crearse la unidad.', '', {
           duration: 8000
         });
       });
