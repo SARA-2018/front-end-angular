@@ -1,5 +1,5 @@
 import { Command } from './command.model';
-import { UnitService } from '../services/unit.service';
+import { UnitService } from '../../services/unit.service';
 
 export class DeleteUnitCommand extends Command {
 

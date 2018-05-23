@@ -1,6 +1,7 @@
-import {Unit} from './unit.model';
-import {UnitService} from '../services/unit.service';
+
 import {Command} from './command.model';
+import { Unit } from '../unit.model';
+import { UnitService } from '../../services/unit.service';
 
 export class AddUnitCommand extends Command {
 

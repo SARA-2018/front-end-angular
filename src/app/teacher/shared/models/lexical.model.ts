@@ -1,11 +1,11 @@
 import * as Lex from 'lexical-parser';
 import { TypeRelation } from './type-relation.enum';
-import { AddUnitCommand } from './addUnitCommand.model';
-import { Command } from './command.model';
-import { ErrorCommand } from './errorCommand.model';
-import { DeleteUnitCommand } from './deleteUnitCommand.model';
-import { AddRelationCommand } from './addRelationCommand.model';
 import { error } from 'util';
+import { ErrorCommand } from './commands/errorCommand.model';
+import { DeleteUnitCommand } from './commands/deleteUnitCommand.model';
+import { Command } from './commands/command.model';
+import { AddUnitCommand } from './commands/addUnitCommand.model';
+import { AddRelationCommand } from './commands/addRelationCommand.model';
 
 
 export class Lexical {
