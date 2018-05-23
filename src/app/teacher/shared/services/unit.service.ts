@@ -6,6 +6,7 @@ import { RelationDto } from '../dtos/relation.dto';
 import { Subject } from 'rxjs/Subject';
 import { MatSnackBar } from '@angular/material';
 import { HttpService } from '../../../core/http.service';
+import { FilterDto } from '../dtos/filter.dto';
 
 @Injectable()
 export class UnitService {
@@ -32,7 +33,7 @@ export class UnitService {
       });
   }
 
-  filter(name: string): Observable<RelationDto[]> {
+  filter(name: string): Observable<FilterDto[]> {
     return this.httpService.param('name', `${name}`).get(UnitService.END_POINT + '/search').map(data => {
       return data;
     });
