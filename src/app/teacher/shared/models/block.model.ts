@@ -8,7 +8,7 @@ export class Block {
     private cardinalLowerUnit: string;
     private units: Unit[] = [];
 
-    constructor(unit: Unit, type: string, semantics: string, cardinalTopUnit: string , cardinalLowerUnit: string) {
+    constructor(unit: Unit, type: string, semantics?: string, cardinalTopUnit?: string , cardinalLowerUnit?: string) {
         this.type = type;
         this.semantics = semantics;
         this.cardinalLowerUnit = cardinalLowerUnit;

@@ -11,7 +11,6 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { HttpService } from './core/http.service';
 import { NgModule } from '@angular/core';
 import { UnitService } from './teacher/shared/services/unit.service';
-import { D3Service } from './teacher/d3/d3.service';
 import { DraggableDirective } from './teacher/d3/directives/draggable.directive';
 import { GraphComponent } from './teacher/d3/views/graph/graph.component';
 import { LinkComponent } from './teacher/d3/views/link/link.component';
@@ -33,6 +32,7 @@ import {
   MatStepperModule,
 } from '@angular/material';
 import {RelationService} from './teacher/shared/services/relation.service';
+import { D3Service } from './teacher/d3/d3.service';
 
 @NgModule({
   imports: [

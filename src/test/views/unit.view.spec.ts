@@ -1,7 +1,9 @@
-import { UnitViewImp } from '../../app/home/shared/views/unit.view';
-import { Unit } from '../../app/home/shared/models/unit.model';
-import { BlockViewImp } from '../../app/home/shared/views/block.view';
-import { Block } from '../../app/home/shared/models/block.model';
+import { UnitViewImp } from '../../app/teacher/shared/views/unit.view';
+import { Unit } from '../../app/teacher/shared/models/unit.model';
+import { BlockViewImp } from '../../app/teacher/shared/views/block.view';
+import { Block } from '../../app/teacher/shared/models/block.model';
+
+
 
 
 describe('HomeComponent UnitViewImp ', () => {
@@ -17,7 +19,7 @@ describe('HomeComponent UnitViewImp ', () => {
         unitViewRoot.append(new BlockViewImp(new Block(unitLeaf, 'inherit')));
 
         unitViewRoot2 = new UnitViewImp(new Unit('TestUnitRoot2'));
-        const unitMedium = new Unit ('TestUnitMedium1');
+        const unitMedium = new Unit('TestUnitMedium1');
         unitMedium.appendUnit(unitLeaf, 'inherit');
         unitViewRoot2.append(new BlockViewImp(new Block(unitMedium, 'inherit')));
         unitViewRoot2.append(new BlockViewImp(new Block(new Unit('TestUnitViewImpMedium2'), 'compose')));
@@ -39,7 +41,7 @@ describe('HomeComponent UnitViewImp ', () => {
         expect(unitViewLeaf.calculateWidthBlock()).toEqual(160);
     });
 
-    it('#shift' , () => {
+    it('#shift', () => {
         unitViewLeaf.shift(10, 10);
         expect(unitViewLeaf.getX()).toEqual(10);
         expect(unitViewLeaf.getY()).toEqual(10);
