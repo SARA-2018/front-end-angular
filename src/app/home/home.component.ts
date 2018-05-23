@@ -39,7 +39,7 @@ export class HomeComponent implements OnInit {
   searchUnit: FormControl;
   filteredUnits: Observable<RelationDto[]>;
 
-  readonly db = true;
+  readonly db = false;
 
   constructor(private snackBar: MatSnackBar, private unitService: UnitService, private relationService: RelationService) {
   }
@@ -113,7 +113,7 @@ export class HomeComponent implements OnInit {
     const relationA = new Relation(unitE4, unitA, TypeRelation.USE);
     const relat = new Relation(unitE4, unitE9, TypeRelation.INHERIT, 'sem2');
     const relat1 = new Relation(unitE10, unitR2, TypeRelation.INHERIT, 'semantica1');
-    const relat2 = new Relation(unitE10, unitR3, TypeRelation.INHERIT, 'semantica2');
+    const relat2 = new Relation(unitE10, unitR3, TypeRelation.INHERIT, 'semantica2', 'N', '1');
     const relat3 = new Relation(unitE10, unitA, TypeRelation.USE);
     const relat4 = new Relation(unitE4, unitA, TypeRelation.COMPOSE);
 
