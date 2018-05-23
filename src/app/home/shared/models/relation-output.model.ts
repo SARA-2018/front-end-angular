@@ -1,4 +1,3 @@
-import { MatSnackBar } from '@angular/material';
 import { RelationService } from '../services/relation.service';
 
 export class RelationOutput {
