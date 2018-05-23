@@ -15,6 +15,8 @@ import { debounceTime } from 'rxjs/operators';
 import { Lexical } from './shared/models/lexical.model';
 import { RelationService } from './shared/services/relation.service';
 import { TypeRelation } from './shared/models/type-relation.enum';
+import { Command } from './shared/models/command.model';
+
 
 
 @Component({
@@ -29,7 +31,8 @@ export class HomeComponent implements OnInit {
   unitsDto: UnitDto[];
   units: Unit[] = [];
   relations: RelationInput[] = [];
-  relationsDto: RelationDto[] = [];
+  relationsDto: RelationDto[];
+  filterRelation: RelationDto[] = [];
   nodes: Node[] = [];
   nodesNotRelated: Node[] = [];
   links: Link[] = [];
@@ -38,8 +41,7 @@ export class HomeComponent implements OnInit {
 
   readonly db = true;
 
-  constructor(private lexical: Lexical, private snackBar: MatSnackBar, private unitService: UnitService,
-    private relationService: RelationService) {
+  constructor(private snackBar: MatSnackBar, private unitService: UnitService, private relationService: RelationService) {
   }
 
   ngOnInit(): void {
@@ -180,17 +182,18 @@ export class HomeComponent implements OnInit {
     this.links = rootView.createLink();
   }
 
-  async onEnter(command: string) {
+  onEnter(text: string) {
     try {
-      this.lexical.analyzeCommand(command).subscribe(
-        () => this.synchronizedGraph()
-      );
+      const lexical = new Lexical;
+      const command: Command = lexical.analyzeCommand(text);
+      command.execute(this.unitService, this.relationService);
     } catch (err) {
       if (err.code === 'LEXICAL_ERROR') {
         this.snackBar.open(err.message, '', {
           duration: 2000
         });
       } else {
+        console.log(err);
         this.snackBar.open('Commando Erroneo', '', {
           duration: 2000
         });
@@ -213,9 +216,9 @@ export class HomeComponent implements OnInit {
     const unit = parse.pop();
     if (unit !== '') {
       this.unitService.filter(unit).subscribe(data => {
-        this.relationsDto = data;
+        this.filterRelation = data;
       });
-      return this.relationsDto.filter(value => value.name.indexOf(unit.toString()) === 0);
+      return this.filterRelation.filter(value => value.name.indexOf(unit.toString()) === 0);
     }
   }
 }
