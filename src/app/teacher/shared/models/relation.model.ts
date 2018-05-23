@@ -1,4 +1,5 @@
-import { Unit } from '../models/unit.model';
+import { Unit } from './unit.model';
+
 
 export class Relation {
 

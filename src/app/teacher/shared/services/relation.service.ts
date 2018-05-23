@@ -4,7 +4,7 @@ import { RelationDto } from '../dtos/relation.dto';
 import { Subject } from 'rxjs/Subject';
 import { MatSnackBar } from '@angular/material';
 import { HttpService } from '../../../core/http.service';
-import {AddRelationCommand} from '../models/addRelationCommand.model';
+import { AddRelationCommand } from '../models/commands/addRelationCommand.model';
 
 @Injectable()
 export class RelationService {

@@ -113,7 +113,7 @@ export class UnitViewImp implements UnitView {
             this.x += nodeDivisionForLink;
             for (const unit of blockView.getUnitViews()) {
                 const relation = new Link(this, unit, blockView.getBlock().getType(),
-                    blockView.getBlock().getSemantics(), blockView.getBlock().getCardinalTopUnit(), 
+                    blockView.getBlock().getSemantics(), blockView.getBlock().getCardinalTopUnit(),
                     blockView.getBlock().getCardinalLowerUnit());
                 links.push(relation);
                 for (const link of unit.createLink()) {
