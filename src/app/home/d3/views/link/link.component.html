@@ -1,5 +1,11 @@
 <svg:polyline class="link" [attr.points]="link.linkPoints.toString()"/> 
+<svg:text class="text" [attr.transform]="'translate(' + (link.linkPoints[6] - link.leftCardinalTopUnit) + ',' + link.linkPoints[7] + ')'">
+    {{link.cardinalTopUnit}}
+</svg:text>
 <svg:text class="text" [attr.transform]="'translate(' + link.linkPoints[2] + ',' + link.linkPoints[3] + ')'">
     {{link.semantics}}
+</svg:text>
+<svg:text class="text" [attr.transform]="'translate(' + (link.linkPoints[0] - link.leftCardinalLowerUnit) + ',' + link.linkPoints[1] + ')'">
+    {{link.cardinalLowerUnit}}
 </svg:text>
 <svg:polyline class="relation" [attr.points]="link.relationPoints.toString()" [attr.fill]="link.fillRelationColor"/> 

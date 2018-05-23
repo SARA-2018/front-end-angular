@@ -8,8 +8,8 @@ import { map } from 'rxjs/operators/map';
 import { Observable } from 'rxjs/Observable';
 import { UnitDto } from './shared/dtos/unit.dto';
 import { RelationDto } from './shared/dtos/relation.dto';
+import { Relation } from './shared/models/relation.model';
 import { Unit } from './shared/models/unit.model';
-import { RelationInput } from './shared/models/relation-input.model';
 import { UnitViewImp } from './shared/views/unit.view';
 import { debounceTime } from 'rxjs/operators';
 import { Lexical } from './shared/models/lexical.model';
@@ -30,7 +30,7 @@ export class HomeComponent implements OnInit {
   static URL = 'home';
   unitsDto: UnitDto[];
   units: Unit[] = [];
-  relations: RelationInput[] = [];
+  relations: Relation[] = [];
   relationsDto: RelationDto[];
   filterRelation: RelationDto[] = [];
   nodes: Node[] = [];
@@ -39,7 +39,7 @@ export class HomeComponent implements OnInit {
   searchUnit: FormControl;
   filteredUnits: Observable<RelationDto[]>;
 
-  readonly db = true;
+  readonly db = false;
 
   constructor(private snackBar: MatSnackBar, private unitService: UnitService, private relationService: RelationService) {
   }
@@ -100,28 +100,29 @@ export class HomeComponent implements OnInit {
     const unitR3 = new Unit('Raquel3');
     const unitA = new Unit('Alvaro');
 
-    const relationE1 = new RelationInput(root, unitE2, TypeRelation.COMPOSE);
-    const relationE2 = new RelationInput(root, unitE3, TypeRelation.COMPOSE);
-    const relationE3 = new RelationInput(root, unitE4, TypeRelation.COMPOSE);
-    const relationE4 = new RelationInput(root, unitE5, TypeRelation.COMPOSE);
-    const relationE5 = new RelationInput(unitE3, unitE6, TypeRelation.INHERIT);
-    const relationE6 = new RelationInput(unitE3, unitE7, TypeRelation.INHERIT);
-    const relationE7 = new RelationInput(unitE3, unitE8, TypeRelation.INHERIT);
-    const relationE8 = new RelationInput(unitE7, unitE9, TypeRelation.INHERIT);
-    const relationE9 = new RelationInput(unitE7, unitE10, TypeRelation.USE);
-    const relationR = new RelationInput(unitE4, unitR, TypeRelation.INHERIT, 'sem1');
-    const relationA = new RelationInput(unitE4, unitA, TypeRelation.USE);
-    const relat = new RelationInput(unitE4, unitE9, TypeRelation.INHERIT, 'sem2');
-    const relat1 = new RelationInput(unitE10, unitR2, TypeRelation.INHERIT, 'semantica1');
-    const relat2 = new RelationInput(unitE10, unitR3, TypeRelation.INHERIT, 'semantica2');
-    const relat3 = new RelationInput(unitE10, unitA, TypeRelation.USE);
-    const relat4 = new RelationInput(unitE4, unitA, TypeRelation.COMPOSE);
+    const relationE1 = new Relation(root, unitE2, TypeRelation.COMPOSE);
+    const relationE2 = new Relation(root, unitE3, TypeRelation.COMPOSE);
+    const relationE3 = new Relation(root, unitE4, TypeRelation.COMPOSE);
+    const relationE4 = new Relation(root, unitE5, TypeRelation.COMPOSE);
+    const relationE5 = new Relation(unitE3, unitE6, TypeRelation.INHERIT);
+    const relationE6 = new Relation(unitE3, unitE7, TypeRelation.INHERIT);
+    const relationE7 = new Relation(unitE3, unitE8, TypeRelation.INHERIT);
+    const relationE8 = new Relation(unitE7, unitE9, TypeRelation.INHERIT);
+    const relationE9 = new Relation(unitE7, unitE10, TypeRelation.USE);
+    const relationR = new Relation(unitE4, unitR, TypeRelation.INHERIT, 'sem1');
+    const relationA = new Relation(unitE4, unitA, TypeRelation.USE);
+    const relat = new Relation(unitE4, unitE9, TypeRelation.INHERIT, 'sem2');
+    const relat1 = new Relation(unitE10, unitR2, TypeRelation.INHERIT, undefined, '8', '0');
+    const relat2 = new Relation(unitE10, unitR3, TypeRelation.INHERIT, 'semantica2', 'N', '1');
+    const relat3 = new Relation(unitE10, unitR3, TypeRelation.INHERIT, 'semantica2', '1', '2');
+    const relat4 = new Relation(unitE10, unitR3, TypeRelation.INHERIT, 'semantica2', '3', '4');
+
 
     // root
     // UnitE4 1 - 1
     // UnitE7 1 - 2
     // UnitE3 1 - 3 - 2
-    return root;
+    return unitE10;
   }
 
   isRelated(unit: Unit): boolean {
@@ -148,7 +149,7 @@ export class HomeComponent implements OnInit {
       for (const relationDto of this.relationsDto) {
         const topUnit = this.units.find(unit => unit.getCode() === relationDto.topUnit.code);
         const lowerUnit = this.units.find(unit => unit.getCode() === relationDto.lowerUnit.code);
-        this.relations.push(new RelationInput(topUnit, lowerUnit, relationDto.type, relationDto.semantics));
+        this.relations.push(new Relation(topUnit, lowerUnit, relationDto.type, relationDto.semantics, undefined, undefined));
       }
       let y = 20;
       for (let i = 0; i < this.units.length; i++) {
