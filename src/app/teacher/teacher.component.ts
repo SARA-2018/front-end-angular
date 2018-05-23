@@ -16,6 +16,7 @@ import { Lexical } from './shared/models/lexical.model';
 import { RelationService } from './shared/services/relation.service';
 import { TypeRelation } from './shared/models/type-relation.enum';
 import { Command } from './shared/models/commands/command.model';
+import { FilterDto } from './shared/dtos/filter.dto';
 
 
 
@@ -31,12 +32,12 @@ export class TeacherComponent implements OnInit {
   units: Unit[] = [];
   relations: Relation[] = [];
   relationsDto: RelationDto[];
-  filterRelation: RelationDto[] = [];
+  filterRelation: FilterDto[] = [];
   nodes: Node[] = [];
   nodesNotRelated: Node[] = [];
   links: Link[] = [];
   searchUnit: FormControl;
-  filteredUnits: Observable<RelationDto[]>;
+  filteredUnits: Observable<FilterDto[]>;
 
   readonly db = true;
 
@@ -211,7 +212,7 @@ export class TeacherComponent implements OnInit {
       );
   }
 
-  filter(unitName: string): RelationDto[] {
+  filter(unitName: string): FilterDto[] {
     const regExp = new RegExp('[\ns \t:~#<>]+');
     const parse = unitName.split(regExp);
     const unit = parse.pop();
