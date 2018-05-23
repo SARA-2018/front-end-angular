@@ -1,6 +1,5 @@
 import { Node } from '../../d3/models/node';
 import { Link } from '../../d3/models/link';
-import { RelationInput } from '../models/relation-input.model';
 import { UnitViewImp } from './unit.view';
 import { Block } from '../models/block.model';
 import { UnitView } from './unit-view.interface';

@@ -1,14 +1,15 @@
 import { NgModule } from '@angular/core';
 import { HomeComponent } from './home/home.component';
 import { Routes, RouterModule } from '@angular/router';
+import { TeacherComponent } from './teacher/teacher.component';
 
 const appRoutes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: HomeComponent.URL },
-  {
-    path: HomeComponent.URL, component: HomeComponent,
+  { path: HomeComponent.URL, component: HomeComponent },
+  { path: TeacherComponent.URL, component: TeacherComponent ,
     children: [
       // Declaracion de RUTAS
-      // { path: TicketsComponent.URL, component: TicketsComponent }, <-- Ejemplo
+      // { path: TeacherComponent.URL, component: TeacherComponent }
     ]
   }
 ];
@@ -22,6 +23,7 @@ export class AppRoutingModule {
   static COMPONENTS = [
     // Declaracion de COMPONENTES
     HomeComponent,
+    TeacherComponent
   ];
 
   static DIALOGS_COMPONENTS = [

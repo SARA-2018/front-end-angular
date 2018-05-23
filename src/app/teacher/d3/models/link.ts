@@ -7,23 +7,31 @@ export class Link implements d3.SimulationLinkDatum<Node> {
   source: Node;
   target: Node;
 
-  topUnit: UnitViewImp;
-  lowerUnit: UnitViewImp;
-  type: string;
-  semantics: string;
-  linkPoints = [];
-  relationPoints = [];
-  fillRelationColor = 'none';
+  private topUnit: UnitViewImp;
+  private lowerUnit: UnitViewImp;
+  private type: string;
+  private semantics: string;
+  private cardinalTopUnit: string;
+  private cardinalLowerUnit: string;
+
+  private linkPoints = [];
+  private relationPoints = [];
+  private fillRelationColor = 'none';
 
   readonly lowerUnitUP = 10;
   readonly topUnitDOWN = 25;
   readonly sizeArrowRelation = 10;
+  readonly leftCardinalTopUnit = 25;
+  readonly leftCardinalLowerUnit = 10;
 
-  constructor(topUnit: UnitViewImp, lowerUnit: UnitViewImp, type: string, semantics?: string) {
+  constructor(topUnit: UnitViewImp, lowerUnit: UnitViewImp, type: string, semantics: string,
+    cardinalTopUnit: string, cardinalLowerUnit: string) {
     this.topUnit = topUnit;
     this.lowerUnit = lowerUnit;
     this.type = type;
     this.semantics = semantics;
+    this.cardinalTopUnit = cardinalTopUnit;
+    this.cardinalLowerUnit = cardinalLowerUnit;
     this.generateLink();
     this.generateRelation(this.type);
   }

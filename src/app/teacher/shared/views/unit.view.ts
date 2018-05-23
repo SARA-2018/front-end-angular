@@ -1,7 +1,6 @@
 import { Unit } from '../models/unit.model';
 import { Node } from '../../d3/models/node';
 import { Link } from '../../d3/models/link';
-import { RelationInput } from '../models/relation-input.model';
 import { BlockViewImp } from './block.view';
 import { UnitView } from './unit-view.interface';
 import { BlockView } from './block-view.interface';
@@ -114,7 +113,8 @@ export class UnitViewImp implements UnitView {
             this.x += nodeDivisionForLink;
             for (const unit of blockView.getUnitViews()) {
                 const relation = new Link(this, unit, blockView.getBlock().getType(),
-                    blockView.getBlock().getSemantics());
+                    blockView.getBlock().getSemantics(), blockView.getBlock().getCardinalTopUnit(),
+                    blockView.getBlock().getCardinalLowerUnit());
                 links.push(relation);
                 for (const link of unit.createLink()) {
                     links.push(link);

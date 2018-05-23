@@ -1,7 +1,8 @@
 import { Command } from './command.model';
-import { RelationService } from '../services/relation.service';
-import { UnitService } from '../services/unit.service';
-import {TypeRelation} from './type-relation.enum';
+import { TypeRelation } from '../type-relation.enum';
+import { UnitService } from '../../services/unit.service';
+import { RelationService } from '../../services/relation.service';
+
 
 export class AddRelationCommand extends Command {
 
