@@ -31,7 +31,7 @@ export class Unit {
     return this.visited;
   }
 
-  appendUnit(unit: Unit, type: string, semantics: string, cardinalTopUnit: string, cardinalLowerUnit: string) {
+  appendUnit(unit: Unit, type: string, semantics?: string, cardinalTopUnit?: string, cardinalLowerUnit?: string) {
     this.visited = true;
     if (!unit.isVisited()) {
       if (this.blocks.length > 0) {
