@@ -97,7 +97,7 @@ export class UnitViewImp implements UnitView {
 
     createNode(): Node[] {
         const result: Node[] = [];
-        const root: Node = new Node(this.unit.getName(), this.x, this.y);
+        const root: Node = new Node(this.unit.getName() + '#' + this.unit.getCode(), this.x, this.y);
         result.push(root);
         for (const blockView of this.blockViews) {
             for (const node of blockView.createNode()) {
