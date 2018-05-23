@@ -324,7 +324,7 @@ export class Lexical {
     }
     const token = lex.nextToken();
     if (token === undefined) {
-      if (relation ? '<inherit' : '<compose' || relation ? '<association' : '<use') {
+      if (relation === '<inherit' || relation === '<compose' || relation === '<association' || relation === '<use') {
         return this.createRelation(relationType, this.codeTopUnit, this.codeLowerUnit, this.cardinalTopUnit, cardinalLowerUnit);
       }
       if (relation ? 'inherit>' : 'compose>') {
@@ -387,7 +387,7 @@ export class Lexical {
     } else if (token['name'] === ',') {
       if (relation ? '<inherit' : 'inherit>' || relation ? '<compose' : 'compose>' || relation ? '<association' : 'association>' ||
       relation ? '<use' : 'use>') {
-        return this.createMoreRelations(lex, relation, relationType, cardinalLowerUnit);
+      //  return this.createMoreRelations(lex, relation, relationType, cardinalLowerUnit);
       }
     } else {
       return new error();
@@ -417,23 +417,26 @@ export class Lexical {
     idLowerUnits.unshift(this.codeLowerUnit);
     cardinalsLowerUnit.unshift(cardinalLowerUnit);
 
-
+    const commands: Command[] = [];
     for (let j = 0; j < idLowerUnits.length; j++) {
       if (relation === '<inherit' || relation === '<compose') {
-        return  this.createRelation(relationType, this.codeTopUnit, idLowerUnits[j], this.cardinalTopUnit, cardinalLowerUnit);
+        commands.push(this.createRelation(relationType, this.codeTopUnit, idLowerUnits[j], this.cardinalTopUnit, cardinalLowerUnit));
       }
       if (relation === 'inherit>' || relation === 'compose>') {
-        return this.createRelation(relationType, idLowerUnits[j], this.codeTopUnit, this.cardinalTopUnit, cardinalsLowerUnit[j]);
+        commands.push(this.createRelation(relationType, idLowerUnits[j], this.codeTopUnit, this.cardinalTopUnit, cardinalsLowerUnit[j]));
       }
       if (relation === '<association' || relation === '<use') {
-        return this.createRelation(relationType, this.codeTopUnit, idLowerUnits[j], this.cardinalTopUnit, cardinalsLowerUnit[j]);
+        commands.push(this.createRelation(relationType, this.codeTopUnit, idLowerUnits[j], this.cardinalTopUnit, cardinalsLowerUnit[j]));
       }
       if (relation === 'association>' || relation === 'use>') {
-        return this.createRelation(relationType, idLowerUnits[j], this.codeTopUnit, cardinalsLowerUnit[j], this.cardinalTopUnit);
-      } else {
-        return new ErrorCommand();
+        commands.push(this.createRelation(relationType, idLowerUnits[j], this.codeTopUnit, cardinalsLowerUnit[j], this.cardinalTopUnit));
+        return
       }
     }
+    /*for (const command of commands) {
+      console.log(command);
+     return command.execute();
+    }*/
   }
 
   private createRelation(relations: TypeRelation, codeTopUnit: number, idLowerUnit: number, cardinalTopUnit: string,
