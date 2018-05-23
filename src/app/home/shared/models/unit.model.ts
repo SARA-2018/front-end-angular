@@ -5,17 +5,18 @@ import { Observable } from 'rxjs/Observable';
 
 export class Unit {
 
-  private id: number;
+  private code: number;
   private name: string;
   private blocks: Block[] = [];
+  private visited: boolean;
 
-  constructor(name: string, id?: number) {
+  constructor(name: string, code?: number) {
     this.name = name;
-    this.id = id;
+    this.code = code;
   }
 
-  getId(): number {
-    return this.id;
+  getCode(): number {
+    return this.code;
   }
 
   getBlocks(): Block[] {
@@ -26,24 +27,31 @@ export class Unit {
     return this.name;
   }
 
+  isVisited(): boolean {
+    return this.visited;
+  }
+
   appendUnit(unit: Unit, type: string, semantics?: string) {
-    if (this.blocks.length > 0) {
-      const i = this.searchBlock(type, semantics);
-      if (type === this.blocks[i].getType()) {
-        if (semantics !== undefined) {
-          if (semantics === this.blocks[i].getSemantics()) {
-            this.blocks[i].appendUnit(unit);
+    this.visited = true;
+    if (!unit.isVisited()) {
+      if (this.blocks.length > 0) {
+        const i = this.searchBlock(type, semantics);
+        if (type === this.blocks[i].getType()) {
+          if (semantics !== undefined) {
+            if (semantics === this.blocks[i].getSemantics()) {
+              this.blocks[i].appendUnit(unit);
+            } else {
+              this.blocks.push(new Block(unit, type, semantics));
+            }
           } else {
-            this.blocks.push(new Block(unit, type, semantics));
+            this.blocks[i].appendUnit(unit);
           }
         } else {
-          this.blocks[i].appendUnit(unit);
+          this.blocks.push(new Block(unit, type, semantics));
         }
       } else {
         this.blocks.push(new Block(unit, type, semantics));
       }
-    } else {
-      this.blocks.push(new Block(unit, type, semantics));
     }
   }
 
