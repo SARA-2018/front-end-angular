@@ -1,17 +1,18 @@
 import { Command } from './command.model';
 import { RelationService } from '../services/relation.service';
 import { UnitService } from '../services/unit.service';
+import {TypeRelation} from './type-relation.enum';
 
 export class AddRelationCommand extends Command {
 
-  private type: string;
+  private type: TypeRelation;
   private semantics: string;
   private idTopUnit: number;
   private idLowerUnit: number;
   private cardinalTopUnit: string;
   private cardinalLowerUnit: string;
 
-  constructor(type: string, idTopUnit: number, idLowerUnit: number, semantics?: string,
+  constructor(type: TypeRelation, idTopUnit: number, idLowerUnit: number, semantics?: string,
               cardinalTopUnit?: string, cardinalLowerUnit?: string) {
     super();
     this.idTopUnit = idTopUnit;
