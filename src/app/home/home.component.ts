@@ -184,7 +184,7 @@ export class HomeComponent implements OnInit {
 
   onEnter(text: string) {
     try {
-      const lexical = new Lexical;
+      const lexical = new Lexical();
       const command: Command = lexical.analyzeCommand(text);
       command.execute(this.unitService, this.relationService);
     } catch (err) {
