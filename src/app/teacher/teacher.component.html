@@ -1,0 +1,37 @@
+<div class="layout-alignment"></div>
+<div id="separator-line" fxLayout="row" fxLayoutGap="20px">
+  <div fxFlex>
+    <mat-card class="units-card">
+      <mat-toolbar color="accent">
+        <mat-toolbar-row>
+          <span>Grafo de unidades</span>
+        </mat-toolbar-row>
+      </mat-toolbar>
+      <app-graph [nodes]="nodes" [links]="links"></app-graph>
+    </mat-card>
+  </div>
+  <mat-card class="units-card scroll">
+    <mat-toolbar color="accent">
+      <mat-toolbar-row>
+        <span>Unidades sin relacionar</span>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <app-units-not-related [nodes]="nodesNotRelated" ></app-units-not-related>
+  </mat-card>
+</div>
+<div class="layout-alignment"></div>
+<mat-card>
+  <mat-card-title>Consola</mat-card-title>
+  <mat-form-field class="full-width">
+    <input matInput #box type="text" class="full-width" (keyup.enter)="onEnter(box.value)" [formControl]="searchUnit"
+           [matAutocomplete]="auto">
+    <mat-autocomplete #auto="matAutocomplete" >
+      <mat-option *ngFor="let relationUnit of filteredUnits| async" [value]="relationUnit.name.concat('#' + relationUnit.code)">
+        <div *ngIf="relationUnit.topUnit?.name != undefined"> {{ relationUnit.name }}<strong>#{{relationUnit.code}}</strong> &nbsp; &nbsp; &nbsp; <em><strong>{{relationUnit.topUnit}}</strong></em></div>
+        <div *ngIf="relationUnit.topUnit?.name == undefined"> {{ relationUnit.name }}<strong>#{{relationUnit.code}}</strong></div>
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</mat-card>
+<div class="layout-alignment"></div>
+<router-outlet></router-outlet>
