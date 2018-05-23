@@ -1,6 +1,6 @@
 import { Unit } from '../models/unit.model';
 
-export class RelationInput {
+export class Relation {
 
   private id: number;
   private type: string;
