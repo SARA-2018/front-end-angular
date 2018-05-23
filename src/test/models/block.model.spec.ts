@@ -1,6 +1,5 @@
-import { Block } from '../../app/home/shared/models/block.model';
-import { Unit } from '../../app/home/shared/models/unit.model';
-
+import { Block } from '../../app/teacher/shared/models/block.model';
+import { Unit } from '../../app/teacher/shared/models/unit.model';
 
 describe('HomeComponent BlockModel', () => {
 
