@@ -33,7 +33,7 @@ export class UnitService {
   }
 
   filter(name: string): Observable<RelationDto[]> {
-    return this.httpService.get(UnitService.END_POINT + '/search' + `/${name}`).map(data => {
+    return this.httpService.param('name', `${name}`).get(UnitService.END_POINT + '/search').map(data => {
       return data;
     });
   }

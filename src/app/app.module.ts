@@ -33,7 +33,6 @@ import {
   MatStepperModule,
 } from '@angular/material';
 import {RelationService} from './teacher/shared/services/relation.service';
-import {Lexical} from './teacher/shared/models/lexical.model';
 
 @NgModule({
   imports: [
@@ -96,7 +95,6 @@ import {Lexical} from './teacher/shared/models/lexical.model';
     HttpService,
     UnitService,
     RelationService,
-    Lexical,
   ]
 
 })
