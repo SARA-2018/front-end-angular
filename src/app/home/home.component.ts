@@ -112,16 +112,17 @@ export class HomeComponent implements OnInit {
     const relationR = new Relation(unitE4, unitR, TypeRelation.INHERIT, 'sem1');
     const relationA = new Relation(unitE4, unitA, TypeRelation.USE);
     const relat = new Relation(unitE4, unitE9, TypeRelation.INHERIT, 'sem2');
-    const relat1 = new Relation(unitE10, unitR2, TypeRelation.INHERIT, 'semantica1');
+    const relat1 = new Relation(unitE10, unitR2, TypeRelation.INHERIT, undefined, '8', '0');
     const relat2 = new Relation(unitE10, unitR3, TypeRelation.INHERIT, 'semantica2', 'N', '1');
-    const relat3 = new Relation(unitE10, unitA, TypeRelation.USE);
-    const relat4 = new Relation(unitE4, unitA, TypeRelation.COMPOSE);
+    const relat3 = new Relation(unitE10, unitR3, TypeRelation.INHERIT, 'semantica2', '1', '2');
+    const relat4 = new Relation(unitE10, unitR3, TypeRelation.INHERIT, 'semantica2', '3', '4');
+
 
     // root
     // UnitE4 1 - 1
     // UnitE7 1 - 2
     // UnitE3 1 - 3 - 2
-    return root;
+    return unitE10;
   }
 
   isRelated(unit: Unit): boolean {
@@ -148,7 +149,7 @@ export class HomeComponent implements OnInit {
       for (const relationDto of this.relationsDto) {
         const topUnit = this.units.find(unit => unit.getCode() === relationDto.topUnit.code);
         const lowerUnit = this.units.find(unit => unit.getCode() === relationDto.lowerUnit.code);
-        this.relations.push(new Relation(topUnit, lowerUnit, relationDto.type, relationDto.semantics));
+        this.relations.push(new Relation(topUnit, lowerUnit, relationDto.type, relationDto.semantics, undefined, undefined));
       }
       let y = 20;
       for (let i = 0; i < this.units.length; i++) {

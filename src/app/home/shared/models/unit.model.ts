@@ -31,7 +31,7 @@ export class Unit {
     return this.visited;
   }
 
-  appendUnit(unit: Unit, type: string, semantics?: string) {
+  appendUnit(unit: Unit, type: string, semantics: string, cardinalTopUnit: string, cardinalLowerUnit: string) {
     this.visited = true;
     if (!unit.isVisited()) {
       if (this.blocks.length > 0) {
@@ -41,16 +41,16 @@ export class Unit {
             if (semantics === this.blocks[i].getSemantics()) {
               this.blocks[i].appendUnit(unit);
             } else {
-              this.blocks.push(new Block(unit, type, semantics));
+              this.blocks.push(new Block(unit, type, semantics, cardinalTopUnit, cardinalLowerUnit));
             }
           } else {
             this.blocks[i].appendUnit(unit);
           }
         } else {
-          this.blocks.push(new Block(unit, type, semantics));
+          this.blocks.push(new Block(unit, type, semantics, cardinalTopUnit, cardinalLowerUnit));
         }
       } else {
-        this.blocks.push(new Block(unit, type, semantics));
+        this.blocks.push(new Block(unit, type, semantics, cardinalTopUnit, cardinalLowerUnit));
       }
     }
   }

@@ -7,13 +7,17 @@ export class Relation {
   private semantics: string;
   private topUnit: Unit;
   private lowerUnit: Unit;
+  private cardinalTopUnit: string;
+  private cardinalLowerUnit: string;
 
-  constructor(topUnit: Unit, lowerUnit: Unit, type: string, semantics?: string) {
+  constructor(topUnit: Unit, lowerUnit: Unit, type: string, semantics?: string, cardinalTopUnit?: string, cardinalLowerUnit?: string) {
     this.topUnit = topUnit;
     this.lowerUnit = lowerUnit;
     this.type = type;
     this.semantics = semantics;
-    this.topUnit.appendUnit(lowerUnit, type, semantics);
+    this.cardinalTopUnit = cardinalTopUnit;
+    this.cardinalLowerUnit = cardinalLowerUnit;
+    this.topUnit.appendUnit(lowerUnit, type, semantics, cardinalTopUnit, cardinalLowerUnit);
   }
 
   getTopUnit(): Unit {
