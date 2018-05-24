@@ -196,7 +196,7 @@ export class TeacherComponent implements OnInit {
         });
       } else {
         console.log(err);
-        this.snackBar.open('Commando Erroneo', '', {
+        this.snackBar.open('Comando erróneo', '', {
           duration: 2000
         });
       }
