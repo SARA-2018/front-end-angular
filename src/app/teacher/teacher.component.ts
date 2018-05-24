@@ -188,7 +188,9 @@ export class TeacherComponent implements OnInit {
     try {
       const lexical = new Lexical();
       const command: Command = lexical.analyzeCommand(text);
-      command.execute(this.unitService, this.relationService);
+      command.execute(this.unitService, this.relationService).subscribe(
+        () => this.synchronizedGraph()
+      );
     } catch (err) {
       if (err.code === 'LEXICAL_ERROR') {
         this.snackBar.open(err.message, '', {

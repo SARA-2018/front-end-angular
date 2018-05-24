@@ -9,19 +9,6 @@ import { HttpModule, JsonpModule } from '@angular/http';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { NgModule } from '@angular/core';
 
-import {
-  MatAutocompleteModule, MatButtonModule, MatButtonToggleModule,
-  MatCardModule, MatCheckboxModule, MatChipsModule,
-  MatDatepickerModule, MatDialogModule, MatExpansionModule,
-  MatGridListModule, MatIconModule, MatInputModule,
-  MatListModule, MatMenuModule, MatNativeDateModule,
-  MatPaginatorModule, MatProgressBarModule, MatProgressSpinnerModule,
-  MatRadioModule, MatRippleModule, MatSelectModule,
-  MatSidenavModule, MatSliderModule, MatSlideToggleModule,
-  MatSnackBarModule, MatSortModule, MatTableModule,
-  MatTabsModule, MatToolbarModule, MatTooltipModule,
-  MatStepperModule,
-} from '@angular/material';
 import { APP_BASE_HREF } from '@angular/common';
 import { AppRoutingModule } from '../app/app-routing.module';
 import { CoreModule } from '../app/core/core.module';
@@ -32,6 +19,7 @@ import { GraphComponent } from '../app/teacher/d3/views/graph/graph.component';
 import { NodeComponent } from '../app/teacher/d3/views/node/node.component';
 import { UnitsNotRelatedComponent } from '../app/teacher/d3/views/units-not-related/units-not-related.component';
 import { ZoomableDirective } from '../app/teacher/d3/directives/zoomable.directive';
+import { AppMaterialModule } from '../app/app-material.module';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -45,37 +33,7 @@ describe('AppComponent', () => {
         FlexLayoutModule,
         FormsModule,
         HttpModule,
-        MatAutocompleteModule,
-        MatButtonModule,
-        MatButtonToggleModule,
-        MatCardModule,
-        MatCheckboxModule,
-        MatChipsModule,
-        MatDatepickerModule,
-        MatDialogModule,
-        MatExpansionModule,
-        MatGridListModule,
-        MatIconModule,
-        MatInputModule,
-        MatListModule,
-        MatMenuModule,
-        MatNativeDateModule,
-        MatPaginatorModule,
-        MatProgressBarModule,
-        MatProgressSpinnerModule,
-        MatRadioModule,
-        MatRippleModule,
-        MatSelectModule,
-        MatStepperModule,
-        MatSidenavModule,
-        MatSliderModule,
-        MatSlideToggleModule,
-        MatSnackBarModule,
-        MatSortModule,
-        MatTableModule,
-        MatTabsModule,
-        MatToolbarModule,
-        MatTooltipModule,
+        AppMaterialModule,
         ReactiveFormsModule,
       ],
       declarations: [

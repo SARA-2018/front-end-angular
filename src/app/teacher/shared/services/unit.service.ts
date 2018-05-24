@@ -13,24 +13,11 @@ export class UnitService {
 
   static END_POINT = '/unit';
 
-  private allUnits: Subject<UnitDto[]> = new Subject();
-
   constructor(private httpService: HttpService, private snackBar: MatSnackBar) {
   }
 
-  create(unit: Unit) {
-    this.httpService.post(UnitService.END_POINT, unit).subscribe(
-      () => {
-        this.readAll();
-        this.snackBar.open('Creado Correctamente !', '', {
-          duration: 2000
-        });
-      },
-      error => {
-        this.snackBar.open('No ha podido crearse la unidad.', '', {
-          duration: 8000
-        });
-      });
+  create(unit: Unit): Observable<any> {
+    return this.httpService.post(UnitService.END_POINT, unit);
   }
 
   filter(name: string): Observable<FilterDto[]> {
@@ -39,30 +26,11 @@ export class UnitService {
     });
   }
 
-  private readAll() {
-    return this.httpService.get(UnitService.END_POINT).subscribe(
-      unitsDto => {
-        this.allUnits.next(unitsDto);
-      });
-  }
-
   getAll(): Observable<UnitDto[]> {
-    this.readAll();
-    return this.allUnits.asObservable();
+    return this.httpService.get(UnitService.END_POINT);
   }
 
-  delete(id: number) {
-    this.httpService.delete(UnitService.END_POINT + `/${id}`).subscribe(
-      () => {
-        this.readAll();
-        this.snackBar.open('Eliminado Correctamente !', '', {
-          duration: 8000
-        });
-      },
-      error => {
-        this.snackBar.open('Recurso no encontrado !', '', {
-          duration: 8000
-        });
-      });
+  delete(id: number): Observable<any> {
+    return this.httpService.delete(UnitService.END_POINT + `/${id}`);
   }
 }
