@@ -15,7 +15,7 @@ export class UnitService {
   }
 
   create(unit: Unit): Observable<any> {
-    return this.httpService.post(UnitService.END_POINT, unit);
+    return this.httpService.successful().post(UnitService.END_POINT, unit);
   }
 
   filter(name: string): Observable<FilterDto[]> {
