@@ -2,6 +2,7 @@
 import {Command} from './command.model';
 import { Unit } from '../unit.model';
 import { UnitService } from '../../services/unit.service';
+import { Observable } from 'rxjs/Observable';
 
 export class AddUnitCommand extends Command {
 
@@ -12,7 +13,7 @@ export class AddUnitCommand extends Command {
     this.name = name;
   }
 
-  public execute(unitService: UnitService): void {
-    new Unit(this.name).saveUnit(unitService);
+  public execute(unitService: UnitService): Observable<any> {
+    return new Unit(this.name).saveUnit(unitService);
   }
 }

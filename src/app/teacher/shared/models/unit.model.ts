@@ -69,8 +69,8 @@ export class Unit {
     return i;
   }
 
-  saveUnit(unitService: UnitService) {
-    unitService.create(this);
+  saveUnit(unitService: UnitService): Observable<any> {
+    return unitService.create(this);
   }
 
   log(margin: string) {
