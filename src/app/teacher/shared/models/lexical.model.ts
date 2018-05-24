@@ -246,7 +246,7 @@ export class Lexical {
     }
   }
 
-  private createGroupRelations(lex, relation: string, relationType: TypeRelation): any {
+  private createGroupRelations(lex, relation: string, relationType: TypeRelation): Command {
     let codes;
     const idLowerUnits = [];
     const cardinalsLowerUnit = [];
@@ -280,13 +280,19 @@ export class Lexical {
           this.cardinalTopUnit));
       }
     }
-    console.log(commands);
-    return commands;
-    // console.log(commands);
-    /*for (const command of commands) {
+
+     // console.log(commands.slice.call(arguments));
+
+   //  return JSON.parse(commands.toString());
+     // console.log(commands);
+    for (const command of commands) {
+    return command;
+      // console.log(command);
+      // return new commands;
      // console.log(command);
-     return command;
-     }*/
+     // return command;
+     }
+    // return commands;
   }
 
   private createSingleRelation(relationType: TypeRelation, relation: string): Command {

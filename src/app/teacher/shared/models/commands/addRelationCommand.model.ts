@@ -14,7 +14,8 @@ export class AddRelationCommand extends Command {
   private cardinalTopUnit: string;
   private cardinalLowerUnit: string;
 
-  constructor(type: TypeRelation, idTopUnit: number, idLowerUnit: number, semantics: string, cardinalTopUnit: string, cardinalLowerUnit: string) {
+  constructor(type: TypeRelation, idTopUnit: number, idLowerUnit: number, semantics: string, cardinalTopUnit: string,
+              cardinalLowerUnit: string) {
     super();
     this.type = type;
     this.idTopUnit = idTopUnit;
