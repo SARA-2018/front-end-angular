@@ -1,5 +1,6 @@
 import { Command } from './command.model';
 import { UnitService } from '../../services/unit.service';
+import { Observable } from 'rxjs/Observable';
 
 export class DeleteUnitCommand extends Command {
 
@@ -10,8 +11,8 @@ export class DeleteUnitCommand extends Command {
     this.code = code;
   }
 
-  execute(unitService?: UnitService) {
-    unitService.delete(this.code);
+  execute(unitService?: UnitService): Observable<any> {
+    return unitService.delete(this.code);
   }
 
 }
