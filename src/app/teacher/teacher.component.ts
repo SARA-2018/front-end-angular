@@ -18,8 +18,6 @@ import { TypeRelation } from './shared/models/type-relation.enum';
 import { Command } from './shared/models/commands/command.model';
 import { FilterDto } from './shared/dtos/filter.dto';
 
-
-
 @Component({
   templateUrl: 'teacher.component.html',
   styleUrls: ['teacher.component.css']
@@ -198,7 +196,7 @@ export class TeacherComponent implements OnInit {
         });
       } else {
         console.log(err);
-        this.snackBar.open('Commando Erroneo', '', {
+        this.snackBar.open('Comando erróneo', '', {
           duration: 2000
         });
       }

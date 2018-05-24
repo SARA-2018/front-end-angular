@@ -14,12 +14,12 @@ export class AddRelationCommand extends Command {
   private cardinalTopUnit: string;
   private cardinalLowerUnit: string;
 
-  constructor(type: TypeRelation, idTopUnit: number, idLowerUnit: number, semantics?: string,
-              cardinalTopUnit?: string, cardinalLowerUnit?: string) {
+  constructor(type: TypeRelation, idTopUnit: number, idLowerUnit: number, semantics: string, cardinalTopUnit: string,
+              cardinalLowerUnit: string) {
     super();
+    this.type = type;
     this.idTopUnit = idTopUnit;
     this.idLowerUnit = idLowerUnit;
-    this.type = type;
     this.semantics = semantics;
     this.cardinalTopUnit = cardinalTopUnit;
     this.cardinalLowerUnit = cardinalLowerUnit;

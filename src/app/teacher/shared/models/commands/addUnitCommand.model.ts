@@ -1,4 +1,3 @@
-
 import {Command} from './command.model';
 import { Unit } from '../unit.model';
 import { UnitService } from '../../services/unit.service';

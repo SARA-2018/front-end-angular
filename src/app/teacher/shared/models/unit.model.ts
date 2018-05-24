@@ -1,5 +1,4 @@
 import { Block } from './block.model';
-import { MatSnackBar } from '@angular/material';
 import { UnitService } from '../services/unit.service';
 import { Observable } from 'rxjs/Observable';
 
