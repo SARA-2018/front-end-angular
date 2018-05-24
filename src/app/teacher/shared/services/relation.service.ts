@@ -15,7 +15,7 @@ export class RelationService {
   }
 
   create(relation: AddRelationCommand): Observable<any> {
-    return this.httpService.post(RelationService.END_POINT, relation);
+    return this.httpService.successful().post(RelationService.END_POINT, relation);
   }
 
   getAll(): Observable<RelationDto[]> {
