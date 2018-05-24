@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { UnitDto } from '../dtos/unit.dto';
 import { Unit } from '../models/unit.model';
-import { MatSnackBar } from '@angular/material';
 import { HttpService } from '../../../core/http.service';
 import { FilterDto } from '../dtos/filter.dto';
 
@@ -11,7 +10,7 @@ export class UnitService {
 
   static END_POINT = '/unit';
 
-  constructor(private httpService: HttpService, private snackBar: MatSnackBar) {
+  constructor(private httpService: HttpService) {
   }
 
   create(unit: Unit): Observable<any> {

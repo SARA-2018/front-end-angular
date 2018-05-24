@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { RelationDto } from '../dtos/relation.dto';
-import { Subject } from 'rxjs/Subject';
-import { MatSnackBar } from '@angular/material';
 import { HttpService } from '../../../core/http.service';
 import { AddRelationCommand } from '../models/commands/addRelationCommand.model';
 
@@ -11,7 +9,7 @@ export class RelationService {
 
   static END_POINT = '/relation';
 
-  constructor(private httpService: HttpService, private snackBar: MatSnackBar) {
+  constructor(private httpService: HttpService) {
   }
 
   create(relation: AddRelationCommand): Observable<any> {

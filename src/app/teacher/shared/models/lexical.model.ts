@@ -195,7 +195,7 @@ export class Lexical {
     }
   }
 
-  private sequenceUnit(relationType: TypeRelation, lex, relation: string): any {
+  private sequenceUnit(relationType: TypeRelation, lex, relation: string): Command {
     const name = lex.nextToken();
     if (name['name'] !== 'text' && name['name'] !== '#') {
       return new ErrorCommand();
