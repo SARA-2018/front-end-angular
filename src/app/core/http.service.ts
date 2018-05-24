@@ -22,6 +22,8 @@ export class HttpService {
 
     private responseType: ResponseContentType;
 
+    private successfulNotification = undefined;
+
     constructor(private http: Http, private snackBar: MatSnackBar, private router: Router) {
         this.resetOptions();
     }
@@ -39,6 +41,11 @@ export class HttpService {
 
     header(key: string, value: string): HttpService {
         this.headers.append(key, value);
+        return this;
+    }
+
+    successful(notification = 'Creado correctamente'): HttpService {
+        this.successfulNotification = notification;
         return this;
     }
 
@@ -93,11 +100,15 @@ export class HttpService {
     }
 
     private extractData(response: Response): any {
+        if (this.successfulNotification) {
+            this.snackBar.open(this.successfulNotification, '', {
+                duration: 2000
+            });
+            this.successfulNotification = undefined;
+        }
         const contentType = response.headers.get('content-type');
         if (contentType) {
-            if (contentType.indexOf('application/pdf') !== -1) {
-                return new Blob([response.blob()], { type: 'application/pdf' });
-            } else if (contentType.indexOf('application/json') !== -1) {
+            if (contentType.indexOf('application/json') !== -1) {
                 return response.json();
             }
         } else if (response.text()) {
