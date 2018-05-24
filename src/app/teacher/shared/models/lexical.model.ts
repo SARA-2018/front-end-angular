@@ -1,6 +1,5 @@
 import * as Lex from 'lexical-parser';
 import { TypeRelation } from './type-relation.enum';
-import { error } from 'util';
 import { ErrorCommand } from './commands/errorCommand.model';
 import { DeleteUnitCommand } from './commands/deleteUnitCommand.model';
 import { Command } from './commands/command.model';
@@ -196,17 +195,17 @@ export class Lexical {
     }
   }
 
-  private sequenceUnit(relationType: TypeRelation, lex, relation: string): Command {
+  private sequenceUnit(relationType: TypeRelation, lex, relation: string): any {
     const name = lex.nextToken();
     if (name['name'] !== 'text' && name['name'] !== '#') {
-      return new error();
+      return new ErrorCommand();
     }
     const sharp = lex.nextToken();
     if (sharp['name'] === '#') {
       const number = lex.nextToken();
       this.codeLowerUnit = number['lexeme'];
       if (number['name'] !== 'code') {
-        return new error();
+        return new ErrorCommand();
       }
     }
     if (sharp['name'] === 'code') {
@@ -238,16 +237,16 @@ export class Lexical {
           return new ErrorCommand();
         }
       } else {
-        return new error();
+        return new ErrorCommand();
       }
     } else if (token['name'] === ',') {
       return this.createGroupRelations(lex, relation, relationType);
     } else {
-      return new error();
+      return new ErrorCommand();
     }
   }
 
-  private createGroupRelations(lex, relation: string, relationType: TypeRelation): Command {
+  private createGroupRelations(lex, relation: string, relationType: TypeRelation): any {
     let codes;
     const idLowerUnits = [];
     const cardinalsLowerUnit = [];
@@ -271,26 +270,26 @@ export class Lexical {
     cardinalsLowerUnit.unshift(this.cardinalLowerUnit);
 
     const commands: Command[] = [];
-    for (let j = 0; j < idLowerUnits.length; j++) {
+    for (let i = 0; i < idLowerUnits.length; i++) {
       if (relation === '<inherit' || relation === '<compose' || relation === '<association' || relation === '<use') {
-        commands.push(new AddRelationCommand(relationType, this.codeTopUnit, idLowerUnits[j], this.semantics, this.cardinalTopUnit,
-          cardinalsLowerUnit[j]));
+        commands.push(new AddRelationCommand(relationType, this.codeTopUnit, idLowerUnits[i], this.semantics, this.cardinalTopUnit,
+          cardinalsLowerUnit[i]));
       }
       if (relation === 'inherit>' || relation === 'compose>' || relation === 'association>' || relation === 'use>') {
-        commands.push(new AddRelationCommand(relationType,  idLowerUnits[j], this.codeTopUnit, this.semantics, cardinalsLowerUnit[j],
+        commands.push(new AddRelationCommand(relationType,  idLowerUnits[i], this.codeTopUnit, this.semantics, cardinalsLowerUnit[i],
           this.cardinalTopUnit));
       }
     }
-
-    // return commands;
-     console.log(commands);
-    for (const command of commands) {
-      console.log(command);
+    console.log(commands);
+    return commands;
+    // console.log(commands);
+    /*for (const command of commands) {
+     // console.log(command);
      return command;
-    }
+     }*/
   }
 
-  private createSingleRelation(relationType: TypeRelation, relation: string) {
+  private createSingleRelation(relationType: TypeRelation, relation: string): Command {
     if (relation === '<inherit' || relation === '<compose' || relation === '<association' || relation === '<use') {
       return new AddRelationCommand(relationType, this.codeTopUnit, this.codeLowerUnit, this.semantics, this.cardinalTopUnit,
         this.cardinalLowerUnit);
@@ -299,7 +298,7 @@ export class Lexical {
       return new AddRelationCommand(relationType, this.codeLowerUnit, this.codeTopUnit, this.semantics, this.cardinalLowerUnit,
         this.cardinalTopUnit);
     } else {
-      return new error();
+      return new ErrorCommand();
     }
   }
 }

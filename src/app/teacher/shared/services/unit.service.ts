@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { UnitDto } from '../dtos/unit.dto';
 import { Unit } from '../models/unit.model';
-import { RelationDto } from '../dtos/relation.dto';
-import { Subject } from 'rxjs/Subject';
 import { MatSnackBar } from '@angular/material';
 import { HttpService } from '../../../core/http.service';
 import { FilterDto } from '../dtos/filter.dto';

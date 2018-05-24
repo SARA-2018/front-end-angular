@@ -5,6 +5,6 @@ import { Observable } from 'rxjs/Observable';
 export class ErrorCommand extends Command {
 
   public execute(): Observable<any> {
-    return new Observable(observer => error());
+    return new Observable(() => error());
   }
 }
