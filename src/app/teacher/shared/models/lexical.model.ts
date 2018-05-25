@@ -223,6 +223,8 @@ export class Lexical {
       }
       if (relation === 'inherit>') {
         return new AddRelationCommand(relationType, this.codeLowerUnit, this.codeTopUnit, this.semantics, undefined, undefined);
+      } else {
+        return this.createSingleRelation(relationType, relation);
       }
     } else if (token['name'] === 'cardinal') {
       const cardinalLowerUnit = token['lexeme'].split(':');

@@ -9,17 +9,17 @@ export class AddRelationCommand extends Command {
 
   private type: TypeRelation;
   private semantics: string;
-  private idTopUnit: number;
-  private idLowerUnit: number;
+  private topUnitCode: number;
+  private lowerUnitCode: number;
   private cardinalTopUnit: string;
   private cardinalLowerUnit: string;
 
-  constructor(type: TypeRelation, idTopUnit: number, idLowerUnit: number, semantics: string, cardinalTopUnit: string,
+  constructor(type: TypeRelation, topUnitCode: number, lowerUnitCode: number, semantics: string, cardinalTopUnit: string,
               cardinalLowerUnit: string) {
     super();
     this.type = type;
-    this.idTopUnit = idTopUnit;
-    this.idLowerUnit = idLowerUnit;
+    this.topUnitCode = topUnitCode;
+    this.lowerUnitCode = lowerUnitCode;
     this.semantics = semantics;
     this.cardinalTopUnit = cardinalTopUnit;
     this.cardinalLowerUnit = cardinalLowerUnit;
