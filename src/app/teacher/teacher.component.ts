@@ -63,7 +63,6 @@ export class TeacherComponent implements OnInit {
          this.unitsDto = units;
          this.relationService.getAll().subscribe(relations => {
           this.relationsDto = relations;
-          console.log('relations ' + this.relations.length);
           this.addDataGraph();
        });
       });
@@ -175,11 +174,16 @@ export class TeacherComponent implements OnInit {
       }
       this.nodesNotRelated = nodesNo;
     }
+    console.log('Modelos');
     root.log(' ');
     const rootView = new UnitViewImp(root);
+    console.log('Vistas');
+    rootView.log(' ');
     rootView.locate();
     this.nodes = rootView.createNode();
     this.links = rootView.createLink();
+    console.log('Nodos: ' + this.nodes.length);
+    console.log('Links: ' + this.links.length);
   }
 
   onEnter(text: string) {

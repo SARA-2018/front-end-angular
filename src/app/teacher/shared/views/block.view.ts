@@ -4,6 +4,7 @@ import { UnitViewImp } from './unit.view';
 import { Block } from '../models/block.model';
 import { UnitView } from './unit-view.interface';
 import { BlockView } from './block-view.interface';
+import { RelationView } from './relation.view';
 
 export class BlockViewImp implements BlockView {
 
@@ -11,6 +12,7 @@ export class BlockViewImp implements BlockView {
     private x: number;
     private y: number;
     private unitViews: UnitView[] = [];
+    private relationViews: RelationView[] = [];
 
     readonly xSpaceBetweenBlocks = 10;
     readonly ySpaceBetweenBlocks = 60;
@@ -21,18 +23,20 @@ export class BlockViewImp implements BlockView {
         this.y = 0;
         this.block = block;
         for (const unit of this.block.getUnits()) {
-            this.appendUnit(new UnitViewImp(unit));
+            this.unitViews.push(new UnitViewImp(unit));
         }
-    }
-
-    appendUnit(unit: UnitViewImp) {
-        this.unitViews.push(unit);
+        for (const relation of this.block.getRelations()) {
+            this.relationViews.push(new RelationView(relation));
+        }
     }
 
     getBlock() {
         return this.block;
     }
 
+    getRelationViews() {
+        return this.relationViews;
+    }
     getUnitViews() {
         return this.unitViews;
     }
@@ -71,6 +75,16 @@ export class BlockViewImp implements BlockView {
         for (const unitView of this.getUnitViews()) {
             for (const node of unitView.createNode()) {
                 result.push(node);
+            }
+        }
+        return result;
+    }
+
+    createLink(topUnitView: UnitViewImp): Link[] {
+        const result = [];
+        for (const relation of this.relationViews) {
+            for (const link of relation.createLink(topUnitView)) {
+                result.push(link);
             }
         }
         return result;

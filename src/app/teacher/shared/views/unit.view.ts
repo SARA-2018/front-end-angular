@@ -25,16 +25,16 @@ export class UnitViewImp implements UnitView {
         this.x = 0;
         this.y = 0;
         for (const block of unit.getBlocks()) {
-            this.append(new BlockViewImp(block));
+            this.blockViews.push(new BlockViewImp(block));
         }
-    }
-
-    append(block: BlockView) {
-        this.blockViews.push(block);
     }
 
     getX(): number {
         return this.x;
+    }
+
+    setX(x: number) {
+        this.x = x;
     }
 
     getY(): number {
@@ -47,6 +47,10 @@ export class UnitViewImp implements UnitView {
 
     getYSouth(): number {
         return this.y + this.ySize;
+    }
+
+    getBlockViews(): BlockView[] {
+        return this.blockViews;
     }
 
     calculateWidthBlock(): number {
@@ -107,21 +111,16 @@ export class UnitViewImp implements UnitView {
     }
 
     createLink(): Link[] {
-        const links: Link[] = [];
-        const nodeDivisionForLink = this.xSize / (this.blockViews.length + 1);
+        const result: Link[] = [];
         for (const blockView of this.blockViews) {
-            this.x += nodeDivisionForLink;
-            for (const unit of blockView.getUnitViews()) {
-                const relation = new Link(this, unit, blockView.getBlock().getType(),
-                    blockView.getBlock().getSemantics(), blockView.getBlock().getCardinalTopUnit(),
-                    blockView.getBlock().getCardinalLowerUnit());
-                links.push(relation);
-                for (const link of unit.createLink()) {
-                    links.push(link);
-                }
+            let n = 1;
+            console.log('createLink Unit: nblockView' + n);
+            n++;
+            for (const link of blockView.createLink(this)) {
+                result.push(link);
             }
         }
-        return links;
+        return result;
     }
 
     log(margin: string) {
