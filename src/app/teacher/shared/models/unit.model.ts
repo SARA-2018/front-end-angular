@@ -1,6 +1,7 @@
 import { Block } from './block.model';
 import { UnitService } from '../services/unit.service';
 import { Observable } from 'rxjs/Observable';
+import { Relation } from './relation.model';
 
 export class Unit {
 
@@ -30,26 +31,26 @@ export class Unit {
     return this.visited;
   }
 
-  appendUnit(unit: Unit, type: string, semantics?: string, cardinalTopUnit?: string, cardinalLowerUnit?: string) {
+  addRelation(relation: Relation) {
     this.visited = true;
-    if (!unit.isVisited()) {
+    if (!relation.getLowerUnit().isVisited()) {
       if (this.blocks.length > 0) {
-        const i = this.searchBlock(type, semantics);
-        if (type === this.blocks[i].getType()) {
-          if (semantics !== undefined) {
-            if (semantics === this.blocks[i].getSemantics()) {
-              this.blocks[i].appendUnit(unit);
+        const i = this.searchBlock(relation.getType(), relation.getSemantics());
+        if (relation.getType() === this.blocks[i].getType()) {
+          if (relation.getSemantics() !== undefined) {
+            if (relation.getSemantics() === this.blocks[i].getSemantics()) {
+              this.blocks[i].addRelation(relation);
             } else {
-              this.blocks.push(new Block(unit, type, semantics, cardinalTopUnit, cardinalLowerUnit));
+              this.blocks.push(new Block(relation));
             }
           } else {
-            this.blocks[i].appendUnit(unit);
+            this.blocks[i].addRelation(relation);
           }
         } else {
-          this.blocks.push(new Block(unit, type, semantics, cardinalTopUnit, cardinalLowerUnit));
+          this.blocks.push(new Block(relation));
         }
       } else {
-        this.blocks.push(new Block(unit, type, semantics, cardinalTopUnit, cardinalLowerUnit));
+        this.blocks.push(new Block(relation));
       }
     }
   }

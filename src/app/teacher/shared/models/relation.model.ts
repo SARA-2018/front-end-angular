@@ -18,7 +18,7 @@ export class Relation {
     this.semantics = semantics;
     this.cardinalTopUnit = cardinalTopUnit;
     this.cardinalLowerUnit = cardinalLowerUnit;
-    this.topUnit.appendUnit(lowerUnit, type, semantics, cardinalTopUnit, cardinalLowerUnit);
+    this.topUnit.addRelation(this);
   }
 
   getTopUnit(): Unit {
@@ -27,5 +27,21 @@ export class Relation {
 
   getLowerUnit(): Unit {
     return this.lowerUnit;
+  }
+
+  getType(): string {
+    return this.type;
+  }
+
+  getSemantics(): string {
+    return this.semantics;
+  }
+
+  getCardinalTopUnit(): string {
+    return this.cardinalTopUnit;
+  }
+
+  getCardinalLowerUnit(): string {
+    return this.cardinalLowerUnit;
   }
 }

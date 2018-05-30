@@ -1,3 +1,5 @@
+import { UnitViewImp } from './unit.view';
+
 export interface BlockView {
 
     log(margin: string);
@@ -10,7 +12,11 @@ export interface BlockView {
 
     getUnitViews();
 
+    getRelationViews();
+
     getBlock();
 
     calculateWidthBlock();
+
+    createLink(topUnitView: UnitViewImp);
 }
