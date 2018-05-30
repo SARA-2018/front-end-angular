@@ -24,11 +24,11 @@
   <mat-card-title>Consola</mat-card-title>
   <mat-form-field class="full-width">
     <input matInput #box type="text" class="full-width" (keyup.enter)="onEnter(box.value)" [formControl]="searchUnit"
-           [matAutocomplete]="auto">
+           [matAutocomplete]="auto" [value]="text">
     <mat-autocomplete #auto="matAutocomplete" >
-      <mat-option *ngFor="let relationUnit of filteredUnits| async" [value]="relationUnit.name.concat('#' + relationUnit.code)">
-        <div *ngIf="relationUnit.topUnit?.name != undefined"> {{ relationUnit.name }}<strong>#{{relationUnit.code}}</strong> &nbsp; &nbsp; &nbsp; <em><strong>{{relationUnit.topUnit.name}}</strong></em></div>
-        <div *ngIf="relationUnit.topUnit?.name == undefined"> {{ relationUnit.name }}<strong>#{{relationUnit.code}}</strong></div>
+      <mat-option *ngFor="let relationUnit of filteredUnits| async" [value]="valueText()" (onSelectionChange)="onAddHelp($event, relationUnit.unit.name.concat('#' + relationUnit.unit.code), box.value)">
+        <div *ngIf="relationUnit.topUnit?.name != undefined"> {{ relationUnit.unit.name }}<strong>#{{relationUnit.unit.code}}</strong> &nbsp; &nbsp; &nbsp; <em><strong>{{relationUnit.topUnit.name}}</strong></em></div>
+        <div *ngIf="relationUnit.topUnit?.name == undefined"> {{ relationUnit.unit.name }}<strong>#{{relationUnit.unit.code}}</strong></div>
       </mat-option>
     </mat-autocomplete>
   </mat-form-field>
