@@ -75,14 +75,14 @@ export class Lexical {
       return this.sequenceUnit(null, lex, relationType);
     }
     if (relationType === '<compose' || relationType === '<use' || relationType === '<association' || relationType === '<inherit') {
-      return this.sequenceUnit(null, lex, relationType);
-    } else {
       const bidirectional = lex.nextToken();
-      relationType = relationType.concat(bidirectional['lexeme']);
-      if (relationType === '<use>' || relationType === '<association>') {
-        console.log(relationType)
-        return this.sequenceUnit(null, lex, relationType);
+      if (bidirectional['name'] === '>') {
+        relationType = relationType.concat(bidirectional['lexeme']);
+        if (relationType === '<use>' || relationType === '<association>') {
+          return this.sequenceUnit(null, lex, relationType);
+        }
       }
+      return this.sequenceUnit(null, lex, relationType);
     }
   }
 
