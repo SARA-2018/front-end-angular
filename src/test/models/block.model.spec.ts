@@ -1,17 +1,18 @@
 import { Block } from '../../app/teacher/shared/models/block.model';
 import { Unit } from '../../app/teacher/shared/models/unit.model';
+import { Relation } from '../../app/teacher/shared/models/relation.model';
 
 describe('StudentComponent BlockModel', () => {
 
     let block: Block;
 
     beforeAll(() => {
-        block = new Block(new Unit('TestUnit'), 'inherit');
+        block = new Block(new Relation(new Unit('TestUnit 1'), new Unit('TestUnit 2'), 'use'));
     });
 
-    it ('#appendUnit should add new unit', () => {
+    it ('#addRelation should add new unit', () => {
         expect(block.getUnits().length).toEqual(1);
-        block.appendUnit(new Unit('TestUnit2'));
+        block.addRelation(new Relation(new Unit('TestUnit 1'), new Unit('TestUnit 3'), 'use'));
         expect(block.getUnits().length).toEqual(2);
     });
 });
