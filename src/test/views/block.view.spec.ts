@@ -3,7 +3,7 @@ import { Block } from '../../app/teacher/shared/models/block.model';
 import { UnitViewImp } from '../../app/teacher/shared/views/unit.view';
 import { Unit } from '../../app/teacher/shared/models/unit.model';
 
-describe('HomeComponent BlockViewImp ', () => {
+describe('StudentComponent BlockViewImp ', () => {
 
     let block: BlockViewImp;
 

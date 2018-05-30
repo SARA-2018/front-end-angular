@@ -6,7 +6,7 @@ import { Block } from '../../app/teacher/shared/models/block.model';
 
 
 
-describe('HomeComponent UnitViewImp ', () => {
+describe('StudentComponent UnitViewImp ', () => {
 
     let unitViewRoot: UnitViewImp;
     let unitViewRoot2: UnitViewImp;
