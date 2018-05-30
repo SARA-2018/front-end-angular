@@ -16,6 +16,8 @@ import { RelationService } from './shared/services/relation.service';
 import { TypeRelation } from './shared/models/type-relation.enum';
 import { Command } from './shared/models/commands/command.model';
 import { FilterDto } from './shared/dtos/filter.dto';
+import { Router } from '@angular/router';
+import { StudentComponent } from '../student/student.component';
 
 @Component({
   templateUrl: 'teacher.component.html',
@@ -39,7 +41,8 @@ export class TeacherComponent implements OnInit {
 
   readonly db = true;
 
-  constructor(private snackBar: MatSnackBar, private unitService: UnitService, private relationService: RelationService) {
+  constructor(private snackBar: MatSnackBar, private unitService: UnitService, private relationService: RelationService,
+              private router: Router) {
   }
 
   ngOnInit(): void {
@@ -47,11 +50,9 @@ export class TeacherComponent implements OnInit {
     this.synchronizedSearch();
   }
 
-  /* EJEMPLO PARA ENRUTAR
-  tickets() {
-    this.router.navigate([HomeComponent.URL, TicketsComponent.URL]);
+  student() {
+    this.router.navigate([StudentComponent.URL]);
   }
-  */
 
   synchronizedGraph() {
     this.unitsDto = [];
