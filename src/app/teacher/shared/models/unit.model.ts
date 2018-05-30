@@ -74,7 +74,7 @@ export class Unit {
   }
 
   log(margin: string) {
-    console.log(margin + this.getName());
+   // console.log(margin + this.getName());
     for (const block of this.getBlocks()) {
       block.log(block, margin + '   ');
     }

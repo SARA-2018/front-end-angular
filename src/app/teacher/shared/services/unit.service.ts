@@ -30,4 +30,8 @@ export class UnitService {
   delete(id: number): Observable<any> {
     return this.httpService.delete(UnitService.END_POINT + `/${id}`);
   }
+
+  getByFriend(id: number): Observable<any> {
+    return this.httpService.get(UnitService.END_POINT + `/friends/${id}`);
+  }
 }

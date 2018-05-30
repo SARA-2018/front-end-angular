@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UnitService } from './shared/services/unit.service';
-import { MatSnackBar } from '@angular/material';
+import { MatOptionSelectionChange, MatSnackBar } from '@angular/material';
 import { Link } from './d3/models/link';
 import { Node } from './d3/models/node';
 import { FormControl } from '@angular/forms';
@@ -11,7 +11,6 @@ import { RelationDto } from './shared/dtos/relation.dto';
 import { Relation } from './shared/models/relation.model';
 import { Unit } from './shared/models/unit.model';
 import { UnitViewImp } from './shared/views/unit.view';
-import { debounceTime } from 'rxjs/operators';
 import { Lexical } from './shared/models/lexical.model';
 import { RelationService } from './shared/services/relation.service';
 import { TypeRelation } from './shared/models/type-relation.enum';
@@ -36,6 +35,7 @@ export class TeacherComponent implements OnInit {
   links: Link[] = [];
   searchUnit: FormControl;
   filteredUnits: Observable<FilterDto[]>;
+  text = '';
 
   readonly db = true;
 
@@ -211,7 +211,6 @@ export class TeacherComponent implements OnInit {
     this.searchUnit = new FormControl();
     this.filteredUnits = this.searchUnit.valueChanges
       .pipe(
-        debounceTime(200),
         map(val => this.filter(val))
       );
   }
@@ -224,7 +223,18 @@ export class TeacherComponent implements OnInit {
       this.unitService.filter(unit).subscribe(data => {
         this.filterRelation = data;
       });
-      return this.filterRelation.filter(value => value.name.indexOf(unit.toString()) === 0);
+      return this.filterRelation.filter(value => value.unit.name.indexOf(unit.toString()) === 0);
     }
+  }
+
+  onAddHelp(event: MatOptionSelectionChange, relationUnit, value: string): void {
+      const help = [];
+      help.push(relationUnit);
+      const val = help.pop();
+      this.text = value.concat(val);
+  }
+
+  valueText() {
+    return this.text;
   }
 }
