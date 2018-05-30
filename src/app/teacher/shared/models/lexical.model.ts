@@ -341,18 +341,25 @@ export class Lexical {
     } while (codes);
     idLowerUnits.unshift(this.codeLowerUnit);
     cardinalsLowerUnit.unshift(this.cardinalLowerUnit);
-
     const commands = new CompositeCommand();
     for (let i = 0; i < idLowerUnits.length; i++) {
       if (relation === '<inherit' || relation === '<compose' || relation === '<association' || relation === '<use' || relation === '<use>'
         || relation === '<association>') {
-        commands.add(new AddRelationCommand(relationType, this.codeTopUnit, idLowerUnits[i], this.semantics, this.cardinalTopUnit,
-          cardinalsLowerUnit[i]));
+        if (this.deleteRelation === '~') {
+          commands.add(new DeleteRelationCommand(this.codeTopUnit, idLowerUnits[i]));
+        } else {
+          commands.add(new AddRelationCommand(relationType, this.codeTopUnit, idLowerUnits[i], this.semantics, this.cardinalTopUnit,
+            cardinalsLowerUnit[i]));
+        }
       }
       if (relation === 'inherit>' || relation === 'compose>' || relation === 'association>' || relation === 'use>' || relation === '<use>'
         || relation === '<association>') {
-        commands.add(new AddRelationCommand(relationType,  idLowerUnits[i], this.codeTopUnit, this.semantics, cardinalsLowerUnit[i],
-          this.cardinalTopUnit));
+        if (this.deleteRelation === '~') {
+          commands.add(new DeleteRelationCommand(idLowerUnits[i], this.codeTopUnit));
+        } else {
+          commands.add(new AddRelationCommand(relationType, idLowerUnits[i], this.codeTopUnit, this.semantics, cardinalsLowerUnit[i],
+            this.cardinalTopUnit));
+        }
       }
     }
     return commands;
