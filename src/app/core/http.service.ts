@@ -24,6 +24,8 @@ export class HttpService {
 
     private successfulNotification = undefined;
 
+    private body: Object;
+
     constructor(private http: Http, private snackBar: MatSnackBar, private router: Router) {
         this.resetOptions();
     }
@@ -44,7 +46,7 @@ export class HttpService {
         return this;
     }
 
-    successful(notification = 'Creado correctamente'): HttpService {
+    successful(notification = 'Comando ejectutado correctamente'): HttpService {
         this.successfulNotification = notification;
         return this;
     }
@@ -65,7 +67,8 @@ export class HttpService {
                 });
     }
 
-    delete(endpoint: string): Observable<any> {
+    delete(endpoint: string, body?: Object): Observable<any> {
+      this.body = body;
         return this.http.delete(HttpService.API_END_POINT + endpoint, this.createOptions()).map(
             response => this.extractData(response)).catch(
                 error => {
@@ -93,7 +96,8 @@ export class HttpService {
         const options: RequestOptions = new RequestOptions({
             headers: this.headers,
             params: this.params,
-            responseType: this.responseType
+            responseType: this.responseType,
+            body: this.body
         });
         this.resetOptions();
         return options;
