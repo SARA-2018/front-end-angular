@@ -12,7 +12,7 @@ export class UnitViewImp implements UnitView {
     private y: number;
     private xBlock: number;
     private yBlock: number;
-    private blockViews: BlockView[] = [];
+    private blockViews: BlockViewImp[] = [];
 
     readonly xSize = 150;
     readonly xHalfSize = 75;
@@ -25,12 +25,8 @@ export class UnitViewImp implements UnitView {
         this.x = 0;
         this.y = 0;
         for (const block of unit.getBlocks()) {
-            this.append(new BlockViewImp(block));
+            this.blockViews.push(new BlockViewImp(block));
         }
-    }
-
-    append(block: BlockView) {
-        this.blockViews.push(block);
     }
 
     getX(): number {
@@ -41,12 +37,16 @@ export class UnitViewImp implements UnitView {
         return this.y;
     }
 
-    getXMiddle() {
+    getXMiddle(): number {
         return this.x + this.xHalfSize;
     }
 
     getYSouth(): number {
         return this.y + this.ySize;
+    }
+
+    getBlockViews(): BlockView[] {
+        return this.blockViews;
     }
 
     calculateWidthBlock(): number {
@@ -59,6 +59,11 @@ export class UnitViewImp implements UnitView {
             }
         }
         return width;
+    }
+
+    calculateVertexRelation() {
+        const nodeDivisionForLink = this.xSize / (this.getBlockViews().length + 1);
+        this.x += nodeDivisionForLink;
     }
 
     locate() {
@@ -107,21 +112,13 @@ export class UnitViewImp implements UnitView {
     }
 
     createLink(): Link[] {
-        const links: Link[] = [];
-        const nodeDivisionForLink = this.xSize / (this.blockViews.length + 1);
+        const result: Link[] = [];
         for (const blockView of this.blockViews) {
-            this.x += nodeDivisionForLink;
-            for (const unit of blockView.getUnitViews()) {
-                const relation = new Link(this, unit, blockView.getBlock().getType(),
-                    blockView.getBlock().getSemantics(), blockView.getBlock().getCardinalTopUnit(),
-                    blockView.getBlock().getCardinalLowerUnit());
-                links.push(relation);
-                for (const link of unit.createLink()) {
-                    links.push(link);
-                }
+            for (const link of blockView.createLink(this)) {
+                result.push(link);
             }
         }
-        return links;
+        return result;
     }
 
     log(margin: string) {

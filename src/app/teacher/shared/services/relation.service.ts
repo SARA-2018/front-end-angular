@@ -21,7 +21,7 @@ export class RelationService {
     return this.httpService.get(RelationService.END_POINT);
   }
 
-  delete(relation: DeleteRelationCommand): Observable<any> {
+/*  delete(relation: DeleteRelationCommand): Observable<any> {
     return this.httpService.successful().delete(RelationService.END_POINT, relation);
-  }
+  }*/
 }

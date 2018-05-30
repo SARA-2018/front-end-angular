@@ -9,4 +9,6 @@ export interface UnitView {
     shift(x: number, y: number);
 
     calculateWidthBlock();
+
+    getBlockViews();
 }

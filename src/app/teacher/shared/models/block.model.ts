@@ -1,27 +1,37 @@
 import { Unit } from './unit.model';
+import { Relation } from './relation.model';
 
 export class Block {
 
+    private parentUnit: Unit;
+    private units: Unit[] = [];
+    private relations: Relation[] = [];
     private type: string;
     private semantics: string;
     private cardinalTopUnit: string;
     private cardinalLowerUnit: string;
-    private units: Unit[] = [];
 
-    constructor(unit: Unit, type: string, semantics?: string, cardinalTopUnit?: string , cardinalLowerUnit?: string) {
-        this.type = type;
-        this.semantics = semantics;
-        this.cardinalLowerUnit = cardinalLowerUnit;
-        this.cardinalTopUnit = cardinalTopUnit;
-        this.units.push(unit);
+    constructor(relation: Relation) {
+        this.parentUnit = relation.getTopUnit();
+        this.type = relation.getType();
+        this.semantics = relation.getSemantics();
+        this.cardinalLowerUnit = relation.getCardinalLowerUnit();
+        this.cardinalTopUnit = relation.getCardinalTopUnit();
+        this.units.push(relation.getLowerUnit());
+        this.relations.push(relation);
     }
 
-    appendUnit(unit: Unit) {
-        this.units.push(unit);
+    addRelation(relation: Relation) {
+        this.relations.push(relation);
+        this.units.push(relation.getLowerUnit());
     }
 
     getType() {
         return this.type;
+    }
+
+    getRelations() {
+        return this.relations;
     }
 
     getUnits() {

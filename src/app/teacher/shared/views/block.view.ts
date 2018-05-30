@@ -4,13 +4,15 @@ import { UnitViewImp } from './unit.view';
 import { Block } from '../models/block.model';
 import { UnitView } from './unit-view.interface';
 import { BlockView } from './block-view.interface';
+import { RelationView } from './relation.view';
 
 export class BlockViewImp implements BlockView {
 
     private block: Block;
     private x: number;
     private y: number;
-    private unitViews: UnitView[] = [];
+    private unitViews: UnitViewImp[] = [];
+    private relationViews: RelationView[] = [];
 
     readonly xSpaceBetweenBlocks = 10;
     readonly ySpaceBetweenBlocks = 60;
@@ -21,19 +23,21 @@ export class BlockViewImp implements BlockView {
         this.y = 0;
         this.block = block;
         for (const unit of this.block.getUnits()) {
-            this.appendUnit(new UnitViewImp(unit));
+            this.unitViews.push(new UnitViewImp(unit));
+        }
+        for (const relation of this.block.getRelations()) {
+            this.relationViews.push(new RelationView(relation));
         }
     }
 
-    appendUnit(unit: UnitViewImp) {
-        this.unitViews.push(unit);
-    }
-
-    getBlock() {
+    getBlock(): Block {
         return this.block;
     }
 
-    getUnitViews() {
+    getRelationViews(): RelationView[] {
+        return this.relationViews;
+    }
+    getUnitViews(): UnitView[] {
         return this.unitViews;
     }
 
@@ -71,6 +75,17 @@ export class BlockViewImp implements BlockView {
         for (const unitView of this.getUnitViews()) {
             for (const node of unitView.createNode()) {
                 result.push(node);
+            }
+        }
+        return result;
+    }
+
+    createLink(topUnitView: UnitViewImp): Link[] {
+        const result = [];
+        topUnitView.calculateVertexRelation();
+        for (let i = 0; i < this.relationViews.length; i++) {
+            for (const link of this.relationViews[i].createLink(topUnitView, this.unitViews[i])) {
+                result.push(link);
             }
         }
         return result;
