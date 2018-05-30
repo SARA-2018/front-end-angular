@@ -15,7 +15,6 @@ export class DeleteRelationCommand extends Command {
   }
 
   execute(unitService?: UnitService, relationService?: RelationService): Observable<any> {
-    console.log(this)
     return relationService.delete(this);
   }
 

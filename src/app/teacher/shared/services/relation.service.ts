@@ -14,7 +14,6 @@ export class RelationService {
   }
 
   create(relation: AddRelationCommand): Observable<any> {
-    console.log(relation)
     return this.httpService.successful().post(RelationService.END_POINT, relation);
   }
 
