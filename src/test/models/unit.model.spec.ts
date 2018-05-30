@@ -1,7 +1,7 @@
 import { TestBed, async } from '@angular/core/testing';
 import { Unit } from '../../app/teacher/shared/models/unit.model';
 
-describe('HomeComponent UnitModel', () => {
+describe('StudentComponent UnitModel', () => {
 
     let unit: Unit;
 

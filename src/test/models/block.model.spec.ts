@@ -1,7 +1,7 @@
 import { Block } from '../../app/teacher/shared/models/block.model';
 import { Unit } from '../../app/teacher/shared/models/unit.model';
 
-describe('HomeComponent BlockModel', () => {
+describe('StudentComponent BlockModel', () => {
 
     let block: Block;
 
