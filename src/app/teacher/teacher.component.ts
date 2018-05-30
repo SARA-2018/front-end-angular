@@ -60,12 +60,12 @@ export class TeacherComponent implements OnInit {
     this.units = [];
     this.relations = [];
     if (this.db) {
-       this.unitService.getAll().subscribe(units => {
-         this.unitsDto = units;
-         this.relationService.getAll().subscribe(relations => {
+      this.unitService.getAll().subscribe(units => {
+        this.unitsDto = units;
+        this.relationService.getAll().subscribe(relations => {
           this.relationsDto = relations;
           this.addDataGraph();
-       });
+        });
       });
     } else {
       this.addDataGraph();
@@ -229,10 +229,10 @@ export class TeacherComponent implements OnInit {
   }
 
   onAddHelp(event: MatOptionSelectionChange, relationUnit, value: string): void {
-      const help = [];
-      help.push(relationUnit);
-      const val = help.pop();
-      this.text = value.concat(val);
+    const help = [];
+    help.push(relationUnit);
+    const val = help.pop();
+    this.text = value.concat(val);
   }
 
   valueText() {
