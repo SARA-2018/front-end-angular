@@ -11,7 +11,7 @@ export class BlockViewImp implements BlockView {
     private block: Block;
     private x: number;
     private y: number;
-    private unitViews: UnitView[] = [];
+    private unitViews: UnitViewImp[] = [];
     private relationViews: RelationView[] = [];
 
     readonly xSpaceBetweenBlocks = 10;
@@ -30,14 +30,14 @@ export class BlockViewImp implements BlockView {
         }
     }
 
-    getBlock() {
+    getBlock(): Block {
         return this.block;
     }
 
-    getRelationViews() {
+    getRelationViews(): RelationView[] {
         return this.relationViews;
     }
-    getUnitViews() {
+    getUnitViews(): UnitView[] {
         return this.unitViews;
     }
 
@@ -82,8 +82,9 @@ export class BlockViewImp implements BlockView {
 
     createLink(topUnitView: UnitViewImp): Link[] {
         const result = [];
-        for (const relation of this.relationViews) {
-            for (const link of relation.createLink(topUnitView)) {
+        topUnitView.calculateVertexRelation();
+        for (let i = 0; i < this.relationViews.length; i++) {
+            for (const link of this.relationViews[i].createLink(topUnitView, this.unitViews[i])) {
                 result.push(link);
             }
         }

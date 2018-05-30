@@ -12,7 +12,7 @@ export class UnitViewImp implements UnitView {
     private y: number;
     private xBlock: number;
     private yBlock: number;
-    private blockViews: BlockView[] = [];
+    private blockViews: BlockViewImp[] = [];
 
     readonly xSize = 150;
     readonly xHalfSize = 75;
@@ -33,15 +33,11 @@ export class UnitViewImp implements UnitView {
         return this.x;
     }
 
-    setX(x: number) {
-        this.x = x;
-    }
-
     getY(): number {
         return this.y;
     }
 
-    getXMiddle() {
+    getXMiddle(): number {
         return this.x + this.xHalfSize;
     }
 
@@ -63,6 +59,11 @@ export class UnitViewImp implements UnitView {
             }
         }
         return width;
+    }
+
+    calculateVertexRelation() {
+        const nodeDivisionForLink = this.xSize / (this.getBlockViews().length + 1);
+        this.x += nodeDivisionForLink;
     }
 
     locate() {
@@ -113,9 +114,6 @@ export class UnitViewImp implements UnitView {
     createLink(): Link[] {
         const result: Link[] = [];
         for (const blockView of this.blockViews) {
-            let n = 1;
-            console.log('createLink Unit: nblockView' + n);
-            n++;
             for (const link of blockView.createLink(this)) {
                 result.push(link);
             }
