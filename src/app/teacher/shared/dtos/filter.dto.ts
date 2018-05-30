@@ -1,6 +1,6 @@
 import { UnitDto } from './unit.dto';
 
 export interface FilterDto {
-  name: string;
+  unit: UnitDto;
   topUnit: UnitDto;
 }

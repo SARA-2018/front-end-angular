@@ -1,17 +1,19 @@
 import * as Lex from 'lexical-parser';
 import { TypeRelation } from './type-relation.enum';
-import { ErrorCommand } from './commands/errorCommand.model';
-import { DeleteUnitCommand } from './commands/deleteUnitCommand.model';
+import { ErrorCommand } from './commands/error-command.model';
+import { DeleteUnitCommand } from './commands/delete-unit-command.model';
 import { Command } from './commands/command.model';
-import { AddUnitCommand } from './commands/addUnitCommand.model';
-import { AddRelationCommand } from './commands/addRelationCommand.model';
-import {CompositeCommand} from './commands/compositeCommand.model';
+import { AddUnitCommand } from './commands/add-unit-command.model';
+import { AddRelationCommand } from './commands/add-relation-command.model';
+import { CompositeCommand } from './commands/composite-command.model';
+import { SearchFriendUnit } from './commands/search-friend-unit.model';
+import { DeleteRelationCommand } from './commands/delete-relation-command.mode';
 
 export class Lexical {
 
   readonly tokenMatchers = [
     'new', '#', '~', '<', 'inherit', ':', '>', 'relation',
-    'association', 'use', 'compose', ',', '*', '+',
+    'association', 'use', 'compose', ',', '*', '+', 'open',
     ['code', /[0-9]+/],
     ['text', /[a-záéíóúA-ZÁÀàÉÈèÍÌìÓÒòÚÙùÑñüÜ][a-zA-ZÁáÀàÉéÈèÍíÌìÓóÒòÚúÙùÑñüÜ0-9]*/],
     ['cardinal', /\W.[n|m*+.(n|m*+)][0-9.(nm*+0-9)]+/],
@@ -23,6 +25,7 @@ export class Lexical {
   cardinalTopUnit: string;
   cardinalLowerUnit: string;
   nameUnit: string;
+  deleteRelation: string;
 
   constructor() {
   }
@@ -32,6 +35,7 @@ export class Lexical {
     const token = lex.nextToken();
     switch (token['name']) {
       case '~':
+        this.deleteRelation = token['name'];
         return this.analyzeCommandDeleteUnit(lex);
       case 'text':
         this.nameUnit = token['lexeme'];
@@ -51,6 +55,7 @@ export class Lexical {
       return new ErrorCommand();
     }
     const code = lex.nextToken();
+    this.codeTopUnit = code['lexeme'];
     if (code['name'] !== 'code') {
       return new ErrorCommand();
     }
@@ -58,8 +63,25 @@ export class Lexical {
     if (relation === undefined) {
       return new DeleteUnitCommand(code['lexeme']);
     } else {
-      if (relation['name'] === 'relation') {
-        // this.analyzeCommandDeleteRelation();
+      return this.analyzeCommandDeleteRelation(lex, relation);
+    }
+  }
+
+  private analyzeCommandDeleteRelation(lex, operator): Command {
+    operator = operator['lexeme'];
+    const relation = lex.nextToken();
+    let relationType = operator.concat(relation['lexeme']);
+    if (relationType === 'compose>' || relationType === 'use>' || relationType === 'association>' || relationType === 'inherit>') {
+      return this.sequenceUnit(null, lex, relationType);
+    }
+    if (relationType === '<compose' || relationType === '<use' || relationType === '<association' || relationType === '<inherit') {
+      return this.sequenceUnit(null, lex, relationType);
+    } else {
+      const bidirectional = lex.nextToken();
+      relationType = relationType.concat(bidirectional['lexeme']);
+      if (relationType === '<use>' || relationType === '<association>') {
+        console.log(relationType)
+        return this.sequenceUnit(null, lex, relationType);
       }
     }
   }
@@ -83,11 +105,11 @@ export class Lexical {
 
   private analyzeCommandUpdateUnit(lex): Command {
     const token = lex.nextToken();
+    if (token['name'] === 'open') {
+      return new SearchFriendUnit(this.codeTopUnit);
+    }
     if (token['name'] === ':') {
       const cardinal = lex.nextToken();
-      if (cardinal === undefined) {
-        // Update Unit;
-      }
       if (cardinal['name'] === 'code' || cardinal['name'] === '+' || cardinal['name'] === '*') {
         this.cardinalTopUnit = cardinal['lexeme'];
         return this.analyzeCommandRelationByCardinal(lex);
@@ -191,8 +213,10 @@ export class Lexical {
       return this.sequenceUnit(relationType, lex, relation);
     }
   }
+
   private analyzeCommandByNotSemantic(lex: any, relationType: TypeRelation, relation: string, point) {
-    if (relation.concat(point['name']) === '<association>') {
+    const bidirectional = relation.concat(point['name']);
+    if ( bidirectional === '<association>' || bidirectional === '<use>') {
       return this.sequenceUnit(relationType, lex, relation.concat(point['name']));
     } else {
       return this.sequenceUnit(relationType, lex, relation);
@@ -219,9 +243,15 @@ export class Lexical {
     const token = lex.nextToken();
     if (token === undefined) {
       if (relation === '<inherit' || relation === '<compose') {
+        if (this.deleteRelation === '~') {
+          return new DeleteRelationCommand(this.codeTopUnit, this.codeLowerUnit);
+        }
         return new AddRelationCommand(relationType, this.codeTopUnit, this.codeLowerUnit, this.semantics, this.cardinalTopUnit, undefined);
       }
       if (relation === 'inherit>') {
+        if (this.deleteRelation === '~') {
+          return new DeleteRelationCommand(this.codeLowerUnit, this.codeTopUnit);
+        }
         return new AddRelationCommand(relationType, this.codeLowerUnit, this.codeTopUnit, this.semantics, undefined, undefined);
       } else {
         return this.createSingleRelation(relationType, relation);
@@ -258,13 +288,32 @@ export class Lexical {
   }
 
   private createSingleRelation(relationType: TypeRelation, relation: string): Command {
-    if ( relation === '<association' || relation === '<use') {
+    if (relation === '<association' || relation === '<use') {
+      if (this.deleteRelation === '~') {
+        return new DeleteRelationCommand(this.codeTopUnit, this.codeLowerUnit);
+      }
       return new AddRelationCommand(relationType, this.codeTopUnit, this.codeLowerUnit, this.semantics, this.cardinalTopUnit,
         this.cardinalLowerUnit);
     }
     if (relation === 'compose>' || relation === 'association>' || relation === 'use>') {
+      if (this.deleteRelation === '~') {
+        return new DeleteRelationCommand(this.codeLowerUnit, this.codeTopUnit);
+      }
       return new AddRelationCommand(relationType, this.codeLowerUnit, this.codeTopUnit, this.semantics, this.cardinalLowerUnit,
         this.cardinalTopUnit);
+    }
+    if (relation === '<association>' || relation === '<use>') {
+      const commands = new CompositeCommand();
+      if (this.deleteRelation === '~') {
+        commands.add(new DeleteRelationCommand(this.codeTopUnit, this.codeLowerUnit));
+        commands.add(new DeleteRelationCommand(this.codeLowerUnit, this.codeTopUnit));
+        return commands;
+      }
+      commands.add(new AddRelationCommand(relationType, this.codeTopUnit, this.codeLowerUnit, this.semantics, this.cardinalTopUnit,
+        this.cardinalLowerUnit));
+      commands.add(new AddRelationCommand(relationType, this.codeLowerUnit, this.codeTopUnit, this.semantics, this.cardinalLowerUnit,
+        this.cardinalTopUnit));
+      return commands;
     } else {
       return new ErrorCommand();
     }
@@ -295,11 +344,13 @@ export class Lexical {
 
     const commands = new CompositeCommand();
     for (let i = 0; i < idLowerUnits.length; i++) {
-      if (relation === '<inherit' || relation === '<compose' || relation === '<association' || relation === '<use') {
+      if (relation === '<inherit' || relation === '<compose' || relation === '<association' || relation === '<use' || relation === '<use>'
+        || relation === '<association>') {
         commands.add(new AddRelationCommand(relationType, this.codeTopUnit, idLowerUnits[i], this.semantics, this.cardinalTopUnit,
           cardinalsLowerUnit[i]));
       }
-      if (relation === 'inherit>' || relation === 'compose>' || relation === 'association>' || relation === 'use>') {
+      if (relation === 'inherit>' || relation === 'compose>' || relation === 'association>' || relation === 'use>' || relation === '<use>'
+        || relation === '<association>') {
         commands.add(new AddRelationCommand(relationType,  idLowerUnits[i], this.codeTopUnit, this.semantics, cardinalsLowerUnit[i],
           this.cardinalTopUnit));
       }
