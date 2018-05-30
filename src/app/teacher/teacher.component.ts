@@ -42,7 +42,7 @@ export class TeacherComponent implements OnInit {
   readonly db = true;
 
   constructor(private snackBar: MatSnackBar, private unitService: UnitService, private relationService: RelationService,
-              private router: Router) {
+    private router: Router) {
   }
 
   ngOnInit(): void {
@@ -148,7 +148,8 @@ export class TeacherComponent implements OnInit {
       for (const relationDto of this.relationsDto) {
         const topUnit = this.units.find(unit => unit.getCode() === relationDto.topUnit.code);
         const lowerUnit = this.units.find(unit => unit.getCode() === relationDto.lowerUnit.code);
-        this.relations.push(new Relation(topUnit, lowerUnit, relationDto.type, relationDto.semantics, undefined, undefined));
+        this.relations.push(new Relation(topUnit, lowerUnit, relationDto.type, relationDto.semantics,
+          relationDto.cardinalTopUnit, relationDto.cardinalLowerUnit));
       }
       let y = 20;
       for (let i = 0; i < this.units.length; i++) {
