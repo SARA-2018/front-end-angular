@@ -17,6 +17,7 @@ import { TypeRelation } from './shared/models/type-relation.enum';
 import { Command } from './shared/models/commands/command.model';
 import { FilterDto } from './shared/dtos/filter.dto';
 import { Router } from '@angular/router';
+import { Logger } from './shared/models/logger.model';
 
 @Component({
   templateUrl: 'teacher.component.html',
@@ -48,10 +49,6 @@ export class TeacherComponent implements OnInit {
     this.synchronizedGraph();
     this.synchronizedSearch();
   }
-
-  /*student() {
-    this.router.navigate([StudentComponent.URL]);
-  }*/
 
   synchronizedGraph() {
     this.unitsDto = [];
@@ -115,12 +112,7 @@ export class TeacherComponent implements OnInit {
     const relat3 = new Relation(unitE10, unitR3, TypeRelation.INHERIT, 'semantica2', '1', '2');
     const relat4 = new Relation(unitE10, unitR3, TypeRelation.INHERIT, 'semantica2', '3', '4');
 
-
-    // root
-    // UnitE4 1 - 1
-    // UnitE7 1 - 2
-    // UnitE3 1 - 3 - 2
-    return unitE10;
+    return root;
   }
 
   isRelated(unit: Unit): boolean {
@@ -176,13 +168,15 @@ export class TeacherComponent implements OnInit {
       this.nodesNotRelated = nodesNo;
     }
     console.log('Modelos');
-    root.log(' ');
-    const rootView = new UnitViewImp(root);
+    const logger = new Logger(root);
+    logger.log();
+    // root.log(' ');
+    // const rootView = new UnitViewImp(root);
     console.log('Vistas');
-    rootView.log(' ');
-    rootView.locate();
-    this.nodes = rootView.createNode();
-    this.links = rootView.createLink();
+    // rootView.log(' ');
+   // rootView.locate();
+   // this.nodes = rootView.createNode();
+   // this.links = rootView.createLink();
     console.log('Nodos: ' + this.nodes.length);
     console.log('Links: ' + this.links.length);
   }

@@ -3,7 +3,7 @@ import { Relation } from './relation.model';
 
 export class Block {
 
-    private parentUnit: Unit;
+    private ascendantUnit: Unit;
     private units: Unit[] = [];
     private relations: Relation[] = [];
     private type: string;
@@ -11,19 +11,21 @@ export class Block {
     private cardinalTopUnit: string;
     private cardinalLowerUnit: string;
 
-    constructor(relation: Relation) {
-        this.parentUnit = relation.getTopUnit();
+    constructor(relation: Relation, ascendantUnit: Unit) {
         this.type = relation.getType();
         this.semantics = relation.getSemantics();
         this.cardinalLowerUnit = relation.getCardinalLowerUnit();
         this.cardinalTopUnit = relation.getCardinalTopUnit();
+        this.ascendantUnit = ascendantUnit;
         this.units.push(relation.getLowerUnit());
+        relation.getLowerUnit().setAscendantBlock(this);
         this.relations.push(relation);
     }
 
     addRelation(relation: Relation) {
         this.relations.push(relation);
         this.units.push(relation.getLowerUnit());
+        relation.getLowerUnit().setAscendantBlock(this);
     }
 
     getType() {
@@ -50,9 +52,9 @@ export class Block {
         return this.cardinalLowerUnit;
     }
 
-    log(block: Block, margin: string) {
+    log(block: Block, margin: string, unitsVisited: Unit[]) {
         for (const unit of block.getUnits()) {
-            unit.log(margin);
+            unit.log(margin, unitsVisited);
         }
     }
 }

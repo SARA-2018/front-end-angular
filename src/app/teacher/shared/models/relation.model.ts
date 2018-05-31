@@ -1,6 +1,5 @@
 import { Unit } from './unit.model';
 
-
 export class Relation {
 
   private id: number;
