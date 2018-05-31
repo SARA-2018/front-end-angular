@@ -13,7 +13,7 @@ export class SearchFriendUnit extends Command {
   }
 
   execute(unitService?: UnitService, relationService?: RelationService): Observable<any> {
-    return unitService.getByFriend(this.codeTopUnit);
+    return unitService.getFriendsByCode(this.codeTopUnit);
   }
 
 }
