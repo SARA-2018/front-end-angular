@@ -46,7 +46,7 @@ export class HttpService {
         return this;
     }
 
-    successful(notification = 'Comando ejectutado correctamente'): HttpService {
+    successful(notification = 'Comando ejecutado correctamente'): HttpService {
         this.successfulNotification = notification;
         return this;
     }
