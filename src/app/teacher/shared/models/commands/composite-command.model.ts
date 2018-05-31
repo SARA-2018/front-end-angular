@@ -12,11 +12,14 @@ export class CompositeCommand extends Command {
   }
 
   execute(unitService: UnitService, relationService: RelationService): Observable<any> {
-    let observable: Observable<any>;
-    for (const command of this.commands) {
-      observable = command.execute(unitService, relationService);
-    }
-    return observable;
+    return new Observable(observer => {
+      for (let i = 0; i < this.commands.length; i++) {
+        this.commands[i].execute(unitService, relationService).subscribe();
+        observer.next();
+      }
+      observer.next();
+      observer.complete();
+    });
   }
 
   public add(command: Command): void {

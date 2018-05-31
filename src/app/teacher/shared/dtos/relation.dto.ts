@@ -5,4 +5,6 @@ export interface RelationDto {
   lowerUnit: UnitDto;
   type: string;
   semantics: string;
+  cardinalTopUnit: string;
+  cardinalLowerUnit: string;
 }

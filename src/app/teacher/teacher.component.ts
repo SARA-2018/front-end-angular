@@ -42,7 +42,7 @@ export class TeacherComponent implements OnInit {
   readonly db = true;
 
   constructor(private snackBar: MatSnackBar, private unitService: UnitService, private relationService: RelationService,
-              private router: Router) {
+    private router: Router) {
   }
 
   ngOnInit(): void {
@@ -60,12 +60,12 @@ export class TeacherComponent implements OnInit {
     this.units = [];
     this.relations = [];
     if (this.db) {
-       this.unitService.getAll().subscribe(units => {
-         this.unitsDto = units;
-         this.relationService.getAll().subscribe(relations => {
+      this.unitService.getAll().subscribe(units => {
+        this.unitsDto = units;
+        this.relationService.getAll().subscribe(relations => {
           this.relationsDto = relations;
           this.addDataGraph();
-       });
+        });
       });
     } else {
       this.addDataGraph();
@@ -148,7 +148,8 @@ export class TeacherComponent implements OnInit {
       for (const relationDto of this.relationsDto) {
         const topUnit = this.units.find(unit => unit.getCode() === relationDto.topUnit.code);
         const lowerUnit = this.units.find(unit => unit.getCode() === relationDto.lowerUnit.code);
-        this.relations.push(new Relation(topUnit, lowerUnit, relationDto.type, relationDto.semantics, undefined, undefined));
+        this.relations.push(new Relation(topUnit, lowerUnit, relationDto.type, relationDto.semantics,
+          relationDto.cardinalTopUnit, relationDto.cardinalLowerUnit));
       }
       let y = 20;
       for (let i = 0; i < this.units.length; i++) {
@@ -229,10 +230,10 @@ export class TeacherComponent implements OnInit {
   }
 
   onAddHelp(event: MatOptionSelectionChange, relationUnit, value: string): void {
-      const help = [];
-      help.push(relationUnit);
-      const val = help.pop();
-      this.text = value.concat(val);
+    const help = [];
+    help.push(relationUnit);
+    const val = help.pop();
+    this.text = value.concat(val);
   }
 
   valueText() {
