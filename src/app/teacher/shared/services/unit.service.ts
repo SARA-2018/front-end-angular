@@ -4,6 +4,7 @@ import { UnitDto } from '../dtos/unit.dto';
 import { Unit } from '../models/unit.model';
 import { HttpService } from '../../../core/http.service';
 import { FilterDto } from '../dtos/filter.dto';
+import { FriendsDto } from '../dtos/friends.dto';
 
 @Injectable()
 export class UnitService {
@@ -27,11 +28,11 @@ export class UnitService {
     return this.httpService.get(UnitService.END_POINT);
   }
 
-  delete(id: number): Observable<any> {
-    return this.httpService.delete(UnitService.END_POINT + `/${id}`);
+  delete(code: number): Observable<any> {
+    return this.httpService.delete(UnitService.END_POINT + `/${code}`);
   }
 
-  getByFriend(id: number): Observable<any> {
-    return this.httpService.get(UnitService.END_POINT + `/friends/${id}`);
+  getFriendsByCode(code: number): Observable<FriendsDto> {
+    return this.httpService.get(UnitService.END_POINT + `/friends/${code}`);
   }
 }
