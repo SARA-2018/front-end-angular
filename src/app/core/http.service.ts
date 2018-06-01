@@ -60,6 +60,7 @@ export class HttpService {
     }
 
     post(endpoint: string, body?: Object): Observable<any> {
+      this.body = body;
         return this.http.post(HttpService.API_END_POINT + endpoint, body, this.createOptions()).map(
             response => this.extractData(response)).catch(
                 error => {

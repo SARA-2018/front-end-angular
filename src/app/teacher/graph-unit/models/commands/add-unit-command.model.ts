@@ -1,6 +1,6 @@
 import {Command} from './command.model';
 import { Unit } from '../unit.model';
-import { UnitService } from '../../services/unit.service';
+import { UnitService } from '../../../graph-unit/services/unit.service';
 import { Observable } from 'rxjs/Observable';
 
 export class AddUnitCommand extends Command {
