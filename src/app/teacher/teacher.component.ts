@@ -16,8 +16,6 @@ import { RelationService } from './shared/services/relation.service';
 import { TypeRelation } from './shared/models/type-relation.enum';
 import { Command } from './shared/models/commands/command.model';
 import { FilterDto } from './shared/dtos/filter.dto';
-import {encodeUriQuery} from '@angular/router/src/url_tree';
-import {utf8Encode} from '@angular/compiler/src/util';
 
 @Component({
   templateUrl: 'teacher.component.html',

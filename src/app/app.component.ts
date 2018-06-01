@@ -14,9 +14,22 @@ export class AppComponent {
 
   teacher() {
     this.router.navigate([TeacherComponent.URL]);
+    this.stylesTeacher('teacher');
+    this.stylesStudent('student');
   }
 
   student() {
     this.router.navigate([StudentComponent.URL]);
+    this.stylesTeacher('student');
+    this.stylesStudent('teacher');
+  }
+
+  stylesTeacher(name: string) {
+    document.getElementById(name).style.color = 'black';
+    document.getElementById(name).style.background = 'bisque';
+  }
+  stylesStudent(name: string) {
+    document.getElementById(name).style.color = 'white';
+    document.getElementById(name).style.background = 'bottom';
   }
 }
