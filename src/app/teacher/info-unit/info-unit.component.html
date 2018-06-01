@@ -1,15 +1,20 @@
 <mat-accordion>
-  <mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        Contenido
-      </mat-panel-title>
-      <mat-panel-description>
-        Contenido de la unidad
-      </mat-panel-description>
-    </mat-expansion-panel-header>
-    <textarea matInput placeholder="Unidad: "></textarea>
-    <button mat-raised-button color="primary" id="button-content">Guardar</button>
+  <mat-expansion-panel [expanded]="0">
+    <mat-expansion-panel-header></mat-expansion-panel-header>
+    <mat-tab-group>
+      <mat-tab label="Itinerario 1">
+
+        <mat-card>
+
+        </mat-card>
+
+      </mat-tab>
+      <mat-tab label="Tab 2">
+        <ng-template mat-tab-label>
+          <mat-icon>add_circle_outline</mat-icon>
+        </ng-template>
+      </mat-tab>
+    </mat-tab-group>
   </mat-expansion-panel>
   <mat-expansion-panel>
     <mat-expansion-panel-header>
@@ -21,7 +26,9 @@
       </mat-panel-description>
     </mat-expansion-panel-header>
     <textarea matInput placeholder="Unidad: "></textarea>
-
+    <mat-action-row>
+      <button mat-raised-button color="primary" id="button-content">Guardar</button>
+    </mat-action-row>
   </mat-expansion-panel>
 </mat-accordion>
 <router-outlet></router-outlet>
