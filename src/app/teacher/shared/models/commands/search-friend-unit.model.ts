@@ -1,6 +1,5 @@
 import { Command } from './command.model';
 import { UnitService } from '../../services/unit.service';
-import { RelationService } from '../../services/relation.service';
 import { Observable } from 'rxjs/Observable';
 
 export class SearchFriendUnit extends Command {
@@ -12,7 +11,7 @@ export class SearchFriendUnit extends Command {
     this.codeTopUnit = codeTopUnit;
   }
 
-  execute(unitService?: UnitService, relationService?: RelationService): Observable<any> {
+  execute(unitService: UnitService): Observable<any> {
     return unitService.getFriendsByCode(this.codeTopUnit);
   }
 

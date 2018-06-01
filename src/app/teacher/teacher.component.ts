@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UnitService } from './shared/services/unit.service';
-import { MatOptionSelectionChange, MatSnackBar } from '@angular/material';
+import { MatOptionSelectionChange, MatSnackBar, MatDialog } from '@angular/material';
 import { Link } from './d3/models/link';
 import { Node } from './d3/models/node';
 import { FormControl } from '@angular/forms';
@@ -16,7 +16,8 @@ import { RelationService } from './shared/services/relation.service';
 import { TypeRelation } from './shared/models/type-relation.enum';
 import { Command } from './shared/models/commands/command.model';
 import { FilterDto } from './shared/dtos/filter.dto';
-import { Router } from '@angular/router';
+import {encodeUriQuery} from '@angular/router/src/url_tree';
+import {utf8Encode} from '@angular/compiler/src/util';
 
 @Component({
   templateUrl: 'teacher.component.html',
@@ -41,7 +42,7 @@ export class TeacherComponent implements OnInit {
   readonly db = true;
 
   constructor(private snackBar: MatSnackBar, private unitService: UnitService, private relationService: RelationService,
-    private router: Router) {
+              public dialog: MatDialog) {
   }
 
   ngOnInit(): void {
@@ -191,7 +192,7 @@ export class TeacherComponent implements OnInit {
     try {
       const lexical = new Lexical();
       const command: Command = lexical.analyzeCommand(text);
-      command.execute(this.unitService, this.relationService).subscribe(
+      command.execute(this.unitService, this.relationService, this.dialog).subscribe(
         () => this.synchronizedGraph()
       );
     } catch (err) {
@@ -217,7 +218,7 @@ export class TeacherComponent implements OnInit {
   }
 
   filter(unitName: string): FilterDto[] {
-    const regExp = new RegExp('[\ns \t:~#<>]+');
+    const regExp = new RegExp('[\ns \t:~<>]+');
     const parse = unitName.split(regExp);
     const unit = parse.pop();
     if (unit !== '') {
@@ -231,8 +232,8 @@ export class TeacherComponent implements OnInit {
   onAddHelp(event: MatOptionSelectionChange, relationUnit, value: string): void {
     const help = [];
     help.push(relationUnit);
-    const val = help.pop();
-    this.text = value.concat(val);
+    const name = help.pop();
+    this.text = value.concat(name);
   }
 
   valueText() {

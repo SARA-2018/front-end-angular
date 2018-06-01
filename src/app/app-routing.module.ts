@@ -3,6 +3,7 @@ import { HomeComponent } from './home/home.component';
 import { Routes, RouterModule } from '@angular/router';
 import { TeacherComponent } from './teacher/teacher.component';
 import { StudentComponent } from './student/student.component';
+import { CancelYesDialogComponent } from './core/cancel-yes-dialog.component';
 
 const appRoutes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: TeacherComponent.URL },
@@ -30,5 +31,6 @@ export class AppRoutingModule {
 
   static DIALOGS_COMPONENTS = [
     // Declaracion de DIALOGOS
+    CancelYesDialogComponent
   ];
 }

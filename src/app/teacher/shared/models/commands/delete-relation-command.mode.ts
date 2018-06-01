@@ -1,7 +1,8 @@
 import { Command } from './command.model';
-import { UnitService } from '../../services/unit.service';
 import { Observable } from 'rxjs/Observable';
 import { RelationService } from '../../services/relation.service';
+import { CancelYesDialogComponent } from '../../../../core/cancel-yes-dialog.component';
+import { MatDialog } from '@angular/material';
 
 export class DeleteRelationCommand extends Command {
 
@@ -14,8 +15,17 @@ export class DeleteRelationCommand extends Command {
     this.lowerUnitCode = lowerUnitCode;
   }
 
-  execute(unitService?: UnitService, relationService?: RelationService): Observable<any> {
-    return relationService.delete(this);
+  execute(undefined, relationService: RelationService, dialog: MatDialog): Observable<any> {
+    return new Observable(observer => {
+      dialog.open(CancelYesDialogComponent).afterClosed().subscribe(
+        result => {
+          if (result) {
+            return relationService.delete(this).subscribe(() => {
+                observer.next();
+              }
+            );
+          }
+        });
+    });
   }
-
 }
