@@ -4,6 +4,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { TeacherComponent } from './teacher/teacher.component';
 import { StudentComponent } from './student/student.component';
 import { CancelYesDialogComponent } from './core/cancel-yes-dialog.component';
+import { GraphUnitComponent } from './teacher/graph-unit/graph-unit.component';
+import { InfoUnitComponent } from './teacher/info-unit/info-unit.component';
 
 const appRoutes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: TeacherComponent.URL },
@@ -26,7 +28,9 @@ export class AppRoutingModule {
   static COMPONENTS = [
     HomeComponent,
     TeacherComponent,
-    StudentComponent
+    StudentComponent,
+    GraphUnitComponent,
+    InfoUnitComponent
   ];
 
   static DIALOGS_COMPONENTS = [

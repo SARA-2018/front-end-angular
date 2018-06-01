@@ -1,6 +1,6 @@
 import { Command } from './command.model';
-import { UnitService } from '../../services/unit.service';
-import { RelationService } from '../../services/relation.service';
+import { UnitService } from '../../../graph-unit/services/unit.service';
+import { RelationService } from '../../../graph-unit/services/relation.service';
 import { Observable } from 'rxjs/Observable';
 
 export class CompositeCommand extends Command {

@@ -1,5 +1,5 @@
 import { Block } from './block.model';
-import { UnitService } from '../services/unit.service';
+import { UnitService } from '../../graph-unit/services/unit.service';
 import { Observable } from 'rxjs/Observable';
 import { Relation } from './relation.model';
 

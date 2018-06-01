@@ -1,4 +1,4 @@
-import { Relation } from '../models/relation.model';
+import { Relation } from '../../shared/models/relation.model';
 import { Link } from '../../d3/models/link';
 import { UnitViewImp } from './unit.view';
 

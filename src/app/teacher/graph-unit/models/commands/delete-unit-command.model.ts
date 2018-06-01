@@ -1,5 +1,5 @@
 import { Command } from './command.model';
-import { UnitService } from '../../services/unit.service';
+import { UnitService } from '../../../graph-unit/services/unit.service';
 import { Observable } from 'rxjs/Observable';
 import { CancelYesDialogComponent } from '../../../../core/cancel-yes-dialog.component';
 import { MatDialog } from '@angular/material';

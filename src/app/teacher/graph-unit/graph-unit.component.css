@@ -1,3 +1,11 @@
+.scroll {
+  overflow-y: scroll;
+}
+
+.full-width {
+  width: 100%;
+}
+
 .layout-alignment {
   min-height: 10px;
   padding-bottom: 10px;
@@ -5,7 +13,16 @@
   background-color: #eee;
 }
 
+span {
+  color: #ffffff;
+}
+
+.units-card {
+  padding: 0;
+}
+
 #separator-line{
   background-color: #eee;
 }
+
 

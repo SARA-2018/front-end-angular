@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { RelationDto } from '../dtos/relation.dto';
 import { HttpService } from '../../../core/http.service';
-import { AddRelationCommand } from '../models/commands/add-relation-command.model';
-import { DeleteRelationCommand } from '../models/commands/delete-relation-command.mode';
+import { AddRelationCommand } from '../../shared/models/commands/add-relation-command.model';
+import { DeleteRelationCommand } from '../../shared/models/commands/delete-relation-command.mode';
 
 @Injectable()
 export class RelationService {

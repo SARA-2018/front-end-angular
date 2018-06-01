@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { UnitDto } from '../dtos/unit.dto';
-import { Unit } from '../models/unit.model';
+import { Unit } from '../../shared/models/unit.model';
 import { HttpService } from '../../../core/http.service';
 import { FilterDto } from '../dtos/filter.dto';
 import { FriendsDto } from '../dtos/friends.dto';
