@@ -1,7 +1,8 @@
-import { Relation } from '../../shared/models/relation.model';
+
 import { Link } from '../../d3/models/link';
 import { UnitViewImp } from './unit.view';
 import { TypeRelation } from '../models/type-relation.enum';
+import {Relation} from '../models/relation.model';
 
 export class RelationView {
 

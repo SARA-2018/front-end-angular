@@ -1,9 +1,8 @@
-import { Unit } from '../../shared/models/unit.model';
+
 import { Node } from '../../d3/models/node';
 import { Link } from '../../d3/models/link';
 import { BlockViewImp } from './block.view';
-import { UnitView } from './unit-view.interface';
-import { BlockView } from './block-view.interface';
+import {Unit} from '../models/unit.model';
 
 export class UnitViewImp {
 

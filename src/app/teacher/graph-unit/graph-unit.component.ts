@@ -16,6 +16,8 @@ import { RelationService } from './services/relation.service';
 import { FilterDto } from './dtos/filter.dto';
 import { TypeRelation } from './models/type-relation.enum';
 import { Command } from './models/commands/command.model';
+import { LoggerView } from './views/logger.view';
+import { Logger } from './models/logger.model';
 
 
 @Component({
@@ -40,8 +42,7 @@ export class GraphUnitComponent implements OnInit {
 
   readonly db = true;
 
-  constructor(private snackBar: MatSnackBar, private unitService: UnitService, private relationService: RelationService,
-              public dialog: MatDialog) {
+  constructor(private snackBar: MatSnackBar, private unitService: UnitService, private relationService: RelationService) {
   }
 
   ngOnInit(): void {
@@ -68,55 +69,21 @@ export class GraphUnitComponent implements OnInit {
   }
 
   generateData(): Unit {
-    const unit1 = { name: 'Animales' };
-    const unit2 = { name: 'Perro' };
-    const unit3 = { name: 'Gato' };
-    const unit4 = { name: 'Delfín' };
-    const unit5 = { name: 'Caballo' };
-    const unit6 = { name: 'Aitor' };
-    const unit7 = { name: 'Roberth' };
-    const unit8 = { name: 'Alberto' };
-    const unit9 = { name: 'Jesus' };
-    const unit10 = { name: 'Luis' };
+    for (let i = 0; i < 10; i++) {
+      this.units.push(new Unit('Unit ' + i));
+    }
 
-    const root = new Unit(unit1.name);
-    const unitE2 = new Unit(unit2.name);
-    const unitE3 = new Unit(unit3.name);
-    const unitE4 = new Unit(unit4.name);
-    const unitE5 = new Unit(unit5.name);
-    const unitE6 = new Unit(unit6.name);
-    const unitE7 = new Unit(unit7.name);
-    const unitE8 = new Unit(unit8.name);
-    const unitE9 = new Unit(unit9.name);
-    const unitE10 = new Unit(unit10.name);
-    const unitR = new Unit('Raquel');
-    const unitR2 = new Unit('Raquel2');
-    const unitR3 = new Unit('Raquel3');
-    const unitA = new Unit('Alvaro');
+    this.relations.push(new Relation(this.units[0], this.units[1], TypeRelation.COMPOSE));
+    this.relations.push(new Relation(this.units[0], this.units[2], TypeRelation.COMPOSE));
+    this.relations.push(new Relation(this.units[0], this.units[3], TypeRelation.COMPOSE));
+    this.relations.push(new Relation(this.units[0], this.units[4], TypeRelation.COMPOSE));
+    this.relations.push(new Relation(this.units[3], this.units[6], TypeRelation.INHERIT));
+    this.relations.push(new Relation(this.units[3], this.units[7], TypeRelation.INHERIT));
+    this.relations.push(new Relation(this.units[3], this.units[8], TypeRelation.INHERIT));
+    this.relations.push(new Relation(this.units[7], this.units[9], TypeRelation.INHERIT));
+    this.relations.push(new Relation(this.units[7], this.units[10], TypeRelation.USE));
 
-    const relationE1 = new Relation(root, unitE2, TypeRelation.COMPOSE);
-    const relationE2 = new Relation(root, unitE3, TypeRelation.COMPOSE);
-    const relationE3 = new Relation(root, unitE4, TypeRelation.COMPOSE);
-    const relationE4 = new Relation(root, unitE5, TypeRelation.COMPOSE);
-    const relationE5 = new Relation(unitE3, unitE6, TypeRelation.INHERIT);
-    const relationE6 = new Relation(unitE3, unitE7, TypeRelation.INHERIT);
-    const relationE7 = new Relation(unitE3, unitE8, TypeRelation.INHERIT);
-    const relationE8 = new Relation(unitE7, unitE9, TypeRelation.INHERIT);
-    const relationE9 = new Relation(unitE7, unitE10, TypeRelation.USE);
-    const relationR = new Relation(unitE4, unitR, TypeRelation.INHERIT, 'sem1');
-    const relationA = new Relation(unitE4, unitA, TypeRelation.USE);
-    const relat = new Relation(unitE4, unitE9, TypeRelation.INHERIT, 'sem2');
-    const relat1 = new Relation(unitE10, unitR2, TypeRelation.INHERIT, undefined, '8', '0');
-    const relat2 = new Relation(unitE10, unitR3, TypeRelation.INHERIT, 'semantica2', 'N', '1');
-    const relat3 = new Relation(unitE10, unitR3, TypeRelation.INHERIT, 'semantica2', '1', '2');
-    const relat4 = new Relation(unitE10, unitR3, TypeRelation.INHERIT, 'semantica2', '3', '4');
-
-
-    // root
-    // UnitE4 1 - 1
-    // UnitE7 1 - 2
-    // UnitE3 1 - 3 - 2
-    return unitE10;
+    return this.units[0];
   }
 
   isRelated(unit: Unit): boolean {
@@ -133,10 +100,10 @@ export class GraphUnitComponent implements OnInit {
     this.nodes = [];
     this.links = [];
     this.nodesNotRelated = [];
-    this.units = [];
-    this.relations = [];
     let root;
     if (this.db) {
+      this.units = [];
+      this.relations = [];
       for (const unitDto of this.unitsDto) {
         this.units.push(new Unit(unitDto.name, unitDto.code));
       }
@@ -159,8 +126,9 @@ export class GraphUnitComponent implements OnInit {
     } else {
       const unitsNotRelated: Unit[] = [];
       root = this.generateData();
-      unitsNotRelated.push(new Unit('UnitNR1'));
-      unitsNotRelated.push(new Unit('UnitNR2'));
+      console.log('Relaciones ' + this.relations.length + 'Unidades' + this.units.length);
+      unitsNotRelated.push(new Unit('NotRelated1'));
+      unitsNotRelated.push(new Unit('NotRelated2'));
       const nodesNo: Node[] = [];
       let y = 10;
       for (const unitView of unitsNotRelated) {
@@ -172,10 +140,12 @@ export class GraphUnitComponent implements OnInit {
       this.nodesNotRelated = nodesNo;
     }
     console.log('Modelos');
-    root.log(' ');
+    const logger = new Logger(root);
+    logger.log();
     const rootView = new UnitViewImp(root);
     console.log('Vistas');
-    rootView.log(' ');
+    const loggerView = new LoggerView(rootView);
+    loggerView.log();
     rootView.locate();
     this.nodes = rootView.createNode();
     this.links = rootView.createLink();
@@ -187,7 +157,7 @@ export class GraphUnitComponent implements OnInit {
     try {
       const lexical = new Lexical();
       const command: Command = lexical.analyzeCommand(text);
-      command.execute(this.unitService, this.relationService, this.dialog).subscribe(
+      command.execute(this.unitService, this.relationService).subscribe(
         () => this.synchronizedGraph()
       );
     } catch (err) {
@@ -213,7 +183,7 @@ export class GraphUnitComponent implements OnInit {
   }
 
   filter(unitName: string): FilterDto[] {
-    const regExp = new RegExp('[\ns \t:~<>]+');
+    const regExp = new RegExp('[\ns \t:~#<>]+');
     const parse = unitName.split(regExp);
     const unit = parse.pop();
     if (unit !== '') {
@@ -227,8 +197,8 @@ export class GraphUnitComponent implements OnInit {
   onAddHelp(event: MatOptionSelectionChange, relationUnit, value: string): void {
     const help = [];
     help.push(relationUnit);
-    const name = help.pop();
-    this.text = value.concat(name);
+    const val = help.pop();
+    this.text = value.concat(val);
   }
 
   valueText() {
