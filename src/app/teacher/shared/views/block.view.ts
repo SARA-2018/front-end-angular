@@ -50,7 +50,7 @@ export class BlockViewImp {
         return this.relationViews;
     }
 
-    getUnitViews(): UnitViewImp[] {
+    getDescendantUnitViews(): UnitViewImp[] {
         return this.descendantUnitViews;
     }
 
@@ -77,6 +77,7 @@ export class BlockViewImp {
         }
         this.x = xShift / 2 - this.halfSizeBlock;
         this.y = 0;
+        console.log('bloque colocado');
     }
 
     shift(x: number, y: number) {
@@ -89,7 +90,7 @@ export class BlockViewImp {
 
     createNode(): Node[] {
         const result = [];
-        for (const unitView of this.getUnitViews()) {
+        for (const unitView of this.getDescendantUnitViews()) {
             for (const node of unitView.createNode()) {
                 result.push(node);
             }
@@ -108,8 +109,8 @@ export class BlockViewImp {
         return result;
     }
 
-    log (margin: string, unitViewsVisited: UnitViewImp[]) {
-        for (const unitView of this.getUnitViews()) {
+    log(margin: string, unitViewsVisited: UnitViewImp[]) {
+        for (const unitView of this.getDescendantUnitViews()) {
             unitView.log(margin, unitViewsVisited);
         }
     }

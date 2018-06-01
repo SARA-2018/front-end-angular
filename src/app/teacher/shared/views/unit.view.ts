@@ -15,6 +15,7 @@ export class UnitViewImp {
     private ascendantBlockView: BlockViewImp;
     private descendantBlockViews: BlockViewImp[] = [];
     private placed: boolean;
+    private painted: boolean;
 
     readonly xSize = 150;
     readonly xHalfSize = 75;
@@ -93,7 +94,7 @@ export class UnitViewImp {
     locate() {
         if (!this.placed) {
             this.placed = true;
-            if (this.descendantBlockViews.length === 0) {
+            if (this.isLeaf()) {
                 this.x = 0;
                 this.y = 0;
                 this.xBlock = 0;
@@ -116,6 +117,21 @@ export class UnitViewImp {
         }
     }
 
+    isLeaf(): boolean {
+        if (this.descendantBlockViews.length === 0) {
+            return true;
+        } else {
+            for (const blockView of this.descendantBlockViews) {
+                for (const unitView of blockView.getDescendantUnitViews()) {
+                    if (unitView.isPlaced()) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+    }
+
     shift(x: number, y: number) {
         this.x += x;
         this.y += y;
@@ -128,11 +144,14 @@ export class UnitViewImp {
 
     createNode(): Node[] {
         const result: Node[] = [];
-        const root: Node = new Node(this.unit.getName() + '#' + this.unit.getCode(), this.x, this.y);
-        result.push(root);
-        for (const blockView of this.descendantBlockViews) {
-            for (const node of blockView.createNode()) {
-                result.push(node);
+        if (!this.painted) {
+            const root: Node = new Node(this.unit.getName() + '#' + this.unit.getCode(), this.x, this.y);
+            this.painted = true;
+            result.push(root);
+            for (const blockView of this.descendantBlockViews) {
+                for (const node of blockView.createNode()) {
+                    result.push(node);
+                }
             }
         }
         return result;
@@ -148,7 +167,7 @@ export class UnitViewImp {
         return result;
     }
 
-    log (margin: string, unitViewsVisited: UnitViewImp[]) {
+    log(margin: string, unitViewsVisited: UnitViewImp[]) {
         if (unitViewsVisited.find(unitView => unitView.getUnit().getCode() === this.getUnit().getCode()) === undefined) {
             unitViewsVisited.push(this);
             console.log(margin + this.unit.getName());
