@@ -18,6 +18,7 @@ import { Command } from './shared/models/commands/command.model';
 import { FilterDto } from './shared/dtos/filter.dto';
 import { Router } from '@angular/router';
 import { Logger } from './shared/models/logger.model';
+import { LoggerView } from './shared/views/logger.view';
 
 @Component({
   templateUrl: 'teacher.component.html',
@@ -170,12 +171,12 @@ export class TeacherComponent implements OnInit {
     console.log('Modelos');
     const logger = new Logger(root);
     logger.log();
-    // root.log(' ');
-    // const rootView = new UnitViewImp(root);
+    const rootView = new UnitViewImp(root);
     console.log('Vistas');
-    // rootView.log(' ');
-   // rootView.locate();
-   // this.nodes = rootView.createNode();
+    const loggerView = new LoggerView(rootView);
+    loggerView.log();
+    // rootView.locate();
+    // this.nodes = rootView.createNode();
    // this.links = rootView.createLink();
     console.log('Nodos: ' + this.nodes.length);
     console.log('Links: ' + this.links.length);
