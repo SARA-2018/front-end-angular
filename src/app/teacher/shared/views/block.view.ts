@@ -5,29 +5,41 @@ import { Block } from '../models/block.model';
 import { UnitView } from './unit-view.interface';
 import { BlockView } from './block-view.interface';
 import { RelationView } from './relation.view';
+import { Unit } from '../models/unit.model';
 
-export class BlockViewImp implements BlockView {
+export class BlockViewImp {
 
     private block: Block;
     private x: number;
     private y: number;
-    private unitViews: UnitViewImp[] = [];
+    private ascendantUnitView: UnitViewImp;
+    private descendantUnitViews: UnitViewImp[] = [];
     private relationViews: RelationView[] = [];
 
     readonly xSpaceBetweenBlocks = 10;
     readonly ySpaceBetweenBlocks = 60;
     readonly halfSizeBlock = 75;
 
-    constructor(block: Block) {
+    constructor(block: Block, ascendantUnitView: UnitViewImp) {
         this.x = 0;
         this.y = 0;
         this.block = block;
+        this.ascendantUnitView = ascendantUnitView;
         for (const unit of this.block.getUnits()) {
-            this.unitViews.push(new UnitViewImp(unit));
+            const unitView = this.existUnitView(unit);
+            if (unitView) {
+                this.descendantUnitViews.push(unitView);
+            } else {
+                this.descendantUnitViews.push(new UnitViewImp(unit, this));
+            }
         }
         for (const relation of this.block.getRelations()) {
             this.relationViews.push(new RelationView(relation));
         }
+    }
+
+    existUnitView(unit: Unit): UnitViewImp {
+        return this.ascendantUnitView.existUnitView(unit);
     }
 
     getBlock(): Block {
@@ -37,26 +49,30 @@ export class BlockViewImp implements BlockView {
     getRelationViews(): RelationView[] {
         return this.relationViews;
     }
-    getUnitViews(): UnitView[] {
-        return this.unitViews;
+
+    getDescendantUnitViews(): UnitViewImp[] {
+        return this.descendantUnitViews;
     }
 
     calculateWidthBlock(): number {
         let width = 0;
-        for (const unitView of this.unitViews) {
+        for (const unitView of this.descendantUnitViews) {
             width += unitView.calculateWidthBlock() + this.xSpaceBetweenBlocks;
         }
         return width;
     }
 
     locate() {
-        for (const unit of this.unitViews) {
-            unit.locate();
+        for (const unitView of this.descendantUnitViews) {
+            if (!unitView.isPlaced()) {
+                unitView.locate();
+            }
         }
         let xShift = 0;
-        for (const unitView of this.unitViews) {
+        for (const unitView of this.descendantUnitViews) {
             unitView.shift(xShift, this.ySpaceBetweenBlocks);
             xShift += unitView.calculateWidthBlock();
+
         }
         this.x = xShift / 2 - this.halfSizeBlock;
         this.y = 0;
@@ -65,14 +81,14 @@ export class BlockViewImp implements BlockView {
     shift(x: number, y: number) {
         this.x += x;
         this.y += y;
-        for (const unitView of this.unitViews) {
+        for (const unitView of this.descendantUnitViews) {
             unitView.shift(x, y);
         }
     }
 
     createNode(): Node[] {
         const result = [];
-        for (const unitView of this.getUnitViews()) {
+        for (const unitView of this.getDescendantUnitViews()) {
             for (const node of unitView.createNode()) {
                 result.push(node);
             }
@@ -84,16 +100,16 @@ export class BlockViewImp implements BlockView {
         const result = [];
         topUnitView.calculateVertexRelation();
         for (let i = 0; i < this.relationViews.length; i++) {
-            for (const link of this.relationViews[i].createLink(topUnitView, this.unitViews[i])) {
+            for (const link of this.relationViews[i].createLink(topUnitView, this.descendantUnitViews[i])) {
                 result.push(link);
             }
         }
         return result;
     }
 
-    log(margin: string) {
-        for (const unitView of this.getUnitViews()) {
-            unitView.log(margin);
+    log(margin: string, unitViewsVisited: UnitViewImp[]) {
+        for (const unitView of this.getDescendantUnitViews()) {
+            unitView.log(margin, unitViewsVisited);
         }
     }
 }
