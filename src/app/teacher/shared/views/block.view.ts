@@ -70,14 +70,12 @@ export class BlockViewImp {
         }
         let xShift = 0;
         for (const unitView of this.descendantUnitViews) {
-            if (!unitView.isPlaced()) {
-                unitView.shift(xShift, this.ySpaceBetweenBlocks);
-                xShift += unitView.calculateWidthBlock();
-            }
+            unitView.shift(xShift, this.ySpaceBetweenBlocks);
+            xShift += unitView.calculateWidthBlock();
+
         }
         this.x = xShift / 2 - this.halfSizeBlock;
         this.y = 0;
-        console.log('bloque colocado');
     }
 
     shift(x: number, y: number) {
