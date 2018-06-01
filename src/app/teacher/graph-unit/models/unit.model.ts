@@ -7,7 +7,8 @@ export class Unit {
 
   private code: number;
   private name: string;
-  private blocks: Block[] = [];
+  private ascendantBlock: Block;
+  private descendantBlocks: Block[] = [];
   private visited: boolean;
 
   constructor(name: string, code?: number) {
@@ -20,7 +21,11 @@ export class Unit {
   }
 
   getBlocks(): Block[] {
-    return this.blocks;
+    return this.descendantBlocks;
+  }
+
+  setAscendantBlock(ascendantBlock: Block) {
+    this.ascendantBlock = ascendantBlock;
   }
 
   getName(): string {
@@ -32,37 +37,34 @@ export class Unit {
   }
 
   addRelation(relation: Relation) {
-    this.visited = true;
-    if (!relation.getLowerUnit().isVisited()) {
-      if (this.blocks.length > 0) {
-        const i = this.searchBlock(relation.getType(), relation.getSemantics());
-        if (relation.getType() === this.blocks[i].getType()) {
-          if (relation.getSemantics() !== undefined) {
-            if (relation.getSemantics() === this.blocks[i].getSemantics()) {
-              this.blocks[i].addRelation(relation);
-            } else {
-              this.blocks.push(new Block(relation));
-            }
+    if (this.descendantBlocks.length > 0) {
+      const i = this.searchBlock(relation.getType(), relation.getSemantics());
+      if (relation.getType() === this.descendantBlocks[i].getType()) {
+        if (relation.getSemantics() !== undefined) {
+          if (relation.getSemantics() === this.descendantBlocks[i].getSemantics()) {
+            this.descendantBlocks[i].addRelation(relation);
           } else {
-            this.blocks[i].addRelation(relation);
+            this.descendantBlocks.push(new Block(relation, this));
           }
         } else {
-          this.blocks.push(new Block(relation));
+          this.descendantBlocks[i].addRelation(relation);
         }
       } else {
-        this.blocks.push(new Block(relation));
+        this.descendantBlocks.push(new Block(relation, this));
       }
+    } else {
+      this.descendantBlocks.push(new Block(relation, this));
     }
   }
 
   searchBlock(type: string, semantics?: string): number {
     let i = 0;
     if (semantics !== undefined) {
-      while (semantics !== this.blocks[i].getSemantics() && (i < this.blocks.length - 1)) {
+      while (semantics !== this.descendantBlocks[i].getSemantics() && (i < this.descendantBlocks.length - 1)) {
         i++;
       }
     } else {
-      while (type !== this.blocks[i].getType() && (i < this.blocks.length - 1)) {
+      while (type !== this.descendantBlocks[i].getType() && (i < this.descendantBlocks.length - 1)) {
         i++;
       }
     }
@@ -73,10 +75,13 @@ export class Unit {
     return unitService.create(this);
   }
 
-  log(margin: string) {
-    console.log(margin + this.getName());
-    for (const block of this.getBlocks()) {
-      block.log(block, margin + '   ');
+  log(margin: string, unitsVisited: Unit[]) {
+    if (unitsVisited.find(unit => unit.getCode() === this.getCode()) === undefined) {
+      unitsVisited.push(this);
+      console.log(margin + this.getName());
+      for (const block of this.getBlocks()) {
+        block.log(block, margin + '   ', unitsVisited);
+      }
     }
   }
 }

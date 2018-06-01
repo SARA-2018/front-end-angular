@@ -21,8 +21,7 @@ export class Link implements d3.SimulationLinkDatum<Node> {
   readonly lowerUnitUP = 10;
   readonly topUnitDOWN = 25;
   readonly sizeArrowRelation = 10;
-  readonly leftCardinalTopUnit = 25;
-  readonly leftCardinalLowerUnit = 10;
+  readonly leftCardinal = 10;
 
   constructor(topUnit: UnitViewImp, lowerUnit: UnitViewImp, type: string, semantics: string,
     cardinalTopUnit: string, cardinalLowerUnit: string) {

@@ -5,14 +5,17 @@ import { BlockViewImp } from './block.view';
 import { UnitView } from './unit-view.interface';
 import { BlockView } from './block-view.interface';
 
-export class UnitViewImp implements UnitView {
+export class UnitViewImp {
 
     private unit: Unit;
     private x: number;
     private y: number;
     private xBlock: number;
     private yBlock: number;
-    private blockViews: BlockViewImp[] = [];
+    private ascendantBlockView: BlockViewImp;
+    private descendantBlockViews: BlockViewImp[] = [];
+    private placed: boolean;
+    private painted: boolean;
 
     readonly xSize = 150;
     readonly xHalfSize = 75;
@@ -20,12 +23,26 @@ export class UnitViewImp implements UnitView {
     readonly xSpaceBetweenUnits = 10;
     readonly ySpaceBetweenUnits = 35;
 
-    constructor(unit: Unit) {
+    constructor(unit: Unit, ascendantBlockView?: BlockViewImp) {
         this.unit = unit;
+        this.ascendantBlockView = ascendantBlockView;
         this.x = 0;
         this.y = 0;
         for (const block of unit.getBlocks()) {
-            this.blockViews.push(new BlockViewImp(block));
+            this.descendantBlockViews.push(new BlockViewImp(block, this));
+        }
+        console.log(this.unit.getName() + ' blocks: ' + this.descendantBlockViews.length);
+    }
+
+    existUnitView(unit: Unit): UnitViewImp {
+        if (this.getUnit().getCode() === unit.getCode()) {
+            return this;
+        } else {
+            if (this.ascendantBlockView) {
+                return this.ascendantBlockView.existUnitView(unit);
+            } else {
+                return undefined;
+            }
         }
     }
 
@@ -37,6 +54,10 @@ export class UnitViewImp implements UnitView {
         return this.y;
     }
 
+    isPlaced(): boolean {
+        return this.placed;
+    }
+
     getXMiddle(): number {
         return this.x + this.xHalfSize;
     }
@@ -45,16 +66,20 @@ export class UnitViewImp implements UnitView {
         return this.y + this.ySize;
     }
 
-    getBlockViews(): BlockView[] {
-        return this.blockViews;
+    getBlockViews(): BlockViewImp[] {
+        return this.descendantBlockViews;
+    }
+
+    getUnit(): Unit {
+        return this.unit;
     }
 
     calculateWidthBlock(): number {
         let width = 0;
-        if (this.blockViews.length === 0) {
+        if (this.descendantBlockViews.length === 0) {
             width = this.xSize + this.xSpaceBetweenUnits;
         } else {
-            for (const blockView of this.blockViews) {
+            for (const blockView of this.descendantBlockViews) {
                 width += blockView.calculateWidthBlock() + this.xSpaceBetweenUnits;
             }
         }
@@ -67,25 +92,43 @@ export class UnitViewImp implements UnitView {
     }
 
     locate() {
-        if (this.blockViews.length === 0) {
-            this.x = 0;
-            this.y = 0;
-            this.xBlock = 0;
-            this.yBlock = 0;
-            this.calculateWidthBlock();
-        } else {
-            for (const blockView of this.blockViews) {
-                blockView.locate();
+        if (!this.placed) {
+            this.placed = true;
+            if (this.isLeaf()) {
+                this.x = 0;
+                this.y = 0;
+                this.xBlock = 0;
+                this.yBlock = 0;
+                this.calculateWidthBlock();
+            } else {
+                for (const blockView of this.descendantBlockViews) {
+                    blockView.locate();
+                }
+                let xShift = 0;
+                for (const blockView of this.descendantBlockViews) {
+                    blockView.shift(xShift, this.ySpaceBetweenUnits);
+                    xShift += blockView.calculateWidthBlock() + this.xSpaceBetweenUnits;
+                }
+                this.x = (xShift - this.xSpaceBetweenUnits) / 2 - this.xHalfSize;
+                this.y = 0;
+                this.xBlock = 0;
+                this.yBlock = 0;
             }
-            let xShift = 0;
-            for (const blockView of this.blockViews) {
-                blockView.shift(xShift, this.ySpaceBetweenUnits);
-                xShift += blockView.calculateWidthBlock() + this.xSpaceBetweenUnits;
+        }
+    }
+
+    isLeaf(): boolean {
+        if (this.descendantBlockViews.length === 0) {
+            return true;
+        } else {
+            for (const blockView of this.descendantBlockViews) {
+                for (const unitView of blockView.getDescendantUnitViews()) {
+                    if (unitView.isPlaced()) {
+                        return true;
+                    }
+                }
             }
-            this.x = (xShift - this.xSpaceBetweenUnits) / 2 - this.xHalfSize;
-            this.y = 0;
-            this.xBlock = 0;
-            this.yBlock = 0;
+            return false;
         }
     }
 
@@ -94,18 +137,21 @@ export class UnitViewImp implements UnitView {
         this.y += y;
         this.xBlock += x;
         this.yBlock += y;
-        for (const block of this.blockViews) {
+        for (const block of this.descendantBlockViews) {
             block.shift(x, y);
         }
     }
 
     createNode(): Node[] {
         const result: Node[] = [];
-        const root: Node = new Node(this.unit.getName() + '#' + this.unit.getCode(), this.x, this.y);
-        result.push(root);
-        for (const blockView of this.blockViews) {
-            for (const node of blockView.createNode()) {
-                result.push(node);
+        if (!this.painted) {
+            const root: Node = new Node(this.unit.getName() + '#' + this.unit.getCode(), this.x, this.y);
+            this.painted = true;
+            result.push(root);
+            for (const blockView of this.descendantBlockViews) {
+                for (const node of blockView.createNode()) {
+                    result.push(node);
+                }
             }
         }
         return result;
@@ -113,7 +159,7 @@ export class UnitViewImp implements UnitView {
 
     createLink(): Link[] {
         const result: Link[] = [];
-        for (const blockView of this.blockViews) {
+        for (const blockView of this.descendantBlockViews) {
             for (const link of blockView.createLink(this)) {
                 result.push(link);
             }
@@ -121,10 +167,13 @@ export class UnitViewImp implements UnitView {
         return result;
     }
 
-    log(margin: string) {
-        console.log(margin + this.unit.getName());
-        for (const blockView of this.blockViews) {
-            blockView.log(margin + '   ');
+    log(margin: string, unitViewsVisited: UnitViewImp[]) {
+        if (unitViewsVisited.find(unitView => unitView.getUnit().getCode() === this.getUnit().getCode()) === undefined) {
+            unitViewsVisited.push(this);
+            console.log(margin + this.unit.getName());
+            for (const blockView of this.descendantBlockViews) {
+                blockView.log(margin + '   ', unitViewsVisited);
+            }
         }
     }
 }
