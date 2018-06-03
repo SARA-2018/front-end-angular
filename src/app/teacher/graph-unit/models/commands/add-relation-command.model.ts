@@ -1,7 +1,6 @@
 import { Command } from './command.model';
 import { TypeRelation } from '../type-relation.enum';
-import { UnitService } from '../../services/unit.service';
-import { RelationService } from '../../services/relation.service';
+import { RelationService } from '../../../graph-unit/services/relation.service';
 import { Observable } from 'rxjs/Observable';
 
 
@@ -25,7 +24,7 @@ export class AddRelationCommand extends Command {
     this.cardinalLowerUnit = cardinalLowerUnit;
   }
 
-  execute(unitService: UnitService, relationService: RelationService): Observable<any> {
+  execute(undefined, relationService: RelationService): Observable<any> {
     return relationService.create(this);
   }
 }

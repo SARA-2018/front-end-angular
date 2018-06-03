@@ -1,6 +1,6 @@
-import { BlockViewImp } from '../../app/teacher/shared/views/block.view';
+import { BlockViewImp } from '../../app/teacher/graph-unit/views/block.view';
 import { Block } from '../../app/teacher/shared/models/block.model';
-import { UnitViewImp } from '../../app/teacher/shared/views/unit.view';
+import { UnitViewImp } from '../../app/teacher/graph-unit/views/unit.view';
 import { Unit } from '../../app/teacher/shared/models/unit.model';
 import { Relation } from '../../app/teacher/shared/models/relation.model';
 
