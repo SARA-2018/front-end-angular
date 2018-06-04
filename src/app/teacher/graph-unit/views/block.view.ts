@@ -1,5 +1,5 @@
-import { Node } from '../../d3/models/node';
-import { Link } from '../../d3/models/link';
+import { Node } from '../d3/models/node';
+import { Link } from '../d3/models/link';
 import { UnitViewImp } from './unit.view';
 import { RelationView } from './relation.view';
 import { Unit } from '../models/unit.model';
