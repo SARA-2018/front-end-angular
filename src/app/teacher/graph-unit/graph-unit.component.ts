@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { UnitService } from './services/unit.service';
 import { MatOptionSelectionChange, MatSnackBar, MatDialog } from '@angular/material';
-import { Link } from '../d3/models/link';
-import { Node } from '../d3/models/node';
+import { Link } from '../graph-unit/d3/models/link';
+import { Node } from '../graph-unit/d3/models/node';
 import { FormControl } from '@angular/forms';
 import { map } from 'rxjs/operators/map';
 import { Observable } from 'rxjs/Observable';
@@ -113,13 +113,13 @@ export class GraphUnitComponent implements OnInit {
         this.relations.push(new Relation(topUnit, lowerUnit, relationDto.type, relationDto.semantics,
           relationDto.cardinalTopUnit, relationDto.cardinalLowerUnit));
       }
-      let y = 20;
+      let x = 0;
       for (let i = 0; i < this.units.length; i++) {
         if (!this.isRelated(this.units[i])) {
           const view = new UnitViewImp(this.units[i]);
-          view.shift(75, y);
+          view.shift(x, 15);
           this.nodesNotRelated.push(view.createNode()[0]);
-          y += 60;
+          x += 180;
         }
       }
       root = this.units[0];
