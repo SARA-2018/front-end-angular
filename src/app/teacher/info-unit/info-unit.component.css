@@ -1,4 +1,8 @@
-#button-content {
+.button-content {
   display: flex;
   margin-left: auto;
+}
+
+.lesson {
+  display: none;
 }

@@ -1,21 +1,4 @@
 <mat-accordion>
-  <mat-expansion-panel [expanded]="0">
-    <mat-expansion-panel-header></mat-expansion-panel-header>
-    <mat-tab-group>
-      <mat-tab label="Itinerario 1">
-
-        <mat-card>
-
-        </mat-card>
-
-      </mat-tab>
-      <mat-tab label="Tab 2">
-        <ng-template mat-tab-label>
-          <mat-icon>add_circle_outline</mat-icon>
-        </ng-template>
-      </mat-tab>
-    </mat-tab-group>
-  </mat-expansion-panel>
   <mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-title>
@@ -27,8 +10,43 @@
     </mat-expansion-panel-header>
     <textarea matInput placeholder="Unidad: "></textarea>
     <mat-action-row>
-      <button mat-raised-button color="primary" id="button-content">Guardar</button>
+      <button mat-raised-button color="primary" class="button-content">Guardar</button>
     </mat-action-row>
   </mat-expansion-panel>
 </mat-accordion>
+<mat-expansion-panel [expanded]="0">
+  <mat-expansion-panel-header></mat-expansion-panel-header>
+  <mat-tab-group>
+    <mat-tab label="Itinerario 1">
+      <mat-card>
+        <mat-card-content>
+          <mat-card class="lesson" id="card_lesson">
+            <mat-card-content>
+              <mat-card class="lesson" id="card_cont_lesson">
+                <mat-card-content>
+
+                </mat-card-content>
+                <mat-action-row>
+                  <button mat-raised-button color="primary" class="button-content">Añadir video</button>
+                  <button mat-raised-button color="primary" class="button-content">Añadir ejercicio</button>
+                </mat-action-row>
+              </mat-card>
+            </mat-card-content>
+            <mat-action-row>
+              <button mat-raised-button color="primary" class="button-content" (click)="visibility()">Añadir lección</button>
+            </mat-action-row>
+          </mat-card>
+        </mat-card-content>
+        <mat-action-row>
+          <button mat-raised-button color="primary" class="button-content" (click)="visibilityLesson()">Añadir sesión</button>
+        </mat-action-row>
+      </mat-card>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon>add_circle_outline</mat-icon>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+</mat-expansion-panel>
 <router-outlet></router-outlet>
