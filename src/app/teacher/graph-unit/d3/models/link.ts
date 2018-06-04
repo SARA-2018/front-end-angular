@@ -1,6 +1,6 @@
 import { Node } from './node';
-import { UnitViewImp } from '../../graph-unit/views/unit.view';
-import { TypeRelation } from '../../graph-unit/models/type-relation.enum';
+import { UnitViewImp } from '../../views/unit.view';
+import { TypeRelation } from '../../models/type-relation.enum';
 
 export class Link implements d3.SimulationLinkDatum<Node> {
 

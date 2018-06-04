@@ -8,25 +8,31 @@
       </mat-toolbar>
       <app-graph [nodes]="nodes" [links]="links"></app-graph>
     </mat-card>
-    <div class="layout-alignment"></div>
-    <mat-card class="units-card scroll">
-      <mat-toolbar color="accent">
-        <mat-toolbar-row>
-          <span>Unidades sin relacionar</span>
-        </mat-toolbar-row>
-      </mat-toolbar>
-      <app-units-not-related [nodes]="nodesNotRelated"></app-units-not-related>
+    <mat-card class="units-card">
+      <mat-grid-list cols="6" rowHeight="2:1">
+        <mat-grid-tile [colspan]=1 id="col-title-not-related">Unidades sin relacionar</mat-grid-tile>
+        <mat-grid-tile [colspan]=5 class="units-card scroll">
+          <app-units-not-related [nodes]="nodesNotRelated"></app-units-not-related>
+        </mat-grid-tile>
+      </mat-grid-list>
     </mat-card>
     <div class="layout-alignment"></div>
     <mat-card>
       <mat-card-title>Consola</mat-card-title>
       <mat-form-field class="full-width">
-        <input matInput #box type="text" class="full-width" (keyup.enter)="onEnter(box.value)" [formControl]="searchUnit"
-               [matAutocomplete]="auto" [value]="text">
-        <mat-autocomplete #auto="matAutocomplete" >
+        <input matInput #box type="text" class="full-width" (keyup.enter)="onEnter(box.value)" [formControl]="searchUnit" [matAutocomplete]="auto"
+          [value]="text">
+        <mat-autocomplete #auto="matAutocomplete">
           <mat-option *ngFor="let relationUnit of filteredUnits| async" [value]="valueText()" (onSelectionChange)="onAddHelp($event, relationUnit.unit.name.concat('#' + relationUnit.unit.code), box.value)">
-            <div *ngIf="relationUnit.topUnit?.name != undefined"> {{ relationUnit.unit.name }}<strong>#{{relationUnit.unit.code}}</strong> &nbsp; &nbsp; &nbsp; <em><strong>{{relationUnit.topUnit.name}}</strong></em></div>
-            <div *ngIf="relationUnit.topUnit?.name == undefined"> {{ relationUnit.unit.name }}<strong>#{{relationUnit.unit.code}}</strong></div>
+            <div *ngIf="relationUnit.topUnit?.name != undefined"> {{ relationUnit.unit.name }}
+              <strong>#{{relationUnit.unit.code}}</strong> &nbsp; &nbsp; &nbsp;
+              <em>
+                <strong>{{relationUnit.topUnit.name}}</strong>
+              </em>
+            </div>
+            <div *ngIf="relationUnit.topUnit?.name == undefined"> {{ relationUnit.unit.name }}
+              <strong>#{{relationUnit.unit.code}}</strong>
+            </div>
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>

@@ -25,4 +25,12 @@ span {
   background-color: #eee;
 }
 
+#col-title-not-related{
+  background-color: #007BB2;
+  color: #ffffff;
+  text-align: center;
+}
 
+.mat-grid-tile .mat-figure{
+  justify-content: flex-start;
+}
