@@ -113,7 +113,7 @@ export class GraphUnitComponent implements OnInit {
         this.relations.push(new Relation(topUnit, lowerUnit, relationDto.type, relationDto.semantics,
           relationDto.cardinalTopUnit, relationDto.cardinalLowerUnit));
       }
-      let x = 150;
+      let x = 0;
       for (let i = 0; i < this.units.length; i++) {
         if (!this.isRelated(this.units[i])) {
           const view = new UnitViewImp(this.units[i]);
