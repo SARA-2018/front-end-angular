@@ -1,6 +1,6 @@
 
-import { Node } from '../../d3/models/node';
-import { Link } from '../../d3/models/link';
+import { Node } from '../d3/models/node';
+import { Link } from '../d3/models/link';
 import { BlockViewImp } from './block.view';
 import {Unit} from '../models/unit.model';
 
