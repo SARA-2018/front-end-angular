@@ -165,8 +165,8 @@ export class GraphUnitComponent implements OnInit {
         this.snackBar.open(err.message, '', {
           duration: 2000
         });
-      } else {
-        console.log(err);
+      }
+      if (err.constructor.name === 'ErrorCommand') {
         this.snackBar.open('Comando erróneo', '', {
           duration: 2000
         });
