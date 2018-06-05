@@ -8,12 +8,14 @@ import { AddRelationCommand } from './commands/add-relation-command.model';
 import { CompositeCommand } from './commands/composite-command.model';
 import { SearchFriendUnit } from './commands/search-friend-unit.model';
 import { DeleteRelationCommand } from './commands/delete-relation-command.mode';
+import {LoadCommand} from './commands/load-command.model';
 
 export class Lexical {
 
   readonly tokenMatchers = [
     'new', '#', '~', '<', 'inherit', ':', '>', 'relation',
     'association', 'use', 'compose', ',', '*', '+', 'open',
+    'load', '.',
     ['code', /[0-9]+/],
     ['text', /[a-záéíóúA-ZÁÀàÉÈèÍÌìÓÒòÚÙùÑñüÜ][a-zA-ZÁáÀàÉéÈèÍíÌìÓóÒòÚúÙùÑñüÜ0-9]*/],
     ['cardinal', /\W.[n|m*+.(n|m*+)][0-9.(nm*+0-9)]+/],
@@ -40,6 +42,8 @@ export class Lexical {
       case 'text':
         this.nameUnit = token['lexeme'];
         return this.analyzeCommandCreateUnit(lex);
+      case 'load':
+        return this.analyzeCommandLoadFile(lex);
       default:
         return new ErrorCommand();
     }
@@ -369,6 +373,25 @@ export class Lexical {
       }
     } else {
       return new ErrorCommand();
+    }
+  }
+
+  private analyzeCommandLoadFile(lex: any): Command {
+    const name = lex.nextToken();
+    if (name['name'] !== 'text') {
+      return new ErrorCommand();
+    }
+    const point = lex.nextToken();
+    if (point['name'] !== '.') {
+      return new ErrorCommand();
+    }
+    const extension = lex.nextToken();
+    if (extension['name'] !== 'text') {
+      return new ErrorCommand();
+    }
+    const load = lex.nextToken();
+    if (load === undefined) {
+      return new LoadCommand(name['lexeme']);
     }
   }
 }
