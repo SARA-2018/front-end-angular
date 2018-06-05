@@ -8,12 +8,14 @@ import { AddRelationCommand } from './commands/add-relation-command.model';
 import { CompositeCommand } from './commands/composite-command.model';
 import { SearchFriendUnit } from './commands/search-friend-unit.model';
 import { DeleteRelationCommand } from './commands/delete-relation-command.mode';
+import {LoadCommand} from './commands/load-command.model';
 
 export class Lexical {
 
   readonly tokenMatchers = [
     'new', '#', '~', '<', 'inherit', ':', '>', 'relation',
     'association', 'use', 'compose', ',', '*', '+', 'open',
+    'load', '.',
     ['code', /[0-9]+/],
     ['text', /[a-záéíóúA-ZÁÀàÉÈèÍÌìÓÒòÚÙùÑñüÜ][a-zA-ZÁáÀàÉéÈèÍíÌìÓóÒòÚúÙùÑñüÜ0-9]*/],
     ['cardinal', /\W.[n|m*+.(n|m*+)][0-9.(nm*+0-9)]+/],
@@ -40,24 +42,26 @@ export class Lexical {
       case 'text':
         this.nameUnit = token['lexeme'];
         return this.analyzeCommandCreateUnit(lex);
+      case 'load':
+        return this.analyzeCommandLoadFile(lex);
       default:
-        return new ErrorCommand();
+        throw new ErrorCommand();
     }
   }
 
   private analyzeCommandDeleteUnit(lex: any): Command {
     const name = lex.nextToken();
     if (name['name'] !== 'text') {
-      return new ErrorCommand();
+      throw new ErrorCommand();
     }
     const sharp = lex.nextToken();
     if (sharp['name'] !== '#') {
-      return new ErrorCommand();
+      throw new ErrorCommand();
     }
     const code = lex.nextToken();
     this.codeTopUnit = code['lexeme'];
     if (code['name'] !== 'code') {
-      return new ErrorCommand();
+      throw new ErrorCommand();
     }
     const relation = lex.nextToken();
     if (relation === undefined) {
@@ -89,7 +93,7 @@ export class Lexical {
   private analyzeCommandCreateUnit(lex: any): Command {
     const sharp = lex.nextToken();
     if (sharp['name'] !== '#') {
-      return new ErrorCommand();
+      throw new ErrorCommand();
     }
     const number = lex.nextToken();
     if (number['name'] === 'new') {
@@ -99,7 +103,7 @@ export class Lexical {
       this.codeTopUnit = number['lexeme'];
       return this.analyzeCommandSearchFriendUnit(lex);
     } else {
-      return new ErrorCommand();
+      throw new ErrorCommand();
     }
   }
 
@@ -114,7 +118,7 @@ export class Lexical {
         this.cardinalTopUnit = cardinal['lexeme'];
         return this.analyzeCommandRelationByCardinal(lex);
       } else {
-        return new ErrorCommand();
+        throw new ErrorCommand();
       }
     }
     if (token['name'] === 'cardinal') {
@@ -137,7 +141,7 @@ export class Lexical {
     if (token['name'] === 'use') {
       return this.analyzeCommandRelationsBySemantic(lex, TypeRelation.USE, 'use>');
     } else {
-      return new ErrorCommand();
+      throw new ErrorCommand();
     }
   }
 
@@ -177,7 +181,7 @@ export class Lexical {
     if (relation['name'] === 'use') {
       return this.analyzeCommandRelationsBySemantic(lex, TypeRelation.USE, '<use');
     }
-    return new ErrorCommand();
+    throw new ErrorCommand();
   }
 
   private analyzeCommandRelationCompose(lex: any, relationType: TypeRelation, relation: string): Command {
@@ -188,7 +192,7 @@ export class Lexical {
       lex.nextToken();
       return this.sequenceUnit(lex, relationType, relation);
     } else {
-      return new ErrorCommand();
+      throw new ErrorCommand();
     }
   }
 
@@ -200,7 +204,7 @@ export class Lexical {
     const text = lex.nextToken();
     this.semantics = text['lexeme'];
     if (text['name'] !== 'text') {
-      return new ErrorCommand();
+      throw new ErrorCommand();
     }
     const more = lex.nextToken();
     if (more['name'] === '>') {
@@ -226,14 +230,14 @@ export class Lexical {
   private sequenceUnit(lex: any, relationType: TypeRelation, relation: string): Command {
     const name = lex.nextToken();
     if (name['name'] !== 'text' && name['name'] !== '#') {
-      return new ErrorCommand();
+      throw new ErrorCommand();
     }
     const sharp = lex.nextToken();
     if (sharp['name'] === '#') {
       const number = lex.nextToken();
       this.codeLowerUnit = number['lexeme'];
       if (number['name'] !== 'code') {
-        return new ErrorCommand();
+        throw new ErrorCommand();
       }
     }
     if (sharp['name'] === 'code') {
@@ -256,7 +260,7 @@ export class Lexical {
     } else if (token['name'] === ',') {
       return this.createDeleteGroupRelations(lex, relationType, relation);
     } else {
-      return new ErrorCommand();
+      throw new ErrorCommand();
     }
   }
 
@@ -288,7 +292,7 @@ export class Lexical {
         this.cardinalTopUnit));
       return commands;
     } else {
-      return new ErrorCommand();
+      throw new ErrorCommand();
     }
   }
 
@@ -365,10 +369,29 @@ export class Lexical {
       } else if (point['name'] === ',') {
         return this.createDeleteGroupRelations(lex, relationType, relation);
       } else {
-        return new ErrorCommand();
+        throw new ErrorCommand();
       }
     } else {
-      return new ErrorCommand();
+      throw new ErrorCommand();
+    }
+  }
+
+  private analyzeCommandLoadFile(lex: any): Command {
+    const name = lex.nextToken();
+    if (name['name'] !== 'text') {
+      throw new ErrorCommand();
+    }
+    const point = lex.nextToken();
+    if (point['name'] !== '.') {
+      throw new ErrorCommand();
+    }
+    const extension = lex.nextToken();
+    if (extension['name'] !== 'text') {
+      throw new ErrorCommand();
+    }
+    const load = lex.nextToken();
+    if (load === undefined) {
+      return new LoadCommand(name['lexeme']);
     }
   }
 }

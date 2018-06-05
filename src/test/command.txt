@@ -1,0 +1,2 @@
+Unidad50#50 <inherit Unidad#25
+Unidad59#59 <compose Unidad#26
