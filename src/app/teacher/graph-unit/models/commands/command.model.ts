@@ -1,5 +1,5 @@
-import { UnitService } from '../../../graph-unit/services/unit.service';
-import { RelationService } from '../../../graph-unit/services/relation.service';
+import { UnitService } from '../../services/unit.service';
+import { RelationService } from '../../services/relation.service';
 import { MatDialog } from '@angular/material';
 
 

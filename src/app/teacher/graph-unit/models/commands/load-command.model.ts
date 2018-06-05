@@ -10,10 +10,19 @@ export class LoadCommand extends Command {
   }
 
   execute() {
-    const file = new File([this.name], `../test/src/${this.name}.txt`, {type: 'text/plain'});
+
+    const parts = [
+      new Blob(['you construct a file...'], {type: 'text/plain'})
+    ];
+
+    const file = new File(parts, this.name + '.txt', {type: 'text/plain'});
+    console.log(file)
     const reader = new FileReader();
+    reader.onload = function() {
+      console.log(this.result);
+    }
     reader.readAsText(file);
-    console.log(reader.result);
+
 //    console.log(file);
 //    const fileInput = (document.getElementById('fileInput'))['value'];
 
