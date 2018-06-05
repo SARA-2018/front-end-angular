@@ -2,7 +2,7 @@
 import { Node } from '../d3/models/node';
 import { Link } from '../d3/models/link';
 import { BlockViewImp } from './block.view';
-import {Unit} from '../models/unit.model';
+import { Unit } from '../models/unit.model';
 
 export class UnitViewImp {
 
@@ -79,7 +79,9 @@ export class UnitViewImp {
             width = this.xSize + this.xSpaceBetweenUnits;
         } else {
             for (const blockView of this.descendantBlockViews) {
-                width += blockView.calculateWidthBlock() + this.xSpaceBetweenUnits;
+                if (!this.isPlaced()) {
+                    width += blockView.calculateWidthBlock() + this.xSpaceBetweenUnits;
+                }
             }
         }
         return width;
@@ -91,35 +93,34 @@ export class UnitViewImp {
     }
 
     locate() {
-        if (!this.placed) {
-            this.placed = true;
-            if (this.isLeaf()) {
-                this.x = 0;
-                this.y = 0;
-                this.xBlock = 0;
-                this.yBlock = 0;
-                this.calculateWidthBlock();
-            } else {
-                for (const blockView of this.descendantBlockViews) {
-                    blockView.locate();
-                }
-                let xShift = 0;
-                for (const blockView of this.descendantBlockViews) {
-                    blockView.shift(xShift, this.ySpaceBetweenUnits);
-                    xShift += blockView.calculateWidthBlock() + this.xSpaceBetweenUnits;
-                }
-                this.x = (xShift - this.xSpaceBetweenUnits) / 2 - this.xHalfSize;
-                this.y = 0;
-                this.xBlock = 0;
-                this.yBlock = 0;
+        this.placed = true;
+        if (this.isLeaf()) {
+            this.x = 0;
+            this.y = 0;
+            this.xBlock = 0;
+            this.yBlock = 0;
+            this.calculateWidthBlock();
+        } else {
+            for (const blockView of this.descendantBlockViews) {
+                blockView.locate();
             }
+            let xShift = 0;
+            for (const blockView of this.descendantBlockViews) {
+                blockView.shift(xShift, this.ySpaceBetweenUnits);
+                xShift += blockView.calculateWidthBlock() + this.xSpaceBetweenUnits;
+            }
+            this.x = (xShift - this.xSpaceBetweenUnits) / 2 - this.xHalfSize;
+            this.y = 0;
+            this.xBlock = 0;
+            this.yBlock = 0;
         }
+
     }
 
     isLeaf(): boolean {
         if (this.descendantBlockViews.length === 0) {
             return true;
-        } else {
+        } else  {
             for (const blockView of this.descendantBlockViews) {
                 for (const unitView of blockView.getDescendantUnitViews()) {
                     if (unitView.isPlaced()) {

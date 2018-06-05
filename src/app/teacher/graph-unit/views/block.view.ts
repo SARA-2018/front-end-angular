@@ -61,15 +61,19 @@ export class BlockViewImp {
     }
 
     locate() {
+        let hayUnidades = false;
         for (const unitView of this.descendantUnitViews) {
             if (!unitView.isPlaced()) {
                 unitView.locate();
+                hayUnidades = true;
             }
         }
         let xShift = 0;
         for (const unitView of this.descendantUnitViews) {
-            unitView.shift(xShift, this.ySpaceBetweenBlocks);
-            xShift += unitView.calculateWidthBlock();
+            if (!unitView.isPlaced()) {
+                unitView.shift(xShift, this.ySpaceBetweenBlocks);
+                xShift += unitView.calculateWidthBlock();
+            }
 
         }
         this.x = xShift / 2 - this.halfSizeBlock;
@@ -80,7 +84,9 @@ export class BlockViewImp {
         this.x += x;
         this.y += y;
         for (const unitView of this.descendantUnitViews) {
-            unitView.shift(x, y);
+            if (!unitView.isPlaced()) {
+                unitView.shift(x, y);
+            }
         }
     }
 
