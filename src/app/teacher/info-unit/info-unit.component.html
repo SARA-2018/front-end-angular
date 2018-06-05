@@ -19,13 +19,13 @@
   </mat-expansion-panel-header>
   <mat-tab-group>
     <mat-tab label="Itinerario 1">
-      <mat-card *ngFor="let value of values">
-        <mat-action-row>
-          <button *ngIf="value == 0" mat-raised-button color="primary" class="button-content" (click)="visibilityLesson()"><mat-icon>add_circle_outline</mat-icon>
-            Añadir sesión</button>
+      <mat-action-row>
+        <button mat-raised-button color="primary" class="button-content" (click)="visibilityLesson()"><mat-icon>add_circle_outline</mat-icon>
+              Añadir sesión</button>
         </mat-action-row>
+      <mat-card *ngFor="let session of sessions; let i = index">
         <mat-card-content>
-          <mat-card class="" id="card_lesson">
+          <mat-card *ngFor="let lesson of toArray(session)" class="" id="card_lesson">
             <mat-card-content>
               <mat-card id="card_cont_lesson">
                 <mat-card-content>
@@ -39,7 +39,8 @@
               </mat-card>
             </mat-card-content>
             <mat-action-row>
-              <button mat-raised-button color="primary" class="button-content" (click)="visibility()">Añadir lección</button>
+              {{i}}
+              <button mat-raised-button color="primary" class="button-content" (click)="visibility(i)">Añadir lección</button>
             </mat-action-row>
           </mat-card>
         </mat-card-content>
