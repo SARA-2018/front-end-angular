@@ -2,11 +2,8 @@
   <mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-title>
-        Contenido
-      </mat-panel-title>
-      <mat-panel-description>
         Contenido de la unidad
-      </mat-panel-description>
+      </mat-panel-title>
     </mat-expansion-panel-header>
     <textarea matInput placeholder="Unidad: "></textarea>
     <mat-action-row>
@@ -15,15 +12,20 @@
   </mat-expansion-panel>
 </mat-accordion>
 <mat-expansion-panel [expanded]="0">
-  <mat-expansion-panel-header></mat-expansion-panel-header>
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      Itinerarios
+    </mat-panel-title>
+  </mat-expansion-panel-header>
   <mat-tab-group>
     <mat-tab label="Itinerario 1">
-      <mat-card>
+      <mat-card *ngFor="let value of values">
         <mat-card-content>
           <mat-card class="lesson" id="card_lesson">
             <mat-card-content>
-              <mat-card class="lesson" id="card_cont_lesson">
+              <mat-card id="card_cont_lesson">
                 <mat-card-content>
+
 
                 </mat-card-content>
                 <mat-action-row>
