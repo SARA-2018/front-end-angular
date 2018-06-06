@@ -15,6 +15,7 @@ export class UnitViewImp {
     private descendantBlockViews: BlockViewImp[] = [];
     private placed: boolean;
     private painted: boolean;
+    private linksCreated: boolean;
 
     readonly xSize = 150;
     readonly xHalfSize = 75;
@@ -75,13 +76,11 @@ export class UnitViewImp {
 
     calculateWidthBlock(): number {
         let width = 0;
-        if (this.descendantBlockViews.length === 0) {
+        if (this.isLeaf()) {
             width = this.xSize + this.xSpaceBetweenUnits;
         } else {
             for (const blockView of this.descendantBlockViews) {
-                if (!this.isPlaced()) {
-                    width += blockView.calculateWidthBlock() + this.xSpaceBetweenUnits;
-                }
+                width += blockView.calculateWidthBlock() + this.xSpaceBetweenUnits;
             }
         }
         return width;
@@ -94,6 +93,7 @@ export class UnitViewImp {
 
     locate() {
         this.placed = true;
+        console.log(this.getUnit().getName() + ' es hoja: ' + this.isLeaf());
         if (this.isLeaf()) {
             this.x = 0;
             this.y = 0;
@@ -120,7 +120,7 @@ export class UnitViewImp {
     isLeaf(): boolean {
         if (this.descendantBlockViews.length === 0) {
             return true;
-        } else  {
+        } else {
             for (const blockView of this.descendantBlockViews) {
                 for (const unitView of blockView.getDescendantUnitViews()) {
                     if (unitView.isPlaced()) {
@@ -137,8 +137,10 @@ export class UnitViewImp {
         this.y += y;
         this.xBlock += x;
         this.yBlock += y;
-        for (const block of this.descendantBlockViews) {
-            block.shift(x, y);
+        if (!this.isLeaf()) {
+            for (const block of this.descendantBlockViews) {
+                block.shift(x, y);
+            }
         }
     }
 
@@ -157,8 +159,13 @@ export class UnitViewImp {
         return result;
     }
 
+    isLinksCreated() {
+        return this.linksCreated;
+    }
+
     createLink(): Link[] {
         const result: Link[] = [];
+        this.linksCreated = true;
         for (const blockView of this.descendantBlockViews) {
             for (const link of blockView.createLink(this)) {
                 result.push(link);

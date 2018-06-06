@@ -2,7 +2,7 @@
 import { Link } from '../d3/models/link';
 import { UnitViewImp } from './unit.view';
 import { TypeRelation } from '../models/type-relation.enum';
-import {Relation} from '../models/relation.model';
+import { Relation } from '../models/relation.model';
 
 export class RelationView {
 
@@ -21,8 +21,10 @@ export class RelationView {
                 this.relation.getSemantics(), this.relation.getCardinalTopUnit(),
                 this.relation.getCardinalLowerUnit());
             links.push(relation);
-            for (const link of lowerUnitView.createLink()) {
-                links.push(link);
+            if (!lowerUnitView.isLinksCreated()) {
+                for (const link of lowerUnitView.createLink()) {
+                    links.push(link);
+                }
             }
         }
         return links;
