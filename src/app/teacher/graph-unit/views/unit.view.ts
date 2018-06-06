@@ -91,9 +91,24 @@ export class UnitViewImp {
         this.x += nodeDivisionForLink;
     }
 
+    isLeaf(): boolean {
+        if (this.descendantBlockViews.length === 0) {
+            return true;
+        } else {
+            for (const blockView of this.descendantBlockViews) {
+                for (const unitView of blockView.getDescendantUnitViews()) {
+                    if (!unitView.isPlaced()) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+    }
+
     locate() {
         this.placed = true;
-        console.log(this.getUnit().getName() + ' es hoja: ' + this.isLeaf());
+        console.log('LOCATE: ' + this.getUnit().getName() + ' -> es hoja: ' + this.isLeaf());
         if (this.isLeaf()) {
             this.x = 0;
             this.y = 0;
@@ -114,33 +129,18 @@ export class UnitViewImp {
             this.xBlock = 0;
             this.yBlock = 0;
         }
-
-    }
-
-    isLeaf(): boolean {
-        if (this.descendantBlockViews.length === 0) {
-            return true;
-        } else {
-            for (const blockView of this.descendantBlockViews) {
-                for (const unitView of blockView.getDescendantUnitViews()) {
-                    if (unitView.isPlaced()) {
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
+        console.log(' FIN LOCATE: ' + this.unit.getName() + ' x: ' + this.x + ' y: ' + this.y);
     }
 
     shift(x: number, y: number) {
+        console.log('SHIFT: ' + this.getUnit().getName() + ' x: ' + this.x + ' y: ' + this.y);
         this.x += x;
         this.y += y;
         this.xBlock += x;
         this.yBlock += y;
-        if (!this.isLeaf()) {
-            for (const block of this.descendantBlockViews) {
-                block.shift(x, y);
-            }
+        console.log('        ->  x: ' + this.x + ' y: ' + this.y);
+        for (const block of this.descendantBlockViews) {
+            block.shift(x, y);
         }
     }
 
