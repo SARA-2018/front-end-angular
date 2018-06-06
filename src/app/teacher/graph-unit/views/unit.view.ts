@@ -3,6 +3,7 @@ import { Node } from '../d3/models/node';
 import { Link } from '../d3/models/link';
 import { BlockViewImp } from './block.view';
 import { Unit } from '../models/unit.model';
+import { NGXLogger } from 'ngx-logger';
 
 export class UnitViewImp {
 
@@ -76,7 +77,8 @@ export class UnitViewImp {
 
     calculateWidthBlock(): number {
         let width = 0;
-        if (this.isLeaf()) {
+        console.log('CALCULATE WIDTH BLOCK ' + this.unit.getName() + ' es hoja: ' + this.isLeaf());
+        if (!this.unitsLocatedBelow()) {
             width = this.xSize + this.xSpaceBetweenUnits;
         } else {
             for (const blockView of this.descendantBlockViews) {
@@ -84,6 +86,21 @@ export class UnitViewImp {
             }
         }
         return width;
+    }
+
+    unitsLocatedBelow(): boolean {
+        if (this.descendantBlockViews.length === 0) {
+           return false;
+        } else {
+            for (const blockView of this.descendantBlockViews) {
+                for (const unitView of blockView.getDescendantUnitViews()) {
+                    if (this.y >= unitView.getY()) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
     }
 
     calculateVertexRelation() {

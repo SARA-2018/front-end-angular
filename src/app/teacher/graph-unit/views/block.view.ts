@@ -81,7 +81,7 @@ export class BlockViewImp {
         this.x += x;
         this.y += y;
         for (const unitView of this.descendantUnitViews) {
-            if (unitView.getY() > this.ascendantUnitView.getY()){
+            if (unitView.getY() >= this.ascendantUnitView.getY()) {
                 unitView.shift(x, y);
             }
         }
