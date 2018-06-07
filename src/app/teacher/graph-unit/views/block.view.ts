@@ -61,7 +61,6 @@ export class BlockViewImp {
     }
 
     locate() {
-        console.log('Locate blocks de: ' + this.ascendantUnitView.getUnit().getName());
         for (const unitView of this.descendantUnitViews) {
             if (!unitView.isPlaced()) {
                 unitView.locate();
@@ -77,7 +76,6 @@ export class BlockViewImp {
     }
 
     shift(x: number, y: number) {
-        console.log('SHIFT BLOCK DE: ' + this.ascendantUnitView.getUnit().getName() + ' x: ' + x + ' y: ' + y);
         this.x += x;
         this.y += y;
         for (const unitView of this.descendantUnitViews) {
