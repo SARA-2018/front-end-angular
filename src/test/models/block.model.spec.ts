@@ -1,13 +1,13 @@
-import { Block } from '../../app/teacher/shared/models/block.model';
-import { Unit } from '../../app/teacher/shared/models/unit.model';
-import { Relation } from '../../app/teacher/shared/models/relation.model';
+import { Block } from '../../app/teacher/graph-unit/models/block.model';
+import { Unit } from '../../app/teacher/graph-unit/models/unit.model';
+import { Relation } from '../../app/teacher/graph-unit/models/relation.model';
 
-describe('StudentComponent BlockModel', () => {
+describe('TeacherComponent-GraphUnit BlockModel', () => {
 
     let block: Block;
 
     beforeAll(() => {
-        block = new Block(new Relation(new Unit('TestUnit 1'), new Unit('TestUnit 2'), 'use'));
+        block = new Block(new Relation(new Unit('TestUnit 1'), new Unit('TestUnit 2'), 'use'), new Unit('AscendantUnit'));
     });
 
     it ('#addRelation should add new unit', () => {

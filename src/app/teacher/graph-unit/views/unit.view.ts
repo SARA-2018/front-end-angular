@@ -30,8 +30,8 @@ export class UnitViewImp {
         this.ascendantBlockView = ascendantBlockView;
         this.x = 0;
         this.y = 0;
-        const log = Log.create('UnitViews');
-        log.d('probando logger');
+       // const log = Log.create('UnitViews');
+       // log.d('probando logger');
         for (const block of unit.getBlocks()) {
             this.descendantBlockViews.push(new BlockViewImp(block, this));
         }

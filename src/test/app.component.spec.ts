@@ -13,12 +13,12 @@ import { APP_BASE_HREF } from '@angular/common';
 import { AppRoutingModule } from '../app/app-routing.module';
 import { CoreModule } from '../app/core/core.module';
 import { AppComponent } from '../app/app.component';
-import { DraggableDirective } from '../app/teacher/d3/directives/draggable.directive';
-import { LinkComponent } from '../app/teacher/d3/views/link/link.component';
-import { GraphComponent } from '../app/teacher/d3/views/graph/graph.component';
-import { NodeComponent } from '../app/teacher/d3/views/node/node.component';
-import { UnitsNotRelatedComponent } from '../app/teacher/d3/views/units-not-related/units-not-related.component';
-import { ZoomableDirective } from '../app/teacher/d3/directives/zoomable.directive';
+import { DraggableDirective } from '../app/teacher/graph-unit/d3/directives/draggable.directive';
+import { LinkComponent } from '../app/teacher/graph-unit/d3/views/link/link.component';
+import { GraphComponent } from '../app/teacher/graph-unit/d3/views/graph/graph.component';
+import { NodeComponent } from '../app/teacher/graph-unit/d3/views/node/node.component';
+import { UnitsNotRelatedComponent } from '../app/teacher/graph-unit/units-not-related/units-not-related.component';
+import { ZoomableDirective } from '../app/teacher/graph-unit/d3/directives/zoomable.directive';
 import { AppMaterialModule } from '../app/app-material.module';
 
 describe('AppComponent', () => {
