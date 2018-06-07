@@ -18,12 +18,15 @@ import { TypeRelation } from './models/type-relation.enum';
 import { Command } from './models/commands/command.model';
 import { LoggerView } from './views/logger.view';
 import { Logger } from './models/logger.model';
+import { NGXLogger } from 'ngx-logger';
+
 
 
 @Component({
   selector: 'app-graph-unit',
   templateUrl: 'graph-unit.component.html',
-  styleUrls: ['graph-unit.component.css']
+  styleUrls: ['graph-unit.component.css'],
+  providers: [NGXLogger]
 })
 
 export class GraphUnitComponent implements OnInit {
@@ -42,10 +45,12 @@ export class GraphUnitComponent implements OnInit {
 
   readonly db = true;
 
-  constructor(private snackBar: MatSnackBar, private unitService: UnitService, private relationService: RelationService) {
+  constructor(private logger: NGXLogger, private snackBar: MatSnackBar,
+    private unitService: UnitService, private relationService: RelationService) {
   }
 
   ngOnInit(): void {
+    this.logger.debug('Probando logger ngOnInit graphunit');
     this.synchronizedGraph();
     this.synchronizedSearch();
   }
@@ -165,8 +170,8 @@ export class GraphUnitComponent implements OnInit {
         this.snackBar.open(err.message, '', {
           duration: 2000
         });
-      } else {
-        console.log(err);
+      }
+      if (err.constructor.name === 'ErrorCommand') {
         this.snackBar.open('Comando erróneo', '', {
           duration: 2000
         });

@@ -1,10 +1,17 @@
 import { Command } from './command.model';
-import { error } from 'util';
 import { Observable } from 'rxjs/Observable';
 
 export class ErrorCommand extends Command {
 
+  constructor() {
+    super();
+  }
   public execute(): Observable<any> {
-    return new Observable(() => error());
+    function Error() {
+      this.name = 'ErrorCommand';
+    }
+    Error.prototype = Object.create(Error.prototype);
+    Error.prototype.constructor = Error;
+    return new Observable(() => Error());
   }
 }

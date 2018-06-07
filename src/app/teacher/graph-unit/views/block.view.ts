@@ -61,6 +61,7 @@ export class BlockViewImp {
     }
 
     locate() {
+        console.log('Locate blocks de: ' + this.ascendantUnitView.getUnit().getName());
         for (const unitView of this.descendantUnitViews) {
             if (!unitView.isPlaced()) {
                 unitView.locate();
@@ -70,17 +71,19 @@ export class BlockViewImp {
         for (const unitView of this.descendantUnitViews) {
             unitView.shift(xShift, this.ySpaceBetweenBlocks);
             xShift += unitView.calculateWidthBlock();
-
         }
         this.x = xShift / 2 - this.halfSizeBlock;
         this.y = 0;
     }
 
     shift(x: number, y: number) {
+        console.log('SHIFT BLOCK DE: ' + this.ascendantUnitView.getUnit().getName() + ' x: ' + x + ' y: ' + y);
         this.x += x;
         this.y += y;
         for (const unitView of this.descendantUnitViews) {
-            unitView.shift(x, y);
+            if (unitView.getY() >= this.ascendantUnitView.getY()) {
+                unitView.shift(x, y);
+            }
         }
     }
 

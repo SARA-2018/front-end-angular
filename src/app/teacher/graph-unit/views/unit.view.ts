@@ -2,7 +2,8 @@
 import { Node } from '../d3/models/node';
 import { Link } from '../d3/models/link';
 import { BlockViewImp } from './block.view';
-import {Unit} from '../models/unit.model';
+import { Unit } from '../models/unit.model';
+import { NGXLogger } from 'ngx-logger';
 
 export class UnitViewImp {
 
@@ -15,6 +16,7 @@ export class UnitViewImp {
     private descendantBlockViews: BlockViewImp[] = [];
     private placed: boolean;
     private painted: boolean;
+    private linksCreated: boolean;
 
     readonly xSize = 150;
     readonly xHalfSize = 75;
@@ -75,7 +77,8 @@ export class UnitViewImp {
 
     calculateWidthBlock(): number {
         let width = 0;
-        if (this.descendantBlockViews.length === 0) {
+        console.log('CALCULATE WIDTH BLOCK ' + this.unit.getName() + ' es hoja: ' + this.isLeaf());
+        if (!this.unitsLocatedBelow()) {
             width = this.xSize + this.xSpaceBetweenUnits;
         } else {
             for (const blockView of this.descendantBlockViews) {
@@ -85,57 +88,74 @@ export class UnitViewImp {
         return width;
     }
 
+    unitsLocatedBelow(): boolean {
+        if (this.descendantBlockViews.length === 0) {
+           return false;
+        } else {
+            for (const blockView of this.descendantBlockViews) {
+                for (const unitView of blockView.getDescendantUnitViews()) {
+                    if (this.y >= unitView.getY()) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
     calculateVertexRelation() {
         const nodeDivisionForLink = this.xSize / (this.getBlockViews().length + 1);
         this.x += nodeDivisionForLink;
     }
 
-    locate() {
-        if (!this.placed) {
-            this.placed = true;
-            if (this.isLeaf()) {
-                this.x = 0;
-                this.y = 0;
-                this.xBlock = 0;
-                this.yBlock = 0;
-                this.calculateWidthBlock();
-            } else {
-                for (const blockView of this.descendantBlockViews) {
-                    blockView.locate();
-                }
-                let xShift = 0;
-                for (const blockView of this.descendantBlockViews) {
-                    blockView.shift(xShift, this.ySpaceBetweenUnits);
-                    xShift += blockView.calculateWidthBlock() + this.xSpaceBetweenUnits;
-                }
-                this.x = (xShift - this.xSpaceBetweenUnits) / 2 - this.xHalfSize;
-                this.y = 0;
-                this.xBlock = 0;
-                this.yBlock = 0;
-            }
-        }
-    }
-
     isLeaf(): boolean {
         if (this.descendantBlockViews.length === 0) {
             return true;
-        } else {
+        } else {
             for (const blockView of this.descendantBlockViews) {
                 for (const unitView of blockView.getDescendantUnitViews()) {
-                    if (unitView.isPlaced()) {
-                        return true;
+                    if (!unitView.isPlaced()) {
+                        return false;
                     }
                 }
             }
-            return false;
+            return true;
         }
     }
 
+    locate() {
+        this.placed = true;
+        console.log('LOCATE: ' + this.getUnit().getName() + ' -> es hoja: ' + this.isLeaf());
+        if (this.isLeaf()) {
+            this.x = 0;
+            this.y = 0;
+            this.xBlock = 0;
+            this.yBlock = 0;
+            this.calculateWidthBlock();
+        } else {
+            for (const blockView of this.descendantBlockViews) {
+                blockView.locate();
+            }
+            let xShift = 0;
+            for (const blockView of this.descendantBlockViews) {
+                blockView.shift(xShift, this.ySpaceBetweenUnits);
+                xShift += blockView.calculateWidthBlock() + this.xSpaceBetweenUnits;
+            }
+            this.x = (xShift - this.xSpaceBetweenUnits) / 2 - this.xHalfSize;
+            this.y = 0;
+            this.xBlock = 0;
+            this.yBlock = 0;
+        }
+        console.log(' FIN LOCATE: ' + this.unit.getName() + ' x: ' + this.x + ' y: ' + this.y);
+    }
+
     shift(x: number, y: number) {
+        console.log('SHIFT: ' + this.getUnit().getName() + ' x: ' + this.x + ' y: ' + this.y);
         this.x += x;
         this.y += y;
         this.xBlock += x;
         this.yBlock += y;
+        console.log('        ->  x: ' + this.x + ' y: ' + this.y);
         for (const block of this.descendantBlockViews) {
             block.shift(x, y);
         }
@@ -156,8 +176,13 @@ export class UnitViewImp {
         return result;
     }
 
+    isLinksCreated() {
+        return this.linksCreated;
+    }
+
     createLink(): Link[] {
         const result: Link[] = [];
+        this.linksCreated = true;
         for (const blockView of this.descendantBlockViews) {
             for (const link of blockView.createLink(this)) {
                 result.push(link);
