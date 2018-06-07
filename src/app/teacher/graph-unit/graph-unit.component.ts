@@ -17,7 +17,7 @@ import { FilterDto } from './dtos/filter.dto';
 import { TypeRelation } from './models/type-relation.enum';
 import { Command } from './models/commands/command.model';
 import { LoggerView } from './views/logger.view';
-import { Logger } from './models/logger.model';
+import { LoggerModel } from './models/logger.model';
 import { NGXLogger } from 'ngx-logger';
 
 
@@ -145,7 +145,7 @@ export class GraphUnitComponent implements OnInit {
       this.nodesNotRelated = nodesNo;
     }
     console.log('Modelos');
-    const logger = new Logger(root);
+    const logger = new LoggerModel(root);
     logger.log();
     const rootView = new UnitViewImp(root);
     console.log('Vistas');
