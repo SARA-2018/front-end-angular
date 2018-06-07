@@ -1,5 +1,5 @@
 
-import { Link } from '../d3/models/link';
+import { Link } from '../models/link.model';
 import { UnitViewImp } from './unit.view';
 import { TypeRelation } from '../models/type-relation.enum';
 import { Relation } from '../models/relation.model';

@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Link } from '../../../d3/models/link';
+import { Link } from '../../../models/link.model';
 
 @Component({
   // tslint:disable-next-line:component-selector

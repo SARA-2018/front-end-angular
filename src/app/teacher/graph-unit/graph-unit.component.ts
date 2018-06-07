@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UnitService } from './services/unit.service';
 import { MatOptionSelectionChange, MatSnackBar, MatDialog } from '@angular/material';
-import { Link } from '../graph-unit/d3/models/link';
-import { Node } from '../graph-unit/d3/models/node';
 import { FormControl } from '@angular/forms';
 import { map } from 'rxjs/operators/map';
 import { Observable } from 'rxjs/Observable';
@@ -19,7 +17,8 @@ import { Command } from './models/commands/command.model';
 import { LoggerView } from './views/logger.view';
 import { LoggerModel } from './models/logger.model';
 import { NGXLogger } from 'ngx-logger';
-
+import { Link } from './models/link.model';
+import { Node } from './models/node.model';
 
 
 @Component({
