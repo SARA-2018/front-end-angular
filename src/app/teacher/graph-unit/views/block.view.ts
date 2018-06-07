@@ -36,20 +36,12 @@ export class BlockViewImp {
         }
     }
 
-    existUnitView(unit: Unit): UnitViewImp {
-        return this.ascendantUnitView.existUnitView(unit);
-    }
-
-    getBlock(): Block {
-        return this.block;
-    }
-
-    getRelationViews(): RelationView[] {
-        return this.relationViews;
-    }
-
     getDescendantUnitViews(): UnitViewImp[] {
         return this.descendantUnitViews;
+    }
+
+    existUnitView(unit: Unit): UnitViewImp {
+        return this.ascendantUnitView.existUnitView(unit);
     }
 
     calculateWidthBlock(): number {

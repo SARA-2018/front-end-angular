@@ -17,7 +17,7 @@ export class UnitViewImp {
     private descendantBlockViews: BlockViewImp[] = [];
     private placed: boolean;
     private painted: boolean;
-    private linksCreated: boolean;
+    private linked: boolean;
 
     readonly xSize = 150;
     readonly xHalfSize = 75;
@@ -34,18 +34,6 @@ export class UnitViewImp {
        // log.d('probando logger');
         for (const block of unit.getBlocks()) {
             this.descendantBlockViews.push(new BlockViewImp(block, this));
-        }
-    }
-
-    existUnitView(unit: Unit): UnitViewImp {
-        if (this.getUnit().getCode() === unit.getCode()) {
-            return this;
-        } else {
-            if (this.ascendantBlockView) {
-                return this.ascendantBlockView.existUnitView(unit);
-            } else {
-                return undefined;
-            }
         }
     }
 
@@ -77,16 +65,20 @@ export class UnitViewImp {
         return this.unit;
     }
 
-    calculateWidthBlock(): number {
-        let width = 0;
-        if (!this.unitsLocatedBelow()) {
-            width = this.xSize + this.xSpaceBetweenUnits;
+    isLinked() {
+        return this.linked;
+    }
+
+    existUnitView(unit: Unit): UnitViewImp {
+        if (this.getUnit().getCode() === unit.getCode()) {
+            return this;
         } else {
-            for (const blockView of this.descendantBlockViews) {
-                width += blockView.calculateWidthBlock() + this.xSpaceBetweenUnits;
+            if (this.ascendantBlockView) {
+                return this.ascendantBlockView.existUnitView(unit);
+            } else {
+                return undefined;
             }
         }
-        return width;
     }
 
     unitsLocatedBelow(): boolean {
@@ -102,6 +94,18 @@ export class UnitViewImp {
             }
         }
         return true;
+    }
+
+    calculateWidthBlock(): number {
+        let width = 0;
+        if (!this.unitsLocatedBelow()) {
+            width = this.xSize + this.xSpaceBetweenUnits;
+        } else {
+            for (const blockView of this.descendantBlockViews) {
+                width += blockView.calculateWidthBlock() + this.xSpaceBetweenUnits;
+            }
+        }
+        return width;
     }
 
     calculateVertexRelation() {
@@ -173,13 +177,9 @@ export class UnitViewImp {
         return result;
     }
 
-    isLinksCreated() {
-        return this.linksCreated;
-    }
-
     createLink(): Link[] {
         const result: Link[] = [];
-        this.linksCreated = true;
+        this.linked = true;
         for (const blockView of this.descendantBlockViews) {
             for (const link of blockView.createLink(this)) {
                 result.push(link);

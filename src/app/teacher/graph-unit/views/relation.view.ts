@@ -21,7 +21,7 @@ export class RelationView {
                 this.relation.getSemantics(), this.relation.getCardinalTopUnit(),
                 this.relation.getCardinalLowerUnit());
             links.push(relation);
-            if (!lowerUnitView.isLinksCreated()) {
+            if (!lowerUnitView.isLinked()) {
                 for (const link of lowerUnitView.createLink()) {
                     links.push(link);
                 }
