@@ -18,8 +18,8 @@
     </mat-panel-title>
   </mat-expansion-panel-header>
   <mat-tab-group>
-    <mat-tab *ngFor="let itinerary of itinerarys" label="Itinerario 1">
-      <mat-action-row>
+    <mat-tab *ngFor="let itinerary of itinerarys" label={{itinerary.getName()}}>
+      <!--<mat-action-row>
         <button mat-raised-button color="primary" class="button-content" (click)="visibilityLesson()"><mat-icon>add_circle_outline</mat-icon>
               Añadir sesión</button>
         </mat-action-row>
@@ -43,7 +43,7 @@
             </mat-card-content>
           </mat-card>
         </mat-card-content>
-      </mat-card>
+      </mat-card>-->
     </mat-tab>
     <mat-tab>
       <ng-template mat-tab-label>
