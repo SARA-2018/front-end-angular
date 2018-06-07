@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UnitService } from './services/unit.service';
 import { MatOptionSelectionChange, MatSnackBar, MatDialog } from '@angular/material';
-import { Link } from '../graph-unit/d3/models/link';
-import { Node } from '../graph-unit/d3/models/node';
 import { FormControl } from '@angular/forms';
 import { map } from 'rxjs/operators/map';
 import { Observable } from 'rxjs/Observable';
@@ -17,9 +15,10 @@ import { FilterDto } from './dtos/filter.dto';
 import { TypeRelation } from './models/type-relation.enum';
 import { Command } from './models/commands/command.model';
 import { LoggerView } from './views/logger.view';
-import { Logger } from './models/logger.model';
+import { LoggerModel } from './models/logger.model';
 import { NGXLogger } from 'ngx-logger';
-
+import { Link } from './models/link.model';
+import { Node } from './models/node.model';
 
 
 @Component({
@@ -144,8 +143,8 @@ export class GraphUnitComponent implements OnInit {
       }
       this.nodesNotRelated = nodesNo;
     }
-  //  console.log('Modelos');
-    const logger = new Logger(root);
+    console.log('Modelos');
+    const logger = new LoggerModel(root);
     logger.log();
     const rootView = new UnitViewImp(root);
   //  console.log('Vistas');

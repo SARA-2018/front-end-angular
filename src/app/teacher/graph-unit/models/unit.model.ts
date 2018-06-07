@@ -9,7 +9,6 @@ export class Unit {
   private name: string;
   private ascendantBlock: Block;
   private descendantBlocks: Block[] = [];
-  private visited: boolean;
 
   constructor(name: string, code?: number) {
     this.name = name;
@@ -30,10 +29,6 @@ export class Unit {
 
   getName(): string {
     return this.name;
-  }
-
-  isVisited(): boolean {
-    return this.visited;
   }
 
   addRelation(relation: Relation) {

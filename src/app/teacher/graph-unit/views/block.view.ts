@@ -1,5 +1,5 @@
-import { Node } from '../d3/models/node';
-import { Link } from '../d3/models/link';
+import { Node } from '../models/node.model';
+import { Link } from '../models/link.model';
 import { UnitViewImp } from './unit.view';
 import { RelationView } from './relation.view';
 import { Unit } from '../models/unit.model';
@@ -36,20 +36,12 @@ export class BlockViewImp {
         }
     }
 
-    existUnitView(unit: Unit): UnitViewImp {
-        return this.ascendantUnitView.existUnitView(unit);
-    }
-
-    getBlock(): Block {
-        return this.block;
-    }
-
-    getRelationViews(): RelationView[] {
-        return this.relationViews;
-    }
-
     getDescendantUnitViews(): UnitViewImp[] {
         return this.descendantUnitViews;
+    }
+
+    existUnitView(unit: Unit): UnitViewImp {
+        return this.ascendantUnitView.existUnitView(unit);
     }
 
     calculateWidthBlock(): number {
@@ -61,7 +53,6 @@ export class BlockViewImp {
     }
 
     locate() {
-        console.log('Locate blocks de: ' + this.ascendantUnitView.getUnit().getName());
         for (const unitView of this.descendantUnitViews) {
             if (!unitView.isPlaced()) {
                 unitView.locate();
@@ -77,7 +68,6 @@ export class BlockViewImp {
     }
 
     shift(x: number, y: number) {
-        console.log('SHIFT BLOCK DE: ' + this.ascendantUnitView.getUnit().getName() + ' x: ' + x + ' y: ' + y);
         this.x += x;
         this.y += y;
         for (const unitView of this.descendantUnitViews) {

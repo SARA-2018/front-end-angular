@@ -1,5 +1,5 @@
 import { Directive, Input, ElementRef, OnInit } from '@angular/core';
-import { D3Service } from '../d3.service';
+import { D3Service } from '../services/d3.service';
 
 @Directive({
     // tslint:disable-next-line:directive-selector

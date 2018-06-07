@@ -1,6 +1,6 @@
 import { EventEmitter } from '@angular/core';
-import { Link } from './link';
-import { Node } from './node';
+import { Link } from '../models/link.model';
+import { Node } from '../models/node.model';
 import * as d3 from 'd3';
 
 export class Graph {
