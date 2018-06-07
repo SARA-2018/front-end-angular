@@ -1,6 +1,6 @@
 import { Unit } from './unit.model';
 
-export class Logger {
+export class LoggerModel {
 
     private unitsVisited: Unit[];
     private root: Unit;

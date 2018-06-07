@@ -1,8 +1,8 @@
 import { TestBed, async } from '@angular/core/testing';
-import { Unit } from '../../app/teacher/shared/models/unit.model';
-import { Relation } from '../../app/teacher/shared/models/relation.model';
+import { Unit } from '../../app/teacher/graph-unit/models/unit.model';
+import { Relation } from '../../app/teacher/graph-unit/models/relation.model';
 
-describe('StudentComponent UnitModel', () => {
+describe('TeacherComponent-GraphUnit UnitModel', () => {
 
     let unit: Unit;
 

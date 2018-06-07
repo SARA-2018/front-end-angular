@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UnitService } from './services/unit.service';
 import { MatOptionSelectionChange, MatSnackBar, MatDialog } from '@angular/material';
-import { Link } from '../graph-unit/d3/models/link';
-import { Node } from '../graph-unit/d3/models/node';
 import { FormControl } from '@angular/forms';
 import { map } from 'rxjs/operators/map';
 import { Observable } from 'rxjs/Observable';
@@ -17,9 +15,10 @@ import { FilterDto } from './dtos/filter.dto';
 import { TypeRelation } from './models/type-relation.enum';
 import { Command } from './models/commands/command.model';
 import { LoggerView } from './views/logger.view';
-import { Logger } from './models/logger.model';
+import { LoggerModel } from './models/logger.model';
 import { NGXLogger } from 'ngx-logger';
-
+import { Link } from './models/link.model';
+import { Node } from './models/node.model';
 
 
 @Component({
@@ -46,11 +45,11 @@ export class GraphUnitComponent implements OnInit {
   readonly db = true;
 
   constructor(private logger: NGXLogger, private snackBar: MatSnackBar,
-    private unitService: UnitService, private relationService: RelationService) {
+    private unitService: UnitService, private relationService: RelationService, private dialog: MatDialog) {
   }
 
   ngOnInit(): void {
-    this.logger.debug('Probando logger ngOnInit graphunit');
+    // this.logger.debug('Probando logger ngOnInit graphunit');
     this.synchronizedGraph();
     this.synchronizedSearch();
   }
@@ -131,7 +130,7 @@ export class GraphUnitComponent implements OnInit {
     } else {
       const unitsNotRelated: Unit[] = [];
       root = this.generateData();
-      console.log('Relaciones ' + this.relations.length + 'Unidades' + this.units.length);
+    //  console.log('Relaciones ' + this.relations.length + 'Unidades' + this.units.length);
       unitsNotRelated.push(new Unit('NotRelated1'));
       unitsNotRelated.push(new Unit('NotRelated2'));
       const nodesNo: Node[] = [];
@@ -145,24 +144,24 @@ export class GraphUnitComponent implements OnInit {
       this.nodesNotRelated = nodesNo;
     }
     console.log('Modelos');
-    const logger = new Logger(root);
+    const logger = new LoggerModel(root);
     logger.log();
     const rootView = new UnitViewImp(root);
-    console.log('Vistas');
+  //  console.log('Vistas');
     const loggerView = new LoggerView(rootView);
     loggerView.log();
     rootView.locate();
     this.nodes = rootView.createNode();
     this.links = rootView.createLink();
-    console.log('Nodos: ' + this.nodes.length);
-    console.log('Links: ' + this.links.length);
+   // console.log('Nodos: ' + this.nodes.length);
+   // console.log('Links: ' + this.links.length);
   }
 
   onEnter(text: string) {
     try {
       const lexical = new Lexical();
       const command: Command = lexical.analyzeCommand(text);
-      command.execute(this.unitService, this.relationService).subscribe(
+      command.execute(this.unitService, this.relationService, this.dialog).subscribe(
         () => this.synchronizedGraph()
       );
     } catch (err) {

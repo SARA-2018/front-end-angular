@@ -1,25 +1,24 @@
 import { BlockViewImp } from '../../app/teacher/graph-unit/views/block.view';
-import { Block } from '../../app/teacher/shared/models/block.model';
+import { Block } from '../../app/teacher/graph-unit/models/block.model';
 import { UnitViewImp } from '../../app/teacher/graph-unit/views/unit.view';
-import { Unit } from '../../app/teacher/shared/models/unit.model';
-import { Relation } from '../../app/teacher/shared/models/relation.model';
+import { Unit } from '../../app/teacher/graph-unit/models/unit.model';
+import { Relation } from '../../app/teacher/graph-unit/models/relation.model';
 
-describe('StudentComponent BlockViewImp ', () => {
+describe('TeacherComponent-GraphUnit BlockViewImp ', () => {
 
-  /*  let blockView: BlockViewImp;
+    let blockView: BlockViewImp;
 
     beforeAll(() => {
-        const block = new Block(new Relation(new Unit('TestUnit1'), new Unit('TestUnit2'), 'inherit'));
-        block = new BlockViewImp(block);
-        relation1 = new Relation(new UnitViewImp(unit), new UnitViewImp)
-        block.appendUnit(new UnitViewImp(new Unit('TestUnit3')));
+        const unitAscendant = new Unit ('AscendantUnit');
+        const block = new Block(new Relation(new Unit('TestUnit1'), new Unit('TestUnit2'), 'inherit'), unitAscendant);
+        blockView = new BlockViewImp(block, new UnitViewImp(unitAscendant));
     });
 
     it('#calculateWidthBlock', () => {
-        expect(block.calculateWidthBlock()).toBeGreaterThan(0);
+        expect(blockView.calculateWidthBlock()).toBeGreaterThan(0);
     });
 
     it('#createNode', () => {
-        expect(block.createNode().length).toEqual(3);
-    });*/
+        expect(blockView.createNode().length).toEqual(1);
+    });
 });
