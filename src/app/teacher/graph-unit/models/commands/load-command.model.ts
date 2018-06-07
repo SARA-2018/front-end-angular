@@ -1,41 +1,36 @@
-import {Command} from './command.model';
+import { Command } from './command.model';
+import { UnitService } from '../../services/unit.service';
+import { RelationService } from '../../services/relation.service';
+import { Lexical } from '../lexical.model';
+import { Observable } from 'rxjs/Observable';
 
 export class LoadCommand extends Command {
 
-  private readonly name: string;
-
-  constructor(name: string) {
+  constructor() {
     super();
-    this.name = name;
   }
 
-  execute() {
+  execute(unitService: UnitService, relationService: RelationService): Observable<any> {
 
-    const parts = [
-      new Blob(['you construct a file...'], {type: 'text/plain'})
-    ];
+    return new Observable(observer => {
+      const file = (<HTMLInputElement>document.getElementById('file')).files[0];
+      const reader = new FileReader();
+      if (file === undefined) {
+        alert('Olvidaste cargar el fichero de comandos');
+      } else {
+        reader.onload = function () {
+          const lines = this.result.split('\n');
+          for (let i = 0; i < lines.length; i++) {
 
-    const file = new File(parts, this.name + '.txt', {type: 'text/plain'});
-    console.log(file)
-    const reader = new FileReader();
-    reader.onload = function() {
-      console.log(this.result);
-    }
-    reader.readAsText(file);
-
-//    console.log(file);
-//    const fileInput = (document.getElementById('fileInput'))['value'];
-
-    /*console.log(fileInput);
-    fileInput.addEventListener('change', function (e) {
-      const file = fileInput.files[0];
-      const textType = /text.*///;
-
-    /* if (file.type.match(textType)) {
-       const reader = new FileReader();
-       console.log(reader.result);
-       reader.readAsText(file);
-     }
-   });*/
+            const lexical = new Lexical();
+            const command: Command = lexical.analyzeCommand(lines[i]);
+            command.execute(unitService, relationService).subscribe();
+            observer.next();
+          }
+          observer.complete();
+        };
+        reader.readAsText(file);
+      }
+    });
   }
 }
