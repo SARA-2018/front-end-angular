@@ -1,7 +1,7 @@
 import { Injectable, EventEmitter } from '@angular/core';
-import { Node } from './models/node';
-import { Link } from './models/link';
-import { Graph } from './models/graph';
+import { Node } from '../models/node.model';
+import { Link } from '../models/link.model';
+import { Graph } from '../models/graph.model';
 import * as d3 from 'd3';
 
 @Injectable()

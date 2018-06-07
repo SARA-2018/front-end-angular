@@ -1,9 +1,10 @@
 
-import { Node } from '../d3/models/node';
-import { Link } from '../d3/models/link';
+import { Node } from '../models/node.model';
+import { Link } from '../models/link.model';
 import { BlockViewImp } from './block.view';
 import { Unit } from '../models/unit.model';
 import { NGXLogger } from 'ngx-logger';
+import { Log, Level } from 'ng2-logger/client';
 
 export class UnitViewImp {
 
@@ -16,7 +17,7 @@ export class UnitViewImp {
     private descendantBlockViews: BlockViewImp[] = [];
     private placed: boolean;
     private painted: boolean;
-    private linksCreated: boolean;
+    private linked: boolean;
 
     readonly xSize = 150;
     readonly xHalfSize = 75;
@@ -29,21 +30,10 @@ export class UnitViewImp {
         this.ascendantBlockView = ascendantBlockView;
         this.x = 0;
         this.y = 0;
+       // const log = Log.create('UnitViews');
+       // log.d('probando logger');
         for (const block of unit.getBlocks()) {
             this.descendantBlockViews.push(new BlockViewImp(block, this));
-        }
-        console.log(this.unit.getName() + ' blocks: ' + this.descendantBlockViews.length);
-    }
-
-    existUnitView(unit: Unit): UnitViewImp {
-        if (this.getUnit().getCode() === unit.getCode()) {
-            return this;
-        } else {
-            if (this.ascendantBlockView) {
-                return this.ascendantBlockView.existUnitView(unit);
-            } else {
-                return undefined;
-            }
         }
     }
 
@@ -75,17 +65,20 @@ export class UnitViewImp {
         return this.unit;
     }
 
-    calculateWidthBlock(): number {
-        let width = 0;
-        console.log('CALCULATE WIDTH BLOCK ' + this.unit.getName() + ' es hoja: ' + this.isLeaf());
-        if (!this.unitsLocatedBelow()) {
-            width = this.xSize + this.xSpaceBetweenUnits;
+    isLinked() {
+        return this.linked;
+    }
+
+    existUnitView(unit: Unit): UnitViewImp {
+        if (this.getUnit().getCode() === unit.getCode()) {
+            return this;
         } else {
-            for (const blockView of this.descendantBlockViews) {
-                width += blockView.calculateWidthBlock() + this.xSpaceBetweenUnits;
+            if (this.ascendantBlockView) {
+                return this.ascendantBlockView.existUnitView(unit);
+            } else {
+                return undefined;
             }
         }
-        return width;
     }
 
     unitsLocatedBelow(): boolean {
@@ -101,6 +94,18 @@ export class UnitViewImp {
             }
         }
         return true;
+    }
+
+    calculateWidthBlock(): number {
+        let width = 0;
+        if (!this.unitsLocatedBelow()) {
+            width = this.xSize + this.xSpaceBetweenUnits;
+        } else {
+            for (const blockView of this.descendantBlockViews) {
+                width += blockView.calculateWidthBlock() + this.xSpaceBetweenUnits;
+            }
+        }
+        return width;
     }
 
     calculateVertexRelation() {
@@ -125,7 +130,6 @@ export class UnitViewImp {
 
     locate() {
         this.placed = true;
-        console.log('LOCATE: ' + this.getUnit().getName() + ' -> es hoja: ' + this.isLeaf());
         if (this.isLeaf()) {
             this.x = 0;
             this.y = 0;
@@ -146,16 +150,13 @@ export class UnitViewImp {
             this.xBlock = 0;
             this.yBlock = 0;
         }
-        console.log(' FIN LOCATE: ' + this.unit.getName() + ' x: ' + this.x + ' y: ' + this.y);
     }
 
     shift(x: number, y: number) {
-        console.log('SHIFT: ' + this.getUnit().getName() + ' x: ' + this.x + ' y: ' + this.y);
         this.x += x;
         this.y += y;
         this.xBlock += x;
         this.yBlock += y;
-        console.log('        ->  x: ' + this.x + ' y: ' + this.y);
         for (const block of this.descendantBlockViews) {
             block.shift(x, y);
         }
@@ -176,13 +177,9 @@ export class UnitViewImp {
         return result;
     }
 
-    isLinksCreated() {
-        return this.linksCreated;
-    }
-
     createLink(): Link[] {
         const result: Link[] = [];
-        this.linksCreated = true;
+        this.linked = true;
         for (const blockView of this.descendantBlockViews) {
             for (const link of blockView.createLink(this)) {
                 result.push(link);

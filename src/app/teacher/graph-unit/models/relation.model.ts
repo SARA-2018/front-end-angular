@@ -3,10 +3,10 @@ import { Unit } from './unit.model';
 export class Relation {
 
   private id: number;
-  private type: string;
-  private semantics: string;
   private topUnit: Unit;
   private lowerUnit: Unit;
+  private type: string;
+  private semantics: string;
   private cardinalTopUnit: string;
   private cardinalLowerUnit: string;
 
