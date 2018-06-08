@@ -7,11 +7,11 @@ export class ErrorCommand extends Command {
     super();
   }
   public execute(): Observable<any> {
-    function Error() {
+    function error() {
       this.name = 'ErrorCommand';
     }
-    Error.prototype = Object.create(Error.prototype);
-    Error.prototype.constructor = Error;
-    return new Observable(() => Error());
+    error.prototype = Object.create(error.prototype);
+    error.prototype.constructor = error;
+    return new Observable(() => error());
   }
 }

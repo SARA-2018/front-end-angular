@@ -46,11 +46,11 @@ export class GraphUnitComponent implements OnInit {
   readonly db = true;
 
   constructor(private logger: NGXLogger, private snackBar: MatSnackBar,
-    private unitService: UnitService, private relationService: RelationService) {
+    private unitService: UnitService, private relationService: RelationService, private dialog: MatDialog) {
   }
 
   ngOnInit(): void {
-    this.logger.debug('Probando logger ngOnInit graphunit');
+    // this.logger.debug('Probando logger ngOnInit graphunit');
     this.synchronizedGraph();
     this.synchronizedSearch();
   }
@@ -126,14 +126,14 @@ export class GraphUnitComponent implements OnInit {
     const logger = new LoggerModel(root);
     logger.log();
     const rootView = new UnitViewImp(root);
-    console.log('Vistas');
+  //  console.log('Vistas');
     const loggerView = new LoggerView(rootView);
     loggerView.log();
     rootView.locate();
     this.nodes = rootView.createNode();
     this.links = rootView.createLink();
-    console.log('Nodos: ' + this.nodes.length);
-    console.log('Links: ' + this.links.length);
+   // console.log('Nodos: ' + this.nodes.length);
+   // console.log('Links: ' + this.links.length);
   }
 
   onEnter(text: string) {

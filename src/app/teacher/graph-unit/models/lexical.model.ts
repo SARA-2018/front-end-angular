@@ -8,7 +8,7 @@ import { AddRelationCommand } from './commands/add-relation-command.model';
 import { CompositeCommand } from './commands/composite-command.model';
 import { OpenUnit } from './commands/open-unit.model';
 import { DeleteRelationCommand } from './commands/delete-relation-command.mode';
-import {LoadCommand} from './commands/load-command.model';
+import { LoadCommand } from './commands/load-command.model';
 
 export class Lexical {
 
@@ -43,7 +43,7 @@ export class Lexical {
         this.nameUnit = token['lexeme'];
         return this.analyzeCommandCreateUnit(lex);
       case 'load':
-        return this.analyzeCommandLoadFile(lex);
+        return new LoadCommand();
       default:
         throw new ErrorCommand();
     }
@@ -239,28 +239,19 @@ export class Lexical {
       if (number['name'] !== 'code') {
         throw new ErrorCommand();
       }
+      if (lex['workingInput'].trim() === '') {
+        return this.saveOrDeleteRelation(relationType, relation);
+      } else {
+        return this.executeCommands(lex, relationType, relation);
+      }
     }
     if (sharp['name'] === 'code') {
       this.codeLowerUnit = sharp['lexeme'];
-    }
-    const token = lex.nextToken();
-    if (token === undefined) {
-      return this.saveRelation(relationType, relation);
-    } else if (token['name'] === 'cardinal') {
-      const cardinalLowerUnit = token['lexeme'].split(':');
-      this.cardinalLowerUnit = cardinalLowerUnit[1];
-      const point = lex.nextToken();
-      if (point === undefined) {
-        return this.createDeleteSingleRelation(relationType, relation);
-      } else if (point['name'] === ',') {
-        return this.createDeleteGroupRelations(lex, relationType, relation);
+      if (lex['workingInput'].trim() === '') {
+        return this.saveOrDeleteRelation(relationType, relation);
+      } else {
+        return this.executeCommands(lex, relationType, relation);
       }
-    } else if (token['name'] === ':') {
-      return this.saveRelationByCardinal(lex, relationType, relation);
-    } else if (token['name'] === ',') {
-      return this.createDeleteGroupRelations(lex, relationType, relation);
-    } else {
-      throw new ErrorCommand();
     }
   }
 
@@ -342,7 +333,7 @@ export class Lexical {
     return commands;
   }
 
-  private saveRelation(relationType: TypeRelation, relation: string): Command {
+  private saveOrDeleteRelation(relationType: TypeRelation, relation: string): Command {
     if (relation === '<inherit' || relation === '<compose') {
       if (this.deleteRelation === '~') {
         return new DeleteRelationCommand(this.codeTopUnit, this.codeLowerUnit);
@@ -376,22 +367,24 @@ export class Lexical {
     }
   }
 
-  private analyzeCommandLoadFile(lex: any): Command {
-    const name = lex.nextToken();
-    if (name['name'] !== 'text') {
+  private executeCommands(lex: any, relationType: TypeRelation, relation: string): Command {
+    const token = lex.nextToken();
+    if (token['name'] === 'cardinal') {
+      const cardinalLowerUnit = token['lexeme'].split(':');
+      this.cardinalLowerUnit = cardinalLowerUnit[1];
+      if (lex['workingInput'].trim() === '') {
+        return this.createDeleteSingleRelation(relationType, relation);
+      }
+      const point = lex.nextToken();
+      if (point['name'] === ',') {
+        return this.createDeleteGroupRelations(lex, relationType, relation);
+      }
+    } else if (token['name'] === ':') {
+      return this.saveRelationByCardinal(lex, relationType, relation);
+    } else if (token['name'] === ',') {
+      return this.createDeleteGroupRelations(lex, relationType, relation);
+    } else {
       throw new ErrorCommand();
-    }
-    const point = lex.nextToken();
-    if (point['name'] !== '.') {
-      throw new ErrorCommand();
-    }
-    const extension = lex.nextToken();
-    if (extension['name'] !== 'text') {
-      throw new ErrorCommand();
-    }
-    const load = lex.nextToken();
-    if (load === undefined) {
-      return new LoadCommand(name['lexeme']);
     }
   }
 }
