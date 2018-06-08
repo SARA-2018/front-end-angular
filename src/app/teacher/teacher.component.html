@@ -1,10 +1,12 @@
 <div class="layout-alignment"></div>
 <div id="separator-line" fxLayout="row" fxLayoutGap="20px">
   <div fxFlex>
-    <app-graph-unit></app-graph-unit>
+    <app-graph-unit #graphUnit (openUnit)="openUnit($event)"></app-graph-unit>
+    <app-exercise-unit #exerciseUnit></app-exercise-unit>
+    <app-video-unit #videoUnit></app-video-unit>
   </div>
   <div fxFlex>
-    <app-info-unit></app-info-unit>
+    <app-info-unit [exerciseUnit]="exerciseUnit" [graphUnit] = "graphUnit" [videoUnit]="videoUnit" [unit] = "unit"></app-info-unit>
   </div>
 </div>
 <router-outlet></router-outlet>

@@ -23,7 +23,7 @@
         <input matInput #box type="text" class="full-width" (keyup.enter)="onEnter(box.value)" [formControl]="searchUnit" [matAutocomplete]="auto"
           [value]="text">
         <mat-autocomplete #auto="matAutocomplete">
-          <mat-option *ngFor="let relationUnit of filteredUnits| async" [value]="valueText()" (onSelectionChange)="onAddHelp($event, relationUnit.unit.name.concat('#' + relationUnit.unit.code), box.value)">
+          <mat-option *ngFor="let relationUnit of filteredUnits| async" [value]="onChange()" (onSelectionChange)="onSelection($event, relationUnit.unit.name.concat('#' + relationUnit.unit.code), box.value)">
             <div *ngIf="relationUnit.topUnit?.name != undefined"> {{ relationUnit.unit.name }}
               <strong>#{{relationUnit.unit.code}}</strong> &nbsp; &nbsp; &nbsp;
               <em>
