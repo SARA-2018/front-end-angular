@@ -126,7 +126,7 @@ export class GraphUnitComponent implements OnInit {
     const logger = new LoggerModel(root);
     logger.log();
     const rootView = new UnitViewImp(root);
-  //  console.log('Vistas');
+    console.log('Vistas');
     const loggerView = new LoggerView(rootView);
     loggerView.log();
     rootView.locate();
@@ -142,7 +142,6 @@ export class GraphUnitComponent implements OnInit {
       const command: Command = lexical.analyzeCommand(text);
       command.execute(this.unitService, this.relationService).subscribe(
         (result) => {
-          console.log(result);
           if (result.lowerUnits !== undefined) {
             const unit = new Unit(result.unit.name, result.unit.code);
             this.openUnit.emit(unit);

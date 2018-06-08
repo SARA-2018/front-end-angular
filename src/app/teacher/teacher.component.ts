@@ -15,7 +15,6 @@ export class TeacherComponent {
   }
 
   openUnit(unit: Unit) {
-    console.log(unit.getName());
     this.unit = unit;
   }
 }
