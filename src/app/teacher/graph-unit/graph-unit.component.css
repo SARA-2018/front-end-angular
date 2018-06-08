@@ -34,3 +34,11 @@ span {
 .mat-grid-tile .mat-figure{
   justify-content: flex-start;
 }
+
+:host {
+  display: none;
+}
+
+:host.is-open {
+  display: block;
+}
