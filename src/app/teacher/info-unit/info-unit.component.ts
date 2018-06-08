@@ -1,4 +1,5 @@
-import { Component} from '@angular/core';
+import { Component, Input} from '@angular/core';
+import { Unit } from '../graph-unit/models/unit.model';
 
 @Component({
   selector: 'app-info-unit',
@@ -11,8 +12,11 @@ export class InfoUnitComponent {
   public sessions: number[] = [1];
   public itinerarys: number[] = [0];
 
+  @Input() unit: Unit;
+
   constructor() {
   }
+
   toArray(n: number): number[] {
     return Array(n);
   }

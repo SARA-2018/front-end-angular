@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { UnitService } from './services/unit.service';
 import { MatOptionSelectionChange, MatSnackBar, MatDialog } from '@angular/material';
 import { FormControl } from '@angular/forms';
@@ -21,12 +21,10 @@ import { Link } from './models/link.model';
 import { Node } from './models/node.model';
 import { FriendsDto } from './dtos/friends.dto';
 
-
 @Component({
   selector: 'app-graph-unit',
   templateUrl: 'graph-unit.component.html',
-  styleUrls: ['graph-unit.component.css'],
-  providers: [NGXLogger]
+  styleUrls: ['graph-unit.component.css']
 })
 
 export class GraphUnitComponent implements OnInit {
@@ -42,6 +40,8 @@ export class GraphUnitComponent implements OnInit {
   searchUnit: FormControl;
   filteredUnits: Observable<FilterDto[]>;
   text = '';
+
+  @Output() openUnit = new EventEmitter<Unit>();
 
   readonly db = true;
 
@@ -144,6 +144,8 @@ export class GraphUnitComponent implements OnInit {
         (result) => {
           console.log(result);
           if (result.lowerUnits !== undefined) {
+            const unit = new Unit(result.unit.name, result.unit.code);
+            this.openUnit.emit(unit);
             this.synchronizedGraphFriends(result);
           } else {
             this.synchronizedGraph();
