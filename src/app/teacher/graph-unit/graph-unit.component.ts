@@ -16,7 +16,6 @@ import { TypeRelation } from './models/type-relation.enum';
 import { Command } from './models/commands/command.model';
 import { LoggerView } from './views/logger.view';
 import { LoggerModel } from './models/logger.model';
-import { NGXLogger } from 'ngx-logger';
 import { Link } from './models/link.model';
 import { Node } from './models/node.model';
 import { FriendsDto } from './dtos/friends.dto';
@@ -45,12 +44,11 @@ export class GraphUnitComponent implements OnInit {
 
   readonly db = true;
 
-  constructor(private logger: NGXLogger, private snackBar: MatSnackBar,
-    private unitService: UnitService, private relationService: RelationService, private dialog: MatDialog) {
+  constructor(private snackBar: MatSnackBar, private unitService: UnitService,
+    private relationService: RelationService, private dialog: MatDialog) {
   }
 
   ngOnInit(): void {
-    // this.logger.debug('Probando logger ngOnInit graphunit');
     this.synchronizedGraph();
     this.synchronizedSearch();
   }
