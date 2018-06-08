@@ -9,11 +9,9 @@ export class OpenUnit extends Command {
   constructor(codeTopUnit: number) {
     super();
     this.codeTopUnit = codeTopUnit;
-    console.log('construye open');
   }
 
   execute(unitService: UnitService): Observable<any> {
-    console.log('ejecutado open');
     return unitService.getFriendsByCode(this.codeTopUnit);
   }
 
