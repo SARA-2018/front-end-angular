@@ -1,4 +1,4 @@
-import { Formation } from './Formation.model';
+import { Formation } from './formation.model';
 
 export class Itinerary extends Formation {
     private _id: number;
@@ -7,6 +7,7 @@ export class Itinerary extends Formation {
 
     constructor() {
         super();
+        this.formations = [];
     }
 
     setId(id: number): Itinerary {
