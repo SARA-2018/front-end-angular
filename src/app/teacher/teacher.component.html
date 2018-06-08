@@ -1,10 +1,10 @@
 <div class="layout-alignment"></div>
 <div id="separator-line" fxLayout="row" fxLayoutGap="20px">
   <div fxFlex>
-    <app-graph-unit></app-graph-unit>
+    <app-graph-unit (openUnit)="openUnit($event)"></app-graph-unit>
   </div>
   <div fxFlex>
-    <app-info-unit></app-info-unit>
+    <app-info-unit [unit] = "unit"></app-info-unit>
   </div>
 </div>
 <router-outlet></router-outlet>

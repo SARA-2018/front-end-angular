@@ -6,7 +6,7 @@ import { Command } from './commands/command.model';
 import { AddUnitCommand } from './commands/add-unit-command.model';
 import { AddRelationCommand } from './commands/add-relation-command.model';
 import { CompositeCommand } from './commands/composite-command.model';
-import { SearchFriendUnit } from './commands/search-friend-unit.model';
+import { OpenUnit } from './commands/open-unit.model';
 import { DeleteRelationCommand } from './commands/delete-relation-command.mode';
 import { LoadCommand } from './commands/load-command.model';
 
@@ -101,16 +101,16 @@ export class Lexical {
     }
     if (number['name'] === 'code') {
       this.codeTopUnit = number['lexeme'];
-      return this.analyzeCommandSearchFriendUnit(lex);
+      return this.continueAnalyzingCommand(lex);
     } else {
       throw new ErrorCommand();
     }
   }
 
-  private analyzeCommandSearchFriendUnit(lex: any): Command {
+  private continueAnalyzingCommand(lex: any): Command {
     const token = lex.nextToken();
     if (token['name'] === 'open') {
-      return new SearchFriendUnit(this.codeTopUnit);
+      return new OpenUnit(this.codeTopUnit);
     }
     if (token['name'] === ':') {
       const cardinal = lex.nextToken();
