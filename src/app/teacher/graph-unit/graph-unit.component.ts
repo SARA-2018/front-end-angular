@@ -1,4 +1,4 @@
-import {Component, HostBinding, OnInit} from '@angular/core';
+import {Component, EventEmitter, HostBinding, OnInit, Output} from '@angular/core';
 import { UnitService } from './services/unit.service';
 import { MatOptionSelectionChange, MatSnackBar, MatDialog } from '@angular/material';
 import { FormControl } from '@angular/forms';
@@ -12,7 +12,6 @@ import { UnitViewImp } from './views/unit.view';
 import { Lexical } from './models/lexical.model';
 import { RelationService } from './services/relation.service';
 import { FilterDto } from './dtos/filter.dto';
-import { TypeRelation } from './models/type-relation.enum';
 import { Command } from './models/commands/command.model';
 import { LoggerView } from './views/logger.view';
 import { LoggerModel } from './models/logger.model';
