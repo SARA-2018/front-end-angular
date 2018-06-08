@@ -19,6 +19,7 @@ import { LoggerModel } from './models/logger.model';
 import { NGXLogger } from 'ngx-logger';
 import { Link } from './models/link.model';
 import { Node } from './models/node.model';
+import { FriendsDto } from './dtos/friends.dto';
 
 
 @Component({
@@ -59,35 +60,31 @@ export class GraphUnitComponent implements OnInit {
     this.relationsDto = [];
     this.units = [];
     this.relations = [];
-    if (this.db) {
-      this.unitService.getAll().subscribe(units => {
-        this.unitsDto = units;
-        this.relationService.getAll().subscribe(relations => {
-          this.relationsDto = relations;
-          this.addDataGraph();
-        });
+    this.unitService.getAll().subscribe(units => {
+      this.unitsDto = units;
+      this.relationService.getAll().subscribe(relations => {
+        this.relationsDto = relations;
+        this.addDataGraph();
       });
-    } else {
-      this.addDataGraph();
-    }
+    });
   }
 
-  generateData(): Unit {
-    for (let i = 0; i < 10; i++) {
-      this.units.push(new Unit('Unit ' + i));
+  synchronizedGraphFriends(result: FriendsDto) {
+    this.unitsDto = [];
+    this.relationsDto = [];
+    this.units = [];
+    this.relations = [];
+    for (const topUnit of result.topUnits) {
+      this.unitsDto.push(topUnit);
     }
-
-    this.relations.push(new Relation(this.units[0], this.units[1], TypeRelation.COMPOSE));
-    this.relations.push(new Relation(this.units[0], this.units[2], TypeRelation.COMPOSE));
-    this.relations.push(new Relation(this.units[0], this.units[3], TypeRelation.COMPOSE));
-    this.relations.push(new Relation(this.units[0], this.units[4], TypeRelation.COMPOSE));
-    this.relations.push(new Relation(this.units[3], this.units[6], TypeRelation.INHERIT));
-    this.relations.push(new Relation(this.units[3], this.units[7], TypeRelation.INHERIT));
-    this.relations.push(new Relation(this.units[3], this.units[8], TypeRelation.INHERIT));
-    this.relations.push(new Relation(this.units[7], this.units[9], TypeRelation.INHERIT));
-    this.relations.push(new Relation(this.units[7], this.units[10], TypeRelation.USE));
-
-    return this.units[0];
+    this.unitsDto.push(result.unit);
+    for (const lowerUnit of result.lowerUnits) {
+      this.unitsDto.push(lowerUnit);
+    }
+    for (const relation of result.relations) {
+      this.relationsDto.push(relation);
+    }
+    this.addDataGraph();
   }
 
   isRelated(unit: Unit): boolean {
@@ -104,45 +101,27 @@ export class GraphUnitComponent implements OnInit {
     this.nodes = [];
     this.links = [];
     this.nodesNotRelated = [];
-    let root;
-    if (this.db) {
-      this.units = [];
-      this.relations = [];
-      for (const unitDto of this.unitsDto) {
-        this.units.push(new Unit(unitDto.name, unitDto.code));
-      }
-      for (const relationDto of this.relationsDto) {
-        const topUnit = this.units.find(unit => unit.getCode() === relationDto.topUnit.code);
-        const lowerUnit = this.units.find(unit => unit.getCode() === relationDto.lowerUnit.code);
-        this.relations.push(new Relation(topUnit, lowerUnit, relationDto.type, relationDto.semantics,
-          relationDto.cardinalTopUnit, relationDto.cardinalLowerUnit));
-      }
-      let x = 0;
-      for (let i = 0; i < this.units.length; i++) {
-        if (!this.isRelated(this.units[i])) {
-          const view = new UnitViewImp(this.units[i]);
-          view.shift(x, 15);
-          this.nodesNotRelated.push(view.createNode()[0]);
-          x += 180;
-        }
-      }
-      root = this.units[0];
-    } else {
-      const unitsNotRelated: Unit[] = [];
-      root = this.generateData();
-      console.log('Relaciones ' + this.relations.length + 'Unidades' + this.units.length);
-      unitsNotRelated.push(new Unit('NotRelated1'));
-      unitsNotRelated.push(new Unit('NotRelated2'));
-      const nodesNo: Node[] = [];
-      let y = 10;
-      for (const unitView of unitsNotRelated) {
-        const view = new UnitViewImp(unitView);
-        view.shift(75, y);
-        nodesNo.push(view.createNode()[0]);
-        y += 50;
-      }
-      this.nodesNotRelated = nodesNo;
+    this.units = [];
+    this.relations = [];
+    for (const unitDto of this.unitsDto) {
+      this.units.push(new Unit(unitDto.name, unitDto.code));
     }
+    for (const relationDto of this.relationsDto) {
+      const topUnit = this.units.find(unit => unit.getCode() === relationDto.topUnit.code);
+      const lowerUnit = this.units.find(unit => unit.getCode() === relationDto.lowerUnit.code);
+      this.relations.push(new Relation(topUnit, lowerUnit, relationDto.type, relationDto.semantics,
+        relationDto.cardinalTopUnit, relationDto.cardinalLowerUnit));
+    }
+    let x = 0;
+    for (let i = 0; i < this.units.length; i++) {
+      if (!this.isRelated(this.units[i])) {
+        const view = new UnitViewImp(this.units[i]);
+        view.shift(x, 15);
+        this.nodesNotRelated.push(view.createNode()[0]);
+        x += 180;
+      }
+    }
+    const root = this.units[0];
     console.log('Modelos');
     const logger = new LoggerModel(root);
     logger.log();
@@ -162,7 +141,14 @@ export class GraphUnitComponent implements OnInit {
       const lexical = new Lexical();
       const command: Command = lexical.analyzeCommand(text);
       command.execute(this.unitService, this.relationService).subscribe(
-        () => this.synchronizedGraph()
+        (result) => {
+          console.log(result);
+          if (result.lowerUnits !== undefined) {
+            this.synchronizedGraphFriends(result);
+          } else {
+            this.synchronizedGraph();
+          }
+        }
       );
     } catch (err) {
       if (err.code === 'LEXICAL_ERROR') {
