@@ -1,13 +1,14 @@
 import { Component, Input } from '@angular/core';
 import { Unit } from '../graph-unit/models/unit.model';
 import { MatDialog } from '@angular/material';
-import { Observable } from 'rxjs/Observable';
 import { InputDialogComponent } from './input-dialog.component';
 import { Itinerary } from './models/itinerary.model';
 import { Session } from './models/session.model';
 import { Formation } from './models/formation.model';
 import { Lesson } from './models/lesson.model';
-import { Interaction } from './models/interaction.model';
+import {ExerciseUnitComponent} from '../exercise-unit/exercise-unit.component';
+import {VideoUnitComponent} from '../video-unit/video-unit.component';
+import {GraphUnitComponent} from '../graph-unit/graph-unit.component';
 
 @Component({
   selector: 'app-info-unit',
@@ -20,6 +21,9 @@ export class InfoUnitComponent {
   public itinerarys: Itinerary[] = [];
 
   @Input() unit: Unit;
+  @Input() exerciseUnit: ExerciseUnitComponent;
+  @Input() graphUnit: GraphUnitComponent;
+  @Input() videoUnit: VideoUnitComponent;
 
   constructor(public dialog: MatDialog) {
   }
@@ -86,4 +90,21 @@ export class InfoUnitComponent {
     );
   }
 
+  addExercise() {
+    this.graphUnit.toggle();
+    this.exerciseUnit.toggle();
+    if (this.videoUnit['isOpen'] === true) {
+      this.graphUnit.toggle();
+      this.videoUnit.toggle();
+    }
+  }
+
+  addVideo() {
+    this.videoUnit.toggle();
+    this.graphUnit.toggle();
+    if (this.exerciseUnit['isOpen'] === true) {
+      this.graphUnit.toggle();
+      this.exerciseUnit.toggle();
+    }
+  }
 }

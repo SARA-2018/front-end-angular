@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import {Component, EventEmitter, HostBinding, OnInit, Output} from '@angular/core';
 import { UnitService } from './services/unit.service';
 import { MatOptionSelectionChange, MatSnackBar, MatDialog } from '@angular/material';
 import { FormControl } from '@angular/forms';
@@ -12,7 +12,6 @@ import { UnitViewImp } from './views/unit.view';
 import { Lexical } from './models/lexical.model';
 import { RelationService } from './services/relation.service';
 import { FilterDto } from './dtos/filter.dto';
-import { TypeRelation } from './models/type-relation.enum';
 import { Command } from './models/commands/command.model';
 import { LoggerView } from './views/logger.view';
 import { LoggerModel } from './models/logger.model';
@@ -38,7 +37,9 @@ export class GraphUnitComponent implements OnInit {
   links: Link[] = [];
   searchUnit: FormControl;
   filteredUnits: Observable<FilterDto[]>;
-  text = '';
+  text: String = '';
+  @HostBinding('class.is-open')
+  isOpen = true;
 
   @Output() openUnit = new EventEmitter<Unit>();
 
@@ -183,14 +184,19 @@ export class GraphUnitComponent implements OnInit {
     }
   }
 
-  onAddHelp(event: MatOptionSelectionChange, relationUnit, value: string): void {
-    const help = [];
-    help.push(relationUnit);
-    const val = help.pop();
-    this.text = value.concat(val);
+  onSelection(event: MatOptionSelectionChange, relationUnit, text: string): void {
+    const helpText = [];
+    helpText.push(relationUnit);
+    const help = helpText.pop();
+    this.text = text.concat(help);
   }
 
-  valueText() {
+  onChange(): String {
     return this.text;
   }
+
+  toggle() {
+    this.isOpen = !this.isOpen;
+  }
+
 }

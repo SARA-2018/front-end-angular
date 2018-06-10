@@ -1,0 +1,29 @@
+<mat-accordion>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+       VIDEOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOSSSSSSSSSSSSSSSSS
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <textarea matInput placeholder="Unidad: "></textarea>
+    <mat-action-row>
+      <button mat-raised-button color="primary" class="button-content">Guardar</button>
+    </mat-action-row>
+  </mat-expansion-panel>
+</mat-accordion>
+<mat-expansion-panel [expanded]="0">
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      Itinerarios
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+  <mat-tab-group>
+
+    <mat-tab>
+      <ng-template mat-tab-label>
+          <button  mat-raised-button color="primary" class="button-content"><mat-icon>add_circle_outline</mat-icon></button>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+</mat-expansion-panel>
+<router-outlet></router-outlet>

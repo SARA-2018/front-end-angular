@@ -18,11 +18,10 @@ export class LoadCommand extends Command {
       if (file === undefined) {
         alert('Olvidaste cargar el fichero de comandos');
       } else {
+        const lexical = new Lexical();
         reader.onload = function () {
           const lines = this.result.split('\n');
           for (let i = 0; i < lines.length; i++) {
-
-            const lexical = new Lexical();
             const command: Command = lexical.analyzeCommand(lines[i]);
             command.execute(unitService, relationService).subscribe();
             observer.next();
