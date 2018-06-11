@@ -98,9 +98,17 @@ export class InfoUnitComponent {
       this.exerciseUnit.toggle();
     }
   }
-  save() {
+  saveUnitContent() {
+    if (this.verify()) {
+      console.log('JSON BIEN');
+    } else {
+      console.log('JSON MAL');
+    }
+  }
+  verify(): boolean {
     try {
       JSON.parse(this.input);
+      return true;
     } catch (e) {
       this.snackBar.open(e.message, '', {
         duration: 5000
@@ -113,6 +121,7 @@ export class InfoUnitComponent {
         inputString += element;
       });
       this.input = inputString;
+      return false;
     }
   }
 }
