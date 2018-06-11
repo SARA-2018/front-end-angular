@@ -3,8 +3,6 @@ import { Node } from '../models/node.model';
 import { Link } from '../models/link.model';
 import { BlockViewImp } from './block.view';
 import { Unit } from '../models/unit.model';
-import { NGXLogger } from 'ngx-logger';
-import { Log, Level } from 'ng2-logger/client';
 
 export class UnitViewImp {
 
@@ -30,8 +28,6 @@ export class UnitViewImp {
         this.ascendantBlockView = ascendantBlockView;
         this.x = 0;
         this.y = 0;
-       // const log = Log.create('UnitViews');
-       // log.d('probando logger');
         for (const block of unit.getBlocks()) {
             this.descendantBlockViews.push(new BlockViewImp(block, this));
         }

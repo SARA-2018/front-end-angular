@@ -19,7 +19,6 @@ import { ZoomableDirective } from './teacher/graph-unit/directives/zoomable.dire
 import { RelationService } from './teacher/graph-unit/services/relation.service';
 import { D3Service } from './teacher/graph-unit/services/d3.service';
 import { AppMaterialModule } from './app-material.module';
-import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
 
 @NgModule({
   imports: [
@@ -32,9 +31,7 @@ import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
     FlexLayoutModule,
     FormsModule,
     HttpModule,
-    ReactiveFormsModule,
-    LoggerModule.forRoot({serverLoggingUrl: '/logs', level: NgxLoggerLevel.DEBUG,
-    serverLogLevel: NgxLoggerLevel.ERROR})
+    ReactiveFormsModule
   ],
   declarations: [
     AppComponent,
