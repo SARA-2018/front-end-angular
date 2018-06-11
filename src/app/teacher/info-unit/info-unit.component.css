@@ -6,3 +6,8 @@
 #itinerary {
   min-width: 0%;
 }
+.exercise {
+  display: flex;
+  height: 20em;
+  width: 20em;
+}

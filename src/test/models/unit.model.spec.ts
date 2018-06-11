@@ -1,8 +1,7 @@
-import { TestBed, async } from '@angular/core/testing';
 import { Unit } from '../../app/teacher/graph-unit/models/unit.model';
 import { Relation } from '../../app/teacher/graph-unit/models/relation.model';
 
-describe('TeacherComponent-GraphUnit UnitModel', () => {
+describe('GraphUnitComponent UnitModel', () => {
 
     let unit: Unit;
 
@@ -24,19 +23,4 @@ describe('TeacherComponent-GraphUnit UnitModel', () => {
         expect(unit.getBlocks().length).toEqual(2);
     });
 
-    it ('#searchBlock without semantics', () => {
-        unit.addRelation(new Relation(unit, new Unit('TestUnit2'), 'inherit'));
-        unit.addRelation(new Relation(unit, new Unit('TestUnit3'), 'use'));
-        expect(unit.searchBlock('inherit') === 0);
-        expect(unit.searchBlock('use') === 1);
-    });
-
-    it ('#searchBlock with semantics', () => {
-        unit.addRelation(new Relation(unit, new Unit('TestUnit2'), 'inherit', 'semantics1'));
-        unit.addRelation(new Relation(unit, new Unit('TestUnit3'), 'use', 'semantics1'));
-        expect(unit.searchBlock('inherit') === 0);
-        expect(unit.searchBlock('use') === 1);
-        unit.addRelation(new Relation(unit, new Unit('TestUnit3'), 'inherit', 'semantics1'));
-        expect(unit.searchBlock('inherit', 'semantics1') === 0);
-    });
 });

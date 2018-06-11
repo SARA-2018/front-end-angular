@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Unit } from '../graph-unit/models/unit.model';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatSnackBar } from '@angular/material';
 import { InputDialogComponent } from './input-dialog.component';
 import { Itinerary } from './models/itinerary.model';
 import { Session } from './models/session.model';
@@ -24,8 +24,14 @@ export class InfoUnitComponent {
   @Input() exerciseUnit: ExerciseUnitComponent;
   @Input() graphUnit: GraphUnitComponent;
   @Input() videoUnit: VideoUnitComponent;
+  formatting = {color: 'green', 'background-color': '#d0e9c6'};
+  input: any = '{\n "Cuando": "",\n \"Donde\": "",\n "Quien ": "",\n "Porqué": "",\n "Que": "",\n "Para que": "" \n}';
 
-  constructor(public dialog: MatDialog) {
+  constructor(public dialog: MatDialog, private snackBar: MatSnackBar) {
+  }
+
+  toArray(n: number): number[] {
+    return Array(n);
   }
 
   addLesson(itineraryIndex: number, sessionIndex: number) {
@@ -90,6 +96,23 @@ export class InfoUnitComponent {
     if (this.exerciseUnit['isOpen'] === true) {
       this.graphUnit.toggle();
       this.exerciseUnit.toggle();
+    }
+  }
+  save() {
+    try {
+      JSON.parse(this.input);
+    } catch (e) {
+      this.snackBar.open(e.message, '', {
+        duration: 5000
+      });
+      const eMesage: string[] = e.message.split(' ');
+      this.input = this.input.split('');
+      this.input.splice(Number(eMesage[eMesage.length - 1]) - 2, 0, '←');
+      let inputString = '';
+      this.input.forEach(element => {
+        inputString += element;
+      });
+      this.input = inputString;
     }
   }
 }
