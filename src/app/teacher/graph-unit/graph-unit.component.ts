@@ -13,8 +13,6 @@ import { Lexical } from './models/lexical.model';
 import { RelationService } from './services/relation.service';
 import { FilterDto } from './dtos/filter.dto';
 import { Command } from './models/commands/command.model';
-import { LoggerView } from './views/logger.view';
-import { LoggerModel } from './models/logger.model';
 import { Link } from './models/link.model';
 import { Node } from './models/node.model';
 import { FriendsDto } from './dtos/friends.dto';
@@ -29,14 +27,11 @@ import { OpenUnit } from './models/commands/open-unit.model';
 export class GraphUnitComponent implements OnInit {
 
   unitsDto: UnitDto[];
-  unitsNotRelatedDto: UnitDto[];
-  units: Unit[] = [];
-  relations: Relation[] = [];
   relationsDto: RelationDto[];
-  filterRelation: FilterDto[] = [];
-  nodes: Node[] = [];
-  nodesNotRelated: Node[] = [];
+  nodes: Node[];
   links: Link[] = [];
+  nodesNotRelated: Node[] = [];
+  filterRelation: FilterDto[] = [];
   searchUnit: FormControl;
   filteredUnits: Observable<FilterDto[]>;
   text: String = '';
@@ -59,17 +54,27 @@ export class GraphUnitComponent implements OnInit {
         }
       );
     });
-    this.unitService.getUnitsNotRelated().subscribe(unitsNotRelated => {
-      this.unitsNotRelatedDto = unitsNotRelated;
-    });
+    this.synchronizedUnitsNotRelated();
     this.synchronizedSearch();
+  }
+
+  synchronizedUnitsNotRelated() {
+    this.nodesNotRelated = [];
+    this.unitService.getUnitsNotRelated().subscribe(unitsNotRelated => {
+      this.unitsDto = unitsNotRelated;
+      let x = 0;
+      for (const unitNotRelated of this.unitsDto) {
+        const view = new UnitViewImp(new Unit(unitNotRelated.name, unitNotRelated.code));
+        view.shift(x, 15);
+        this.nodesNotRelated.push(view.createNode()[0]);
+        x += 180;
+      }
+    });
   }
 
   synchronizedGraph(result: FriendsDto) {
     this.unitsDto = [];
     this.relationsDto = [];
-    this.units = [];
-    this.relations = [];
     for (const topUnit of result.topUnits) {
       this.unitsDto.push(topUnit);
     }
@@ -84,40 +89,23 @@ export class GraphUnitComponent implements OnInit {
   }
 
   addDataGraph() {
-    this.nodes = [];
-    this.links = [];
-    this.nodesNotRelated = [];
-    this.units = [];
-    this.relations = [];
+    const units: Unit[] = [];
+    const relations: Relation[] = [];
     for (const unitDto of this.unitsDto) {
-      this.units.push(new Unit(unitDto.name, unitDto.code));
+      units.push(new Unit(unitDto.name, unitDto.code));
     }
     for (const relationDto of this.relationsDto) {
-      const topUnit = this.units.find(unit => unit.getCode() === relationDto.topUnit.code);
-      const lowerUnit = this.units.find(unit => unit.getCode() === relationDto.lowerUnit.code);
-      this.relations.push(new Relation(topUnit, lowerUnit, relationDto.type, relationDto.semantics,
+      const topUnit = units.find(unit => unit.getCode() === relationDto.topUnit.code);
+      const lowerUnit = units.find(unit => unit.getCode() === relationDto.lowerUnit.code);
+      relations.push(new Relation(topUnit, lowerUnit, relationDto.type, relationDto.semantics,
         relationDto.cardinalTopUnit, relationDto.cardinalLowerUnit));
     }
-    let x = 0;
-    for (const unitNotRelated of this.unitsNotRelatedDto) {
-        const view = new UnitViewImp(new Unit(unitNotRelated.name, unitNotRelated.code));
-        view.shift(x, 15);
-        this.nodesNotRelated.push(view.createNode()[0]);
-        x += 180;
-    }
-    const root = this.units[0];
-    console.log('Modelos');
-    const logger = new LoggerModel(root);
-    logger.log();
+    const root = units[0];
     const rootView = new UnitViewImp(root);
-    console.log('Vistas');
-    const loggerView = new LoggerView(rootView);
-    loggerView.log();
     rootView.locate();
+
     this.nodes = rootView.createNode();
     this.links = rootView.createLink();
-    // console.log('Nodos: ' + this.nodes.length);
-    // console.log('Links: ' + this.links.length);
   }
 
   finishExecutionOpenCommand(result) {
@@ -132,10 +120,8 @@ export class GraphUnitComponent implements OnInit {
       const command: Command = lexical.analyzeCommand(text);
       command.execute(this.unitService, this.relationService, this.dialog).subscribe(
         (result) => {
-          if (result) {
-            if (result.lowerUnits !== undefined) {
-              this.finishExecutionOpenCommand(result);
-            }
+          if (command instanceof OpenUnit) {
+            this.finishExecutionOpenCommand(result);
           }
         }
       );
