@@ -138,7 +138,7 @@ export class HttpService {
             });
             return Observable.throw(error);
         } catch (e) {
-            this.snackBar.open(response.toString(), 'Error', {
+            this.snackBar.open('Ops! algo a ocurrido mal.', 'Error', {
                 duration: 8000
             });
             return Observable.throw(response);
