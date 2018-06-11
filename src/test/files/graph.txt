@@ -1,0 +1,19 @@
+U1#new
+U2#new
+U3#new
+U4#new
+U5#new
+U6#new
+U7#new
+U8#new
+U9#new
+U10#new
+U1#1 < inherit U2#2
+U1#1 < inherit U3#3
+U2#2 < inherit: semantica1 U4#4
+U2#2 < inherit: semantica2 U5#5
+U3#3:* < compose U#6
+U3#3:* < compose U#7
+U4#4 < compose U8#8
+U8#8 < inherit U9#9
+U8#8 < inherit U10#10
