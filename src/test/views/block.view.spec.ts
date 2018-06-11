@@ -4,7 +4,7 @@ import { UnitViewImp } from '../../app/teacher/graph-unit/views/unit.view';
 import { Unit } from '../../app/teacher/graph-unit/models/unit.model';
 import { Relation } from '../../app/teacher/graph-unit/models/relation.model';
 
-describe('TeacherComponent-GraphUnit BlockViewImp ', () => {
+describe('GraphUnitComponent BlockViewImp ', () => {
 
     let blockView: BlockViewImp;
 
@@ -14,11 +14,13 @@ describe('TeacherComponent-GraphUnit BlockViewImp ', () => {
         blockView = new BlockViewImp(block, new UnitViewImp(unitAscendant));
     });
 
+
     it('#calculateWidthBlock', () => {
         expect(blockView.calculateWidthBlock()).toBeGreaterThan(0);
     });
 
-    it('#createNode', () => {
+    it('#createNode should create one node', () => {
         expect(blockView.createNode().length).toEqual(1);
     });
+
 });
