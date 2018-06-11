@@ -1,4 +1,6 @@
 import {Component, HostBinding} from '@angular/core';
+import { MatSnackBar } from '@angular/material';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/compiler/src/core';
 
 @Component({
   selector: 'app-exercise-unit',
