@@ -49,6 +49,10 @@ export class UnitViewImp {
         return this.x + this.xHalfSize;
     }
 
+    getXSize(): number {
+        return this.xSize;
+    }
+
     getYSouth(): number {
         return this.y + this.ySize;
     }
