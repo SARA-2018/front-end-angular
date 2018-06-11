@@ -65,7 +65,7 @@ export class GraphUnitComponent implements OnInit {
         const view = new UnitViewImp(new Unit(unitNotRelated.name, unitNotRelated.code));
         view.shift(x, 15);
         this.nodesNotRelated.push(view.createNode()[0]);
-        x += 180;
+        x += 160;
       }
     });
   }

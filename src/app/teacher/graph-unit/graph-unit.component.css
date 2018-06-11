@@ -31,8 +31,9 @@ span {
   text-align: center;
 }
 
-.mat-grid-tile .mat-figure{
-  justify-content: flex-start;
+.nodes-not-related{
+  position: absolute;
+  left: 5px;
 }
 
 :host {
