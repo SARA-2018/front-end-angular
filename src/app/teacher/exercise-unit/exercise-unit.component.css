@@ -5,3 +5,15 @@
 :host.is-open {
   display: block;
 }
+
+.exercise {
+  display: flex;
+  height: 34em;
+  width: 20em;
+}
+
+.layout-alignment {
+  min-height: 10px;
+  padding-bottom: 10px;
+  display: block;
+}

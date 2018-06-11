@@ -1,6 +1,6 @@
 import { Command } from './command.model';
 import { Observable } from 'rxjs/Observable';
-import { RelationService } from '../../../graph-unit/services/relation.service';
+import { RelationService } from '../../services/relation.service';
 import { CancelYesDialogComponent } from '../../../../core/cancel-yes-dialog.component';
 import { MatDialog } from '@angular/material';
 

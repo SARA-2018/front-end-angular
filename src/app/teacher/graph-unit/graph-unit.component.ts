@@ -184,7 +184,7 @@ export class GraphUnitComponent implements OnInit {
     }
   }
 
-  onSelection(event: MatOptionSelectionChange, relationUnit, text: string): void {
+  onSelection(relationUnit, text: string): void {
     const helpText = [];
     helpText.push(relationUnit);
     const help = helpText.pop();
