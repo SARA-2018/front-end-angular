@@ -28,6 +28,10 @@ export class UnitService {
     return this.httpService.get(UnitService.END_POINT);
   }
 
+  getUnitsNotRelated(): Observable<UnitDto[]> {
+    return this.httpService.get(UnitService.END_POINT + '/notrelated');
+  }
+
   delete(code: number): Observable<any> {
     return this.httpService.delete(UnitService.END_POINT + `/${code}`);
   }
