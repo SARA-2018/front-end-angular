@@ -1,0 +1,17 @@
+U1#new
+U2#new
+U3#new
+U4#new
+U5#new
+U6#new
+U7#new
+U8#new
+U9#new
+U1#1 <inherit U2#2
+U2#2 <inherit U3#3
+U3#3 <inherit U4#4
+U4#4 <inherit U5#5
+U5#5 <inherit U6#6
+U6#6 <inherit U7#7
+U7#7 <inherit U8#8
+U8#8 <inherit U9#9

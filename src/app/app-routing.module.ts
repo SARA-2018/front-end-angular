@@ -37,7 +37,6 @@ export class AppRoutingModule {
 
   static DIALOGS_COMPONENTS = [
     // Declaracion de DIALOGOS
-    CancelYesDialogComponent,
     InputDialogComponent
   ];
 }
