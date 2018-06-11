@@ -28,18 +28,6 @@ export class InfoUnitComponent {
   constructor(public dialog: MatDialog) {
   }
 
-  toArray(n: number): number[] {
-    return Array(n);
-  }
-
-  visibilityLesson() {
-    // this.sessions.push(1);
-  }
-
-  visibility(sessionId: number) {
-    // this.sessions[sessionId] = this.sessions[sessionId] + 1;
-  }
-
   addLesson(itineraryIndex: number, sessionIndex: number) {
     const name: String = '';
     const message: String = 'Nombre de la leccion';
@@ -74,17 +62,14 @@ export class InfoUnitComponent {
   }
 
   addItinerary() {
-    // this.itinerarys.push(0);
     const name: String = '';
     const message: String = 'Nombre del itinerario';
     this.dialog.open(InputDialogComponent, { data: { name: name, message: message } }).afterClosed().subscribe(
       result => {
         if (result) {
-          console.log(result);
           const itinerary: Itinerary = new Itinerary();
           itinerary.setName(result);
           this.itinerarys.push(itinerary);
-          console.log(itinerary.getName());
         }
       }
     );
