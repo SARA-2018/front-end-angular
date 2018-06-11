@@ -68,17 +68,14 @@ export class InfoUnitComponent {
   }
 
   addItinerary() {
-    // this.itinerarys.push(0);
     const name: String = '';
     const message: String = 'Nombre del itinerario';
     this.dialog.open(InputDialogComponent, { data: { name: name, message: message } }).afterClosed().subscribe(
       result => {
         if (result) {
-          console.log(result);
           const itinerary: Itinerary = new Itinerary();
           itinerary.setName(result);
           this.itinerarys.push(itinerary);
-          console.log(itinerary.getName());
         }
       }
     );

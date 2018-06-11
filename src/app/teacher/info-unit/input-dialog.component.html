@@ -1,10 +1,12 @@
 <div mat-dialog-content>
-  <p>{{data.message}}</p>
+  <h3 mat-dialog-title>¿{{data.message}}?</h3>
   <mat-form-field>
-    <input matInput [(ngModel)]="data.name">
+    <label>
+      <input matInput [(ngModel)]="data.name" cdkFocusInitial>
+    </label>
   </mat-form-field>
 </div>
-<div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">Cancelar</button>
-  <button mat-button [mat-dialog-close]="data.name" cdkFocusInitial>Guardar</button>
-</div>
+<mat-dialog-actions>
+  <button mat-raised-button mat-dialog-close >Cancelar</button>
+  <button mat-raised-button [mat-dialog-close]="data.name" [disabled]="data.name === ''" color="primary">Guardar</button>
+</mat-dialog-actions>
