@@ -33,6 +33,22 @@ export class Unit {
 
   addRelation(relation: Relation) {
     if (this.descendantBlocks.length > 0) {
+      let i = 0;
+      while ((!this.descendantBlocks[i].validateRelation(relation)) && (i < this.descendantBlocks.length - 1)) {
+        i++;
+      }
+      if (this.descendantBlocks[i].validateRelation(relation)) {
+        this.descendantBlocks[i].addRelation(relation);
+      } else {
+        this.descendantBlocks.push(new Block(relation, this));
+      }
+    } else {
+      this.descendantBlocks.push(new Block(relation, this));
+    }
+  }
+
+  /*addRelation(relation: Relation) {
+    if (this.descendantBlocks.length > 0) {
       const i = this.searchBlock(relation.getType(), relation.getSemantics());
       if (relation.getType() === this.descendantBlocks[i].getType()) {
         if (relation.getSemantics() !== undefined) {
@@ -64,7 +80,7 @@ export class Unit {
       }
     }
     return i;
-  }
+  }*/
 
   saveUnit(unitService: UnitService): Observable<any> {
     return unitService.create(this);
