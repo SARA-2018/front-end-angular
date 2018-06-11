@@ -39,7 +39,7 @@ export class GraphUnitComponent implements OnInit {
   filteredUnits: Observable<FilterDto[]>;
   text: String = '';
   @HostBinding('class.is-open')
-  isOpen = true;
+  isOpen: Boolean = true;
 
   @Output() openUnit = new EventEmitter<Unit>();
 
@@ -139,7 +139,7 @@ export class GraphUnitComponent implements OnInit {
     try {
       const lexical = new Lexical();
       const command: Command = lexical.analyzeCommand(text);
-      command.execute(this.unitService, this.relationService).subscribe(
+      command.execute(this.unitService, this.relationService, this.dialog).subscribe(
         (result) => {
           if (result.lowerUnits !== undefined) {
             const unit = new Unit(result.unit.name, result.unit.code);
