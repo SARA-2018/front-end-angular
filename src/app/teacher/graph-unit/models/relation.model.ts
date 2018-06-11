@@ -2,7 +2,6 @@ import { Unit } from './unit.model';
 
 export class Relation {
 
-  private id: number;
   private topUnit: Unit;
   private lowerUnit: Unit;
   private type: string;

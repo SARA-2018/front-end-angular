@@ -1,7 +1,6 @@
-import { Component, Input, ChangeDetectorRef, HostListener, ChangeDetectionStrategy, OnInit, AfterViewInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { D3Service } from '../../services/d3.service';
 import { Graph } from '../../models/graph.model';
-import { Node } from '../../models/node.model';
 
 @Component({
   selector: 'app-units-not-related',

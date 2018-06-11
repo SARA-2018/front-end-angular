@@ -22,12 +22,6 @@ export class Block {
         this.relations.push(relation);
     }
 
-    addRelation(relation: Relation) {
-        this.relations.push(relation);
-        this.units.push(relation.getLowerUnit());
-        relation.getLowerUnit().setAscendantBlock(this);
-    }
-
     getType() {
         return this.type;
     }
@@ -50,6 +44,19 @@ export class Block {
 
     getCardinalLowerUnit() {
         return this.cardinalLowerUnit;
+    }
+
+    validateRelation(relation: Relation): boolean {
+        if (this.type === relation.getType() && this.semantics === relation.getSemantics()) {
+            return true;
+        }
+        return false;
+    }
+
+    addRelation(relation: Relation) {
+        this.relations.push(relation);
+        this.units.push(relation.getLowerUnit());
+        relation.getLowerUnit().setAscendantBlock(this);
     }
 
     log(block: Block, margin: string, unitsVisited: Unit[]) {

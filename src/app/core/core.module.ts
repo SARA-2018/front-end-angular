@@ -13,6 +13,7 @@ import {
     MatTableModule,
     MatCardModule
 } from '@angular/material';
+import { CancelYesDialogComponent } from './cancel-yes-dialog.component';
 
 @NgModule({
     imports: [
@@ -27,9 +28,9 @@ import {
         MatSortModule,
         MatTableModule,
     ],
-    declarations: [],
-    exports: [],
-    entryComponents: [],
+    declarations: [CancelYesDialogComponent],
+    exports: [CancelYesDialogComponent],
+    entryComponents: [CancelYesDialogComponent],
     providers: [
         HttpService,
     ]

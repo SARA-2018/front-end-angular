@@ -1,4 +1,4 @@
-import {Component, EventEmitter, HostBinding, OnInit, Output} from '@angular/core';
+import { Component, EventEmitter, HostBinding, OnInit, Output } from '@angular/core';
 import { UnitService } from './services/unit.service';
 import { MatOptionSelectionChange, MatSnackBar, MatDialog } from '@angular/material';
 import { FormControl } from '@angular/forms';
@@ -13,11 +13,10 @@ import { Lexical } from './models/lexical.model';
 import { RelationService } from './services/relation.service';
 import { FilterDto } from './dtos/filter.dto';
 import { Command } from './models/commands/command.model';
-import { LoggerView } from './views/logger.view';
-import { LoggerModel } from './models/logger.model';
 import { Link } from './models/link.model';
 import { Node } from './models/node.model';
 import { FriendsDto } from './dtos/friends.dto';
+import { OpenUnit } from './models/commands/open-unit.model';
 
 @Component({
   selector: 'app-graph-unit',
@@ -27,112 +26,89 @@ import { FriendsDto } from './dtos/friends.dto';
 
 export class GraphUnitComponent implements OnInit {
 
-  unitsDto: UnitDto[];
-  units: Unit[] = [];
-  relations: Relation[] = [];
-  relationsDto: RelationDto[];
-  filterRelation: FilterDto[] = [];
   nodes: Node[] = [];
-  nodesNotRelated: Node[] = [];
   links: Link[] = [];
+  nodesNotRelated: Node[] = [];
+  filterRelation: FilterDto[] = [];
   searchUnit: FormControl;
   filteredUnits: Observable<FilterDto[]>;
   text: String = '';
-  @HostBinding('class.is-open')
-  isOpen: Boolean = true;
 
   @Output() openUnit = new EventEmitter<Unit>();
-
-  readonly db = true;
+  @HostBinding('class.is-open')
+  isOpen: Boolean = true;
 
   constructor(private snackBar: MatSnackBar, private unitService: UnitService,
     private relationService: RelationService, private dialog: MatDialog) {
   }
 
-  ngOnInit(): void {
-    this.synchronizedGraph();
+  ngOnInit() {
+    this.unitService.getAll().subscribe(units => {
+      if (units.length > 0) {
+        const openUnit = new OpenUnit(units[0].code);
+        openUnit.execute(this.unitService).subscribe(
+          (friends) => {
+            this.finishExecutionOpenCommand(friends);
+          }
+        );
+      }
+    });
+    this.synchronizedUnitsNotRelated();
     this.synchronizedSearch();
   }
 
-  synchronizedGraph() {
-    this.unitsDto = [];
-    this.relationsDto = [];
-    this.units = [];
-    this.relations = [];
-    this.unitService.getAll().subscribe(units => {
-      this.unitsDto = units;
-      this.relationService.getAll().subscribe(relations => {
-        this.relationsDto = relations;
-        this.addDataGraph();
-      });
-    });
-  }
-
-  synchronizedGraphFriends(result: FriendsDto) {
-    this.unitsDto = [];
-    this.relationsDto = [];
-    this.units = [];
-    this.relations = [];
-    for (const topUnit of result.topUnits) {
-      this.unitsDto.push(topUnit);
-    }
-    this.unitsDto.push(result.unit);
-    for (const lowerUnit of result.lowerUnits) {
-      this.unitsDto.push(lowerUnit);
-    }
-    for (const relation of result.relations) {
-      this.relationsDto.push(relation);
-    }
-    this.addDataGraph();
-  }
-
-  isRelated(unit: Unit): boolean {
-    for (let i = 0; i < this.relations.length; i++) {
-      if ((this.relations[i].getTopUnit().getCode() === unit.getCode()) ||
-        (this.relations[i].getLowerUnit().getCode() === unit.getCode())) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  addDataGraph() {
-    this.nodes = [];
-    this.links = [];
+  synchronizedUnitsNotRelated() {
     this.nodesNotRelated = [];
-    this.units = [];
-    this.relations = [];
-    for (const unitDto of this.unitsDto) {
-      this.units.push(new Unit(unitDto.name, unitDto.code));
-    }
-    for (const relationDto of this.relationsDto) {
-      const topUnit = this.units.find(unit => unit.getCode() === relationDto.topUnit.code);
-      const lowerUnit = this.units.find(unit => unit.getCode() === relationDto.lowerUnit.code);
-      this.relations.push(new Relation(topUnit, lowerUnit, relationDto.type, relationDto.semantics,
-        relationDto.cardinalTopUnit, relationDto.cardinalLowerUnit));
-    }
-    let x = 0;
-    for (let i = 0; i < this.units.length; i++) {
-      if (!this.isRelated(this.units[i])) {
-        const view = new UnitViewImp(this.units[i]);
+    this.unitService.getUnitsNotRelated().subscribe(unitsNotRelated => {
+      let x = 0;
+      for (const unitNotRelated of unitsNotRelated) {
+        const view = new UnitViewImp(new Unit(unitNotRelated.name, unitNotRelated.code));
         view.shift(x, 15);
         this.nodesNotRelated.push(view.createNode()[0]);
         x += 180;
       }
+    });
+  }
+
+  synchronizedGraph(friends: FriendsDto) {
+    const unitsDto: UnitDto[] = [];
+    const relationsDto: RelationDto[] = [];
+    for (const topUnit of friends.topUnits) {
+      unitsDto.push(topUnit);
     }
-    const root = this.units[0];
-    console.log('Modelos');
-    const logger = new LoggerModel(root);
-    logger.log();
+    unitsDto.push(friends.unit);
+    for (const lowerUnit of friends.lowerUnits) {
+      unitsDto.push(lowerUnit);
+    }
+    for (const relation of friends.relations) {
+      relationsDto.push(relation);
+    }
+    this.addDataGraph(unitsDto, relationsDto);
+  }
+
+  addDataGraph(unitsDto: UnitDto[], relationsDto: RelationDto[]) {
+    const units: Unit[] = [];
+    const relations: Relation[] = [];
+    for (const unitDto of unitsDto) {
+      units.push(new Unit(unitDto.name, unitDto.code));
+    }
+    for (const relationDto of relationsDto) {
+      const topUnit = units.find(unit => unit.getCode() === relationDto.topUnit.code);
+      const lowerUnit = units.find(unit => unit.getCode() === relationDto.lowerUnit.code);
+      relations.push(new Relation(topUnit, lowerUnit, relationDto.type, relationDto.semantics,
+        relationDto.cardinalTopUnit, relationDto.cardinalLowerUnit));
+    }
+    const root = units[0];
     const rootView = new UnitViewImp(root);
-    console.log('Vistas');
-    const loggerView = new LoggerView(rootView);
-    loggerView.log();
     rootView.locate();
     this.nodes = rootView.createNode();
     this.links = rootView.createLink();
-   // console.log('Nodos: ' + this.nodes.length);
-   // console.log('Links: ' + this.links.length);
+  }
+
+  finishExecutionOpenCommand(friends) {
+    const unit = new Unit(friends.unit.name, friends.unit.code);
+    this.openUnit.emit(unit);
+    this.synchronizedGraph(friends);
   }
 
   onEnter(text: string) {
@@ -140,13 +116,11 @@ export class GraphUnitComponent implements OnInit {
       const lexical = new Lexical();
       const command: Command = lexical.analyzeCommand(text);
       command.execute(this.unitService, this.relationService, this.dialog).subscribe(
-        (result) => {
-          if (result.lowerUnits !== undefined) {
-            const unit = new Unit(result.unit.name, result.unit.code);
-            this.openUnit.emit(unit);
-            this.synchronizedGraphFriends(result);
+        (friends) => {
+          if (command instanceof OpenUnit) {
+            this.finishExecutionOpenCommand(friends);
           } else {
-            this.synchronizedGraph();
+            this.synchronizedUnitsNotRelated();
           }
         }
       );
