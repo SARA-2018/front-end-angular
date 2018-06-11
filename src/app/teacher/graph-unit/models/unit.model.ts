@@ -47,41 +47,6 @@ export class Unit {
     }
   }
 
-  /*addRelation(relation: Relation) {
-    if (this.descendantBlocks.length > 0) {
-      const i = this.searchBlock(relation.getType(), relation.getSemantics());
-      if (relation.getType() === this.descendantBlocks[i].getType()) {
-        if (relation.getSemantics() !== undefined) {
-          if (relation.getSemantics() === this.descendantBlocks[i].getSemantics()) {
-            this.descendantBlocks[i].addRelation(relation);
-          } else {
-            this.descendantBlocks.push(new Block(relation, this));
-          }
-        } else {
-          this.descendantBlocks[i].addRelation(relation);
-        }
-      } else {
-        this.descendantBlocks.push(new Block(relation, this));
-      }
-    } else {
-      this.descendantBlocks.push(new Block(relation, this));
-    }
-  }
-
-  searchBlock(type: string, semantics?: string): number {
-    let i = 0;
-    if (semantics !== undefined) {
-      while (semantics !== this.descendantBlocks[i].getSemantics() && (i < this.descendantBlocks.length - 1)) {
-        i++;
-      }
-    } else {
-      while (type !== this.descendantBlocks[i].getType() && (i < this.descendantBlocks.length - 1)) {
-        i++;
-      }
-    }
-    return i;
-  }*/
-
   saveUnit(unitService: UnitService): Observable<any> {
     return unitService.create(this);
   }
