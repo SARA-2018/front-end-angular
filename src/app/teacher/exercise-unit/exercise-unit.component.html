@@ -1,22 +1,19 @@
-<mat-card style="display: flex; height: 46em;">
+<mat-card class="mat-card-exercise">
   <mat-tab-group>
     <mat-tab label="Ejercicio">
       <div class="layout-alignment"></div>
       <div fxLayout="row" fxLayoutGap="20px">
         <div fxFlex>
-          <mat-card class="exercise">
-
-
-
-
+          <mat-card class="view-exercise">
+            <textarea matInput placeholder="Exercise" ></textarea>
           </mat-card>
           <mat-action-row>
             <button mat-raised-button color="primary" class="button-content">Guardar</button>
           </mat-action-row>
         </div>
         <div fxFlex>
-          <mat-card class="exercise">
-            <textarea matInput placeholder="Unidad: "></textarea>
+          <mat-card class="view-exercise">
+           <!-- VISOR DE EJERCICIOS-->
           </mat-card>
         </div>
       </div>
@@ -24,6 +21,5 @@
     <mat-tab label="Visor"><app-graph-unit></app-graph-unit></mat-tab>
   </mat-tab-group>
 </mat-card>
-
 
 <router-outlet></router-outlet>

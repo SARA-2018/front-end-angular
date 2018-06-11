@@ -6,9 +6,9 @@
           Contenido de la unidad {{unit.getName()}}
         </mat-panel-title>
       </mat-expansion-panel-header>
-      <textarea matInput placeholder="Unidad: "></textarea>
+      <textarea class="exercise" matInput placeholder="Unidad: " [(ngModel)]="input">{{input}}</textarea>
       <mat-action-row>
-        <button mat-raised-button color="primary" class="button-content">Guardar</button>
+        <button mat-raised-button color="primary" (click)="saveUnitContent()" class="button-content">Guardar</button>
       </mat-action-row>
     </mat-expansion-panel>
   </mat-accordion>
