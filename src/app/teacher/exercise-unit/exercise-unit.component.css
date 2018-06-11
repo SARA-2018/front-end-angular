@@ -6,7 +6,7 @@
   display: block;
 }
 
-.exercise {
+.view-exercise {
   display: flex;
   height: 34em;
   width: 20em;
@@ -16,4 +16,9 @@
   min-height: 10px;
   padding-bottom: 10px;
   display: block;
+}
+
+.mat-card-exercise {
+  display: flex;
+  height: 46em;
 }
