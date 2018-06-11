@@ -26,9 +26,7 @@ import { OpenUnit } from './models/commands/open-unit.model';
 
 export class GraphUnitComponent implements OnInit {
 
-  unitsDto: UnitDto[];
-  relationsDto: RelationDto[];
-  nodes: Node[];
+  nodes: Node[] = [];
   links: Link[] = [];
   nodesNotRelated: Node[] = [];
   filterRelation: FilterDto[] = [];
@@ -44,15 +42,16 @@ export class GraphUnitComponent implements OnInit {
     private relationService: RelationService, private dialog: MatDialog) {
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.unitService.getAll().subscribe(units => {
-      this.unitsDto = units;
-      const openUnit = new OpenUnit(this.unitsDto[0].code);
-      openUnit.execute(this.unitService).subscribe(
-        (result) => {
-          this.finishExecutionOpenCommand(result);
-        }
-      );
+      if (units.length > 0) {
+        const openUnit = new OpenUnit(units[0].code);
+        openUnit.execute(this.unitService).subscribe(
+          (friends) => {
+            this.finishExecutionOpenCommand(friends);
+          }
+        );
+      }
     });
     this.synchronizedUnitsNotRelated();
     this.synchronizedSearch();
@@ -61,9 +60,8 @@ export class GraphUnitComponent implements OnInit {
   synchronizedUnitsNotRelated() {
     this.nodesNotRelated = [];
     this.unitService.getUnitsNotRelated().subscribe(unitsNotRelated => {
-      this.unitsDto = unitsNotRelated;
       let x = 0;
-      for (const unitNotRelated of this.unitsDto) {
+      for (const unitNotRelated of unitsNotRelated) {
         const view = new UnitViewImp(new Unit(unitNotRelated.name, unitNotRelated.code));
         view.shift(x, 15);
         this.nodesNotRelated.push(view.createNode()[0]);
@@ -72,29 +70,29 @@ export class GraphUnitComponent implements OnInit {
     });
   }
 
-  synchronizedGraph(result: FriendsDto) {
-    this.unitsDto = [];
-    this.relationsDto = [];
-    for (const topUnit of result.topUnits) {
-      this.unitsDto.push(topUnit);
+  synchronizedGraph(friends: FriendsDto) {
+    const unitsDto: UnitDto[] = [];
+    const relationsDto: RelationDto[] = [];
+    for (const topUnit of friends.topUnits) {
+      unitsDto.push(topUnit);
     }
-    this.unitsDto.push(result.unit);
-    for (const lowerUnit of result.lowerUnits) {
-      this.unitsDto.push(lowerUnit);
+    unitsDto.push(friends.unit);
+    for (const lowerUnit of friends.lowerUnits) {
+      unitsDto.push(lowerUnit);
     }
-    for (const relation of result.relations) {
-      this.relationsDto.push(relation);
+    for (const relation of friends.relations) {
+      relationsDto.push(relation);
     }
-    this.addDataGraph();
+    this.addDataGraph(unitsDto, relationsDto);
   }
 
-  addDataGraph() {
+  addDataGraph(unitsDto: UnitDto[], relationsDto: RelationDto[]) {
     const units: Unit[] = [];
     const relations: Relation[] = [];
-    for (const unitDto of this.unitsDto) {
+    for (const unitDto of unitsDto) {
       units.push(new Unit(unitDto.name, unitDto.code));
     }
-    for (const relationDto of this.relationsDto) {
+    for (const relationDto of relationsDto) {
       const topUnit = units.find(unit => unit.getCode() === relationDto.topUnit.code);
       const lowerUnit = units.find(unit => unit.getCode() === relationDto.lowerUnit.code);
       relations.push(new Relation(topUnit, lowerUnit, relationDto.type, relationDto.semantics,
@@ -103,15 +101,14 @@ export class GraphUnitComponent implements OnInit {
     const root = units[0];
     const rootView = new UnitViewImp(root);
     rootView.locate();
-
     this.nodes = rootView.createNode();
     this.links = rootView.createLink();
   }
 
-  finishExecutionOpenCommand(result) {
-    const unit = new Unit(result.unit.name, result.unit.code);
+  finishExecutionOpenCommand(friends) {
+    const unit = new Unit(friends.unit.name, friends.unit.code);
     this.openUnit.emit(unit);
-    this.synchronizedGraph(result);
+    this.synchronizedGraph(friends);
   }
 
   onEnter(text: string) {
@@ -119,9 +116,11 @@ export class GraphUnitComponent implements OnInit {
       const lexical = new Lexical();
       const command: Command = lexical.analyzeCommand(text);
       command.execute(this.unitService, this.relationService, this.dialog).subscribe(
-        (result) => {
+        (friends) => {
           if (command instanceof OpenUnit) {
-            this.finishExecutionOpenCommand(result);
+            this.finishExecutionOpenCommand(friends);
+          } else {
+            this.synchronizedUnitsNotRelated();
           }
         }
       );
