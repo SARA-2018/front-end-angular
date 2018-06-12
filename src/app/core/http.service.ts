@@ -4,7 +4,6 @@ import { Http, Response, Headers, RequestOptions, URLSearchParams, ResponseConte
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
-import { Router } from '@angular/router';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/map';
@@ -24,7 +23,7 @@ export class HttpService {
 
     private body: Object;
 
-    constructor(private http: Http, private snackBar: MatSnackBar, private router: Router) {
+    constructor(private http: Http, private snackBar: MatSnackBar) {
         this.resetOptions();
     }
 
