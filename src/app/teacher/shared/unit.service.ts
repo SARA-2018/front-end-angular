@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { UnitDto } from '../dtos/unit.dto';
-import { HttpService } from '../../../core/http.service';
-import { FilterDto } from '../dtos/filter.dto';
-import { FriendsDto } from '../dtos/friends.dto';
-import {Unit} from '../models/unit.model';
+import { UnitDto } from '../graph-unit/dtos/unit.dto';
+import { HttpService } from '../../core/http.service';
+import { FilterDto } from '../graph-unit/dtos/filter.dto';
+import { FriendsDto } from '../graph-unit/dtos/friends.dto';
+import {Unit} from '../graph-unit/models/unit.model';
 
 @Injectable()
 export class UnitService {
@@ -17,7 +17,10 @@ export class UnitService {
   create(unit: Unit): Observable<any> {
     return this.httpService.successful().post(UnitService.END_POINT, unit);
   }
-
+  setContent(unit: Unit): Observable<any> {
+    console.log(unit.getContent());
+    return this.httpService.successful().put(UnitService.END_POINT + '/' + unit.getCode() , { content: unit.getContent() });
+  }
   filter(name: string): Observable<FilterDto[]> {
     return this.httpService.param('name', `${name}`).get(UnitService.END_POINT + '/search').map(data => {
       return data;
