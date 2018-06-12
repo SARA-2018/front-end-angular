@@ -15,4 +15,8 @@ export class OpenUnit extends Command {
     return unitService.getFriendsByCode(this.codeTopUnit);
   }
 
+  isOpenUnit(): boolean {
+    return true;
+  }
+
 }

@@ -1,8 +1,7 @@
 import { Command } from './command.model';
 import { TypeRelation } from '../type-relation.enum';
-import { RelationService } from '../../../graph-unit/services/relation.service';
+import { RelationService } from '../../services/relation.service';
 import { Observable } from 'rxjs/Observable';
-
 
 export class AddRelationCommand extends Command {
 

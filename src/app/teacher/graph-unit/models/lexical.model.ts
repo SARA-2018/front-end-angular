@@ -108,6 +108,7 @@ export class Lexical {
   }
 
   private continueAnalyzingCommand(lex: any): Command {
+    this.reset();
     const token = lex.nextToken();
     if (token['name'] === 'open') {
       return new OpenUnit(this.codeTopUnit);
@@ -386,5 +387,11 @@ export class Lexical {
     } else {
       throw new ErrorCommand();
     }
+  }
+
+  private reset() {
+    this.semantics = undefined;
+    this.cardinalTopUnit = undefined;
+    this.cardinalLowerUnit = undefined;
   }
 }
