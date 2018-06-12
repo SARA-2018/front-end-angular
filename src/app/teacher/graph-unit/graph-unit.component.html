@@ -22,8 +22,10 @@
     <mat-card>
       <mat-card-title>Consola</mat-card-title>
       <mat-form-field class="full-width">
-        <input matInput #box type="text" class="full-width" (keyup.enter)="onEnter(box.value)" [formControl]="searchUnit" [matAutocomplete]="auto"
-          [value]="text">
+        <label>
+          <input matInput #box type="text" class="full-width" (keyup.enter)="onEnter(box.value)" [formControl]="searchUnit" [matAutocomplete]="auto"
+            [value]="text">
+        </label>
         <mat-autocomplete #auto="matAutocomplete">
           <mat-option *ngFor="let relationUnit of filteredUnits| async" [value]="onChange()" (onSelectionChange)="onSelection(relationUnit.unit.name.concat('#' + relationUnit.unit.code), box.value)">
             <div *ngIf="relationUnit.topUnit?.name != undefined"> {{ relationUnit.unit.name }}

@@ -1,24 +1,30 @@
-<mat-card class="mat-card-exercise">
+<mat-card>
   <mat-tab-group>
     <mat-tab label="Transparencia">
       <div class="layout-alignment"></div>
+      <mat-form-field id="url">
+        <input matInput placeholder="url">
+      </mat-form-field>
       <div fxLayout="row" fxLayoutGap="20px">
         <div fxFlex>
-          <mat-card class="view-exercise">
-            <textarea matInput placeholder="Contenido" ></textarea>
+          <mat-card>
+            <textarea class="view-transparency" matInput placeholder="Transparencia: "></textarea>
           </mat-card>
           <mat-action-row>
             <button mat-raised-button color="primary" class="button-content">Guardar</button>
           </mat-action-row>
         </div>
         <div fxFlex>
-          <mat-card class="view-exercise">
-            <!-- VISOR DE EJERCICIOS-->
+          <mat-card>
+            <iframe width="420" height="315" src="https://www.youtube.com/embed/lV8-0KS03dg?rel=0" frameborder="0"
+                    allow="autoplay; encrypted-media" allowfullscreen></iframe>
           </mat-card>
         </div>
       </div>
     </mat-tab>
-    <mat-tab label="Visor"><app-graph-unit></app-graph-unit></mat-tab>
+    <mat-tab label="Visor">
+      <app-graph-unit></app-graph-unit>
+    </mat-tab>
   </mat-tab-group>
 </mat-card>
 
