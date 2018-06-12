@@ -1,15 +1,13 @@
 import { ErrorHttp } from './http-errors.model';
 import { Error } from './error.model';
 import { Http, Response, Headers, RequestOptions, URLSearchParams, ResponseContentType } from '@angular/http';
-import { HttpResponse } from '@angular/common/http/src/response';
 import { Injectable } from '@angular/core';
-import { MatSnackBar, _MatOptgroupMixinBase } from '@angular/material';
+import { MatSnackBar } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/map';
-import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 export class HttpService {
