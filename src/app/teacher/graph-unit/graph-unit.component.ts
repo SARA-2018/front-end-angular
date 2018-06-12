@@ -1,6 +1,6 @@
 import { Component, EventEmitter, HostBinding, OnInit, Output } from '@angular/core';
-import { UnitService } from './services/unit.service';
-import { MatSnackBar, MatDialog } from '@angular/material';
+import { UnitService } from '../shared/unit.service';
+import { MatOptionSelectionChange, MatSnackBar, MatDialog } from '@angular/material';
 import { FormControl } from '@angular/forms';
 import { map } from 'rxjs/operators/map';
 import { Observable } from 'rxjs/Observable';
@@ -106,7 +106,7 @@ export class GraphUnitComponent implements OnInit {
   }
 
   finishExecutionOpenCommand(friends) {
-    const unit = new Unit(friends.unit.name, friends.unit.code);
+    const unit = new Unit(friends.unit.name, friends.unit.code, friends.unit.content);
     this.openUnit.emit(unit);
     this.synchronizedGraph(friends);
     this.synchronizedUnitsNotRelated();

@@ -9,7 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { HttpService } from './core/http.service';
 import { NgModule } from '@angular/core';
-import { UnitService } from './teacher/graph-unit/services/unit.service';
+import { UnitService } from './teacher/shared/unit.service';
 import { DraggableDirective } from './teacher/graph-unit/directives/draggable.directive';
 import { GraphComponent } from './teacher/graph-unit/views/graph/graph.component';
 import { LinkComponent } from './teacher/graph-unit/views/graph/link/link.component';

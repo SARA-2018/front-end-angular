@@ -1,5 +1,5 @@
 import { Block } from './block.model';
-import { UnitService } from '../../graph-unit/services/unit.service';
+import { UnitService } from '../../shared/unit.service';
 import { Observable } from 'rxjs/Observable';
 import { Relation } from './relation.model';
 
@@ -7,12 +7,14 @@ export class Unit {
 
   private code: number;
   private name: string;
+  public content: string;
   private ascendantBlock: Block;
   private descendantBlocks: Block[] = [];
 
-  constructor(name: string, code?: number) {
+  constructor(name: string, code?: number, content?: string) {
     this.name = name;
     this.code = code;
+    this.content = content;
   }
 
   getCode(): number {
@@ -21,6 +23,12 @@ export class Unit {
 
   getBlocks(): Block[] {
     return this.descendantBlocks;
+  }
+  getContent(): string {
+    return this.content;
+  }
+  setContent(content: string) {
+    this.content = content;
   }
 
   setAscendantBlock(ascendantBlock: Block) {

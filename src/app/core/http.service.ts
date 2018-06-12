@@ -76,6 +76,7 @@ export class HttpService {
     }
 
     put(endpoint: string, body?: Object): Observable<any> {
+        console.log(body);
         return this.http.put(HttpService.API_END_POINT + endpoint, body, this.createOptions()).map(
             response => this.extractData(response)).catch(
                 error => {
