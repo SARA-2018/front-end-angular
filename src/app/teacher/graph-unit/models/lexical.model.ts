@@ -27,7 +27,7 @@ export class Lexical {
   cardinalTopUnit: string;
   cardinalLowerUnit: string;
   nameUnit: string;
-  deleteRelation: string;
+  codeDelete: string;
 
   constructor() {
   }
@@ -37,7 +37,7 @@ export class Lexical {
     const token = lex.nextToken();
     switch (token['name']) {
       case '~':
-        this.deleteRelation = token['name'];
+        this.codeDelete = token['name'];
         return this.analyzeCommandDeleteUnit(lex);
       case 'text':
         this.nameUnit = token['lexeme'];
@@ -108,7 +108,7 @@ export class Lexical {
   }
 
   private continueAnalyzingCommand(lex: any): Command {
-    this.reset();
+    this.resetValues();
     const token = lex.nextToken();
     if (token['name'] === 'open') {
       return new OpenUnit(this.codeTopUnit);
@@ -258,14 +258,14 @@ export class Lexical {
 
   private createDeleteSingleRelation(relationType: TypeRelation, relation: string): Command {
     if (relation === '<association' || relation === '<use') {
-      if (this.deleteRelation === '~') {
+      if (this.codeDelete === '~') {
         return new DeleteRelationCommand(this.codeTopUnit, this.codeLowerUnit);
       }
       return new AddRelationCommand(relationType, this.codeTopUnit, this.codeLowerUnit, this.semantics, this.cardinalTopUnit,
         this.cardinalLowerUnit);
     }
     if (relation === 'compose>' || relation === 'association>' || relation === 'use>') {
-      if (this.deleteRelation === '~') {
+      if (this.codeDelete === '~') {
         return new DeleteRelationCommand(this.codeLowerUnit, this.codeTopUnit);
       }
       return new AddRelationCommand(relationType, this.codeLowerUnit, this.codeTopUnit, this.semantics, this.cardinalLowerUnit,
@@ -273,7 +273,7 @@ export class Lexical {
     }
     if (relation === '<association>' || relation === '<use>') {
       const commands = new CompositeCommand();
-      if (this.deleteRelation === '~') {
+      if (this.codeDelete === '~') {
         commands.add(new DeleteRelationCommand(this.codeTopUnit, this.codeLowerUnit));
         commands.add(new DeleteRelationCommand(this.codeLowerUnit, this.codeTopUnit));
         return commands;
@@ -314,7 +314,7 @@ export class Lexical {
     for (let i = 0; i < idLowerUnits.length; i++) {
       if (relation === '<inherit' || relation === '<compose' || relation === '<association' || relation === '<use' || relation === '<use>'
         || relation === '<association>') {
-        if (this.deleteRelation === '~') {
+        if (this.codeDelete === '~') {
           commands.add(new DeleteRelationCommand(this.codeTopUnit, idLowerUnits[i]));
         } else {
           commands.add(new AddRelationCommand(relationType, this.codeTopUnit, idLowerUnits[i], this.semantics, this.cardinalTopUnit,
@@ -323,7 +323,7 @@ export class Lexical {
       }
       if (relation === 'inherit>' || relation === 'compose>' || relation === 'association>' || relation === 'use>' || relation === '<use>'
         || relation === '<association>') {
-        if (this.deleteRelation === '~') {
+        if (this.codeDelete === '~') {
           commands.add(new DeleteRelationCommand(idLowerUnits[i], this.codeTopUnit));
         } else {
           commands.add(new AddRelationCommand(relationType, idLowerUnits[i], this.codeTopUnit, this.semantics, cardinalsLowerUnit[i],
@@ -336,13 +336,13 @@ export class Lexical {
 
   private saveOrDeleteRelation(relationType: TypeRelation, relation: string): Command {
     if (relation === '<inherit' || relation === '<compose') {
-      if (this.deleteRelation === '~') {
+      if (this.codeDelete === '~') {
         return new DeleteRelationCommand(this.codeTopUnit, this.codeLowerUnit);
       }
       return new AddRelationCommand(relationType, this.codeTopUnit, this.codeLowerUnit, this.semantics, this.cardinalTopUnit, undefined);
     }
     if (relation === 'inherit>') {
-      if (this.deleteRelation === '~') {
+      if (this.codeDelete === '~') {
         return new DeleteRelationCommand(this.codeLowerUnit, this.codeTopUnit);
       }
       return new AddRelationCommand(relationType, this.codeLowerUnit, this.codeTopUnit, this.semantics, undefined, undefined);
@@ -389,7 +389,7 @@ export class Lexical {
     }
   }
 
-  private reset() {
+  private resetValues() {
     this.semantics = undefined;
     this.cardinalTopUnit = undefined;
     this.cardinalLowerUnit = undefined;
