@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Message } from './message-item/message.model';
+import { RolMessage } from './message-item/rol-message.enum';
 
 @Component({
   selector: 'app-chat-exercise',
@@ -14,7 +15,7 @@ export class ChatExerciseComponent {
   private messages: Message[] = [];
 
   constructor() {
-    this.messages.push(new Message('¡Bienvenido pringaete!'));
-    this.messages.push(new Message('Qué es lo que quieres?'));
+    this.messages.push(new Message('¡Bienvenido pringaete!', RolMessage.TEACHER));
+    this.messages.push(new Message('Qué es lo que quieres?', RolMessage.STUDENT));
   }
 }

@@ -1,3 +1,8 @@
 <blockquote class="chat">
-    <app-message-item *ngFor="let message of messages" [message]="message"></app-message-item>
+    <div>
+        <app-message-item *ngFor="let message of messages" [message]="message"></app-message-item>
+    </div>
+    <div class="enter-message">
+        <input type="text" placeholder="Enter your message.." /> Send
+    </div>
 </blockquote>
