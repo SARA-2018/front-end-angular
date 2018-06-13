@@ -1,4 +1,4 @@
-import { UnitService } from '../../services/unit.service';
+import { UnitService } from '../../../shared/unit.service';
 import { RelationService } from '../../services/relation.service';
 import { MatDialog } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
