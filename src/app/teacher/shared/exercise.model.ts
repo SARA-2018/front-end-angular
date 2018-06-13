@@ -1,5 +1,5 @@
 import { Solution } from './solution.model';
-import { Interaction } from './interaction.model';
+import { Interaction } from '../info-unit/models/interaction.model';
 
 export class Exercise extends Interaction {
     private _id: number;
@@ -12,7 +12,10 @@ export class Exercise extends Interaction {
         this.formulation = formulation;
         this.solutions = [];
     }
-
+    addSolution(solution: Solution) {
+        this.solutions.push(solution);
+        return this;
+    }
     setId(id: number): Exercise {
         this._id = id;
         return this;
