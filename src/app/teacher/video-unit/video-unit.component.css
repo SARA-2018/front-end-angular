@@ -20,4 +20,9 @@
 
 #url {
   width: 25em;
+  padding-top: 15%;
+}
+
+#visor-video {
+  padding-left: 10%;
 }

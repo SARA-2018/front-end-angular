@@ -1,10 +1,18 @@
 <mat-card>
   <mat-tab-group>
     <mat-tab label="Transparencia">
+      <div fxLayout="row" fxLayoutGap="20px">
+        <div fxFlex>
+          <mat-form-field id="url">
+            <input matInput placeholder="url">
+          </mat-form-field>
+        </div>
+        <div fxFlex id="visor-video">
+          <iframe width="300" height="200" src="https://www.youtube.com/embed/lV8-0KS03dg?rel=0" allowfullscreen></iframe>
+        </div>
+      </div>
       <div class="layout-alignment"></div>
-      <mat-form-field id="url">
-        <input matInput placeholder="url">
-      </mat-form-field>
+
       <div fxLayout="row" fxLayoutGap="20px">
         <div fxFlex>
           <mat-card>
@@ -15,9 +23,7 @@
           </mat-action-row>
         </div>
         <div fxFlex>
-          <mat-card>
-            <iframe width="420" height="315" src="https://www.youtube.com/embed/lV8-0KS03dg?rel=0" frameborder="0"
-                    allow="autoplay; encrypted-media" allowfullscreen></iframe>
+          <mat-card class="view-transparency">
           </mat-card>
         </div>
       </div>
