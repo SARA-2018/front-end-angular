@@ -1,5 +1,5 @@
 import { Command } from './command.model';
-import { UnitService } from '../../../graph-unit/services/unit.service';
+import { UnitService } from '../../../shared/unit.service';
 import { Observable } from 'rxjs/Observable';
 
 export class OpenUnit extends Command {
@@ -13,6 +13,10 @@ export class OpenUnit extends Command {
 
   execute(unitService: UnitService): Observable<any> {
     return unitService.getFriendsByCode(this.codeTopUnit);
+  }
+
+  isOpenUnit(): boolean {
+    return true;
   }
 
 }

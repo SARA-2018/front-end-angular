@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Unit } from '../graph-unit/models/unit.model';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { InputDialogComponent } from './input-dialog.component';
@@ -9,6 +9,7 @@ import { Lesson } from './models/lesson.model';
 import {ExerciseUnitComponent} from '../exercise-unit/exercise-unit.component';
 import {VideoUnitComponent} from '../video-unit/video-unit.component';
 import {GraphUnitComponent} from '../graph-unit/graph-unit.component';
+import { UnitService } from '../shared/unit.service';
 
 @Component({
   selector: 'app-info-unit',
@@ -25,9 +26,7 @@ export class InfoUnitComponent {
   @Input() graphUnit: GraphUnitComponent;
   @Input() videoUnit: VideoUnitComponent;
   formatting = {color: 'green', 'background-color': '#d0e9c6'};
-  input: any = '{\n "Cuando": "",\n \"Donde\": "",\n "Quien ": "",\n "Porqué": "",\n "Que": "",\n "Para que": "" \n}';
-
-  constructor(public dialog: MatDialog, private snackBar: MatSnackBar) {
+  constructor(public dialog: MatDialog, private snackBar: MatSnackBar, private unitService: UnitService) {
   }
 
   toArray(n: number): number[] {
@@ -99,28 +98,32 @@ export class InfoUnitComponent {
     }
   }
   saveUnitContent() {
+    console.log(this.unit.getContent());
     if (this.verify()) {
+      this.unitService.setContent(this.unit).subscribe();
       console.log('JSON BIEN');
     } else {
       console.log('JSON MAL');
     }
   }
   verify(): boolean {
+    let input: any = this.unit.getContent();
+
     try {
-      JSON.parse(this.input);
+      JSON.parse(input);
       return true;
     } catch (e) {
       this.snackBar.open(e.message, '', {
         duration: 5000
       });
       const eMesage: string[] = e.message.split(' ');
-      this.input = this.input.split('');
-      this.input.splice(Number(eMesage[eMesage.length - 1]) - 2, 0, '←');
+      input = input.split('');
+      input.splice(Number(eMesage[eMesage.length - 1]), 0, '←');
       let inputString = '';
-      this.input.forEach(element => {
+      input.forEach(element => {
         inputString += element;
       });
-      this.input = inputString;
+      this.unit.setContent(inputString);
       return false;
     }
   }

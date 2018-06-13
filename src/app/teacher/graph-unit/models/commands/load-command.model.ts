@@ -1,5 +1,5 @@
 import { Command } from './command.model';
-import { UnitService } from '../../services/unit.service';
+import { UnitService } from '../../../shared/unit.service';
 import { RelationService } from '../../services/relation.service';
 import { Lexical } from '../lexical.model';
 import { Observable } from 'rxjs/Observable';
@@ -15,9 +15,6 @@ export class LoadCommand extends Command {
     return new Observable(observer => {
       const file = (<HTMLInputElement>document.getElementById('file')).files[0];
       const reader = new FileReader();
-      if (file === undefined) {
-        alert('Olvidaste cargar el fichero de comandos');
-      } else {
         const lexical = new Lexical();
         reader.onload = function () {
           const lines = this.result.split('\n');
@@ -29,7 +26,6 @@ export class LoadCommand extends Command {
           observer.complete();
         };
         reader.readAsText(file);
-      }
     });
   }
 }
