@@ -30,7 +30,7 @@ body {
   }
   p.me {
     float: right;
-    background-color: #ff9a23;
+    background-color: #007BB2;
     color: white;
   }
   p.me::after {
@@ -40,7 +40,7 @@ body {
     bottom: 0;
     width: 0.5em;
     height: 1em;
-    border-left: 0.5em solid #ff9a23;
+    border-left: 0.5em solid #007BB2;
     border-bottom-left-radius: 1em 0.5em;
   }
   
