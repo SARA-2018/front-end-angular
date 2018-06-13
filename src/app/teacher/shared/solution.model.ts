@@ -1,4 +1,4 @@
-import { Justification } from './justification.model';
+import { Justification } from '../info-unit/models/justification.model';
 
 export class Solution {
     private _id: number;
