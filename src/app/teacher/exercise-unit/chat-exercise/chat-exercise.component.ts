@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Message } from './message-item/message.model';
 
 @Component({
   selector: 'app-chat-exercise',
@@ -9,6 +10,11 @@ import { Component } from '@angular/core';
 
 export class ChatExerciseComponent {
 
+  @Input('messages')
+  private messages: Message[] = [];
+
   constructor() {
+    this.messages.push(new Message('¡Bienvenido pringaete!'));
+    this.messages.push(new Message('Qué es lo que quieres?'));
   }
 }

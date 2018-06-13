@@ -19,6 +19,7 @@ import { ZoomableDirective } from './teacher/graph-unit/directives/zoomable.dire
 import { RelationService } from './teacher/graph-unit/services/relation.service';
 import { D3Service } from './teacher/graph-unit/services/d3.service';
 import { AppMaterialModule } from './app-material.module';
+import { MessageItemComponent } from './teacher/exercise-unit/chat-exercise/message-item/message-item.component';
 
 @NgModule({
   imports: [
@@ -40,6 +41,7 @@ import { AppMaterialModule } from './app-material.module';
     DraggableDirective,
     GraphComponent,
     LinkComponent,
+    MessageItemComponent,
     NodeComponent,
     UnitsNotRelatedComponent,
     ZoomableDirective,
