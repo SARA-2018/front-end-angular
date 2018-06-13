@@ -4,8 +4,8 @@
       <div class="layout-alignment"></div>
       <div fxLayout="row" fxLayoutGap="20px">
         <div fxFlex>
-          <mat-card class="view-exercise">
-            <textarea matInput placeholder="Exercise" ></textarea>
+          <mat-card>
+            <textarea matInput placeholder="Exercise" class="view-exercise"></textarea>
           </mat-card>
           <mat-action-row>
             <button mat-raised-button color="primary" class="button-content">Guardar</button>
@@ -13,7 +13,7 @@
         </div>
         <div fxFlex>
           <mat-card class="view-exercise">
-           <!-- VISOR DE EJERCICIOS-->
+           <app-chat-exercise></app-chat-exercise>
           </mat-card>
         </div>
       </div>
