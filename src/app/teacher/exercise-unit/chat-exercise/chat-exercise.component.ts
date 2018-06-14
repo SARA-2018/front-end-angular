@@ -3,6 +3,7 @@ import { Message } from './message/message.model';
 import { RolMessage } from './message/rol-message.enum';
 import { TrueOrFalseExercise } from './models/true-or-false-exercise.model';
 import {TextExercise} from './models/text-exercise.model';
+import { MultipleChoise } from './models/multiple-choise.model';
 
 @Component({
   selector: 'app-chat-exercise',
