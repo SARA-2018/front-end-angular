@@ -11,7 +11,11 @@
   height: 34em;
   width: 24em;
 }
-
+.view-exercise-chat {
+  display: flex;
+  height: 30em;
+  width: 24em;
+}
 .layout-alignment {
   min-height: 10px;
   padding-bottom: 10px;
