@@ -3,7 +3,7 @@
 </div>
 <div class="input">
     <mat-form-field class="example-form-field">
-        <input matInput type="text" placeholder="Escriba la respuesta" [(ngModel)]="text" />
+        <input matInput #box type="text" placeholder="Escriba la respuesta" [(ngModel)]="text" (keyup.enter)="send(text)"/>
     </mat-form-field>
     <button mat-fab (click)="send(text)">
         <mat-icon>send</mat-icon>
