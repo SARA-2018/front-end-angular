@@ -17,7 +17,7 @@ import { MessageTypeEnumerator } from './message/message-type-enum';
 export class ChatExerciseComponent {
 
   @Input('messages')
-  private messages: Message[] = [];
+  public messages: Message[] = [];
 
   constructor() {
 
