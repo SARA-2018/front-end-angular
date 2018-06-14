@@ -21,7 +21,7 @@ export class ChatExerciseComponent {
   constructor() {
     const TE: TextExercise = new TextExercise('{ "name":"¿En que año murio Cristobal Colon?", "solutions":[{ "text": "1506", "isCorrect": true, "justification": [] }]}');
     const TF: TrueOrFalseExercise = new TrueOrFalseExercise('{ "name":"Prueba", "solutions":[ { "text": "Solucion", "isCorrect": true, "justification": [] }, { "text": "Solucion2", "isCorrect": true, "justification": [] }] }');
-    const FE: FillExercise = new FillExercise('{ "name":"¿En que año murio __________ Colon?", "solutions":[ { "text": "Cristobal", "isCorrect": true, "justification": [] }, { "text": "Antonio", "isCorrect": false, "justification": [] }] }');
+    const FE: FillExercise = new FillExercise('{ "name":"¿En que año murio Cristobal Colon?", "solutions":[ { "text": "Cristobal", "isCorrect": true, "justification": [] }, { "text": "Antonio", "isCorrect": false, "justification": [] }] }');
     const MC: MultipleChoise = new MultipleChoise('{ "name":"Prueba", "solutions":[ { "text": "Solucion", "isCorrect": true, "justification": [] }, { "text": "Solucion2", "isCorrect": true, "justification": [] },{ "text": "Solucion3", "isCorrect": true, "justification": [] }, { "text": "Solucion4", "isCorrect": true, "justification": [] },{ "text": "Solucion5", "isCorrect": true, "justification": [] }, { "text": "Solucion6", "isCorrect": true, "justification": [] }] }');
 
     this.messages.push(new Message('¡Bienvenido pringaete!', RolMessage.TEACHER));
