@@ -16,6 +16,10 @@ export class Exercise extends Interaction {
         this.solutions.push(solution);
         return this;
     }
+    addArraySolution(solutions: Solution[]) {
+        this.solutions.concat(solutions);
+        return this;
+    }
     setId(id: number): Exercise {
         this._id = id;
         return this;
