@@ -1,8 +1,9 @@
-<blockquote class="chat">
-    <div>
-        <app-message-item *ngFor="let message of messages" [message]="message"></app-message-item>
-    </div>
-    <div class="enter-message">
-        <input type="text" placeholder="Enter your message.." /> Send
-    </div>
-</blockquote>
+<div class="chat">
+    <app-message-item *ngFor="let message of messages" [message]="message"></app-message-item>
+</div>
+<mat-form-field class="example-form-field">
+    <input matInput type="text" placeholder="Clearable input" [(ngModel)]="value" />
+    <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+        <mat-icon>close</mat-icon>
+    </button>
+</mat-form-field>
