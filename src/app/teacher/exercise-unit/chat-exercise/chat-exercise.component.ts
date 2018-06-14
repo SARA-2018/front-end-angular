@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { TextExercise } from './models/text-exercise.model';
-import { TrueOrFalseExercise } from './models/trueOrFalseExercise.model';
+import { TrueOrFalseExercise } from './models/true-or-false-exercise.model';
 import { FillExercise } from './models/fill-exercise.model';
 
 @Component({

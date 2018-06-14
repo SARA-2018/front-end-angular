@@ -11,6 +11,7 @@ export class TextExercise {
     this.exerciseJson = JSON.parse(json);
     this.exercise = new Exercise(this.exerciseJson.name);
     this.solution = this.pickSolution(this.exerciseJson.solutions);
+    this.exercise.addSolution(this.solution);
   }
 
   pickSolution(jsonSolution): Solution {
