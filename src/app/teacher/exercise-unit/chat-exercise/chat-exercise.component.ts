@@ -13,10 +13,10 @@ import { FillExercise } from './models/fill-exercise.model';
 export class ChatExerciseComponent {
 
   constructor() {
-     const exercise: TextExercise = new TextExercise('{ "name":"¿En que año murio Cristobal Colon?", "solutions":[{ "text": "ayer", "isCorrect": true, "justification": [] }]}');
+     const exercise: TextExercise = new TextExercise('{ "name":"¿En que año murio Cristobal Colon?", "solutions":[{ "text": "1506", "isCorrect": true, "justification": [] }]}');
 
      const TF: TrueOrFalseExercise = new TrueOrFalseExercise('{ "name":"Prueba", "solutions":[ { "text": "Solucion", "isCorrect": true, "justification": [] }, { "text": "Solucion2", "isCorrect": true, "justification": [] }] }');
 
-    const TF: FillExercise = new FillExercise('{ "name":"Prueba", "solutions":[ { "text": "Solucion", "isCorrect": true, "justification": [] }, { "text": "Solucion2", "isCorrect": true, "justification": [] }] }');
+    const TF: FillExercise = new FillExercise('{ "name":"¿En que año murio __________ Colon?", "solutions":[ { "text": "Cristobal", "isCorrect": true, "justification": [] }, { "text": "Antonio", "isCorrect": false, "justification": [] }] }');
   }
 }

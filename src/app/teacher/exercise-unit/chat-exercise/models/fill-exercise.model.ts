@@ -11,11 +11,34 @@ export class FillExercise {
     this.exerciseJson = JSON.parse(json);
     this.exercise = new Exercise(this.exerciseJson.name);
     this.solution = this.pickSolution(this.exerciseJson.solutions);
+    this.exercise.addSolution(this.solution);
   }
 
   pickSolution(jsonSolution): Solution {
-    console.log(jsonSolution[0]);
-    return new Solution(jsonSolution.text, jsonSolution.isCorrect);
+    console.log(jsonSolution[this.getRandom(0, jsonSolution.length ) - 1]);
+    console.log(this.getRandom(0, jsonSolution.length ) - 1);
+    const solutionChoose = jsonSolution[this.getRandom(0, jsonSolution.length)];
+    return new Solution(solutionChoose.text, solutionChoose.isCorrect );
+  }
+  getRandom(min, max) {
+    return Math.round(Math.random() * (max - min) + min);
+  }
+  checkIsCorrect(response: string): boolean {
+    if ( response === 'Verdadero' ) {
+      if (this.solution.getIsCorrect) {
+        return true;
+      } else {
+        return false;
+      }
+    } else if ( response === 'False') {
+      if (!this.solution.getIsCorrect) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
   }
 
 }
