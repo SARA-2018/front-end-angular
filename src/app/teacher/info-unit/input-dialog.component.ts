@@ -8,4 +8,8 @@ export class InputDialogComponent {
   constructor(public dialogRef: MatDialogRef<InputDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {
 
   }
+
+  close(data: any) {
+    this.dialogRef.close(data);
+  }
 }
