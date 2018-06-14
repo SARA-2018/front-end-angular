@@ -1,13 +1,15 @@
 import { RolMessage } from './rol-message.enum';
-
+import { MessageTypeEnumerator } from './message-type-enum';
 export class Message {
 
-    private text: string;
-    private rol: RolMessage;
+    text: string;
+    rol: RolMessage;
+    type: MessageTypeEnumerator;
 
-    constructor(text: string, rol: RolMessage) {
+    constructor(text: string, rol: RolMessage, type: MessageTypeEnumerator) {
         this.text = text;
         this.rol = rol;
+        this.type = type;
     }
 
     getText(): string {
@@ -16,5 +18,8 @@ export class Message {
 
     getRol(): RolMessage {
         return this.rol;
+    }
+    getType(): MessageTypeEnumerator {
+        return this.type;
     }
 }
