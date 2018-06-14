@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TrueOrFalseExercise } from './models/trueOrFalseExercise.model';
+import { TrueOrFalseExercise } from './models/true-or-false-exercise.model';
 
 @Component({
   selector: 'app-chat-exercise',
