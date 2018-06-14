@@ -1,5 +1,5 @@
-<div class="chat">
-    <app-message *ngFor="let message of messages" [message]="message"></app-message>
+<div #list class="chat" [scrollTop]="list.scrollHeight">
+    <app-message *ngFor="let message of messages.slice().reverse()" [message]="message"></app-message>
 </div>
 <div class="input">
     <mat-form-field class="example-form-field">
