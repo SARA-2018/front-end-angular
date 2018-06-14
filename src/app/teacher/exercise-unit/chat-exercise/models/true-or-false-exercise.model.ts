@@ -14,7 +14,7 @@ export class TrueOrFalseExercise {
         // this.generateExercise(this.solutions);
     }
     pickSolution(jsonSolution): Solution {
-        console.log(jsonSolution[this.getRandom(0, jsonSolution.length )]);
+        console.log(jsonSolution[this.getRandom(0, jsonSolution.length ) - 1]);
         const solutionChoose = jsonSolution[this.getRandom(0, jsonSolution.length)];
         return new Solution(solutionChoose.text, solutionChoose.isCorrect );
     }
