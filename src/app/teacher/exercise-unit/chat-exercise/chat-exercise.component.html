@@ -1,9 +1,11 @@
 <div class="chat">
     <app-message-item *ngFor="let message of messages" [message]="message"></app-message-item>
 </div>
-<mat-form-field class="example-form-field">
-    <input matInput type="text" placeholder="Clearable input" [(ngModel)]="value" />
-    <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
-        <mat-icon>close</mat-icon>
+<div class="input">
+    <mat-form-field class="example-form-field">
+        <input matInput type="text" placeholder="Escriba la respuesta" [(ngModel)]="text" />
+    </mat-form-field>
+    <button mat-fab (click)="send(text)">
+        <mat-icon>send</mat-icon>
     </button>
-</mat-form-field>
+</div>

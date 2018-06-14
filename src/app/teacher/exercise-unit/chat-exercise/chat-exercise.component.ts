@@ -20,4 +20,8 @@ export class ChatExerciseComponent {
     this.messages.push(new Message('¿Sabe usted qué es lo que quiero?', RolMessage.TEACHER));
     this.messages.push(new Message('¡¡ LA TARJETA DEL HORMIGUERO !!', RolMessage.STUDENT));
   }
+
+  send(text: string) {
+    this.messages.push(new Message(text, RolMessage.STUDENT));
+  }
 }
