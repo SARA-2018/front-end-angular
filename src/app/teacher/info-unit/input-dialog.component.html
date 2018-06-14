@@ -2,7 +2,7 @@
   <h3 mat-dialog-title>¿{{data.message}}?</h3>
   <mat-form-field>
     <label>
-      <input matInput [(ngModel)]="data.name" cdkFocusInitial>
+      <input matInput #box [(ngModel)]="data.name" (keyup.enter)="close(data.name)" cdkFocusInitial >
     </label>
   </mat-form-field>
 </div>
