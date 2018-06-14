@@ -15,8 +15,17 @@ export class TextExercise {
   }
 
   pickSolution(jsonSolution): Solution {
-    console.log(jsonSolution[0]);
-    return new Solution(jsonSolution.text, jsonSolution.isCorrect);
+    const solution = jsonSolution[0];
+    return new Solution(solution.text, solution.isCorrect);
   }
 
+  checkCorrect(response: string): boolean {
+    let isCorrect = true;
+    if ( response === this.solution.getText()) {
+      isCorrect = true;
+    } else {
+      isCorrect = false;
+    }
+    return isCorrect;
+  }
 }
