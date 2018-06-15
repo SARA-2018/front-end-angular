@@ -18,6 +18,7 @@ import { GraphComponent } from '../app/teacher/graph-unit/views/graph/graph.comp
 import { NodeComponent } from '../app/teacher/graph-unit/views/graph/node/node.component';
 import { UnitsNotRelatedComponent } from '../app/teacher/graph-unit/views/units-not-related/units-not-related.component';
 import { ZoomableDirective } from '../app/teacher/graph-unit/directives/zoomable.directive';
+import { MessageComponent } from '../app/teacher/exercise-unit/chat-exercise/message/message.component';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -42,6 +43,7 @@ describe('AppComponent', () => {
         GraphComponent,
         LinkComponent,
         NodeComponent,
+        MessageComponent,
         UnitsNotRelatedComponent,
         ZoomableDirective,
       ],

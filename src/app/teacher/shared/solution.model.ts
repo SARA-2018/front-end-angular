@@ -1,4 +1,4 @@
-import { Justification } from '../info-unit/models/justification.model';
+import { Justification } from '../shared/justification.model';
 
 export class Solution {
     private _id: number;
@@ -35,5 +35,9 @@ export class Solution {
     }
     getJustifications(): Justification[] {
         return this.justifications;
+    }
+
+    addJustification(justification: Justification) {
+        this.justifications.push(justification);
     }
 }
