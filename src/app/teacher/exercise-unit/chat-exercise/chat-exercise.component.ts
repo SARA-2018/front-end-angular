@@ -5,6 +5,7 @@ import { Exercise } from '../../shared/exercise.model';
 import { Solution } from '../../shared/solution.model';
 import { Justification } from '../../shared/justification.model';
 import { MessageTypeEnumerator } from './message/message-type-enum';
+import {FillExercise} from './models/fill-exercise.model';
 
 @Component({
   selector: 'app-chat-exercise',
@@ -29,8 +30,9 @@ export class ChatExerciseComponent implements OnInit {
 
   ngOnInit() {
     // GET Peticion
-    const json = '{ "name":"Prueba", "solutions":[ { "text": "Solucion", "isCorrect": true, "justifications": [ {"text": " Justificacion1", "isCorrect": true}, {"text": " Justificacion2", "isCorrect": true} ] }, { "text": "Solucion2", "isCorrect": true, "justifications": [ ] },{ "text": "Solucion3", "isCorrect": true, "justifications": [ ] }, { "text": "Solucion4", "isCorrect": true, "justifications": [ ] },{ "text": "Solucion5", "isCorrect": true, "justifications": [ ] }, { "text": "Solucion6", "isCorrect": true, "justifications": [ ] }] }';
+    const json = '{ "name":"¿En que año murio Cristobal Colon?", "solutions":[ { "text": "Solucion", "isCorrect": true, "justifications": [ {"text": " Justificacion1", "isCorrect": true}, {"text": " Justificacion2", "isCorrect": true} ] }, { "text": "Solucion2", "isCorrect": true, "justifications": [ ] },{ "text": "Solucion3", "isCorrect": true, "justifications": [ ] }, { "text": "Solucion4", "isCorrect": true, "justifications": [ ] },{ "text": "Solucion5", "isCorrect": true, "justifications": [ ] }, { "text": "Solucion6", "isCorrect": true, "justifications": [ ] }] }';
     this.createModels(json);
+    const FE: FillExercise = new FillExercise(this.exercise);
   }
 
   createModels(json: string) {
