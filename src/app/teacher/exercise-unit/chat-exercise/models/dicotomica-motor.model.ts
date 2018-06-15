@@ -19,9 +19,9 @@ export class TrueOrFalseExercise {
     }
     handResponse(studentSolution: Solution[]): string[] {
         if (this.verifyResponse(studentSolution)) {
-            return 'Muy bien maquina';
+            return ['Muy bien maquina', 'Sigue así'];
         } else {
-            return 'Ufff, te has equivocado';
+            return ['Ufff, te has equivocado', 'Pero no te desanimes, sigue intentandolo'];
         }
     }
     verifyResponse(studentSolution: Solution[]): boolean {
