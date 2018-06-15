@@ -1,5 +1,12 @@
 <blockquote class="chat">
-    <p [ngClass]="message.getRol()">
+    <p [ngClass]="message.getRol()" *ngIf="message.getType() == 'TEXT'" >
         {{message.getText()}}
     </p>
+    <p [ngClass]="message.getRol()" *ngIf="message.getType() == 'URL'" >
+        <a href={{message.getText()}}>{{message.getText()}}</a>
+    </p>
+    <p [ngClass]="message.getRol()" *ngIf="message.getType() == 'IMAGE'">
+        <img src="https://www.w3schools.com/html/pic_trulli.jpg">
+    </p>
+
 </blockquote>

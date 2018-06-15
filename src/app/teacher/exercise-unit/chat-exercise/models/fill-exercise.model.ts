@@ -5,14 +5,32 @@ export class FillExercise {
 
   private exercise: Exercise;
   private exerciseJson;
-  private solutions: Solution[];
-  NUMBER_OF_SOLUTION = 5;
+  private readonly solutions: Solution[];
+  private NUMBER_OF_SOLUTION: Number = 5;
+  private TAG_STATEMENT: Number = 4;
+  private options = [];
 
   constructor(json: string) {
     this.exerciseJson = JSON.parse(json);
-    this.exercise = new Exercise(this.exerciseJson.name);
+    this.exercise = this.fillStatement(this.exerciseJson.name);
     this.solutions = this.pickSolution(this.exerciseJson.solutions);
     this.exercise.addArraySolution(this.solutions);
+  }
+
+  fillStatement(statement: string): Exercise {
+    const statementArray = statement.split(' ');
+    for ( let i = 0; i < statementArray.length; i++) {
+      if (statementArray[i].length >= this.TAG_STATEMENT) {
+        this.options.push(i);
+      }
+    }
+    const indexStatement = this.options[this.getRandom(0, this.options.length - 1)];
+    statementArray[indexStatement] = '_______';
+    statement = '';
+    for (let i = 0; i < statementArray.length; i++) {
+      statement += statementArray[i].concat(' ');
+    }
+   return new Exercise (statement);
   }
 
   pickSolution(jsonSolution): Solution[] {
@@ -23,6 +41,7 @@ export class FillExercise {
     }
     return solutionArray;
   }
+
   getRandom(min, max) {
     return Math.round(Math.random() * (max - min) + min);
   }

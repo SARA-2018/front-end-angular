@@ -1,11 +1,11 @@
-<div #list class="chat" [scrollTop]="list.scrollHeight">
+<mat-card #list class="chat">
     <app-message *ngFor="let message of messages.slice().reverse()" [message]="message"></app-message>
-</div>
-<div class="input">
-    <mat-form-field class="example-form-field">
-        <input matInput #box type="text" placeholder="Escriba la respuesta" [(ngModel)]="text" (keyup.enter)="send(text)"/>
+</mat-card>
+<mat-card class="input">
+    <mat-form-field class="infix">
+        <input matInput #box type="text" placeholder="Escriba la respuesta" [(ngModel)]="box.value" (keyup.enter)="send(box.value)"/>
     </mat-form-field>
-    <button mat-fab (click)="send(text)">
+    <button mat-mini-fab (click)="send(box.value)">
         <mat-icon>send</mat-icon>
     </button>
-</div>
+</mat-card>
