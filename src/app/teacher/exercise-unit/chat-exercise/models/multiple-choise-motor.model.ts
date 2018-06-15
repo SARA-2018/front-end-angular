@@ -5,15 +5,17 @@ import { ExerciseMotor } from './exercise-motor.model';
 export class MultipleChoiseMotor extends ExerciseMotor {
 
     exercise: Exercise;
+    overcome: boolean;
 
     constructor(exercise: Exercise) {
         super();
         this.exercise = exercise;
+        this.overcome = false;
     }
 
     handMessage(): string[] {
         const response: string[] = [];
-        response.push('Indica cuál de las siguientes afirmaciones es cierta: ');
+        response.push('Indica cuáles de las siguientes afirmaciones son correctas: ');
         for (let i = 0; i < this.exercise.getSolutions().length; i++) {
             response.push(i + 1 + ' - ' + this.exercise.getSolutions()[i].getText());
         }
@@ -27,6 +29,7 @@ export class MultipleChoiseMotor extends ExerciseMotor {
         } else {
             response.push('Oh lo siento.. Pero no has acertado el ejercicio.');
         }
+        this.overcome = true;
         return response;
     }
 
@@ -37,5 +40,9 @@ export class MultipleChoiseMotor extends ExerciseMotor {
             }
         }
         return true;
+    }
+
+    getOvercome(): boolean {
+        return this.overcome;
     }
 }

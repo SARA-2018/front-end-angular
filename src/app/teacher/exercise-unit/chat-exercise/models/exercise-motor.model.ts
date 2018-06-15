@@ -8,4 +8,5 @@ export abstract class ExerciseMotor {
 
     abstract verifyResponse(studentSolution: Solution[]): boolean;
 
+    abstract getOvercome(): boolean;
 }

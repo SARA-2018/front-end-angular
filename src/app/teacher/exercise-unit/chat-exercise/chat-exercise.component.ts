@@ -5,12 +5,15 @@ import { Exercise } from '../../shared/exercise.model';
 import { Solution } from '../../shared/solution.model';
 import { Justification } from '../../shared/justification.model';
 import { MessageTypeEnumerator } from './message/message-type-enum';
+import { WelcomeMotor } from './models/welcome-motor.model';
+import { TextMotor } from './models/text-motor.model';
+import { MultipleChoiseMotor } from './models/multiple-choise-motor.model';
+import { ExerciseMotor } from './models/exercise-motor.model';
 
 @Component({
   selector: 'app-chat-exercise',
   templateUrl: 'chat-exercise.component.html',
   styleUrls: ['chat-exercise.component.css']
-
 })
 
 export class ChatExerciseComponent implements OnInit {
@@ -18,18 +21,16 @@ export class ChatExerciseComponent implements OnInit {
   @Input('messages')
   public messages: Message[] = [];
   private exercise: Exercise;
+  private exerciseMotor: ExerciseMotor;
 
   constructor() {
-
-    this.messages.push(new Message('¡Hola Pelidiosa!', RolMessage.TEACHER, MessageTypeEnumerator.TEXT));
-    this.messages.push(new Message('Qué es lo que quieres?', RolMessage.STUDENT, MessageTypeEnumerator.TEXT));
-    this.messages.push(new Message('¿Sabe usted qué es lo que quiero?', RolMessage.TEACHER, MessageTypeEnumerator.TEXT));
-    this.messages.push(new Message('https://www.w3schools.com/html/pic_trulli.jpg', RolMessage.STUDENT, MessageTypeEnumerator.IMAGE));
   }
 
   ngOnInit() {
+    const welcome = new WelcomeMotor();
+    this.print(welcome.welcomeMessage());
     // GET Peticion
-    const json = '{ "name":"Prueba", "solutions":[ { "text": "Solucion", "isCorrect": true, "justifications": [ {"text": " Justificacion1", "isCorrect": true}, {"text": " Justificacion2", "isCorrect": true} ] }, { "text": "Solucion2", "isCorrect": true, "justifications": [ ] },{ "text": "Solucion3", "isCorrect": true, "justifications": [ ] }, { "text": "Solucion4", "isCorrect": true, "justifications": [ ] },{ "text": "Solucion5", "isCorrect": true, "justifications": [ ] }, { "text": "Solucion6", "isCorrect": true, "justifications": [ ] }] }';
+    const json = '{ "name":"¿Cuándo se descubrió América ?", "solutions":[ { "text": "2018", "isCorrect": false, "justifications": [ {"text": " Justificacion1", "isCorrect": true}, {"text": " Justificacion2", "isCorrect": true} ] }, { "text": "1492 ", "isCorrect": true, "justifications": [ ] },{ "text": "No se ha descubierto", "isCorrect": false, "justifications": [ ] }, { "text": "1742", "isCorrect": false, "justifications": [ ] },{ "text": "Solucion5", "isCorrect": true, "justifications": [ ] }, { "text": "Solucion6", "isCorrect": true, "justifications": [ ] }] }';
     this.createModels(json);
   }
 
@@ -48,9 +49,51 @@ export class ChatExerciseComponent implements OnInit {
         this.exercise.addSolution(solution);
       }
     }
+    this.generateExerciseTextMotor();
+  }
+
+  nextExercise() {
+    if (this.exerciseMotor.getOvercome()) {
+      if (this.exerciseMotor instanceof TextMotor) {
+        this.generateExerciseMultipleMotor();
+      }
+    }
+  }
+
+  generateExerciseMultipleMotor() {
+    const text = new MultipleChoiseMotor(this.exercise);
+    this.exerciseMotor = text;
+    this.print(text.handMessage());
+    /*const sol = '2,5,6';
+    const res = sol.split(',');
+    const solutions: Solution[] = [];
+    for (let i = 0; i < this.exercise.getSolutions().length; i++) {
+      solutions.push(new Solution(this.exercise.getSolutions()[i].getText(), false));
+    }
+    for (const r of res) {
+      solutions[Number(r) - 1].setIsCorrect(true);
+    }
+    this.print(text.handResponse(solutions));
+    */
+  }
+
+  generateExerciseTextMotor() {
+    const textMotor = new TextMotor(this.exercise);
+    this.exerciseMotor = textMotor;
+    this.print(this.exerciseMotor.handMessage());
   }
 
   send(text: string) {
     this.messages.push(new Message(text, RolMessage.STUDENT, MessageTypeEnumerator.TEXT));
+    const studentSolution: Solution[] = [];
+    studentSolution.push(new Solution(text, false));
+    this.print(this.exerciseMotor.handResponse(studentSolution));
+    this.nextExercise();
+  }
+
+  print(strings: string[]) {
+    for (const string of strings) {
+      this.messages.push(new Message(string, RolMessage.TEACHER, MessageTypeEnumerator.TEXT));
+    }
   }
 }
