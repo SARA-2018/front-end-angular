@@ -4,7 +4,6 @@ import { ExerciseMotor } from './exercise-motor.model';
 
 export class TextMotor extends ExerciseMotor {
 
-  private exercise: Exercise;
   private overcome: boolean;
 
   constructor (exercise: Exercise) {

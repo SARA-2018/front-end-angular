@@ -1,6 +1,9 @@
 import { Solution } from '../../../shared/solution.model';
+import { Exercise } from '../../../shared/exercise.model';
 
 export abstract class ExerciseMotor {
+
+    exercise: Exercise;
 
     abstract handMessage(): string[];
 
@@ -9,4 +12,9 @@ export abstract class ExerciseMotor {
     abstract verifyResponse(studentSolution: Solution[]): boolean;
 
     abstract getOvercome(): boolean;
+
+    getExercise(): Exercise {
+        return this.exercise;
+    }
+
 }
