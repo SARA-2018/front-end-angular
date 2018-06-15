@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Message } from './message/message.model';
 import { RolMessage } from './message/rol-message.enum';
+
 import { Exercise } from '../../shared/exercise.model';
 import { Solution } from '../../shared/solution.model';
 import { Justification } from '../../shared/justification.model';

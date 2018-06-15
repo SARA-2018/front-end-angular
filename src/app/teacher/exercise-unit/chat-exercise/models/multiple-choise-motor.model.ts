@@ -1,36 +1,41 @@
 import { Solution } from '../../../shared/solution.model';
 import { Exercise } from '../../../shared/exercise.model';
+import { ExerciseMotor } from './exercise-motor.model';
 
-export class MultipleChoise {
-    objJson;
+export class MultipleChoiseMotor extends ExerciseMotor {
+
     exercise: Exercise;
-    solutions: Solution[];
-    NUMBER_OF_SOLUTION = 5;
-    constructor(json: string) {
-        this.objJson = JSON.parse(json);
-        this.exercise = new Exercise(this.objJson.name);
-        this.solutions = this.pickSolution(this.objJson.solutions);
-        this.exercise.addArraySolution(this.solutions);
+
+    constructor(exercise: Exercise) {
+        super();
+        this.exercise = exercise;
     }
-    pickSolution(jsonSolution): Solution[] {
-        const solutionArray: Solution[] = [];
-        for ( let i = 0; i < this.NUMBER_OF_SOLUTION; i++) {
-            const solutionChoose = jsonSolution[this.getRandom(0, jsonSolution.length - 1)];
-            solutionArray.push(new Solution(solutionChoose.text, solutionChoose.isCorrect ));
+
+    handMessage(): string[] {
+        const response: string[] = [];
+        response.push('Indica cuál de las siguientes afirmaciones es cierta: ');
+        for (let i = 0; i < this.exercise.getSolutions().length; i++) {
+            response.push(i + 1 + ' - ' + this.exercise.getSolutions()[i].getText());
         }
-        return solutionArray;
+        return response;
     }
-    getRandom(min, max) {
-        return Math.round(Math.random() * (max - min) + min);
+
+    handResponse(studentSolutions: Solution[]): string[] {
+        const response: string[] = [];
+        if (this.verifyResponse(studentSolutions)) {
+            response.push('¡Genial! ¡Has acertado el ejercicio!');
+        } else {
+            response.push('Oh lo siento.. Pero no has acertado el ejercicio.');
+        }
+        return response;
     }
-    checkIstrue(solutionIndex: number[]): boolean {
-        let isCorrect = true;
-        for ( let i = 0; i < solutionIndex.length; i++) {
-            if (!this.solutions[solutionIndex[i]].getIsCorrect()) {
-                isCorrect = false;
+
+    verifyResponse(studentSolutions: Solution[]): boolean {
+        for (let i = 0; i < studentSolutions.length; i++) {
+            if (studentSolutions[i].getIsCorrect() !== this.exercise.getSolutions()[i].getIsCorrect()) {
+                return false;
             }
         }
-        return isCorrect;
+        return true;
     }
-
 }
