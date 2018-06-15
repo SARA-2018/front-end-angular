@@ -34,8 +34,6 @@ export class ChatExerciseComponent implements OnInit {
     // GET Peticion
     const json = '{ "name":"¿Cuándo se descubrió América ?", "solutions":[ { "text": "2018", "isCorrect": false, "justifications": [ {"text": " Justificacion1", "isCorrect": true}, {"text": " Justificacion2", "isCorrect": true} ] }, { "text": "1492 ", "isCorrect": true, "justifications": [ ] },{ "text": "No se ha descubierto", "isCorrect": false, "justifications": [ ] }, { "text": "1742", "isCorrect": false, "justifications": [ ] },{ "text": "Solucion5", "isCorrect": true, "justifications": [ ] }, { "text": "Solucion6", "isCorrect": true, "justifications": [ ] }] }';
     this.createModels(json);
-    const dicotomic: DicotomicMotor = new DicotomicMotor(this.exercise);
-    console.log(dicotomic.handMessage());
   }
 
   createModels(json: string) {
@@ -59,9 +57,17 @@ export class ChatExerciseComponent implements OnInit {
   nextExercise() {
     if (this.exerciseMotor.getOvercome()) {
       if (this.exerciseMotor instanceof TextMotor) {
+        this.generateDicotomicMotor();
+      } else if (this.exerciseMotor instanceof DicotomicMotor) {
         this.generateExerciseMultipleMotor();
       }
     }
+  }
+
+  generateDicotomicMotor() {
+    const motor = new DicotomicMotor(this.exercise);
+    this.exerciseMotor = motor;
+    this.print(motor.handMessage());
   }
 
   generateExerciseMultipleMotor() {

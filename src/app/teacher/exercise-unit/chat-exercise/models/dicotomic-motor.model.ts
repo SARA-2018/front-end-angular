@@ -6,10 +6,12 @@ export class DicotomicMotor extends ExerciseMotor {
     objJson;
     solution: Solution;
     solutionId: number;
+    overcome: boolean;
 
     constructor(exercise: Exercise) {
         super();
         this.exercise = exercise;
+        this.overcome = false;
         this.solution = exercise.getSolutions()[this.getRandom(0, this.exercise.getSolutions().length - 1 )];
     }
     private getRandom(min, max) {
@@ -20,6 +22,7 @@ export class DicotomicMotor extends ExerciseMotor {
         return ['Por favor, responde [V]erdadero o [F]also a la siguiente cuestión', this.solution.getText()];
     }
     handResponse(studentSolution: Solution[]): string[] {
+        this.overcome = true;
         if (this.verifyResponse(studentSolution)) {
             return ['Muy bien maquina', 'Sigue así'];
         } else {
@@ -33,5 +36,9 @@ export class DicotomicMotor extends ExerciseMotor {
         } else {
             return false;
         }
+    }
+
+    getOvercome(): boolean {
+        return this.overcome;
     }
 }
