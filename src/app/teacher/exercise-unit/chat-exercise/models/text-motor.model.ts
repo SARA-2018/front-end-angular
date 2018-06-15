@@ -23,7 +23,7 @@ export class TextMotor extends ExerciseMotor {
     return response;
   }
 
-  verifyResponse(studentSolution: Solution): boolean {
-    return studentSolution.getText() === this.exercise.getFormulation();
+  verifyResponse(studentSolution: Solution[]): boolean {
+    return studentSolution[0].getText() === this.exercise.getFormulation();
   }
 }
