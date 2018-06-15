@@ -12,7 +12,7 @@ export class DicotomicMotor extends ExerciseMotor {
         this.exercise = exercise;
         this.solution = exercise.getSolutions()[this.getRandom(0, this.exercise.getSolutions().length - 1 )];
     }
-    getRandom(min, max) {
+    private getRandom(min, max) {
         return Math.round(Math.random() * (max - min) + min);
     }
 
