@@ -1,12 +1,14 @@
 import { Solution } from '../../../shared/solution.model';
 import { Exercise } from '../../../shared/exercise.model';
+import { ExerciseMotor } from './exercise-motor.model';
 
-export class TrueOrFalseExercise {
+export class DicotomicMotor extends ExerciseMotor {
     objJson;
     exercise: Exercise;
     solution: Solution;
 
     constructor(exercise: Exercise) {
+        super();
         this.exercise = exercise;
         this.solution = exercise.getSolutions()[this.getRandom(0, this.exercise.getSolutions().length - 1 )];
     }
