@@ -4,8 +4,6 @@ import { ExerciseMotor } from './exercise-motor.model';
 
 export class TextMotor extends ExerciseMotor {
 
-  private exercise: Exercise;
-
   constructor (exercise: Exercise) {
     super();
     this.exercise = exercise;

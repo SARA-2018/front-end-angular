@@ -4,8 +4,8 @@ import { ExerciseMotor } from './exercise-motor.model';
 
 export class DicotomicMotor extends ExerciseMotor {
     objJson;
-    exercise: Exercise;
     solution: Solution;
+    solutionId: number;
 
     constructor(exercise: Exercise) {
         super();
@@ -23,6 +23,7 @@ export class DicotomicMotor extends ExerciseMotor {
         if (this.verifyResponse(studentSolution)) {
             return ['Muy bien maquina', 'Sigue así'];
         } else {
+            this.exercise.addFail();
             return ['Ufff, te has equivocado', 'Pero no te desanimes, sigue intentandolo'];
         }
     }
@@ -33,5 +34,4 @@ export class DicotomicMotor extends ExerciseMotor {
             return false;
         }
     }
-
 }

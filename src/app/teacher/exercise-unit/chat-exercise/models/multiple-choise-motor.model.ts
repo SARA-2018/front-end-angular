@@ -4,8 +4,6 @@ import { ExerciseMotor } from './exercise-motor.model';
 
 export class MultipleChoiseMotor extends ExerciseMotor {
 
-    exercise: Exercise;
-
     constructor(exercise: Exercise) {
         super();
         this.exercise = exercise;
@@ -25,6 +23,7 @@ export class MultipleChoiseMotor extends ExerciseMotor {
         if (this.verifyResponse(studentSolutions)) {
             response.push('¡Genial! ¡Has acertado el ejercicio!');
         } else {
+            this.exercise.addFail();
             response.push('Oh lo siento.. Pero no has acertado el ejercicio.');
         }
         return response;
