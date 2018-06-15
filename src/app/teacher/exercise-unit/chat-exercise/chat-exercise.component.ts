@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Message } from './message/message.model';
 import { RolMessage } from './message/rol-message.enum';
-import { TrueOrFalseExercise } from './models/true-or-false-exercise.model';
+import { TrueOrFalseExercise } from './models/dicotomica-motor.model';
 import { TextExercise} from './models/text-exercise.model';
 import { MultipleChoise } from './models/multiple-choise.model';
 import { FillExercise} from './models/fill-exercise.model';
