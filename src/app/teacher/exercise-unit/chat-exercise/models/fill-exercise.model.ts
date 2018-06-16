@@ -45,6 +45,7 @@ export class FillExercise extends ExerciseMotor {
     if (this.verifyResponse(studentSolutions)) {
       response.push('¡Genial! ¡Has acertado el ejercicio!');
     } else {
+      this.exercise.addFail();
       response.push('Oh lo siento.. Pero no has acertado el ejercicio.');
     }
     console.log(response);
