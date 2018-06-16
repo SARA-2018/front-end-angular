@@ -6,7 +6,7 @@ import { Exercise } from '../../shared/exercise.model';
 import { Solution } from '../../shared/solution.model';
 import { Justification } from '../../shared/justification.model';
 import { MessageTypeEnumerator } from './message/message-type-enum';
-import {FillExercise} from './models/fill-exercise.model';
+import { DicotomicMotor } from './models/dicotomic-motor.model';
 
 @Component({
   selector: 'app-chat-exercise',
@@ -33,6 +33,8 @@ export class ChatExerciseComponent implements OnInit {
     // GET Peticion
     const json = '{ "name":"Completa la frase", "solutions":[ { "text": "Cristobal Colon fue un héroe", "isCorrect": true, "justifications": [ {"text": " Justificacion1", "isCorrect": true}, {"text": " Justificacion2", "isCorrect": true} ] }, { "text": "Cristobal Colon fue un héroe", "isCorrect": true, "justifications": [ ] },{ "text": "Antonio Colon", "isCorrect": false, "justifications": [ ] }, { "text": "Cristobal Colon fue un héroe", "isCorrect": true, "justifications": [ ] },{ "text": "Cristobal Colon fue un héroe", "isCorrect": true, "justifications": [ ] }, { "text": "Cristobal Colon fue un héroe", "isCorrect": true, "justifications": [ ] }] }';
     this.createModels(json);
+    const dicotomic: DicotomicMotor = new DicotomicMotor(this.exercise);
+    console.log(dicotomic.handMessage());
   }
 
   createModels(json: string) {
