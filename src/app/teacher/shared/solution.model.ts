@@ -5,6 +5,7 @@ export class Solution {
     private isCorrect: boolean;
     private text: string;
     private justifications: Justification[];
+    private keyWord: string;
 
     constructor(text: string, isCorrect: boolean) {
         this.text = text;
@@ -36,8 +37,13 @@ export class Solution {
     getJustifications(): Justification[] {
         return this.justifications;
     }
-
     addJustification(justification: Justification) {
         this.justifications.push(justification);
+    }
+    getKeyWord(): string {
+      return this.keyWord;
+    }
+    setKeyWord(keyWord: string) {
+      this.keyWord = keyWord;
     }
 }
