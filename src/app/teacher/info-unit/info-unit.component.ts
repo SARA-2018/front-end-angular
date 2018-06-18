@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Unit } from '../graph-unit/models/unit.model';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { InputDialogComponent } from './input-dialog.component';
@@ -6,10 +6,13 @@ import { Itinerary } from './models/itinerary.model';
 import { Session } from './models/session.model';
 import { Formation } from './models/formation.model';
 import { Lesson } from './models/lesson.model';
-import {ExerciseUnitComponent} from '../exercise-unit/exercise-unit.component';
-import {VideoUnitComponent} from '../video-unit/video-unit.component';
-import {GraphUnitComponent} from '../graph-unit/graph-unit.component';
+import { ExerciseUnitComponent } from '../exercise-unit/exercise-unit.component';
+import { VideoUnitComponent } from '../video-unit/video-unit.component';
+import { GraphUnitComponent } from '../graph-unit/graph-unit.component';
 import { UnitService } from '../shared/unit.service';
+import { ItineraryService } from './services/itinerary.service';
+import { SessionService } from './services/session.service';
+import { LessonService } from './services/lesson.service';
 
 @Component({
   selector: 'app-info-unit',
@@ -25,12 +28,11 @@ export class InfoUnitComponent {
   @Input() exerciseUnit: ExerciseUnitComponent;
   @Input() graphUnit: GraphUnitComponent;
   @Input() videoUnit: VideoUnitComponent;
-  formatting = {color: 'green', 'background-color': '#d0e9c6'};
-  constructor(public dialog: MatDialog, private snackBar: MatSnackBar, private unitService: UnitService) {
-  }
 
-  toArray(n: number): number[] {
-    return Array(n);
+  constructor(public dialog: MatDialog, private snackBar: MatSnackBar, private unitService: UnitService,
+    private  sessionService: SessionService,
+    private lessonService: LessonService,
+    private itineraryService: ItineraryService) {
   }
 
   addLesson(itineraryIndex: number, sessionIndex: number) {
@@ -40,6 +42,7 @@ export class InfoUnitComponent {
       result => {
         if (result) {
           const lesson: Lesson = new Lesson(result);
+          this.lessonService.create(lesson).subscribe();
           const formationArray: Formation[] = this.itinerarys[itineraryIndex].getFormations();
           const session: Session = <Session>formationArray[sessionIndex];
           const lessonArray: Lesson[] = session.getLessons();
@@ -58,6 +61,7 @@ export class InfoUnitComponent {
       result => {
         if (result) {
           const session: Session = new Session(result);
+          this.sessionService.create(session).subscribe();
           const formationArray: Formation[] = this.itinerarys[itineraryIndex].getFormations();
           formationArray.push(<Formation>session);
           this.itinerarys[itineraryIndex].setFormations(formationArray);
@@ -75,6 +79,7 @@ export class InfoUnitComponent {
           const itinerary: Itinerary = new Itinerary();
           itinerary.setName(result);
           this.itinerarys.push(itinerary);
+          this.itineraryService.create(itinerary).subscribe();
         }
       }
     );
@@ -98,12 +103,12 @@ export class InfoUnitComponent {
     }
   }
   saveUnitContent() {
-    console.log(this.unit.getContent());
     if (this.verify()) {
       this.unitService.setContent(this.unit).subscribe();
-      console.log('JSON BIEN');
     } else {
-      console.log('JSON MAL');
+      this.snackBar.open('Json invalido', '', {
+        duration: 2000
+      });
     }
   }
   verify(): boolean {

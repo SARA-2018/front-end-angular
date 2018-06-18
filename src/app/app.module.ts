@@ -20,6 +20,10 @@ import { RelationService } from './teacher/graph-unit/services/relation.service'
 import { D3Service } from './teacher/graph-unit/services/d3.service';
 import { AppMaterialModule } from './app-material.module';
 import { MessageComponent } from './teacher/exercise-unit/chat-exercise/message/message.component';
+import { ItineraryService } from './teacher/info-unit/services/itinerary.service';
+import { SessionService } from './teacher/info-unit/services/session.service';
+import { LessonService } from './teacher/info-unit/services/lesson.service';
+import { VideoService } from './teacher/info-unit/services/video.service';
 
 @NgModule({
   imports: [
@@ -53,6 +57,10 @@ import { MessageComponent } from './teacher/exercise-unit/chat-exercise/message/
     HttpService,
     UnitService,
     RelationService,
+    ItineraryService,
+    SessionService,
+    LessonService,
+    VideoService
   ]
 
 })
