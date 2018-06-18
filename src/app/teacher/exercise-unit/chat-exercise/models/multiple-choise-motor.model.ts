@@ -18,10 +18,13 @@ export class MultipleChoiseMotor extends ExerciseMotor {
         for (let i = 0; i < this.exercise.getSolutions().length; i++) {
             response.push(i + 1 + ' - ' + this.exercise.getSolutions()[i].getText());
         }
+        console.log('hand Message');
         return response;
     }
 
     handResponse(studentSolutions: Solution[]): string[] {
+        console.log('handR');
+        console.log(studentSolutions);
         const response: string[] = [];
         if (this.verifyResponse(studentSolutions)) {
             response.push('¡Genial! ¡Has acertado el ejercicio!');

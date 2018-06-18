@@ -1,11 +1,12 @@
 import { Solution } from '../../../shared/solution.model';
 import { Exercise } from '../../../shared/exercise.model';
-import {ExerciseMotor} from './exercise-motor.model';
+import { ExerciseMotor } from './exercise-motor.model';
 
-export class FillExercise extends ExerciseMotor {
+export class FillBlankMotor extends ExerciseMotor {
 
 
   public exercise: Exercise;
+  private overcome: boolean;
 
   private TAG_STATEMENT: Number = 4;
   private OPTIONS_EMPTY: Number = 2;
@@ -18,7 +19,7 @@ export class FillExercise extends ExerciseMotor {
   }
   handMessage(): string[] {
     const solutions = [];
-    for ( let i = 0; i < this.exercise.getSolutions().length; i++) {
+    for (let i = 0; i < this.exercise.getSolutions().length; i++) {
       if (this.exercise.getSolutions()[i].getIsCorrect()) {
         solutions.push(this.exercise.getSolutions()[i].getText());
       }
@@ -31,10 +32,10 @@ export class FillExercise extends ExerciseMotor {
     let response: any;
     let text: any = '';
     const regExp = new RegExp('[\n, \t]+');
-    for ( let i = 0; i < studentSolutions.length; i++) {
+    for (let i = 0; i < studentSolutions.length; i++) {
       const keyWord = studentSolutions[i].getKeyWord().split(regExp);
       response = studentSolutions[i].getText().split(' ');
-      for ( let k = 0; k < this.indexStatement.length; k++) {
+      for (let k = 0; k < this.indexStatement.length; k++) {
         response[this.indexStatement.sort()[k]] = keyWord[k];
       }
       for (let j = 0; j < response.length; j++) {
@@ -60,7 +61,7 @@ export class FillExercise extends ExerciseMotor {
     const statementArray = statement.split(' ');
     const optionsArray = [];
     let random: number;
-    for ( let i = 0; i < statementArray.length; i++) {
+    for (let i = 0; i < statementArray.length; i++) {
       if (statementArray[i].length >= this.TAG_STATEMENT) {
         optionsArray.push(i);
       }
@@ -90,5 +91,9 @@ export class FillExercise extends ExerciseMotor {
 
   getRandom(min, max) {
     return Math.round(Math.random() * (max - min) + min);
+  }
+
+  getOvercome(): boolean {
+    return this.overcome;
   }
 }

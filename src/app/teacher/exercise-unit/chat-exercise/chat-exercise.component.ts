@@ -11,6 +11,7 @@ import { TextMotor } from './models/text-motor.model';
 import { MultipleChoiseMotor } from './models/multiple-choise-motor.model';
 import { ExerciseMotor } from './models/exercise-motor.model';
 import { DicotomicMotor } from './models/dicotomic-motor.model';
+import { FillBlankMotor } from './models/fill-blank-motor.model';
 
 @Component({
   selector: 'app-chat-exercise',
@@ -60,9 +61,17 @@ export class ChatExerciseComponent implements OnInit {
       if (this.exerciseMotor instanceof TextMotor) {
         this.generateDicotomicMotor();
       } else if (this.exerciseMotor instanceof DicotomicMotor) {
-        this.generateExerciseMultipleMotor();
+        this.generateFillBlankMotor();
+      } else if (this.exerciseMotor instanceof MultipleChoiseMotor) {
+        this.generateFillBlankMotor();
       }
     }
+  }
+
+  generateFillBlankMotor() {
+    const motor = new FillBlankMotor(this.exercise);
+    this.exerciseMotor = motor;
+    this.print(motor.handMessage());
   }
 
   generateDicotomicMotor() {
@@ -95,9 +104,12 @@ export class ChatExerciseComponent implements OnInit {
   }
 
   send(text: string) {
+    console.log('send ' + text);
     this.messages.push(new Message(text, RolMessage.STUDENT, MessageTypeEnumerator.TEXT));
+    console.log(this.messages[this.messages.length - 1].getText());
     const studentSolution: Solution[] = [];
     studentSolution.push(new Solution(text, false));
+    console.log(studentSolution);
     this.print(this.exerciseMotor.handResponse(studentSolution));
     this.nextExercise();
   }
