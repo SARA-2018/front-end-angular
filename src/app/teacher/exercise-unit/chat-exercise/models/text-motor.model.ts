@@ -19,7 +19,7 @@ export class TextMotor extends ExerciseMotor {
     return response;
   }
 
-  handResponse(studentSolutions: Solution[]): string[] {
+  handResponse(text: string): string[] {
     const response: string[] = [];
     response.push('De acuerdo! Ya corregiremos este ejercicio. ');
     this.overcome = true;

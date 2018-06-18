@@ -7,7 +7,7 @@ export abstract class ExerciseMotor {
 
     abstract handMessage(): string[];
 
-    abstract handResponse(studentSolutions: Solution[]): string [];
+    abstract handResponse(text: string): string [];
 
     abstract verifyResponse(studentSolution: Solution[]): boolean;
 

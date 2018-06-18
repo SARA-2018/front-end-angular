@@ -23,8 +23,8 @@ export class MultipleChoiseMotor extends ExerciseMotor {
         return response;
     }
 
-    handResponse(studentSolutions: Solution[]): string[] {
-        const results = studentSolutions[0].getText().split(',');
+    handResponse(text: string): string[] {
+        const results = text.split(',');
         const solutions: Solution[] = [];
         for (let i = 0; i < this.exercise.getSolutions().length; i++) {
             solutions.push(new Solution(this.exercise.getSolutions()[i].getText(), false));
