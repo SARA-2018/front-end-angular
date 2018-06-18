@@ -34,7 +34,6 @@ export class ChatExerciseComponent implements OnInit {
     this.print(welcome.welcomeMessage());
     // GET Peticion
     const json = '{ "name":"¿Cuándo se descubrió América ?", "solutions":[ { "text": "2018", "isCorrect": false, "justifications": [ {"text": " Justificacion1", "isCorrect": true}, {"text": " Justificacion2", "isCorrect": true} ] }, { "text": "1492 ", "isCorrect": true, "justifications": [ ] },{ "text": "No se ha descubierto", "isCorrect": false, "justifications": [ ] }, { "text": "1742", "isCorrect": false, "justifications": [ ] },{ "text": "Solucion5", "isCorrect": true, "justifications": [ ] }, { "text": "Solucion6", "isCorrect": true, "justifications": [ ] }] }';
-    const json2 = '{ "name":"Completa la frase", "solutions":[ { "text": "Cristobal Colon fue un héroe", "isCorrect": true, "justifications": [ {"text": " Justificacion1", "isCorrect": true}, {"text": " Justificacion2", "isCorrect": true} ] }, { "text": "Cristobal Colon fue un héroe", "isCorrect": true, "justifications": [ ] },{ "text": "Antonio Colon", "isCorrect": false, "justifications": [ ] }, { "text": "Cristobal Colon fue un héroe", "isCorrect": true, "justifications": [ ] },{ "text": "Cristobal Colon fue un héroe", "isCorrect": true, "justifications": [ ] }, { "text": "Cristobal Colon fue un héroe", "isCorrect": true, "justifications": [ ] }] }';
     this.createModels(json);
   }
 
@@ -44,7 +43,7 @@ export class ChatExerciseComponent implements OnInit {
     if (objJson.solutions.length > 0) {
       for (let i = 0; i < objJson.solutions.length; i++) {
         const solution = new Solution(objJson.solutions[i].text, objJson.solutions[i].isCorrect);
-        if (objJson.solutions[i].justifications.length > 0 ) {
+        if (objJson.solutions[i].justifications.length > 0) {
           for (let j = 0; j < objJson.solutions[i].justifications.length; j++) {
             solution.addJustification(new Justification(objJson.solutions[i].justifications[j].text,
               objJson.solutions[i].justifications[j].isCorrect));
@@ -53,63 +52,32 @@ export class ChatExerciseComponent implements OnInit {
         this.exercise.addSolution(solution);
       }
     }
-    this.generateExerciseTextMotor();
+    this.updateMotor(new TextMotor(this.exercise));
   }
 
   nextExercise() {
     if (this.exerciseMotor.getOvercome()) {
-      if (this.exerciseMotor instanceof TextMotor) {
-        this.generateDicotomicMotor();
+     /* if (this.exerciseMotor instanceof TextMotor) {
+        this.updateMotor(new DicotomicMotor(this.exercise));
       } else if (this.exerciseMotor instanceof DicotomicMotor) {
-        this.generateFillBlankMotor();
+        this.updateMotor(new MultipleChoiseMotor(this.exercise));
       } else if (this.exerciseMotor instanceof MultipleChoiseMotor) {
-        this.generateFillBlankMotor();
-      }
+        this.updateMotor(new TextMotor(this.exercise));
+      }*/
+      this.updateMotor(new FillBlankMotor(this.exercise));
     }
   }
 
-  generateFillBlankMotor() {
-    const motor = new FillBlankMotor(this.exercise);
-    this.exerciseMotor = motor;
-    this.print(motor.handMessage());
-  }
-
-  generateDicotomicMotor() {
-    const motor = new DicotomicMotor(this.exercise);
-    this.exerciseMotor = motor;
-    this.print(motor.handMessage());
-  }
-
-  generateExerciseMultipleMotor() {
-    const text = new MultipleChoiseMotor(this.exercise);
-    this.exerciseMotor = text;
-    this.print(text.handMessage());
-    /*const sol = '2,5,6';
-    const res = sol.split(',');
-    const solutions: Solution[] = [];
-    for (let i = 0; i < this.exercise.getSolutions().length; i++) {
-      solutions.push(new Solution(this.exercise.getSolutions()[i].getText(), false));
-    }
-    for (const r of res) {
-      solutions[Number(r) - 1].setIsCorrect(true);
-    }
-    this.print(text.handResponse(solutions));
-    */
-  }
-
-  generateExerciseTextMotor() {
-    const textMotor = new TextMotor(this.exercise);
-    this.exerciseMotor = textMotor;
+  updateMotor(exerciseMotor: ExerciseMotor) {
+    this.exerciseMotor = exerciseMotor;
+    console.log(this.exerciseMotor.handMessage());
     this.print(this.exerciseMotor.handMessage());
   }
 
   send(text: string) {
-    console.log('send ' + text);
     this.messages.push(new Message(text, RolMessage.STUDENT, MessageTypeEnumerator.TEXT));
-    console.log(this.messages[this.messages.length - 1].getText());
     const studentSolution: Solution[] = [];
     studentSolution.push(new Solution(text, false));
-    console.log(studentSolution);
     this.print(this.exerciseMotor.handResponse(studentSolution));
     this.nextExercise();
   }

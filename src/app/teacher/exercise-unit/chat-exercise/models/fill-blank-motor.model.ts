@@ -4,7 +4,6 @@ import { ExerciseMotor } from './exercise-motor.model';
 
 export class FillBlankMotor extends ExerciseMotor {
 
-
   public exercise: Exercise;
   private overcome: boolean;
 
@@ -15,9 +14,12 @@ export class FillBlankMotor extends ExerciseMotor {
   constructor(exercise: Exercise) {
     super();
     this.exercise = exercise;
-    console.log(this.handMessage());
+    this.overcome = false;
+    console.log('creado fill');
   }
+
   handMessage(): string[] {
+    console.log('handmessage');
     const solutions = [];
     for (let i = 0; i < this.exercise.getSolutions().length; i++) {
       if (this.exercise.getSolutions()[i].getIsCorrect()) {
@@ -25,6 +27,7 @@ export class FillBlankMotor extends ExerciseMotor {
       }
     }
     const statement = solutions[this.getRandom(0, solutions.length - 1)];
+    console.log(statement);
     return ['En este ejercicio rellena espacios en blanco en orden', this.fillStatement(statement)];
   }
 
@@ -50,6 +53,7 @@ export class FillBlankMotor extends ExerciseMotor {
       response.push('Oh lo siento.. Pero no has acertado el ejercicio.');
     }
     console.log(response);
+    this.overcome = true;
     return response;
   }
 
