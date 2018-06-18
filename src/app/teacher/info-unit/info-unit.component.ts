@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Unit } from '../graph-unit/models/unit.model';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { InputDialogComponent } from './input-dialog.component';
@@ -6,9 +6,9 @@ import { Itinerary } from './models/itinerary.model';
 import { Session } from './models/session.model';
 import { Formation } from './models/formation.model';
 import { Lesson } from './models/lesson.model';
-import {ExerciseUnitComponent} from '../exercise-unit/exercise-unit.component';
-import {VideoUnitComponent} from '../video-unit/video-unit.component';
-import {GraphUnitComponent} from '../graph-unit/graph-unit.component';
+import { ExerciseUnitComponent } from '../exercise-unit/exercise-unit.component';
+import { VideoUnitComponent } from '../video-unit/video-unit.component';
+import { GraphUnitComponent } from '../graph-unit/graph-unit.component';
 import { UnitService } from '../shared/unit.service';
 
 @Component({
@@ -25,12 +25,7 @@ export class InfoUnitComponent {
   @Input() exerciseUnit: ExerciseUnitComponent;
   @Input() graphUnit: GraphUnitComponent;
   @Input() videoUnit: VideoUnitComponent;
-  formatting = {color: 'green', 'background-color': '#d0e9c6'};
   constructor(public dialog: MatDialog, private snackBar: MatSnackBar, private unitService: UnitService) {
-  }
-
-  toArray(n: number): number[] {
-    return Array(n);
   }
 
   addLesson(itineraryIndex: number, sessionIndex: number) {
@@ -98,12 +93,12 @@ export class InfoUnitComponent {
     }
   }
   saveUnitContent() {
-    console.log(this.unit.getContent());
     if (this.verify()) {
       this.unitService.setContent(this.unit).subscribe();
-      console.log('JSON BIEN');
     } else {
-      console.log('JSON MAL');
+      this.snackBar.open('Json invalido', '', {
+        duration: 2000
+      });
     }
   }
   verify(): boolean {
