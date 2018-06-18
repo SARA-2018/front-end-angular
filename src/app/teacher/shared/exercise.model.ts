@@ -41,6 +41,11 @@ export class Exercise extends Interaction {
     getSolutions(): Solution[] {
         return this.solutions;
     }
+
+    getCounterFail(): number {
+        return this.counterFail;
+    }
+
     addFail() {
         this.counterFail = this.counterFail + 1;
         return this.counterFail;

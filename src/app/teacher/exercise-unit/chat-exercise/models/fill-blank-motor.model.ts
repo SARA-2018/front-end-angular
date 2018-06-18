@@ -4,7 +4,6 @@ import {ExerciseMotor} from './exercise-motor.model';
 
 export class FillBlankMotor extends ExerciseMotor {
 
-
   public exercise: Exercise;
 
   private TAG_STATEMENT: Number = 4;
@@ -14,9 +13,9 @@ export class FillBlankMotor extends ExerciseMotor {
   private statement = '';
 
   constructor(exercise: Exercise) {
-    super();
-    this.exercise = exercise;
+    super(exercise);
   }
+
   handMessage(): string[] {
     const solutions: Solution[] = [];
     for ( let i = 0; i < this.exercise.getSolutions().length; i++) {
@@ -50,6 +49,7 @@ export class FillBlankMotor extends ExerciseMotor {
       this.exercise.addFail();
       result.push('Oh lo siento.. Pero no has acertado el ejercicio.');
     }
+    this.overcome = true;
     return result;
   }
 
