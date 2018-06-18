@@ -5,28 +5,37 @@ import { ExerciseMotor } from './exercise-motor.model';
 export class MultipleChoiseMotor extends ExerciseMotor {
 
     constructor(exercise: Exercise) {
-        super();
-        this.exercise = exercise;
+        super(exercise);
     }
 
     handMessage(): string[] {
-        const response: string[] = [];
-        response.push('Indica cuál de las siguientes afirmaciones es cierta: ');
+        const messages: string[] = [];
+        messages.push('Indica cuáles de las siguientes afirmaciones son correctas: ');
         for (let i = 0; i < this.exercise.getSolutions().length; i++) {
-            response.push(i + 1 + ' - ' + this.exercise.getSolutions()[i].getText());
+            messages.push(i + 1 + ' - ' + this.exercise.getSolutions()[i].getText());
         }
-        return response;
+        return messages;
     }
 
-    handResponse(studentSolutions: Solution[]): string[] {
-        const response: string[] = [];
-        if (this.verifyResponse(studentSolutions)) {
-            response.push('¡Genial! ¡Has acertado el ejercicio!');
+    handResponse(response: string): string[] {
+        const regExp = new RegExp('[\n, \t]+');
+        const results = response.split(regExp);
+        const solutions: Solution[] = [];
+        for (let i = 0; i < this.exercise.getSolutions().length; i++) {
+            solutions.push(new Solution(this.exercise.getSolutions()[i].getText(), false));
+        }
+        for (const result of results) {
+            solutions[Number(result) - 1].setIsCorrect(true);
+        }
+        const messages: string[] = [];
+        if (this.verifyResponse(solutions)) {
+            messages.push('¡Genial! ¡Has acertado el ejercicio!');
         } else {
             this.exercise.addFail();
-            response.push('Oh lo siento.. Pero no has acertado el ejercicio.');
+            messages.push('Oh lo siento.. Pero no has acertado el ejercicio.');
         }
-        return response;
+        this.overcome = true;
+        return messages;
     }
 
     verifyResponse(studentSolutions: Solution[]): boolean {
