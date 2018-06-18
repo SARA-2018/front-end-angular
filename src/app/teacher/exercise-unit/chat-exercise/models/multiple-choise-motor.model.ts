@@ -20,15 +20,15 @@ export class MultipleChoiseMotor extends ExerciseMotor {
     handResponse(response: string): string[] {
         const regExp = new RegExp('[\n, \t]+');
         const results = response.split(regExp);
-        const solutions: Solution[] = [];
+        const studentSolutions: Solution[] = [];
         for (let i = 0; i < this.exercise.getSolutions().length; i++) {
-            solutions.push(new Solution(this.exercise.getSolutions()[i].getText(), false));
+            studentSolutions.push(new Solution(this.exercise.getSolutions()[i].getText(), false));
         }
         for (const result of results) {
-            solutions[Number(result) - 1].setIsCorrect(true);
+            studentSolutions[Number(result) - 1].setIsCorrect(true);
         }
         const messages: string[] = [];
-        if (this.verifyResponse(solutions)) {
+        if (this.verifyResponse(studentSolutions)) {
             messages.push('¡Genial! ¡Has acertado el ejercicio!');
         } else {
             this.exercise.addFail();
