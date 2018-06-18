@@ -1,4 +1,6 @@
 import { Component, HostBinding } from '@angular/core';
+import { VideoService } from '../info-unit/services/video.service';
+import { Video } from '../info-unit/models/video.model';
 
 @Component({
   selector: 'app-video-unit',
@@ -8,7 +10,9 @@ import { Component, HostBinding } from '@angular/core';
 
 export class VideoUnitComponent {
 
-  constructor() {
+  videoURL = '';
+
+  constructor(private videoService: VideoService) {
   }
 
   @HostBinding('class.is-open')
@@ -16,5 +20,12 @@ export class VideoUnitComponent {
 
   toggle() {
     this.isOpen = !this.isOpen;
+  }
+  saveVideoUrl() {
+    const video = new Video(this.videoURL);
+    this.videoService.create(video).subscribe();
+  }
+  getVideoURL() {
+    return this.videoURL;
   }
 }
