@@ -63,6 +63,7 @@ export class ChatExerciseComponent implements OnInit {
         this.updateMotor(new MultipleChoiseMotor(this.exercise));
       } else if (this.exerciseMotor instanceof MultipleChoiseMotor) {
         // this.updateMotor(new FillBlankMotor(this.exercise));
+        this.print(new AutoMessageMotor().statisticsMessage(this.exercise));
         this.print(new AutoMessageMotor().goodbyeMessage());
       }
     }
@@ -70,7 +71,6 @@ export class ChatExerciseComponent implements OnInit {
 
   updateMotor(exerciseMotor: ExerciseMotor) {
     this.exerciseMotor = exerciseMotor;
-    console.log(this.exerciseMotor.handMessage());
     this.print(this.exerciseMotor.handMessage());
   }
 

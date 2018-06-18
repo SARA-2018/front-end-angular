@@ -4,17 +4,20 @@ import { Exercise } from '../../../shared/exercise.model';
 export abstract class ExerciseMotor {
 
     exercise: Exercise;
+    overcome: boolean;
 
     abstract handMessage(): string[];
 
-    abstract handResponse(text: string): string [];
+    abstract handResponse(response: string): string [];
 
     abstract verifyResponse(studentSolution: Solution[]): boolean;
 
-    abstract getOvercome(): boolean;
-
     getExercise(): Exercise {
         return this.exercise;
+    }
+
+    getOvercome(): boolean {
+        return this.overcome;
     }
 
 }

@@ -6,7 +6,6 @@ export class DicotomicMotor extends ExerciseMotor {
 
     solution: Solution;
     solutionId: number;
-    overcome: boolean;
 
     constructor(exercise: Exercise) {
         super();
@@ -23,10 +22,10 @@ export class DicotomicMotor extends ExerciseMotor {
         return ['Por favor, responde [V]erdadero o [F]also a la siguiente cuestión', this.solution.getText()];
     }
 
-    handResponse(text: string): string[] {
+    handResponse(response: string): string[] {
         this.overcome = true;
         const studentSolution: Solution[] = [];
-        if (text === 'F') {
+        if (response === 'F') {
             studentSolution.push(new Solution(this.solution.getText(), false));
         } else {
             studentSolution.push(new Solution(this.solution.getText(), true));
@@ -45,9 +44,5 @@ export class DicotomicMotor extends ExerciseMotor {
         } else {
             return false;
         }
-    }
-
-    getOvercome(): boolean {
-        return this.overcome;
     }
 }

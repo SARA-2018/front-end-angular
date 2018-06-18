@@ -1,3 +1,5 @@
+import { Exercise } from '../../../shared/exercise.model';
+
 export class AutoMessageMotor {
 
     constructor() {}
@@ -7,6 +9,17 @@ export class AutoMessageMotor {
     }
 
     goodbyeMessage(): string[] {
-        return ['¡Genial! ¡Ya has terminado los ejercicios!', 'Dale a siguiente para continuar con la lección.'];
+        return ['Dale a siguiente para continuar con la lección.', 'Hasta la próxima!'];
+    }
+
+    statisticsMessage(exercise: Exercise): string[] {
+        const messages: string[] = [];
+        messages.push('¡Se acabó, ya has terminado los ejercicios!');
+        if (exercise.getCounterFail() === 0) {
+            messages.push('Has superado todos los ejercicios sin fallos. ¡Enhorabuena!');
+        } else {
+            messages.push('Has tenido un total de: ' + exercise.getCounterFail() + ' fallos.');
+        }
+        return messages;
     }
 }

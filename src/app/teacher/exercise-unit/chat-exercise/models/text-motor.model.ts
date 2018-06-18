@@ -4,8 +4,6 @@ import { ExerciseMotor } from './exercise-motor.model';
 
 export class TextMotor extends ExerciseMotor {
 
-  private overcome: boolean;
-
   constructor (exercise: Exercise) {
     super();
     this.exercise = exercise;
@@ -13,24 +11,21 @@ export class TextMotor extends ExerciseMotor {
   }
 
   handMessage(): string[] {
-    const response: string[] = [];
-    response.push('Resuelve: ');
-    response.push(this.exercise.getFormulation());
-    return response;
+    const messages: string[] = [];
+    messages.push('Resuelve: ');
+    messages.push(this.exercise.getFormulation());
+    return messages;
   }
 
-  handResponse(text: string): string[] {
-    const response: string[] = [];
-    response.push('De acuerdo! Ya corregiremos este ejercicio. ');
+  handResponse(response: string): string[] {
+    const messages: string[] = [];
+    messages.push('De acuerdo! Ya corregiremos este ejercicio. ');
     this.overcome = true;
-    return response;
+    return messages;
   }
 
   verifyResponse(studentSolution: Solution[]): boolean {
     return studentSolution[0].getText() === this.exercise.getFormulation();
   }
 
-  getOvercome(): boolean {
-    return this.overcome;
-  }
 }
