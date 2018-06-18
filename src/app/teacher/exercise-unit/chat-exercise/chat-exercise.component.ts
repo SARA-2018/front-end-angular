@@ -11,6 +11,7 @@ import { TextMotor } from './models/text-motor.model';
 import { MultipleChoiseMotor } from './models/multiple-choise-motor.model';
 import { ExerciseMotor } from './models/exercise-motor.model';
 import { DicotomicMotor } from './models/dicotomic-motor.model';
+import { FillBlankMotor } from './models/fill-blank-motor.model';
 
 @Component({
   selector: 'app-chat-exercise',
@@ -62,7 +63,8 @@ export class ChatExerciseComponent implements OnInit {
       } else if (this.exerciseMotor instanceof DicotomicMotor) {
         this.updateMotor(new MultipleChoiseMotor(this.exercise));
       } else if (this.exerciseMotor instanceof MultipleChoiseMotor) {
-        // this.updateMotor(new FillBlankMotor(this.exercise));
+        this.updateMotor(new FillBlankMotor(this.exercise));
+      } else {
         this.print(new AutoMessageMotor().statisticsMessage(this.exercise));
         this.print(new AutoMessageMotor().goodbyeMessage());
       }

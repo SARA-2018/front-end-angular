@@ -11,7 +11,6 @@ export class MultipleChoiseMotor extends ExerciseMotor {
     handMessage(): string[] {
         const messages: string[] = [];
         messages.push('Indica cuáles de las siguientes afirmaciones son correctas: ');
-        messages.push('Ejemplo de respuesta: 1,2,3');
         for (let i = 0; i < this.exercise.getSolutions().length; i++) {
             messages.push(i + 1 + ' - ' + this.exercise.getSolutions()[i].getText());
         }
@@ -19,7 +18,8 @@ export class MultipleChoiseMotor extends ExerciseMotor {
     }
 
     handResponse(response: string): string[] {
-        const results = response.split(',');
+        const regExp = new RegExp('[\n, \t]+');
+        const results = response.split(regExp);
         const solutions: Solution[] = [];
         for (let i = 0; i < this.exercise.getSolutions().length; i++) {
             solutions.push(new Solution(this.exercise.getSolutions()[i].getText(), false));
