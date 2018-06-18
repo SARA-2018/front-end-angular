@@ -10,6 +10,9 @@ import {ExerciseUnitComponent} from '../exercise-unit/exercise-unit.component';
 import {VideoUnitComponent} from '../video-unit/video-unit.component';
 import {GraphUnitComponent} from '../graph-unit/graph-unit.component';
 import { UnitService } from '../shared/unit.service';
+import { ItineraryService } from './services/itinerary.service';
+import { SessionService } from './services/session.service';
+import { LessonService } from './services/lesson.service';
 
 @Component({
   selector: 'app-info-unit',
@@ -26,7 +29,10 @@ export class InfoUnitComponent {
   @Input() graphUnit: GraphUnitComponent;
   @Input() videoUnit: VideoUnitComponent;
   formatting = {color: 'green', 'background-color': '#d0e9c6'};
-  constructor(public dialog: MatDialog, private snackBar: MatSnackBar, private unitService: UnitService) {
+  constructor(public dialog: MatDialog, private snackBar: MatSnackBar, private unitService: UnitService,
+    private  sessionService: SessionService,
+    private lessonService: LessonService,
+    private itineraryService: ItineraryService) {
   }
 
   toArray(n: number): number[] {
@@ -40,6 +46,7 @@ export class InfoUnitComponent {
       result => {
         if (result) {
           const lesson: Lesson = new Lesson(result);
+          this.lessonService.create(lesson).subscribe();
           const formationArray: Formation[] = this.itinerarys[itineraryIndex].getFormations();
           const session: Session = <Session>formationArray[sessionIndex];
           const lessonArray: Lesson[] = session.getLessons();
@@ -58,6 +65,7 @@ export class InfoUnitComponent {
       result => {
         if (result) {
           const session: Session = new Session(result);
+          this.sessionService.create(session).subscribe();
           const formationArray: Formation[] = this.itinerarys[itineraryIndex].getFormations();
           formationArray.push(<Formation>session);
           this.itinerarys[itineraryIndex].setFormations(formationArray);
@@ -75,6 +83,7 @@ export class InfoUnitComponent {
           const itinerary: Itinerary = new Itinerary();
           itinerary.setName(result);
           this.itinerarys.push(itinerary);
+          this.itineraryService.create(itinerary).subscribe();
         }
       }
     );
