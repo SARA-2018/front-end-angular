@@ -31,7 +31,7 @@ export class FillBlankMotor extends ExerciseMotor {
   handResponse(response: string): string[] {
     let keyWord: string[];
     const result: string[] = [];
-    const solutions: Solution[] = [];
+    const studentSolutions: Solution[] = [];
     const regExp = new RegExp('[\n, \t]+');
     keyWord = response.split(regExp);
     const solution = this.statement.split(' ');
@@ -42,8 +42,8 @@ export class FillBlankMotor extends ExerciseMotor {
     for (let j = 0; j < solution.length; j++) {
       this.statement += solution[j].concat(' ');
     }
-    solutions.push(new Solution(this.statement, undefined));
-    if (this.verifyResponse(solutions)) {
+    studentSolutions.push(new Solution(this.statement, undefined));
+    if (this.verifyResponse(studentSolutions)) {
       result.push('¡Genial! ¡Has acertado el ejercicio!');
     } else {
       this.exercise.addFail();
