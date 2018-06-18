@@ -83,9 +83,14 @@ export class ChatExerciseComponent implements OnInit {
     this.text = '';
   }
 
-  print(strings: string[]) {
+  async print(strings: string[]) {
     for (const string of strings) {
+      await this.delay(500);
       this.messages.push(new Message(string, RolMessage.TEACHER, MessageTypeEnumerator.TEXT));
     }
+  }
+
+  delay(ms: number) {
+    return new Promise( resolve => setTimeout(resolve, ms) );
   }
 }
