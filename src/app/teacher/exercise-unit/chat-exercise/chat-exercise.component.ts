@@ -31,7 +31,7 @@ export class ChatExerciseComponent implements OnInit {
 
   ngOnInit() {
     // GET Peticion
-    const json = '{ "name":"Prueba", "solutions":[ { "text": "Solucion", "isCorrect": true, "justifications": [ {"text": " Justificacion1", "isCorrect": true}, {"text": " Justificacion2", "isCorrect": true} ] }, { "text": "Solucion2", "isCorrect": true, "justifications": [ ] },{ "text": "Solucion3", "isCorrect": true, "justifications": [ ] }, { "text": "Solucion4", "isCorrect": true, "justifications": [ ] },{ "text": "Solucion5", "isCorrect": true, "justifications": [ ] }, { "text": "Solucion6", "isCorrect": true, "justifications": [ ] }] }';
+    const json = '{ "name":"Completa la frase", "solutions":[ { "text": "Cristobal Colon fue un héroe", "isCorrect": true, "justifications": [ {"text": " Justificacion1", "isCorrect": true}, {"text": " Justificacion2", "isCorrect": true} ] }, { "text": "Cristobal Colon fue un héroe", "isCorrect": true, "justifications": [ ] },{ "text": "Antonio Colon", "isCorrect": false, "justifications": [ ] }, { "text": "Cristobal Colon fue un héroe", "isCorrect": true, "justifications": [ ] },{ "text": "Cristobal Colon fue un héroe", "isCorrect": true, "justifications": [ ] }, { "text": "Cristobal Colon fue un héroe", "isCorrect": true, "justifications": [ ] }] }';
     this.createModels(json);
     const dicotomic: DicotomicMotor = new DicotomicMotor(this.exercise);
     console.log(dicotomic.handMessage());
