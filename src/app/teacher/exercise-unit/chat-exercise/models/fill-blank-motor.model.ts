@@ -2,7 +2,7 @@ import { Solution } from '../../../shared/solution.model';
 import { Exercise } from '../../../shared/exercise.model';
 import {ExerciseMotor} from './exercise-motor.model';
 
-export class FillExercise extends ExerciseMotor {
+export class FillBlankMotor extends ExerciseMotor {
 
 
   public exercise: Exercise;
@@ -10,46 +10,47 @@ export class FillExercise extends ExerciseMotor {
   private TAG_STATEMENT: Number = 4;
   private OPTIONS_EMPTY: Number = 2;
   private indexStatement: number[] = [];
+  private solution: Solution;
+  private statement = '';
 
   constructor(exercise: Exercise) {
     super();
     this.exercise = exercise;
-    console.log(this.handMessage());
   }
   handMessage(): string[] {
-    const solutions = [];
+    const solutions: Solution[] = [];
     for ( let i = 0; i < this.exercise.getSolutions().length; i++) {
       if (this.exercise.getSolutions()[i].getIsCorrect()) {
-        solutions.push(this.exercise.getSolutions()[i].getText());
+        solutions.push(this.exercise.getSolutions()[i]);
       }
     }
-    const statement = solutions[this.getRandom(0, solutions.length - 1)];
-    return ['En este ejercicio rellena espacios en blanco en orden', this.fillStatement(statement)];
+    this.solution = solutions[this.getRandom(0, solutions.length - 1)];
+    this.statement = this.fillStatement(this.solution.getText());
+    return ['En este ejercicio rellena espacios en blanco en orden', this.statement];
   }
 
-  handResponse(studentSolutions: Solution[]): string[] {
-    let response: any;
-    let text: any = '';
+  handResponse(response: string): string[] {
+    let keyWord: string[];
+    const result: string[] = [];
+    const solutions: Solution[] = [];
     const regExp = new RegExp('[\n, \t]+');
-    for ( let i = 0; i < studentSolutions.length; i++) {
-      const keyWord = studentSolutions[i].getKeyWord().split(regExp);
-      response = studentSolutions[i].getText().split(' ');
-      for ( let k = 0; k < this.indexStatement.length; k++) {
-        response[this.indexStatement.sort()[k]] = keyWord[k];
-      }
-      for (let j = 0; j < response.length; j++) {
-        text += response[j].concat(' ');
-      }
-      studentSolutions[i].setText(text);
+    keyWord = response.split(regExp);
+    const solution = this.statement.split(' ');
+    for ( let i = 0; i < this.indexStatement.length; i++) {
+      solution[this.indexStatement.sort()[i]] = keyWord[i];
     }
-    if (this.verifyResponse(studentSolutions)) {
-      response.push('¡Genial! ¡Has acertado el ejercicio!');
+    this.statement = '';
+    for (let j = 0; j < solution.length; j++) {
+      this.statement += solution[j].concat(' ');
+    }
+    solutions.push(new Solution(this.statement, undefined));
+    if (this.verifyResponse(solutions)) {
+      result.push('¡Genial! ¡Has acertado el ejercicio!');
     } else {
       this.exercise.addFail();
-      response.push('Oh lo siento.. Pero no has acertado el ejercicio.');
+      result.push('Oh lo siento.. Pero no has acertado el ejercicio.');
     }
-    console.log(response);
-    return response;
+    return result;
   }
 
   verifyResponse(studentSolutions: Solution[]): boolean {
@@ -65,7 +66,7 @@ export class FillExercise extends ExerciseMotor {
         optionsArray.push(i);
       }
     }
-    while (this.indexStatement.length !== this.OPTIONS_EMPTY) {
+    while (this.indexStatement.length < this.OPTIONS_EMPTY) {
       random = optionsArray[this.getRandom(0, optionsArray.length - 1)];
       let exists = false;
       for (let i = 0; i < this.indexStatement.length; i++) {
