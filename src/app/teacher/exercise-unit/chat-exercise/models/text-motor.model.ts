@@ -5,9 +5,7 @@ import { ExerciseMotor } from './exercise-motor.model';
 export class TextMotor extends ExerciseMotor {
 
   constructor (exercise: Exercise) {
-    super();
-    this.exercise = exercise;
-    this.overcome = false;
+    super(exercise);
   }
 
   handMessage(): string[] {

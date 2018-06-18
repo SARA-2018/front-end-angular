@@ -6,6 +6,11 @@ export abstract class ExerciseMotor {
     exercise: Exercise;
     overcome: boolean;
 
+    constructor(exercise: Exercise) {
+        this.exercise = exercise;
+        this.overcome = false;
+    }
+
     abstract handMessage(): string[];
 
     abstract handResponse(response: string): string [];

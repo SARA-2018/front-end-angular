@@ -8,9 +8,7 @@ export class DicotomicMotor extends ExerciseMotor {
     solutionId: number;
 
     constructor(exercise: Exercise) {
-        super();
-        this.exercise = exercise;
-        this.overcome = false;
+        super(exercise);
         this.solution = exercise.getSolutions()[this.getRandom(0, this.exercise.getSolutions().length - 1)];
     }
 
