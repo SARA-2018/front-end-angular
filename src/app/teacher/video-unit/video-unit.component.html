@@ -4,11 +4,11 @@
       <div fxLayout="row" fxLayoutGap="20px">
         <div fxFlex>
           <mat-form-field id="url">
-            <input matInput placeholder="url">
+            <input matInput [(ngModel)]="videoURL" placeholder="url">
           </mat-form-field>
         </div>
         <div fxFlex id="visor-video">
-          <iframe width="300" height="200" src="https://www.youtube.com/embed/lV8-0KS03dg?rel=0" allowfullscreen></iframe>
+          <iframe width="300" height="200" [src]="videoURL" allowfullscreen></iframe>
         </div>
       </div>
       <div class="layout-alignment"></div>
@@ -19,7 +19,7 @@
             <textarea class="view-transparency" matInput placeholder="Transparencia: "></textarea>
           </mat-card>
           <mat-action-row>
-            <button mat-raised-button color="primary" class="button-content">Guardar</button>
+            <button mat-raised-button color="primary" (click)="saveVideoUrl()" class="button-content">Guardar</button>
           </mat-action-row>
         </div>
         <div fxFlex>
