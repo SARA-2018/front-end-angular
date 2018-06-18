@@ -33,6 +33,7 @@ export class ChatExerciseComponent implements OnInit {
     this.print(welcome.welcomeMessage());
     // GET Peticion
     const json = '{ "name":"¿Cuándo se descubrió América ?", "solutions":[ { "text": "2018", "isCorrect": false, "justifications": [ {"text": " Justificacion1", "isCorrect": true}, {"text": " Justificacion2", "isCorrect": true} ] }, { "text": "1492 ", "isCorrect": true, "justifications": [ ] },{ "text": "No se ha descubierto", "isCorrect": false, "justifications": [ ] }, { "text": "1742", "isCorrect": false, "justifications": [ ] },{ "text": "Solucion5", "isCorrect": true, "justifications": [ ] }, { "text": "Solucion6", "isCorrect": true, "justifications": [ ] }] }';
+    const json2 = '{ "name":"Completa la frase", "solutions":[ { "text": "Cristobal Colon fue un héroe", "isCorrect": true, "justifications": [ {"text": " Justificacion1", "isCorrect": true}, {"text": " Justificacion2", "isCorrect": true} ] }, { "text": "Cristobal Colon fue un héroe", "isCorrect": true, "justifications": [ ] },{ "text": "Antonio Colon", "isCorrect": false, "justifications": [ ] }, { "text": "Cristobal Colon fue un héroe", "isCorrect": true, "justifications": [ ] },{ "text": "Cristobal Colon fue un héroe", "isCorrect": true, "justifications": [ ] }, { "text": "Cristobal Colon fue un héroe", "isCorrect": true, "justifications": [ ] }] }';
     this.createModels(json);
   }
 
