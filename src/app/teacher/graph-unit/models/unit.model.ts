@@ -2,19 +2,22 @@ import { Block } from './block.model';
 import { UnitService } from '../../shared/unit.service';
 import { Observable } from 'rxjs/Observable';
 import { Relation } from './relation.model';
+import { Itinerary } from '../../info-unit/models/itinerary.model';
 
 export class Unit {
 
   private code: number;
   private name: string;
-  public content: string;
+  private content: string;
+  private itineraries: Itinerary[];
   private ascendantBlock: Block;
   private descendantBlocks: Block[] = [];
 
-  constructor(name: string, code?: number, content?: string) {
+  constructor(name: string, code?: number, content?: string, itineraries?: Itinerary[]) {
     this.name = name;
     this.code = code;
     this.content = content;
+    this.itineraries = itineraries;
   }
 
   getCode(): number {
@@ -29,6 +32,10 @@ export class Unit {
   }
   setContent(content: string) {
     this.content = content;
+  }
+
+  getItineraries(): Itinerary[] {
+    return this.itineraries;
   }
 
   setAscendantBlock(ascendantBlock: Block) {

@@ -4,7 +4,7 @@ import { MatOptionSelectionChange, MatSnackBar, MatDialog } from '@angular/mater
 import { FormControl } from '@angular/forms';
 import { map } from 'rxjs/operators/map';
 import { Observable } from 'rxjs/Observable';
-import { UnitDto } from './dtos/unit.dto';
+import { UnitDto } from '../shared/unit.dto';
 import { RelationDto } from './dtos/relation.dto';
 import { Relation } from './models/relation.model';
 import { Unit } from './models/unit.model';
@@ -106,7 +106,7 @@ export class GraphUnitComponent implements OnInit {
   }
 
   finishExecutionOpenCommand(friends) {
-    const unit = new Unit(friends.unit.name, friends.unit.code, friends.unit.content);
+    const unit = new Unit(friends.unit.name, friends.unit.code, friends.unit.content, friends.unit.itineraries);
     this.openUnit.emit(unit);
     this.synchronizedGraph(friends);
     this.synchronizedUnitsNotRelated();

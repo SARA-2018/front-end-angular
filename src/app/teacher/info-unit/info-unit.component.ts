@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Unit } from '../graph-unit/models/unit.model';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { InputDialogComponent } from './input-dialog.component';
@@ -20,7 +20,7 @@ import { LessonService } from './services/lesson.service';
   styleUrls: ['info-unit.component.css']
 })
 
-export class InfoUnitComponent {
+export class InfoUnitComponent implements OnInit {
 
   public itinerarys: Itinerary[] = [];
 
@@ -30,9 +30,14 @@ export class InfoUnitComponent {
   @Input() videoUnit: VideoUnitComponent;
 
   constructor(public dialog: MatDialog, private snackBar: MatSnackBar, private unitService: UnitService,
-    private  sessionService: SessionService,
+    private sessionService: SessionService,
     private lessonService: LessonService,
     private itineraryService: ItineraryService) {
+  }
+
+  ngOnInit() {
+    console.log('unit ngoninit');
+    console.log(this.unit);
   }
 
   addLesson(itineraryIndex: number, sessionIndex: number) {
