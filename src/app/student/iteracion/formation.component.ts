@@ -15,8 +15,8 @@ import {FormationDto} from '../dtos/formation.dto';
 
 export class FormationComponent implements OnInit {
 
-  private itinerarys: ItineraryDto[] = [];
-  public formations: FormationDto[] = [];
+  itinerarys: ItineraryDto[] = [];
+  formations: FormationDto[] = [];
     constructor(public dialog: MatDialog, private itineraryService: ItineraryService) {
     }
 
@@ -25,14 +25,14 @@ export class FormationComponent implements OnInit {
     console.log(this.itinerarys);
   }
 
-  getItinerarys(): FormationDto[] {
+  getItinerarys(): ItineraryDto[] {
     this.itineraryService.getAll().subscribe(data => {
       this.formations = data;
       for (let i = 0; i < data.length; i++) {
         this.itinerarys.push(data[i].itinerary);
       }
     });
-    return this.formations;
+    return this.itinerarys;
   }
 
 
