@@ -41,7 +41,7 @@ export class InfoUnitComponent {
 
   addLesson(itineraryIndex: number, sessionIndex: number) {
     const name = '';
-    const message: String = 'Nombre de la lección';
+    const message = 'Nombre de la lección';
     this.dialog.open(InputDialogComponent, { data: { name: name, message: message } }).afterClosed().subscribe(
       result => {
         if (result) {
@@ -60,7 +60,7 @@ export class InfoUnitComponent {
 
   addSession(itineraryIndex: number) {
     const name = '';
-    const message: String = 'Nombre de la sesión';
+    const message = 'Nombre de la sesión';
     this.dialog.open(InputDialogComponent, { data: { name: name, message: message } }).afterClosed().subscribe(
       result => {
         if (result) {
@@ -76,7 +76,7 @@ export class InfoUnitComponent {
 
   addItinerary() {
     const name = '';
-    const message: String = 'Nombre del itinerario';
+    const message = 'Nombre del itinerario';
     this.dialog.open(InputDialogComponent, { data: { name: name, message: message } }).afterClosed().subscribe(
       result => {
         if (result) {

@@ -88,7 +88,7 @@ export class GraphUnitComponent implements OnInit {
 
   addDataGraph(unitsDto: UnitDto[], relationsDto: RelationDto[]) {
     const units: Unit[] = [];
-    const relations = [];
+    const relations: Relation[] = [];
     for (const unitDto of unitsDto) {
       units.push(new Unit(unitDto.name, unitDto.code));
     }
