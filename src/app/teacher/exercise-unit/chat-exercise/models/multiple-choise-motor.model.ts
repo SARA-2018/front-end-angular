@@ -42,7 +42,7 @@ export class MultipleChoiseMotor extends ExerciseMotor {
         return messages;
     }
 
-    validateResponse(results: String[]): boolean {
+    validateResponse(results: string[]): boolean {
         for (const result of results) {
             if ((result === undefined) || (result === '')) {
                 return false;
