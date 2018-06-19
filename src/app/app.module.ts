@@ -24,6 +24,7 @@ import { ItineraryService } from './shared/itinerary.service';
 import { SessionService } from './teacher/info-unit/services/session.service';
 import { LessonService } from './teacher/info-unit/services/lesson.service';
 import { VideoService } from './teacher/info-unit/services/video.service';
+import { ExerciseService } from './teacher/shared/exercise.service';
 
 @NgModule({
   imports: [
@@ -60,7 +61,8 @@ import { VideoService } from './teacher/info-unit/services/video.service';
     ItineraryService,
     SessionService,
     LessonService,
-    VideoService
+    VideoService,
+    ExerciseService
   ]
 
 })
