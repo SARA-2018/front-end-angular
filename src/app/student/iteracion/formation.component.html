@@ -1,0 +1,6 @@
+<mat-card class="margin2pc">
+    <h3>Listado de Itinerarios</h3>
+    <mat-nav-list>
+        <a mat-list-item *ngFor="let itinerary of itinerarys" (click)="openItineraryInfo(itinerary.getFormations())" > {{ itinerary.getName() }} </a>
+    </mat-nav-list>
+</mat-card>
