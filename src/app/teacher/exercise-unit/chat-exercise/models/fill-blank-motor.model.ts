@@ -32,10 +32,13 @@ export class FillBlankMotor extends ExerciseMotor {
     let keyWord: string[];
     const result: string[] = [];
     const studentSolutions: Solution[] = [];
-    const regExp = new RegExp('[\n, \t]+');
+    const regExp = new RegExp('[\n,_\\- \t]+');
     keyWord = response.split(regExp);
+    if (keyWord.length < this.indexStatement.length) {
+      result.push('Te faltan espacios por rellenar, complétalos!');
+    } else {
     const solution = this.statement.split(' ');
-    for ( let i = 0; i < this.indexStatement.length; i++) {
+    for (let i = 0; i < this.indexStatement.length; i++) {
       solution[this.indexStatement.sort()[i]] = keyWord[i];
     }
     this.statement = '';
@@ -50,6 +53,7 @@ export class FillBlankMotor extends ExerciseMotor {
       result.push('Oh lo siento.. Pero no has acertado el ejercicio.');
     }
     this.overcome = true;
+  }
     return result;
   }
 
