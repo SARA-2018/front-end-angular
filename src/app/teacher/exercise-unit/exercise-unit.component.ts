@@ -22,7 +22,7 @@ export class ExerciseUnitComponent {
   }
 
   @HostBinding('class.is-open')
-  isOpen: Boolean = false;
+  isOpen = false;
 
   exercise: Exercise;
   toggle() {

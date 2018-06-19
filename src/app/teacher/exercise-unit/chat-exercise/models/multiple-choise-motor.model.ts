@@ -18,24 +18,37 @@ export class MultipleChoiseMotor extends ExerciseMotor {
     }
 
     handResponse(response: string): string[] {
-        const regExp = new RegExp('[\n, \t]+');
+        const regExp = new RegExp('[a-zA-Z \n,]+');
         const results = response.split(regExp);
-        const studentSolutions: Solution[] = [];
-        for (let i = 0; i < this.exercise.getSolutions().length; i++) {
-            studentSolutions.push(new Solution(this.exercise.getSolutions()[i].getText(), false));
-        }
-        for (const result of results) {
-            studentSolutions[Number(result) - 1].setIsCorrect(true);
-        }
         const messages: string[] = [];
-        if (this.verifyResponse(studentSolutions)) {
-            messages.push('¡Genial! ¡Has acertado el ejercicio!');
+        if (this.validateResponse(results)) {
+            const studentSolutions: Solution[] = [];
+            for (let i = 0; i < this.exercise.getSolutions().length; i++) {
+                studentSolutions.push(new Solution(this.exercise.getSolutions()[i].getText(), false));
+            }
+            for (const result of results) {
+                studentSolutions[Number(result) - 1].setIsCorrect(true);
+            }
+            if (this.verifyResponse(studentSolutions)) {
+                messages.push('¡Genial! ¡Has acertado el ejercicio!');
+            } else {
+                this.exercise.addFail();
+                messages.push('Oh lo siento.. Pero no has acertado el ejercicio.');
+            }
+            this.overcome = true;
         } else {
-            this.exercise.addFail();
-            messages.push('Oh lo siento.. Pero no has acertado el ejercicio.');
+            messages.push('Introduce los números de las respuestas correctas. Ejemplo: 1, 2, 3');
         }
-        this.overcome = true;
         return messages;
+    }
+
+    validateResponse(results: string[]): boolean {
+        for (const result of results) {
+            if ((result === undefined) || (result === '')) {
+                return false;
+            }
+        }
+        return true;
     }
 
     verifyResponse(studentSolutions: Solution[]): boolean {

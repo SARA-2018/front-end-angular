@@ -23,10 +23,13 @@ export class DicotomicMotor extends ExerciseMotor {
     handResponse(response: string): string[] {
         this.overcome = true;
         const studentSolution: Solution[] = [];
-        if (response === 'F') {
+        if ((response === 'F') || (response === 'f')) {
             studentSolution.push(new Solution(this.solution.getText(), false));
-        } else {
+        } else if ((response === 'V') || (response === 'v')) {
             studentSolution.push(new Solution(this.solution.getText(), true));
+        } else {
+            this.overcome = false;
+            return ['Por favor, escribe V en caso de considerarla Verdadera o F en caso de Falsa: ', this.solution.getText()];
         }
         if (this.verifyResponse(studentSolution)) {
             return ['Muy bien maquina', 'Sigue así'];
