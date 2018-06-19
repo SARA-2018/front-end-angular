@@ -1,6 +1,6 @@
 import { Component, EventEmitter, HostBinding, OnInit, Output } from '@angular/core';
 import { UnitService } from '../shared/unit.service';
-import { MatOptionSelectionChange, MatSnackBar, MatDialog } from '@angular/material';
+import { MatSnackBar, MatDialog } from '@angular/material';
 import { FormControl } from '@angular/forms';
 import { map } from 'rxjs/operators/map';
 import { Observable } from 'rxjs/Observable';
@@ -32,11 +32,11 @@ export class GraphUnitComponent implements OnInit {
   filterRelation: FilterDto[] = [];
   searchUnit: FormControl;
   filteredUnits: Observable<FilterDto[]>;
-  text: String = '';
+  unitName = '';
 
   @Output() openUnit = new EventEmitter<Unit>();
   @HostBinding('class.is-open')
-  isOpen: Boolean = true;
+  isOpen = true;
 
   constructor(private snackBar: MatSnackBar, private unitService: UnitService,
     private relationService: RelationService, private dialog: MatDialog) {
@@ -88,7 +88,7 @@ export class GraphUnitComponent implements OnInit {
 
   addDataGraph(unitsDto: UnitDto[], relationsDto: RelationDto[]) {
     const units: Unit[] = [];
-    const relations: Relation[] = [];
+    const relations = [];
     for (const unitDto of unitsDto) {
       units.push(new Unit(unitDto.name, unitDto.code));
     }
@@ -163,11 +163,11 @@ export class GraphUnitComponent implements OnInit {
     const helpText = [];
     helpText.push(relationUnit);
     const help = helpText.pop();
-    this.text = text.concat(help);
+    this.unitName = text.concat(help);
   }
 
-  onChange(): String {
-    return this.text;
+  onChange(): string {
+    return this.unitName;
   }
 
   toggle() {
