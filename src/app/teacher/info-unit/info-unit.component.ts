@@ -10,7 +10,7 @@ import { ExerciseUnitComponent } from '../exercise-unit/exercise-unit.component'
 import { VideoUnitComponent } from '../video-unit/video-unit.component';
 import { GraphUnitComponent } from '../graph-unit/graph-unit.component';
 import { UnitService } from '../shared/unit.service';
-import { ItineraryService } from './services/itinerary.service';
+import { ItineraryService } from '../../shared/itinerary.service';
 import { SessionService } from './services/session.service';
 import { LessonService } from './services/lesson.service';
 
@@ -36,7 +36,7 @@ export class InfoUnitComponent {
   }
 
   addLesson(itineraryIndex: number, sessionIndex: number) {
-    const name: String = '';
+    const name = '';
     const message: String = 'Nombre de la lección';
     this.dialog.open(InputDialogComponent, { data: { name: name, message: message } }).afterClosed().subscribe(
       result => {
@@ -55,7 +55,7 @@ export class InfoUnitComponent {
   }
 
   addSession(itineraryIndex: number) {
-    const name: String = '';
+    const name = '';
     const message: String = 'Nombre de la sesión';
     this.dialog.open(InputDialogComponent, { data: { name: name, message: message } }).afterClosed().subscribe(
       result => {
@@ -71,7 +71,7 @@ export class InfoUnitComponent {
   }
 
   addItinerary() {
-    const name: String = '';
+    const name = '';
     const message: String = 'Nombre del itinerario';
     this.dialog.open(InputDialogComponent, { data: { name: name, message: message } }).afterClosed().subscribe(
       result => {

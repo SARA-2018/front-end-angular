@@ -16,7 +16,7 @@ export class VideoUnitComponent {
   }
 
   @HostBinding('class.is-open')
-  isOpen: Boolean = false;
+  isOpen = false;
 
   toggle() {
     this.isOpen = !this.isOpen;
