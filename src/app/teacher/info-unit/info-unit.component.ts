@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Unit } from '../graph-unit/models/unit.model';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { InputDialogComponent } from './input-dialog.component';
@@ -13,6 +13,8 @@ import { UnitService } from '../shared/unit.service';
 import { ItineraryService } from './services/itinerary.service';
 import { SessionService } from './services/session.service';
 import { LessonService } from './services/lesson.service';
+import { Exercise } from '../shared/exercise.model';
+import { ExerciseService } from '../shared/exercise.service';
 
 @Component({
   selector: 'app-info-unit',
@@ -28,10 +30,12 @@ export class InfoUnitComponent {
   @Input() exerciseUnit: ExerciseUnitComponent;
   @Input() graphUnit: GraphUnitComponent;
   @Input() videoUnit: VideoUnitComponent;
+  @Output() infoUnitExercise = new EventEmitter<Exercise>();
 
   constructor(public dialog: MatDialog, private snackBar: MatSnackBar, private unitService: UnitService,
     private  sessionService: SessionService,
     private lessonService: LessonService,
+    private exerciseService: ExerciseService,
     private itineraryService: ItineraryService) {
   }
 
