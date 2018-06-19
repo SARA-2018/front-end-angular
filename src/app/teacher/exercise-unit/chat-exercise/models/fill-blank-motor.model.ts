@@ -1,6 +1,6 @@
 import { Solution } from '../../../shared/solution.model';
 import { Exercise } from '../../../shared/exercise.model';
-import {ExerciseMotor} from './exercise-motor.model';
+import { ExerciseMotor } from './exercise-motor.model';
 
 export class FillBlankMotor extends ExerciseMotor {
 
@@ -18,7 +18,7 @@ export class FillBlankMotor extends ExerciseMotor {
 
   handMessage(): string[] {
     const solutions: Solution[] = [];
-    for ( let i = 0; i < this.exercise.getSolutions().length; i++) {
+    for (let i = 0; i < this.exercise.getSolutions().length; i++) {
       if (this.exercise.getSolutions()[i].getIsCorrect()) {
         solutions.push(this.exercise.getSolutions()[i]);
       }
@@ -37,23 +37,23 @@ export class FillBlankMotor extends ExerciseMotor {
     if (keyWord.length < this.indexStatement.length) {
       result.push('Te faltan espacios por rellenar, complétalos!');
     } else {
-    const solution = this.statement.split(' ');
-    for (let i = 0; i < this.indexStatement.length; i++) {
-      solution[this.indexStatement.sort()[i]] = keyWord[i];
+      const solution = this.statement.split(' ');
+      for (let i = 0; i < this.indexStatement.length; i++) {
+        solution[this.indexStatement.sort()[i]] = keyWord[i];
+      }
+      this.statement = '';
+      for (let j = 0; j < solution.length; j++) {
+        this.statement += solution[j].concat(' ');
+      }
+      studentSolutions.push(new Solution(this.statement, undefined));
+      if (this.verifyResponse(studentSolutions)) {
+        result.push('¡Genial! ¡Has acertado el ejercicio!');
+      } else {
+        this.exercise.addFail();
+        result.push('Oh lo siento.. Pero no has acertado el ejercicio.');
+      }
+      this.overcome = true;
     }
-    this.statement = '';
-    for (let j = 0; j < solution.length; j++) {
-      this.statement += solution[j].concat(' ');
-    }
-    studentSolutions.push(new Solution(this.statement, undefined));
-    if (this.verifyResponse(studentSolutions)) {
-      result.push('¡Genial! ¡Has acertado el ejercicio!');
-    } else {
-      this.exercise.addFail();
-      result.push('Oh lo siento.. Pero no has acertado el ejercicio.');
-    }
-    this.overcome = true;
-  }
     return result;
   }
 
@@ -65,7 +65,7 @@ export class FillBlankMotor extends ExerciseMotor {
     const statementArray = statement.split(' ');
     const optionsArray = [];
     let random: number;
-    for ( let i = 0; i < statementArray.length; i++) {
+    for (let i = 0; i < statementArray.length; i++) {
       if (statementArray[i].length >= this.TAG_STATEMENT) {
         optionsArray.push(i);
       }
