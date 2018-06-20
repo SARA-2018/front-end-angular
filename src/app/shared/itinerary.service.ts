@@ -4,6 +4,7 @@ import { Itinerary } from '../teacher/info-unit/models/itinerary.model';
 import { Observable } from 'rxjs/Observable';
 import { FormationDto } from './dtos/formation.dto';
 import { ItineraryDto } from './dtos/itinerary.dto';
+import { CreateItineraryDto } from '../teacher/info-unit/dtos/create-itinerary.dto';
 
 @Injectable()
 export class ItineraryService {
@@ -13,7 +14,7 @@ export class ItineraryService {
   constructor(private httpService: HttpService) {
   }
 
-  create(itinerary: Itinerary): Observable<any> {
+  create(itinerary: CreateItineraryDto): Observable<any> {
     return this.httpService.successful().post(ItineraryService.END_POINT, itinerary);
   }
 

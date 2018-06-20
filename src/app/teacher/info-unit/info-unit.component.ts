@@ -16,6 +16,8 @@ import { LessonService } from './services/lesson.service';
 import { Exercise } from '../shared/exercise.model';
 import { ExerciseService } from '../shared/exercise.service';
 import { DtoConverter } from '../../shared/dto-converter';
+import { CreateSessionDto } from './dtos/create-session.dto';
+import { CreateItineraryDto } from './dtos/create-itinerary.dto';
 
 @Component({
   selector: 'app-info-unit',
@@ -80,7 +82,9 @@ export class InfoUnitComponent implements OnInit {
     this.dialog.open(InputDialogComponent, { data: { name: name, message: message } }).afterClosed().subscribe(
       result => {
         if (result) {
-          const session: Session = new Session(result);
+          const session: CreateSessionDto = {
+            itineraryId: this.itinerarys[itineraryIndex].getId().toString(),
+            name: result};
           this.sessionService.create(session).subscribe();
           const formationArray: Formation[] = this.itinerarys[itineraryIndex].getFormations();
           formationArray.push(<Formation>session);
@@ -96,9 +100,9 @@ export class InfoUnitComponent implements OnInit {
     this.dialog.open(InputDialogComponent, { data: { name: name, message: message } }).afterClosed().subscribe(
       result => {
         if (result) {
-          const itinerary: Itinerary = new Itinerary();
-          itinerary.setName(result);
-          this.itinerarys.push(itinerary);
+          const itinerary: CreateItineraryDto = {
+            unitCode: this.unit.getCode().toString(),
+            name: result};
           this.itineraryService.create(itinerary).subscribe();
         }
       }
