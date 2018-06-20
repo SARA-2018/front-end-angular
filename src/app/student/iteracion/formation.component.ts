@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import { MatDialog } from '@angular/material';
 import {ItineraryService} from '../../shared/itinerary.service';
-import {ItineraryDto} from '../dtos/itinerary.dto';
-import {FormationDto} from '../dtos/formation.dto';
+import {ItineraryDto} from '../../shared/dtos/itinerary.dto';
+import {FormationDto} from '../../shared/dtos/formation.dto';
+
 
 
 
