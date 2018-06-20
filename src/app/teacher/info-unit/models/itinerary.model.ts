@@ -1,7 +1,7 @@
 import { Formation } from './formation.model';
 
 export class Itinerary extends Formation {
-    private _id: number;
+    private _id: string;
     private name: string;
     private formations: Formation[];
 
@@ -11,7 +11,7 @@ export class Itinerary extends Formation {
         this.formations = [];
     }
 
-    setId(id: number): Itinerary {
+    setId(id: string): Itinerary {
         this._id = id;
         return this;
     }
@@ -23,7 +23,7 @@ export class Itinerary extends Formation {
         this.formations = formations;
         return this;
     }
-    getId(): number {
+    getId(): string {
         return this._id;
     }
     getName(): string {
