@@ -2,7 +2,7 @@ import { Solution } from './solution.model';
 import { Interaction } from '../info-unit/models/interaction.model';
 
 export class Exercise extends Interaction {
-    private _id: number;
+    private _id: string;
     private formulation: string;
     private counterFail = 0;
     private solutions: Solution[];
@@ -20,7 +20,7 @@ export class Exercise extends Interaction {
         this.solutions.concat(solutions);
         return this;
     }
-    setId(id: number): Exercise {
+    setId(id: string): Exercise {
         this._id = id;
         return this;
     }
@@ -32,7 +32,7 @@ export class Exercise extends Interaction {
         this.solutions = solutions;
         return this;
     }
-    getId(): number {
+    getId(): string {
         return this._id;
     }
     getFormulation(): string {
