@@ -1,4 +1,4 @@
-import { UnitDto } from './unit.dto';
+import { UnitDto } from '../../shared/unit.dto';
 import { RelationDto } from './relation.dto';
 
 export interface FriendsDto {

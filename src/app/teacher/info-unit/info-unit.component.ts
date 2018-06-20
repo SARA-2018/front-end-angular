@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { Unit } from '../graph-unit/models/unit.model';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { InputDialogComponent } from './input-dialog.component';
@@ -22,7 +22,7 @@ import { ExerciseService } from '../shared/exercise.service';
   styleUrls: ['info-unit.component.css']
 })
 
-export class InfoUnitComponent {
+export class InfoUnitComponent implements OnInit {
 
   public itinerarys: Itinerary[] = [];
 
@@ -33,10 +33,13 @@ export class InfoUnitComponent {
   @Output() infoUnitExercise = new EventEmitter<Exercise>();
 
   constructor(public dialog: MatDialog, private snackBar: MatSnackBar, private unitService: UnitService,
-    private  sessionService: SessionService,
+    private sessionService: SessionService,
     private lessonService: LessonService,
     private exerciseService: ExerciseService,
     private itineraryService: ItineraryService) {
+  }
+
+  ngOnInit() {
   }
 
   addLesson(itineraryIndex: number, sessionIndex: number) {
