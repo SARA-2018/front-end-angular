@@ -41,6 +41,10 @@ export class Unit {
     return this.itineraries;
   }
 
+  setItineraries(itinerary: Itinerary[]) {
+    this.itineraries = itinerary;
+  }
+
   setAscendantBlock(ascendantBlock: Block) {
     this.ascendantBlock = ascendantBlock;
   }

@@ -2,7 +2,7 @@ import { Lesson } from './lesson.model';
 import { Formation } from './formation.model';
 
 export class Session extends Formation {
-    private _id: number;
+    private _id: string;
     private name: string;
     private lessons: Lesson[];
 
@@ -12,7 +12,7 @@ export class Session extends Formation {
         this.lessons = [];
     }
 
-    setId(id: number): Session {
+    setId(id: string): Session {
         this._id = id;
         return this;
     }
@@ -24,7 +24,7 @@ export class Session extends Formation {
         this.lessons = lessons;
         return this;
     }
-    getId(): number {
+    getId(): string {
         return this._id;
     }
     getName(): string {
@@ -32,5 +32,9 @@ export class Session extends Formation {
     }
     getLessons(): Lesson[] {
         return this.lessons;
+    }
+
+    addLesson(lesson: Lesson) {
+    this.lessons.push(lesson);
     }
 }
