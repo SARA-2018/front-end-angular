@@ -6,7 +6,7 @@
     <app-video-unit #videoUnit></app-video-unit>
   </div>
   <div fxFlex>
-    <app-info-unit [exerciseUnit]="exerciseUnit" [graphUnit] = "graphUnit" [videoUnit]="videoUnit" [unit] = "unit"></app-info-unit>
+    <app-info-unit *ngIf="unit" [exerciseUnit]="exerciseUnit" [graphUnit] = "graphUnit" [videoUnit]="videoUnit" [unit] = "unit"></app-info-unit>
   </div>
 </div>
 <router-outlet></router-outlet>

@@ -5,8 +5,9 @@ export class Itinerary extends Formation {
     private name: string;
     private formations: Formation[];
 
-    constructor() {
+    constructor(name?: string) {
         super();
+        this.name = name;
         this.formations = [];
     }
 
@@ -30,5 +31,9 @@ export class Itinerary extends Formation {
     }
     getFormations(): Formation[] {
         return this.formations;
+    }
+
+    addFormation(formation: Formation) {
+        this.formations.push(formation);
     }
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { UnitDto } from '../graph-unit/dtos/unit.dto';
+import { UnitDto } from '../shared/unit.dto';
 import { HttpService } from '../../core/http.service';
 import { FilterDto } from '../graph-unit/dtos/filter.dto';
 import { FriendsDto } from '../graph-unit/dtos/friends.dto';
@@ -32,6 +32,10 @@ export class UnitService {
     return this.httpService.get(UnitService.END_POINT);
   }
 
+  getByCode(unit: Unit): Observable<UnitDto[]> {
+    return this.httpService.get(UnitService.END_POINT + '/' + unit.getCode());
+  }
+
   getUnitsNotRelated(): Observable<UnitDto[]> {
     return this.httpService.get(UnitService.END_POINT + '/notrelated');
   }
@@ -43,4 +47,5 @@ export class UnitService {
   getFriendsByCode(code: number): Observable<FriendsDto> {
     return this.httpService.get(UnitService.END_POINT + `/friends/${code}`);
   }
+
 }

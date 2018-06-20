@@ -1,63 +1,60 @@
-<div *ngIf="unit">
-  <mat-accordion>
-    <mat-expansion-panel>
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          Contenido de la unidad {{unit.getName()}}
-        </mat-panel-title>
-      </mat-expansion-panel-header>
-      <textarea class="exercise" matInput [(ngModel)]="unit.content"></textarea>
-      <mat-action-row>
-        <button mat-raised-button color="primary" (click)="saveUnitContent()" class="button-content">Guardar</button>
-      </mat-action-row>
-    </mat-expansion-panel>
-  </mat-accordion>
-  <mat-expansion-panel [expanded]="0">
+<mat-accordion>
+  <mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-title>
-        Itinerarios
+        Contenido de la unidad {{unit.getName()}}
       </mat-panel-title>
     </mat-expansion-panel-header>
-    <mat-tab-group>
-      <mat-tab *ngFor="let itinerary of itinerarys; let i = index" label={{itinerary.getName()}}>
-        <mat-action-row>
-          <button mat-raised-button color="primary" class="button-content" (click)="addSession(i)">
-            <mat-icon>add_circle_outline</mat-icon>
-            Añadir sesión</button>
-        </mat-action-row>
-        <mat-card *ngFor="let session of itinerary.getFormations(); let j = index">
-          <h4>{{session.getName()}}</h4>
-          <mat-card-content>
-            <mat-action-row>
-              <button mat-raised-button color="primary" class="button-content" (click)="addLesson(i,j)">
-                <mat-icon>add_circle_outline</mat-icon> Añadir lección</button>
-            </mat-action-row>
-            <mat-card *ngFor="let lesson of session.getLessons()" class="" id="card_lesson">
-              <h4>{{lesson.getName()}}</h4>
-              <mat-card-content>
-                <mat-card id="card_cont_lesson">
-                  <mat-card-content>
-
-
-                  </mat-card-content>
-                  <mat-action-row>
-                    <button mat-raised-button color="primary" class="button-content" (click)="addVideo()">Añadir video</button>
-                    <button mat-raised-button color="primary" class="button-content" (click)="addExercise()">Añadir ejercicio</button>
-                  </mat-action-row>
-                </mat-card>
-              </mat-card-content>
-            </mat-card>
-          </mat-card-content>
-        </mat-card>
-      </mat-tab>
-      <mat-tab>
-        <ng-template mat-tab-label>
-          <button *ngIf="itinerarys.length != 5" mat-raised-button color="primary" id="itinerary" (click)="addItinerary()">
-            <mat-icon>add_circle_outline</mat-icon>
-          </button>
-        </ng-template>
-      </mat-tab>
-    </mat-tab-group>
+    <textarea class="exercise" matInput [(ngModel)]="unit.content"></textarea>
+    <mat-action-row>
+      <button mat-raised-button color="primary" (click)="saveUnitContent()" class="button-content">Guardar</button>
+    </mat-action-row>
   </mat-expansion-panel>
-</div>
+</mat-accordion>
+<mat-expansion-panel [expanded]="0">
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      Itinerarios
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+  <mat-tab-group>
+    <mat-tab *ngFor="let itinerary of itinerarys; let i = index" label={{itinerary.getName()}}>
+      <mat-action-row>
+        <button mat-raised-button color="primary" class="button-content" (click)="addSession(i)">
+          <mat-icon>add_circle_outline</mat-icon>
+          Añadir sesión</button>
+      </mat-action-row>
+      <mat-card *ngFor="let session of itinerary.getFormations(); let j = index">
+        <h4>{{session.getName()}}</h4>
+        <mat-card-content>
+          <mat-action-row>
+            <button mat-raised-button color="primary" class="button-content" (click)="addLesson(i,j)">
+              <mat-icon>add_circle_outline</mat-icon> Añadir lección</button>
+          </mat-action-row>
+          <mat-card *ngFor="let lesson of session.getLessons()" class="" id="card_lesson">
+            <h4>{{lesson.getName()}}</h4>
+            <mat-card-content>
+              <mat-card id="card_cont_lesson">
+                <mat-card-content>
+
+                </mat-card-content>
+                <mat-action-row>
+                  <button mat-raised-button color="primary" class="button-content" (click)="addVideo()">Añadir video</button>
+                  <button mat-raised-button color="primary" class="button-content" (click)="addExercise()">Añadir ejercicio</button>
+                </mat-action-row>
+              </mat-card>
+            </mat-card-content>
+          </mat-card>
+        </mat-card-content>
+      </mat-card>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <button *ngIf="itinerarys.length != 5" mat-raised-button color="primary" id="itinerary" (click)="addItinerary()">
+          <mat-icon>add_circle_outline</mat-icon>
+        </button>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+</mat-expansion-panel>
 <router-outlet></router-outlet>
