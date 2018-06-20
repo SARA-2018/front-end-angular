@@ -1,8 +1,8 @@
-import { ItineraryDto } from '../../shared/dtos/itinerary.dto';
+import { ItineraryMiddle } from '../../shared/dtos/itinerary-middle.dto';
 
 export interface UnitDto {
     name: string;
     code: number;
     content: string;
-    itineraries?: ItineraryDto[];
+    itineraries?: ItineraryMiddle[];
 }

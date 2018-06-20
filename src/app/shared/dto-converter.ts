@@ -18,6 +18,7 @@ import { Solution} from '../teacher/shared/solution.model';
 import { SolutionDto} from './dtos/solution.dto';
 import { JustificationDto} from './dtos/justification.dto';
 import { Justification} from '../teacher/shared/justification.model';
+import { ItineraryMiddle } from './dtos/itinerary-middle.dto';
 
 
 export class DtoConverter {
@@ -30,10 +31,14 @@ export class DtoConverter {
     const unit: Unit = new Unit(unitDto.name, unitDto.code, unitDto.content);
     if (unitDto.itineraries) {
       for (let i = 0; i < unitDto.itineraries.length; i++) {
-        unit.addItinerary(this.convertItinerary(unitDto.itineraries[i]));
+        unit.addItinerary(this.convertMiddlewareItinerary(unitDto.itineraries[i]));
       }
     }
     return unit;
+  }
+
+  convertMiddlewareItinerary(itineraryMiddleDto: ItineraryMiddle): Itinerary {
+    return this.convertItinerary(itineraryMiddleDto.itinerary);
   }
 
   convertItinerary(itineraryDto: ItineraryDto): Itinerary {
