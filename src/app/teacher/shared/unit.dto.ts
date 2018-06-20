@@ -1,4 +1,4 @@
-import { ItineraryDto } from '../info-unit/dtos/itinerary.dto';
+import { ItineraryDto } from '../../shared/dtos/itinerary.dto';
 
 export interface UnitDto {
     name: string;

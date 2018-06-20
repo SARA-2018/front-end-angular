@@ -106,7 +106,7 @@ export class GraphUnitComponent implements OnInit {
   }
 
   finishExecutionOpenCommand(friends) {
-    const unit = new Unit(friends.unit.name, friends.unit.code, friends.unit.content, friends.unit.itineraries);
+    const unit = new Unit(friends.unit.name, friends.unit.code, friends.unit.content);
     this.openUnit.emit(unit);
     this.synchronizedGraph(friends);
     this.synchronizedUnitsNotRelated();
