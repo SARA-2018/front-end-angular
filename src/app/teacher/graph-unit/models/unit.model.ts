@@ -13,11 +13,10 @@ export class Unit {
   private ascendantBlock: Block;
   private descendantBlocks: Block[] = [];
 
-  constructor(name: string, code?: number, content?: string, itineraries?: Itinerary[]) {
+  constructor(name: string, code?: number, content?: string) {
     this.name = name;
     this.code = code;
     this.content = content;
-    this.itineraries = itineraries;
   }
 
   getCode(): number {
@@ -32,6 +31,10 @@ export class Unit {
   }
   setContent(content: string) {
     this.content = content;
+  }
+
+  addItinerary(itinerary: Itinerary) {
+    this.itineraries.push(itinerary);
   }
 
   getItineraries(): Itinerary[] {

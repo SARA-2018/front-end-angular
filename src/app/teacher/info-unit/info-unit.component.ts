@@ -36,8 +36,6 @@ export class InfoUnitComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('unit ngoninit');
-    console.log(this.unit);
   }
 
   addLesson(itineraryIndex: number, sessionIndex: number) {
