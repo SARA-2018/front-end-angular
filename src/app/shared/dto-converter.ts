@@ -28,8 +28,10 @@ export class DtoConverter {
 
   convertUnit(unitDto: UnitDto): Unit {
     const unit: Unit = new Unit(unitDto.name, unitDto.code, unitDto.content);
-    for (let i = 0; i < unitDto.itineraries.length; i++) {
-      unit.addItinerary(this.convertItinerary(unitDto.itineraries[i]));
+    if (unitDto.itineraries) {
+      for (let i = 0; i < unitDto.itineraries.length; i++) {
+        unit.addItinerary(this.convertItinerary(unitDto.itineraries[i]));
+      }
     }
     return unit;
   }
@@ -37,8 +39,10 @@ export class DtoConverter {
   convertItinerary(itineraryDto: ItineraryDto): Itinerary {
     const itinerary: Itinerary = new Itinerary(itineraryDto.name);
     itinerary.setId(itineraryDto.id);
-    for (let i = 0; i < itineraryDto.formations.length; i++) {
-      itinerary.addFormation(this.convertFormation(itineraryDto.formations[i]));
+    if (itineraryDto.formations) {
+      for (let i = 0; i < itineraryDto.formations.length; i++) {
+        itinerary.addFormation(this.convertFormation(itineraryDto.formations[i]));
+      }
     }
     return itinerary;
   }
@@ -54,8 +58,10 @@ export class DtoConverter {
   convertSession(sessionDto: SessionDto): Session {
     const session: Session = new Session(sessionDto.name);
     session.setId(sessionDto.id);
-    for (let i = 0; i < sessionDto.lessons.length; i++) {
-      session.addLesson(this.convertLesson(sessionDto.lessons[i]));
+    if (sessionDto.lessons) {
+      for (let i = 0; i < sessionDto.lessons.length; i++) {
+        session.addLesson(this.convertLesson(sessionDto.lessons[i]));
+      }
     }
     return session;
   }
@@ -63,8 +69,10 @@ export class DtoConverter {
   convertLesson(lessonDto: LessonDto): Lesson {
     const lesson: Lesson = new Lesson(lessonDto.name);
     lesson.setId(lessonDto.id);
-    for (let i = 0; i < lessonDto.interactions.length; i++) {
-      lesson.addInteractions(this.convertInteraction(lessonDto.interactions[i]));
+    if (lessonDto.interactions) {
+      for (let i = 0; i < lessonDto.interactions.length; i++) {
+        lesson.addInteractions(this.convertInteraction(lessonDto.interactions[i]));
+      }
     }
     return lesson;
   }
@@ -72,8 +80,10 @@ export class DtoConverter {
   convertExercise(exerciseDto: ExerciseDto): Exercise {
     const exercise: Exercise = new Exercise(exerciseDto.formulation);
     exercise.setId(exerciseDto.id);
-    for (let i = 0; i < exerciseDto.solutions.length; i++) {
-      exercise.addSolution(this.convertSolution(exerciseDto.solutions[i]));
+    if (exerciseDto.solutions) {
+      for (let i = 0; i < exerciseDto.solutions.length; i++) {
+        exercise.addSolution(this.convertSolution(exerciseDto.solutions[i]));
+      }
     }
     return exercise;
   }
@@ -92,8 +102,10 @@ export class DtoConverter {
 
   convertSolution(solutionDto: SolutionDto): Solution {
     const solution: Solution = new Solution(solutionDto.text, solutionDto.isCorrect);
-    for (let i = 0; i < solutionDto.justifications.length; i++) {
-      solution.addJustification(this.convertJustification(solutionDto.justifications[i]));
+    if (solutionDto.justifications) {
+      for (let i = 0; i < solutionDto.justifications.length; i++) {
+        solution.addJustification(this.convertJustification(solutionDto.justifications[i]));
+      }
     }
     return solution;
   }
