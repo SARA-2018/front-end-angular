@@ -20,6 +20,7 @@ export class FormationComponent implements OnInit {
   itinerarys: Itinerary[] = [];
   sessions: Session[] = [];
   lessons: Lesson[] = [];
+  formations: Formation[] = [];
 
   constructor(public dialog: MatDialog, private itineraryService: ItineraryService) {
   }
@@ -40,18 +41,19 @@ export class FormationComponent implements OnInit {
   openItineraryInfo(formations) {
     this.sessions = [];
     this.lessons = [];
+    this.formations = [];
     for (const formation of formations) {
       if (!formation.formations) { // session
         this.sessions.push(formation);
         for (const lesson of formation.getLessons()) {
           this.lessons.push(lesson);
         }
-        console.log(this.sessions);
-        this.dialog.open(FormationDialogComponent, {data: {sessions: this.sessions, lessons: this.lessons}}).afterClosed().subscribe();
       } else {
-        console.log(formation);
+        this.formations.push(formation);
       }
     }
+    this.dialog.open(FormationDialogComponent, {data: {formations: this.formations, sessions: this.sessions, lessons: this.lessons}}
+    ).afterClosed().subscribe();
   }
 
 }

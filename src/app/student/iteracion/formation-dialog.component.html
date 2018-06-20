@@ -2,6 +2,10 @@
   <h3>Contenido del itinerario</h3>
   <mat-nav-list>
     <ul>
+      <li type=disc *ngFor="let formation of data.formations">{{formation.getName()}}
+      </li>
+    </ul>
+    <ul>
       <li type=disc *ngFor="let session of data.sessions">{{session.getName()}}
         <ul>
           <li *ngFor="let lesson of data.lessons">{{lesson.getName()}}
