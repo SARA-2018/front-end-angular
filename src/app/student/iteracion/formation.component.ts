@@ -1,55 +1,57 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import {ItineraryService} from '../../shared/itinerary.service';
-import {ItineraryDto} from '../../shared/dtos/itinerary.dto';
-import {FormationDto} from '../../shared/dtos/formation.dto';
-
-
-
+import { ItineraryService } from '../../shared/itinerary.service';
+import {DtoConverter} from '../../shared/dto-converter';
+import {SessionDto} from '../../shared/dtos/session.dto';
+import {Itinerary} from '../../teacher/info-unit/models/itinerary.model';
+import {Formation} from '../../teacher/info-unit/models/formation.model';
+import {FormationDialogComponent} from './formation-dialog.component';
+import {Lesson} from '../../teacher/info-unit/models/lesson.model';
+import {Session} from '../../teacher/info-unit/models/session.model';
 
 @Component({
     selector: 'app-formation',
     templateUrl: 'formation.component.html',
     styleUrls: ['formation.component.css']
-
 })
 
 export class FormationComponent implements OnInit {
 
-  itinerarys: ItineraryDto[] = [];
-  formations: FormationDto[] = [];
-    constructor(public dialog: MatDialog, private itineraryService: ItineraryService) {
-    }
+  itinerarys: Itinerary[] = [];
+  sessions: Session[] = [];
+  lessons: Lesson[] = [];
 
-  ngOnInit(): void {
-    this.getItinerarys();
-    console.log(this.itinerarys);
+  constructor(public dialog: MatDialog, private itineraryService: ItineraryService) {
   }
 
-  getItinerarys(): ItineraryDto[] {
-    this.itineraryService.getAll().subscribe(data => {
-      this.formations = data;
-      for (let i = 0; i < data.length; i++) {
-        this.itinerarys.push(data[i].itinerary);
+  ngOnInit(): void {
+    this.itinerary();
+  }
+
+  itinerary(): Itinerary[] {
+    this.itineraryService.getAll().subscribe(itinerarysDto => {
+      for (const itineraryDto of itinerarysDto) {
+        this.itinerarys.push(new DtoConverter().convertItinerary(itineraryDto.itinerary));
       }
     });
     return this.itinerarys;
   }
 
-
-
-
-    /*openItineraryInfo(formations: Formation) {
-        this.dialog.open(FormationDialogComponent, { data: { formations: formations}  }).afterClosed().subscribe(
-            result => {
-              if (result) {
-                const itinerary: Itinerary = new Itinerary();
-                itinerary.setName(result);
-                this.itinerarys.push(itinerary);
-                // this.itineraryService.create(itinerary).subscribe();
-              }
-            }
-          );
-    }*/
+  openItineraryInfo(formations) {
+    this.sessions = [];
+    this.lessons = [];
+    for (const formation of formations) {
+      if (!formation.formations) { // session
+        this.sessions.push(formation);
+        for (const lesson of formation.getLessons()) {
+          this.lessons.push(lesson);
+        }
+        console.log(this.sessions);
+        this.dialog.open(FormationDialogComponent, {data: {sessions: this.sessions, lessons: this.lessons}}).afterClosed().subscribe();
+      } else {
+        console.log(formation);
+      }
+    }
+  }
 
 }
