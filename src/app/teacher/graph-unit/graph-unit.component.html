@@ -24,7 +24,7 @@
       <mat-form-field class="full-width">
         <label>
           <input matInput #box type="text" class="full-width" (keyup.enter)="onEnter(box.value)" [formControl]="searchUnit" [matAutocomplete]="auto"
-            [value]="text">
+            [value]="unitName">
         </label>
         <mat-autocomplete #auto="matAutocomplete">
           <mat-option *ngFor="let relationUnit of filteredUnits| async" [value]="onChange()" (onSelectionChange)="onSelection(relationUnit.unit.name.concat('#' + relationUnit.unit.code), box.value)">

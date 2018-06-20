@@ -6,8 +6,8 @@ export class FillBlankMotor extends ExerciseMotor {
 
   public exercise: Exercise;
 
-  private TAG_STATEMENT: Number = 4;
-  private OPTIONS_EMPTY: Number = 2;
+  private TAG_STATEMENT = 4;
+  private OPTIONS_EMPTY = 2;
   private indexStatement: number[] = [];
   private solution: Solution;
   private statement = '';

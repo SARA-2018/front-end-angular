@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { Unit } from '../graph-unit/models/unit.model';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { InputDialogComponent } from './input-dialog.component';
@@ -10,9 +10,11 @@ import { ExerciseUnitComponent } from '../exercise-unit/exercise-unit.component'
 import { VideoUnitComponent } from '../video-unit/video-unit.component';
 import { GraphUnitComponent } from '../graph-unit/graph-unit.component';
 import { UnitService } from '../shared/unit.service';
-import { ItineraryService } from './services/itinerary.service';
+import { ItineraryService } from '../../shared/itinerary.service';
 import { SessionService } from './services/session.service';
 import { LessonService } from './services/lesson.service';
+import { Exercise } from '../shared/exercise.model';
+import { ExerciseService } from '../shared/exercise.service';
 
 @Component({
   selector: 'app-info-unit',
@@ -28,10 +30,12 @@ export class InfoUnitComponent implements OnInit {
   @Input() exerciseUnit: ExerciseUnitComponent;
   @Input() graphUnit: GraphUnitComponent;
   @Input() videoUnit: VideoUnitComponent;
+  @Output() infoUnitExercise = new EventEmitter<Exercise>();
 
   constructor(public dialog: MatDialog, private snackBar: MatSnackBar, private unitService: UnitService,
     private sessionService: SessionService,
     private lessonService: LessonService,
+    private exerciseService: ExerciseService,
     private itineraryService: ItineraryService) {
   }
 
@@ -39,8 +43,8 @@ export class InfoUnitComponent implements OnInit {
   }
 
   addLesson(itineraryIndex: number, sessionIndex: number) {
-    const name: String = '';
-    const message: String = 'Nombre de la lección';
+    const name = '';
+    const message = 'Nombre de la lección';
     this.dialog.open(InputDialogComponent, { data: { name: name, message: message } }).afterClosed().subscribe(
       result => {
         if (result) {
@@ -58,8 +62,8 @@ export class InfoUnitComponent implements OnInit {
   }
 
   addSession(itineraryIndex: number) {
-    const name: String = '';
-    const message: String = 'Nombre de la sesión';
+    const name = '';
+    const message = 'Nombre de la sesión';
     this.dialog.open(InputDialogComponent, { data: { name: name, message: message } }).afterClosed().subscribe(
       result => {
         if (result) {
@@ -74,8 +78,8 @@ export class InfoUnitComponent implements OnInit {
   }
 
   addItinerary() {
-    const name: String = '';
-    const message: String = 'Nombre del itinerario';
+    const name = '';
+    const message = 'Nombre del itinerario';
     this.dialog.open(InputDialogComponent, { data: { name: name, message: message } }).afterClosed().subscribe(
       result => {
         if (result) {

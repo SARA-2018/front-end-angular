@@ -1,9 +1,8 @@
-import { Component } from '@angular/core';
-import { Itinerary } from '../../teacher/info-unit/models/itinerary.model';
-import { Formation } from '../../teacher/info-unit/models/formation.model';
-import { Session } from '../../teacher/info-unit/models/session.model';
+import {Component, OnInit} from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { FormationDialogComponent } from './formation-dialog.component';
+import {ItineraryService} from '../../shared/itinerary.service';
+import {ItineraryDto} from '../dtos/itinerary.dto';
+import {FormationDto} from '../dtos/formation.dto';
 
 
 
@@ -14,22 +13,32 @@ import { FormationDialogComponent } from './formation-dialog.component';
 
 })
 
-export class FormationComponent {
+export class FormationComponent implements OnInit {
 
-    private itinerarys: Itinerary[] = [];
-    constructor(public dialog: MatDialog) {
-        const it1 = new Itinerary();
-        const it2 = new Itinerary();
-        it1.setName('Itinerario dfjklasdñfljadlskfjañlsdkfj');
-        it2.setName('Nombre del Itinerario 2');
-        this.itinerarys.push(it2);
-        it1.setFormations([new Session('blablabla'), it2]);
-        this.itinerarys.push(it1);
-        this.itinerarys.push(it1);
-        console.log(this.itinerarys);
+  itinerarys: ItineraryDto[] = [];
+  formations: FormationDto[] = [];
+    constructor(public dialog: MatDialog, private itineraryService: ItineraryService) {
     }
 
-    openItineraryInfo(formations: Formation) {
+  ngOnInit(): void {
+    this.getItinerarys();
+    console.log(this.itinerarys);
+  }
+
+  getItinerarys(): ItineraryDto[] {
+    this.itineraryService.getAll().subscribe(data => {
+      this.formations = data;
+      for (let i = 0; i < data.length; i++) {
+        this.itinerarys.push(data[i].itinerary);
+      }
+    });
+    return this.itinerarys;
+  }
+
+
+
+
+    /*openItineraryInfo(formations: Formation) {
         this.dialog.open(FormationDialogComponent, { data: { formations: formations}  }).afterClosed().subscribe(
             result => {
               if (result) {
@@ -40,6 +49,6 @@ export class FormationComponent {
               }
             }
           );
-    }
+    }*/
 
 }
