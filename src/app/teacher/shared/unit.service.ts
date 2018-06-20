@@ -19,7 +19,8 @@ export class UnitService {
   }
 
   setContent(unit: Unit): Observable<any> {
-    return this.httpService.successful().put(UnitService.END_POINT + '/' + unit.getCode() , { content: unit.getContent() });
+    return this.httpService.successful().put(UnitService.END_POINT + '/' + unit.getCode() ,
+     { name: unit.getName(), content: unit.getContent() });
   }
 
   filter(name: string): Observable<FilterDto[]> {

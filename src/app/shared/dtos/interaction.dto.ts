@@ -3,6 +3,6 @@ import { VideoDto } from './video.dto';
 
 export interface InteractionDto {
 
-    exerciseDto?: ExerciseDto;
-    videoDto?: VideoDto;
+    exercise?: ExerciseDto;
+    video?: VideoDto;
 }
