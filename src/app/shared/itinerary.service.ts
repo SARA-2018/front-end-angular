@@ -3,6 +3,7 @@ import { HttpService } from '../core/http.service';
 import { Itinerary } from '../teacher/info-unit/models/itinerary.model';
 import { Observable } from 'rxjs/Observable';
 import { FormationDto } from './dtos/formation.dto';
+import { ItineraryDto } from './dtos/itinerary.dto';
 
 @Injectable()
 export class ItineraryService {
@@ -18,5 +19,9 @@ export class ItineraryService {
 
   getAll(): Observable<FormationDto[]> {
     return this.httpService.get(ItineraryService.END_POINT);
+  }
+
+  getById(id: string): Observable<ItineraryDto> {
+    return this.httpService.get(ItineraryService.END_POINT + '/' + id);
   }
 }

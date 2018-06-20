@@ -15,6 +15,7 @@ import { SessionService } from './services/session.service';
 import { LessonService } from './services/lesson.service';
 import { Exercise } from '../shared/exercise.model';
 import { ExerciseService } from '../shared/exercise.service';
+import { DtoConverter } from '../../shared/dto-converter';
 
 @Component({
   selector: 'app-info-unit',
@@ -40,7 +41,18 @@ export class InfoUnitComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.itinerarys = this.unit.getItineraries();
+    this.updateUnit();
+  }
+
+  updateUnit() {
+    for (const itinerary of this.unit.getItineraries()) {
+      this.itineraryService.getById(itinerary.getId()).subscribe(
+        (itineraryDto) => {
+          const itinerary2 = new DtoConverter().convertItinerary(itineraryDto);
+          this.itinerarys.push(itinerary2);
+        }
+      );
+    }
   }
 
   addLesson(itineraryIndex: number, sessionIndex: number) {
