@@ -1,15 +1,15 @@
 import { Interaction } from './interaction.model';
 
 export class Video extends Interaction  {
-    private _id: number;
+    private _id: string;
     private url: string;
     private kind: string;
 
-    constructor(url: string) {
+    constructor(url?: string) {
         super();
         this.url = url;
     }
-    setId(id: number): Video {
+    setId(id: string): Video {
         this._id = id;
         return this;
     }
@@ -21,7 +21,7 @@ export class Video extends Interaction  {
         this.kind = kind;
         return this;
     }
-    getId(): number {
+    getId(): string {
         return this._id;
     }
     getUrl(): string {

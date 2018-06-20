@@ -94,15 +94,20 @@ export class DtoConverter {
   }
 
   convertInteraction(interactionDto: InteractionDto): Interaction {
-    if (interactionDto.exerciseDto) {
-      return this.convertExercise(interactionDto.exerciseDto);
+    if (interactionDto.exercise) {
+      return this.convertExercise(interactionDto.exercise);
     } else {
-      return this.convertVideo(interactionDto.videoDto);
+      return this.convertVideo(interactionDto.video);
     }
   }
 
   convertVideo(videoDto: VideoDto): Video {
-    return new Video(videoDto.url);
+    const video = new Video();
+    video.setId(videoDto.id);
+    if (videoDto.url) {
+      video.setUrl(videoDto.url);
+    }
+    return video;
   }
 
   convertSolution(solutionDto: SolutionDto): Solution {
