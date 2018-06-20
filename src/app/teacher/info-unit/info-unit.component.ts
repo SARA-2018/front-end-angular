@@ -47,6 +47,7 @@ export class InfoUnitComponent implements OnInit {
   }
 
   updateUnit() {
+    this.itinerarys = [];
     for (const itinerary of this.unit.getItineraries()) {
       this.itineraryService.getById(itinerary.getId()).subscribe(
         (itineraryDto) => {
@@ -107,6 +108,7 @@ export class InfoUnitComponent implements OnInit {
         }
       }
     );
+    this.updateUnit();
   }
 
   addExercise() {
