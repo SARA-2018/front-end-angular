@@ -40,6 +40,7 @@ export class InfoUnitComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.itinerarys = this.unit.getItineraries();
   }
 
   addLesson(itineraryIndex: number, sessionIndex: number) {

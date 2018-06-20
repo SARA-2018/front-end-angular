@@ -17,6 +17,7 @@ import { Link } from './models/link.model';
 import { Node } from './models/node.model';
 import { FriendsDto } from './dtos/friends.dto';
 import { OpenUnit } from './models/commands/open-unit.model';
+import { DtoConverter } from '../../shared/dto-converter';
 
 @Component({
   selector: 'app-graph-unit',
@@ -106,8 +107,7 @@ export class GraphUnitComponent implements OnInit {
   }
 
   finishExecutionOpenCommand(friends) {
-    const unit = new Unit(friends.unit.name, friends.unit.code, friends.unit.content);
-    this.openUnit.emit(unit);
+    this.openUnit.emit(new DtoConverter().convertUnit(friends.unit));
     this.synchronizedGraph(friends);
     this.synchronizedUnitsNotRelated();
   }
