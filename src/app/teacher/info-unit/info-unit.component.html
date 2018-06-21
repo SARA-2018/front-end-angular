@@ -34,7 +34,7 @@
           <mat-card *ngFor="let lesson of session.getLessons()" id="card_lesson">
             <h4>{{lesson.getName()}}</h4>
             <mat-card-content>
-              <mat-card *ngFor="let interaction of session.getInteractions(); let z = index" id="card_cont_lesson">
+              <mat-card *ngFor="let interaction of lesson.getInteractions(); let z = index" id="card_cont_lesson">
                 <mat-card-content>
 
                 </mat-card-content>
