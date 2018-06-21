@@ -21,4 +21,8 @@ export class ItineraryService {
   getAll(): Observable<FormationDto[]> {
     return this.httpService.get(ItineraryService.END_POINT);
   }
+
+  getById(id: string): Observable<ItineraryDto> {
+    return this.httpService.get(ItineraryService.END_POINT + '/' + id);
+  }
 }

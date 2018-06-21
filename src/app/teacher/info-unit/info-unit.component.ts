@@ -15,6 +15,7 @@ import { SessionService } from './services/session.service';
 import { LessonService } from './services/lesson.service';
 import { Exercise } from '../shared/exercise.model';
 import { ExerciseService } from '../shared/exercise.service';
+import { DtoConverter } from '../../shared/dto-converter';
 import { CreateSessionDto } from './dtos/create-session.dto';
 import { CreateItineraryDto } from './dtos/create-itinerary.dto';
 
@@ -42,7 +43,19 @@ export class InfoUnitComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.itinerarys = this.unit.getItineraries();
+    this.updateUnit();
+  }
+
+  updateUnit() {
+    this.itinerarys = [];
+    for (const itinerary of this.unit.getItineraries()) {
+      this.itineraryService.getById(itinerary.getId()).subscribe(
+        (itineraryDto) => {
+          const itinerary2 = new DtoConverter().convertItinerary(itineraryDto);
+          this.itinerarys.push(itinerary2);
+        }
+      );
+    }
   }
 
   addLesson(itineraryIndex: number, sessionIndex: number) {
@@ -95,6 +108,7 @@ export class InfoUnitComponent implements OnInit {
         }
       }
     );
+    this.updateUnit();
   }
 
   addExercise() {

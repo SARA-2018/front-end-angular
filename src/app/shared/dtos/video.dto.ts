@@ -1,3 +1,4 @@
 export interface VideoDto {
-    url: string;
+    id: string;
+    url?: string;
 }
