@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpService } from '../../../core/http.service';
 import { Lesson } from '../models/lesson.model';
 import { Observable } from 'rxjs/Observable';
+import { CreateLessonDto } from '../dtos/create-lesson.dto';
 
 @Injectable()
 export class LessonService {
@@ -11,7 +12,7 @@ export class LessonService {
   constructor(private httpService: HttpService) {
   }
 
-  create(lesson: Lesson): Observable<any> {
+  create(lesson: CreateLessonDto): Observable<any> {
     return this.httpService.successful().post(LessonService.END_POINT, lesson);
   }
 }
