@@ -48,14 +48,12 @@ export class InfoUnitComponent implements OnInit {
 
   updateUnit() {
     this.itinerarys = [];
-    for (const itinerary of this.unit.getItineraries()) {
-      this.itineraryService.getById(itinerary.getId()).subscribe(
-        (itineraryDto) => {
-          const itinerary2 = new DtoConverter().convertItinerary(itineraryDto);
-          this.itinerarys.push(itinerary2);
-        }
-      );
-    }
+    this.unitService.getByCode(this.unit).subscribe(
+      (unitDto) => {
+        this.unit = new DtoConverter().convertUnit(unitDto);
+        this.itinerarys = this.unit.getItineraries();
+      }
+    );
   }
 
   addLesson(itineraryIndex: number, sessionIndex: number) {
@@ -85,7 +83,8 @@ export class InfoUnitComponent implements OnInit {
         if (result) {
           const session: CreateSessionDto = {
             itineraryId: this.itinerarys[itineraryIndex].getId().toString(),
-            name: result};
+            name: result
+          };
           this.sessionService.create(session).subscribe();
           const formationArray: Formation[] = this.itinerarys[itineraryIndex].getFormations();
           formationArray.push(<Formation>session);
@@ -93,6 +92,7 @@ export class InfoUnitComponent implements OnInit {
         }
       }
     );
+    this.updateUnit();
   }
 
   addItinerary() {
@@ -103,12 +103,17 @@ export class InfoUnitComponent implements OnInit {
         if (result) {
           const itinerary: CreateItineraryDto = {
             unitCode: this.unit.getCode().toString(),
-            name: result};
-          this.itineraryService.create(itinerary).subscribe();
+            name: result
+          };
+          this.itineraryService.create(itinerary).subscribe(
+            () => {
+              console.log('actualiza subscribe');
+              this.updateUnit();
+            }
+          );
         }
       }
     );
-    this.updateUnit();
   }
 
   addExercise() {
