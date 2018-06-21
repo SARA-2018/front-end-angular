@@ -18,6 +18,7 @@ import { ExerciseService } from '../shared/exercise.service';
 import { DtoConverter } from '../../shared/dto-converter';
 import { CreateSessionDto } from './dtos/create-session.dto';
 import { CreateItineraryDto } from './dtos/create-itinerary.dto';
+import { CreateLessonDto } from './dtos/create-lesson.dto';
 
 @Component({
   selector: 'app-info-unit',
@@ -69,12 +70,16 @@ export class InfoUnitComponent implements OnChanges {
       result => {
         if (result) {
           const lesson: Lesson = new Lesson(result);
-          this.lessonService.create(lesson).subscribe();
           const formationArray: Formation[] = this.itinerarys[itineraryIndex].getFormations();
           const session: Session = <Session>formationArray[sessionIndex];
           const lessonArray: Lesson[] = session.getLessons();
           lessonArray.push(lesson);
           session.setLessons(lessonArray);
+          const lessonDto: CreateLessonDto = {
+            sessionId: session.getId(),
+            name: result
+          };
+          this.lessonService.create(lessonDto).subscribe();
         }
       }
     );
