@@ -157,7 +157,7 @@ export class InfoUnitComponent implements OnChanges {
       solutions: [],
       lessonId: lessonArray[lessonIndex].getId()
     };
-    this.exerciseService.create(exerciseDto);
+    this.exerciseService.create(exerciseDto).subscribe();
 
   }
 
