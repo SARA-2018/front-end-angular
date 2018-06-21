@@ -34,13 +34,13 @@
           <mat-card *ngFor="let lesson of session.getLessons()" id="card_lesson">
             <h4>{{lesson.getName()}}</h4>
             <mat-card-content>
-              <mat-card id="card_cont_lesson">
+              <mat-card *ngFor="let interaction of session.getInteractions(); let z = index" id="card_cont_lesson">
                 <mat-card-content>
 
                 </mat-card-content>
                 <mat-action-row>
-                  <button mat-raised-button color="primary" class="button-content" (click)="addVideo()">Añadir video</button>
-                  <button mat-raised-button color="primary" class="button-content" (click)="addExercise()">Añadir ejercicio</button>
+                  <button mat-raised-button color="primary" class="button-content" (click)="addVideo(i,j,z)">Añadir video</button>
+                  <button mat-raised-button color="primary" class="button-content" (click)="addExercise(i,j,z)">Añadir ejercicio</button>
                 </mat-action-row>
               </mat-card>
             </mat-card-content>
