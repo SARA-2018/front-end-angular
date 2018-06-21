@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnChanges } from '@angular/core';
 import { Unit } from '../graph-unit/models/unit.model';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { InputDialogComponent } from './input-dialog.component';
@@ -25,7 +25,7 @@ import { CreateItineraryDto } from './dtos/create-itinerary.dto';
   styleUrls: ['info-unit.component.css']
 })
 
-export class InfoUnitComponent implements OnInit {
+export class InfoUnitComponent implements OnChanges {
 
   public itinerarys: Itinerary[] = [];
 
@@ -42,7 +42,7 @@ export class InfoUnitComponent implements OnInit {
     private itineraryService: ItineraryService) {
   }
 
-  ngOnInit() {
+  ngOnChanges() {
     this.updateUnit();
   }
 
@@ -51,7 +51,13 @@ export class InfoUnitComponent implements OnInit {
     this.unitService.getByCode(this.unit).subscribe(
       (unitDto) => {
         this.unit = new DtoConverter().convertUnit(unitDto);
-        this.itinerarys = this.unit.getItineraries();
+        for (const itinerary of this.unit.getItineraries()) {
+          this.itineraryService.getById(itinerary.getId()).subscribe(
+            (itineraryDto) => {
+              this.itinerarys.push(new DtoConverter().convertItinerary(itineraryDto));
+            }
+          );
+        }
       }
     );
   }
@@ -69,7 +75,6 @@ export class InfoUnitComponent implements OnInit {
           const lessonArray: Lesson[] = session.getLessons();
           lessonArray.push(lesson);
           session.setLessons(lessonArray);
-
         }
       }
     );
@@ -85,14 +90,12 @@ export class InfoUnitComponent implements OnInit {
             itineraryId: this.itinerarys[itineraryIndex].getId().toString(),
             name: result
           };
-          this.sessionService.create(session).subscribe();
-          const formationArray: Formation[] = this.itinerarys[itineraryIndex].getFormations();
-          formationArray.push(<Formation>session);
-          this.itinerarys[itineraryIndex].setFormations(formationArray);
+          this.sessionService.create(session).subscribe(
+            () => this.updateUnit()
+          );
         }
       }
     );
-    this.updateUnit();
   }
 
   addItinerary() {
@@ -107,7 +110,6 @@ export class InfoUnitComponent implements OnInit {
           };
           this.itineraryService.create(itinerary).subscribe(
             () => {
-              console.log('actualiza subscribe');
               this.updateUnit();
             }
           );
