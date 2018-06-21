@@ -19,10 +19,14 @@ import { DtoConverter } from '../../shared/dto-converter';
 import { CreateSessionDto } from './dtos/create-session.dto';
 import { CreateItineraryDto } from './dtos/create-itinerary.dto';
 import { CreateLessonDto } from './dtos/create-lesson.dto';
+<<<<<<< HEAD
 import { CreateExerciseDto } from './dtos/create-exercise.dto';
 import { Interaction } from './models/interaction.model';
 import { Video } from './models/video.model';
 import { VideoService } from './services/video.service';
+=======
+import { Video } from './models/video.model';
+>>>>>>> origin/develop
 
 @Component({
   selector: 'app-info-unit',
@@ -154,6 +158,11 @@ export class InfoUnitComponent implements OnChanges {
   }
 
   addVideo(itineraryIndex: number, sessionIndex: number, lessonIndex: number) {
+    const video: Video = new Video();
+    const formationArray: Formation[] = this.itinerarys[itineraryIndex].getFormations();
+    const session: Session = <Session>formationArray[sessionIndex];
+    const lesson: Lesson = <Lesson>session.getLessons()[lessonIndex];
+    lesson.addInteractions(video);
     this.videoUnit.toggle();
     this.graphUnit.toggle();
     if (this.exerciseUnit['isOpen'] === true) {
