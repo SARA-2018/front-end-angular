@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnChanges } from '@angular/core';
 import { Unit } from '../graph-unit/models/unit.model';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { InputDialogComponent } from './input-dialog.component';
@@ -25,7 +25,7 @@ import { CreateItineraryDto } from './dtos/create-itinerary.dto';
   styleUrls: ['info-unit.component.css']
 })
 
-export class InfoUnitComponent implements OnInit {
+export class InfoUnitComponent implements OnChanges {
 
   public itinerarys: Itinerary[] = [];
 
@@ -42,20 +42,24 @@ export class InfoUnitComponent implements OnInit {
     private itineraryService: ItineraryService) {
   }
 
-  ngOnInit() {
+  ngOnChanges() {
     this.updateUnit();
   }
 
   updateUnit() {
     this.itinerarys = [];
-    for (const itinerary of this.unit.getItineraries()) {
-      this.itineraryService.getById(itinerary.getId()).subscribe(
-        (itineraryDto) => {
-          const itinerary2 = new DtoConverter().convertItinerary(itineraryDto);
-          this.itinerarys.push(itinerary2);
+    this.unitService.getByCode(this.unit).subscribe(
+      (unitDto) => {
+        this.unit = new DtoConverter().convertUnit(unitDto);
+        for (const itinerary of this.unit.getItineraries()) {
+          this.itineraryService.getById(itinerary.getId()).subscribe(
+            (itineraryDto) => {
+              this.itinerarys.push(new DtoConverter().convertItinerary(itineraryDto));
+            }
+          );
         }
-      );
-    }
+      }
+    );
   }
 
   addLesson(itineraryIndex: number, sessionIndex: number) {
@@ -71,7 +75,6 @@ export class InfoUnitComponent implements OnInit {
           const lessonArray: Lesson[] = session.getLessons();
           lessonArray.push(lesson);
           session.setLessons(lessonArray);
-
         }
       }
     );
@@ -85,11 +88,11 @@ export class InfoUnitComponent implements OnInit {
         if (result) {
           const session: CreateSessionDto = {
             itineraryId: this.itinerarys[itineraryIndex].getId().toString(),
-            name: result};
-          this.sessionService.create(session).subscribe();
-          const formationArray: Formation[] = this.itinerarys[itineraryIndex].getFormations();
-          formationArray.push(<Formation>session);
-          this.itinerarys[itineraryIndex].setFormations(formationArray);
+            name: result
+          };
+          this.sessionService.create(session).subscribe(
+            () => this.updateUnit()
+          );
         }
       }
     );
@@ -103,12 +106,16 @@ export class InfoUnitComponent implements OnInit {
         if (result) {
           const itinerary: CreateItineraryDto = {
             unitCode: this.unit.getCode().toString(),
-            name: result};
-          this.itineraryService.create(itinerary).subscribe();
+            name: result
+          };
+          this.itineraryService.create(itinerary).subscribe(
+            () => {
+              this.updateUnit();
+            }
+          );
         }
       }
     );
-    this.updateUnit();
   }
 
   addExercise() {

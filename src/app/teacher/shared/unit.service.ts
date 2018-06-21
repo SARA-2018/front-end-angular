@@ -33,7 +33,7 @@ export class UnitService {
     return this.httpService.get(UnitService.END_POINT);
   }
 
-  getByCode(unit: Unit): Observable<UnitDto[]> {
+  getByCode(unit: Unit): Observable<UnitDto> {
     return this.httpService.get(UnitService.END_POINT + '/' + unit.getCode());
   }
 
