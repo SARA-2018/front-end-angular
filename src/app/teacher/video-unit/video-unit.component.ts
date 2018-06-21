@@ -23,7 +23,7 @@ export class VideoUnitComponent {
   }
   saveVideoUrl() {
     const video = new Video(this.videoURL);
-    this.videoService.create(video).subscribe();
+    // this.videoService.create(video).subscribe();
   }
   getVideoURL() {
     return this.videoURL;

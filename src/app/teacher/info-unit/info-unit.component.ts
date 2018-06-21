@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit, OnChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 import { Unit } from '../graph-unit/models/unit.model';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { InputDialogComponent } from './input-dialog.component';
@@ -19,6 +19,10 @@ import { DtoConverter } from '../../shared/dto-converter';
 import { CreateSessionDto } from './dtos/create-session.dto';
 import { CreateItineraryDto } from './dtos/create-itinerary.dto';
 import { CreateLessonDto } from './dtos/create-lesson.dto';
+import { CreateExerciseDto } from './dtos/create-exercise.dto';
+import { Interaction } from './models/interaction.model';
+import { Video } from './models/video.model';
+import { VideoService } from './services/video.service';
 
 @Component({
   selector: 'app-info-unit',
@@ -40,6 +44,7 @@ export class InfoUnitComponent implements OnChanges {
     private sessionService: SessionService,
     private lessonService: LessonService,
     private exerciseService: ExerciseService,
+    private videoService: VideoService,
     private itineraryService: ItineraryService) {
   }
 
@@ -91,12 +96,16 @@ export class InfoUnitComponent implements OnChanges {
     this.dialog.open(InputDialogComponent, { data: { name: name, message: message } }).afterClosed().subscribe(
       result => {
         if (result) {
-          const session: CreateSessionDto = {
+          const sessionDto: CreateSessionDto = {
             itineraryId: this.itinerarys[itineraryIndex].getId().toString(),
             name: result
           };
-          this.sessionService.create(session).subscribe(
-            () => this.updateUnit()
+          this.sessionService.create(sessionDto).subscribe(
+            () => {
+              const formationArray: Formation[] = this.itinerarys[itineraryIndex].getFormations();
+              formationArray.push(<Formation>new Session(sessionDto.name));
+              this.itinerarys[itineraryIndex].setFormations(formationArray);
+            }
           );
         }
       }
@@ -123,16 +132,28 @@ export class InfoUnitComponent implements OnChanges {
     );
   }
 
-  addExercise() {
+  addExercise(itineraryIndex: number, sessionIndex: number, lessonIndex: number) {
     this.graphUnit.toggle();
     this.exerciseUnit.toggle();
     if (this.videoUnit['isOpen'] === true) {
       this.graphUnit.toggle();
       this.videoUnit.toggle();
     }
+    const formationArray: Formation[] = this.itinerarys[itineraryIndex].getFormations();
+    const session: Session = <Session>formationArray[sessionIndex];
+    const lessonArray: Lesson[] = session.getLessons();
+    const exercise: Exercise = new Exercise('');
+    lessonArray[lessonIndex].addInteractions(exercise);
+    const exerciseDto: CreateExerciseDto = {
+      formulation: '',
+      solutions: [],
+      lessonId: lessonArray[lessonIndex].getId()
+    };
+    this.exerciseService.create(exerciseDto);
+
   }
 
-  addVideo() {
+  addVideo(itineraryIndex: number, sessionIndex: number, lessonIndex: number) {
     this.videoUnit.toggle();
     this.graphUnit.toggle();
     if (this.exerciseUnit['isOpen'] === true) {
