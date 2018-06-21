@@ -19,6 +19,9 @@ import { DtoConverter } from '../../shared/dto-converter';
 import { CreateSessionDto } from './dtos/create-session.dto';
 import { CreateItineraryDto } from './dtos/create-itinerary.dto';
 import { CreateLessonDto } from './dtos/create-lesson.dto';
+import { CreateExerciseDto } from './dtos/create-exercise.dto';
+import { Interaction } from './models/interaction.model';
+import { VideoService } from './services/video.service';
 import { Video } from './models/video.model';
 
 @Component({
@@ -41,6 +44,7 @@ export class InfoUnitComponent implements OnChanges {
     private sessionService: SessionService,
     private lessonService: LessonService,
     private exerciseService: ExerciseService,
+    private videoService: VideoService,
     private itineraryService: ItineraryService) {
   }
 
@@ -137,17 +141,24 @@ export class InfoUnitComponent implements OnChanges {
   }
 
   addExercise(itineraryIndex: number, sessionIndex: number, lessonIndex: number) {
-    const exercise: Exercise = new Exercise();
-    const formationArray: Formation[] = this.itinerarys[itineraryIndex].getFormations();
-    const session: Session = <Session>formationArray[sessionIndex];
-    const lesson: Lesson = <Lesson>session.getLessons()[lessonIndex];
-    lesson.addInteractions(exercise);
     this.graphUnit.toggle();
     this.exerciseUnit.toggle();
     if (this.videoUnit['isOpen'] === true) {
       this.graphUnit.toggle();
       this.videoUnit.toggle();
     }
+    const formationArray: Formation[] = this.itinerarys[itineraryIndex].getFormations();
+    const session: Session = <Session>formationArray[sessionIndex];
+    const lessonArray: Lesson[] = session.getLessons();
+    const exercise: Exercise = new Exercise('');
+    lessonArray[lessonIndex].addInteractions(exercise);
+    const exerciseDto: CreateExerciseDto = {
+      formulation: '',
+      solutions: [],
+      lessonId: lessonArray[lessonIndex].getId()
+    };
+    this.exerciseService.create(exerciseDto);
+
   }
 
   addVideo(itineraryIndex: number, sessionIndex: number, lessonIndex: number) {
