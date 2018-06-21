@@ -2,12 +2,11 @@ import { Solution } from './solution.model';
 import { Interaction } from '../info-unit/models/interaction.model';
 
 export class Exercise extends Interaction {
-    private _id: string;
     private formulation: string;
     private counterFail = 0;
     private solutions: Solution[];
 
-    constructor(formulation: string) {
+    constructor(formulation?: string) {
         super();
         this.formulation = formulation;
         this.solutions = [];
@@ -20,10 +19,6 @@ export class Exercise extends Interaction {
         this.solutions.concat(solutions);
         return this;
     }
-    setId(id: string): Exercise {
-        this._id = id;
-        return this;
-    }
     setFormulation(formulation: string): Exercise {
         this.formulation = formulation;
         return this;
@@ -31,9 +26,6 @@ export class Exercise extends Interaction {
     setSolutions(solutions: Solution[]): Exercise {
         this.solutions = solutions;
         return this;
-    }
-    getId(): string {
-        return this._id;
     }
     getFormulation(): string {
         return this.formulation;
@@ -49,5 +41,9 @@ export class Exercise extends Interaction {
     addFail() {
         this.counterFail = this.counterFail + 1;
         return this.counterFail;
+    }
+
+    getText(): string {
+        return 'Ejercicio';
     }
 }
