@@ -74,17 +74,23 @@ export class InfoUnitComponent implements OnChanges {
     this.dialog.open(InputDialogComponent, { data: { name: name, message: message } }).afterClosed().subscribe(
       result => {
         if (result) {
-          const lesson: Lesson = new Lesson(result);
-          const formationArray: Formation[] = this.itinerarys[itineraryIndex].getFormations();
-          const session: Session = <Session>formationArray[sessionIndex];
-          const lessonArray: Lesson[] = session.getLessons();
-          lessonArray.push(lesson);
-          session.setLessons(lessonArray);
           const lessonDto: CreateLessonDto = {
-            sessionId: session.getId(),
+            sessionId: this.itinerarys[itineraryIndex].getFormations()[sessionIndex].getId(),
             name: result
           };
-          this.lessonService.create(lessonDto).subscribe();
+          console.log(lessonDto);
+          this.lessonService.create(lessonDto).subscribe(
+            (lessonDtoInput) => {
+              const lesson: Lesson = new Lesson(lessonDtoInput.name);
+              lesson.setId(lessonDtoInput.id);
+              const formationArray: Formation[] = this.itinerarys[itineraryIndex].getFormations();
+              const session: Session = <Session>formationArray[sessionIndex];
+              console.log(session.getId());
+              const lessonArray: Lesson[] = session.getLessons();
+              lessonArray.push(lesson);
+              session.setLessons(lessonArray);
+            }
+          );
         }
       }
     );
@@ -101,9 +107,11 @@ export class InfoUnitComponent implements OnChanges {
             name: result
           };
           this.sessionService.create(sessionDto).subscribe(
-            () => {
+            (sessionDtoInput) => {
               const formationArray: Formation[] = this.itinerarys[itineraryIndex].getFormations();
-              formationArray.push(<Formation>new Session(sessionDto.name));
+              const session = new Session(sessionDtoInput.name);
+              session.setId(sessionDtoInput.id);
+              formationArray.push(<Formation>session);
               this.itinerarys[itineraryIndex].setFormations(formationArray);
             }
           );
@@ -149,7 +157,7 @@ export class InfoUnitComponent implements OnChanges {
       solutions: [],
       lessonId: lessonArray[lessonIndex].getId()
     };
-    this.exerciseService.create(exerciseDto);
+    this.exerciseService.create(exerciseDto).subscribe();
 
   }
 
@@ -166,6 +174,11 @@ export class InfoUnitComponent implements OnChanges {
       this.exerciseUnit.toggle();
     }
   }
+
+  showInteraction(itineraryIndex: number, sessionIndex: number, lessonIndex: number) {
+
+  }
+
   saveUnitContent() {
     if (this.verify()) {
       this.unitService.setContent(this.unit).subscribe();
