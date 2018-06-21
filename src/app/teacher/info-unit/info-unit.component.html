@@ -31,7 +31,7 @@
             <button mat-raised-button color="primary" class="button-content" (click)="addLesson(i,j)">
               <mat-icon>add_circle_outline</mat-icon> Añadir lección</button>
           </mat-action-row>
-          <mat-card *ngFor="let lesson of session.getLessons()" class="" id="card_lesson">
+          <mat-card *ngFor="let lesson of session.getLessons()" id="card_lesson">
             <h4>{{lesson.getName()}}</h4>
             <mat-card-content>
               <mat-card id="card_cont_lesson">

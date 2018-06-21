@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit, OnChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 import { Unit } from '../graph-unit/models/unit.model';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { InputDialogComponent } from './input-dialog.component';
@@ -91,12 +91,16 @@ export class InfoUnitComponent implements OnChanges {
     this.dialog.open(InputDialogComponent, { data: { name: name, message: message } }).afterClosed().subscribe(
       result => {
         if (result) {
-          const session: CreateSessionDto = {
+          const sessionDto: CreateSessionDto = {
             itineraryId: this.itinerarys[itineraryIndex].getId().toString(),
             name: result
           };
-          this.sessionService.create(session).subscribe(
-            () => this.updateUnit()
+          this.sessionService.create(sessionDto).subscribe(
+            () => {
+              const formationArray: Formation[] = this.itinerarys[itineraryIndex].getFormations();
+              formationArray.push(<Formation>new Session(sessionDto.name));
+              this.itinerarys[itineraryIndex].setFormations(formationArray);
+            }
           );
         }
       }
