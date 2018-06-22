@@ -4,9 +4,9 @@ import { ItineraryService } from '../../shared/itinerary.service';
 import { DtoConverter } from '../../shared/dto-converter';
 import { Itinerary } from '../../teacher/info-unit/models/itinerary.model';
 import { Formation } from '../../teacher/info-unit/models/formation.model';
-import { FormationDialogComponent } from './formation-dialog.component';
 import { Lesson } from '../../teacher/info-unit/models/lesson.model';
 import { Session } from '../../teacher/info-unit/models/session.model';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-formation',
@@ -21,7 +21,7 @@ export class FormationComponent implements OnInit {
   lessons: Lesson[] = [];
   formations: Formation[] = [];
 
-  constructor(public dialog: MatDialog, private itineraryService: ItineraryService) {
+  constructor(public dialog: MatDialog, private itineraryService: ItineraryService,  private router: Router) {
   }
 
   ngOnInit(): void {
@@ -37,7 +37,7 @@ export class FormationComponent implements OnInit {
     return this.itinerarys;
   }
 
-  openItineraryInfo(formations, itineraty: string): void {
+  openItineraryInfo(formations): void {
     this.sessions = [];
     this.lessons = [];
     this.formations = [];
@@ -51,8 +51,9 @@ export class FormationComponent implements OnInit {
         this.formations.push(formation);
       }
     }
-    this.dialog.open(FormationDialogComponent, {data: {itineraty: itineraty, formations: this.formations, sessions: this.sessions,
-        lessons: this.lessons}}).afterClosed().subscribe();
+  }
+  sendMeHome(lesson) {
+    this.router.navigate(['/lesson', lesson.getId()]);
   }
 
 }
