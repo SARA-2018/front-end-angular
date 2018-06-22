@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { HttpService } from '../../core/http.service';
 import { Exercise } from './exercise.model';
+import { CreateExerciseDto } from '../info-unit/dtos/create-exercise.dto';
 
 
 @Injectable()
@@ -12,7 +13,7 @@ export class ExerciseService {
   constructor(private httpService: HttpService) {
   }
 
-  create(exercise: Exercise): Observable<any> {
+  create(exercise: CreateExerciseDto): Observable<any> {
     return this.httpService.successful().post(ExerciseService.END_POINT, exercise);
   }
 
