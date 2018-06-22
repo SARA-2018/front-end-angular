@@ -6,7 +6,6 @@ import { Itinerary } from '../../teacher/info-unit/models/itinerary.model';
 import { Formation } from '../../teacher/info-unit/models/formation.model';
 import { Lesson } from '../../teacher/info-unit/models/lesson.model';
 import { Session } from '../../teacher/info-unit/models/session.model';
-import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-formation',
@@ -21,7 +20,7 @@ export class FormationComponent implements OnInit {
   lessons: Lesson[] = [];
   formations: Formation[] = [];
 
-  constructor(public dialog: MatDialog, private itineraryService: ItineraryService,  private router: Router) {
+  constructor(public dialog: MatDialog, private itineraryService: ItineraryService) {
   }
 
   ngOnInit(): void {
