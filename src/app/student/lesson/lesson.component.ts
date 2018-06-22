@@ -32,7 +32,7 @@ export class LessonComponent implements OnInit {
       for (const interactionDto of lessonDto.interactions) {
         this.interactions.push(new DtoConverter().convertInteraction(interactionDto));
         if (interactionDto.video) {
-          this.interactionType.push('Video');
+          this.interactionType.push('Vídeo');
         } else {
           this.interactionType.push('Ejercicio');
         }
