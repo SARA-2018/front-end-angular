@@ -9,12 +9,13 @@ import { VideoUnitComponent } from './teacher/video-unit/video-unit.component';
 import { InputDialogComponent } from './teacher/info-unit/input-dialog.component';
 import { ChatExerciseComponent } from './teacher/exercise-unit/chat-exercise/chat-exercise.component';
 import { FormationComponent } from './student/iteracion/formation.component';
-import { FormationDialogComponent } from './student/iteracion/formation-dialog.component';
+import { LessonComponent } from './student/lesson/lesson.component';
 
 const appRoutes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: TeacherComponent.URL },
-  { path: TeacherComponent.URL, component: TeacherComponent},
-  { path: StudentComponent.URL, component: StudentComponent,
+  { path: TeacherComponent.URL, component: TeacherComponent },
+  { path: StudentComponent.URL, component: StudentComponent },
+  { path: LessonComponent.URL, component: LessonComponent,
     children: [
       // Declaracion de RUTAS
       // { path: TeacherComponent.URL, component: TeacherComponent }
@@ -36,12 +37,12 @@ export class AppRoutingModule {
     StudentComponent,
     TeacherComponent,
     VideoUnitComponent,
-    FormationComponent
+    FormationComponent,
+    LessonComponent
   ];
 
   static DIALOGS_COMPONENTS = [
     // Declaracion de DIALOGOS
-    InputDialogComponent,
-    FormationDialogComponent
+    InputDialogComponent
   ];
 }
