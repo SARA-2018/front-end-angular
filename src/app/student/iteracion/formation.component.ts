@@ -6,7 +6,7 @@ import { Itinerary } from '../../teacher/info-unit/models/itinerary.model';
 import { Formation } from '../../teacher/info-unit/models/formation.model';
 import { Lesson } from '../../teacher/info-unit/models/lesson.model';
 import { Session } from '../../teacher/info-unit/models/session.model';
-import {Router} from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-formation',
@@ -51,9 +51,6 @@ export class FormationComponent implements OnInit {
         this.formations.push(formation);
       }
     }
-  }
-  sendMeHome(lesson) {
-    this.router.navigate(['/lesson', lesson.getId()]);
   }
 
 }

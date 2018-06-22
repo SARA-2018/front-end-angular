@@ -5,18 +5,15 @@
         {{itinerary.getName()}}
       </mat-panel-title>
     </mat-expansion-panel-header>
-      <h3>Contenido del {{itinerary.getName()}}</h3>
-      <mat-nav-list>
         <ul>
           <li type=circle *ngFor="let formation of formations">It: {{formation.getName()}}</li>
         </ul>
         <ul>
           <li type=disc *ngFor="let session of sessions">{{session.getName()}}
             <ul>
-              <li *ngFor="let lesson of lessons" (click)="sendMeHome(lesson)" >{{lesson.getName()}}
+              <li *ngFor="let lesson of lessons"><a [routerLink]="['/lesson', lesson.getId()]">{{lesson.getName()}}</a></li>
             </ul>
           </li>
         </ul>
-      </mat-nav-list>
   </mat-expansion-panel>
 </mat-accordion>
