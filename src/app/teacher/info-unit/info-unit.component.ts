@@ -23,6 +23,7 @@ import { CreateExerciseDto } from './dtos/create-exercise.dto';
 import { Interaction } from './models/interaction.model';
 import { VideoService } from './services/video.service';
 import { Video } from './models/video.model';
+import { CreateVideoDto } from './dtos/create-video.dto';
 
 @Component({
   selector: 'app-info-unit',
@@ -39,6 +40,8 @@ export class InfoUnitComponent implements OnChanges {
   @Input() graphUnit: GraphUnitComponent;
   @Input() videoUnit: VideoUnitComponent;
   @Output() infoUnitExercise = new EventEmitter<Exercise>();
+  @Output() infoUnitVideo = new EventEmitter<Video>();
+
 
   constructor(public dialog: MatDialog, private snackBar: MatSnackBar, private unitService: UnitService,
     private sessionService: SessionService,
@@ -162,11 +165,20 @@ export class InfoUnitComponent implements OnChanges {
   }
 
   addVideo(itineraryIndex: number, sessionIndex: number, lessonIndex: number) {
-    const video: Video = new Video();
     const formationArray: Formation[] = this.itinerarys[itineraryIndex].getFormations();
     const session: Session = <Session>formationArray[sessionIndex];
-    const lesson: Lesson = <Lesson>session.getLessons()[lessonIndex];
-    lesson.addInteractions(video);
+    const lessonArray: Lesson[] = session.getLessons();
+    const exercise: Video = new Video('');
+    lessonArray[lessonIndex].addInteractions(exercise);
+    const videoDto: CreateVideoDto = {
+      lessonId: lessonArray[lessonIndex].getId(),
+      url: ''
+    };
+    this.videoService.create(videoDto).subscribe(
+      (videoInputDto) => {
+        this.infoUnitVideo.emit(new DtoConverter().convertVideo(videoInputDto));
+      }
+    );
     this.videoUnit.toggle();
     this.graphUnit.toggle();
     if (this.exerciseUnit['isOpen'] === true) {

@@ -1,4 +1,4 @@
-import { Component, HostBinding } from '@angular/core';
+import { Component, HostBinding, Input, OnChanges } from '@angular/core';
 import { VideoService } from '../info-unit/services/video.service';
 import { Video } from '../info-unit/models/video.model';
 
@@ -8,24 +8,28 @@ import { Video } from '../info-unit/models/video.model';
   styleUrls: ['video-unit.component.css']
 })
 
-export class VideoUnitComponent {
+export class VideoUnitComponent implements OnChanges {
 
-  videoURL = '';
+  @Input() infoUnitVideo: Video;
+
+  @HostBinding('class.is-open')
+  isOpen = false;
 
   constructor(private videoService: VideoService) {
   }
 
-  @HostBinding('class.is-open')
-  isOpen = false;
+  ngOnChanges() {
+    console.log(this.infoUnitVideo.getId());
+  }
 
   toggle() {
     this.isOpen = !this.isOpen;
   }
   saveVideoUrl() {
-    const video = new Video(this.videoURL);
+    console.log(this.infoUnitVideo.getUrl());
     // this.videoService.create(video).subscribe();
   }
   getVideoURL() {
-    return this.videoURL;
+    return this.infoUnitVideo.getUrl();
   }
 }
