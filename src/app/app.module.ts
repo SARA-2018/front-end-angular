@@ -22,7 +22,7 @@ import { AppMaterialModule } from './app-material.module';
 import { MessageComponent } from './teacher/exercise-unit/chat-exercise/message/message.component';
 import { ItineraryService } from './shared/itinerary.service';
 import { SessionService } from './teacher/info-unit/services/session.service';
-import { LessonService } from './teacher/info-unit/services/lesson.service';
+import { LessonService } from './shared/lesson.service';
 import { VideoService } from './teacher/info-unit/services/video.service';
 import { ExerciseService } from './teacher/shared/exercise.service';
 

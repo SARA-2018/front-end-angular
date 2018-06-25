@@ -12,7 +12,7 @@ import { GraphUnitComponent } from '../graph-unit/graph-unit.component';
 import { UnitService } from '../shared/unit.service';
 import { ItineraryService } from '../../shared/itinerary.service';
 import { SessionService } from './services/session.service';
-import { LessonService } from './services/lesson.service';
+import { LessonService } from '../../shared/lesson.service';
 import { Exercise } from '../shared/exercise.model';
 import { ExerciseService } from '../shared/exercise.service';
 import { DtoConverter } from '../../shared/dto-converter';
@@ -39,9 +39,8 @@ export class InfoUnitComponent implements OnChanges {
   @Input() exerciseUnit: ExerciseUnitComponent;
   @Input() graphUnit: GraphUnitComponent;
   @Input() videoUnit: VideoUnitComponent;
-  @Output() infoUnitExercise = new EventEmitter<Exercise>();
-  @Output() infoUnitVideo = new EventEmitter<Video>();
-
+  @Output() openExercise = new EventEmitter<Exercise>();
+  @Output() openVideo = new EventEmitter<Video>();
 
   constructor(public dialog: MatDialog, private snackBar: MatSnackBar, private unitService: UnitService,
     private sessionService: SessionService,
@@ -187,8 +186,24 @@ export class InfoUnitComponent implements OnChanges {
     }
   }
 
-  showInteraction(itineraryIndex: number, sessionIndex: number, lessonIndex: number) {
-
+  showInteraction(interaction: Interaction) {
+    if (interaction.isExercise()) {
+      this.exerciseService.getById(interaction.getId()).subscribe(
+        (exerciseDto) => {
+          this.openExercise.emit(new DtoConverter().convertExercise(exerciseDto));
+          this.graphUnit.toggle();
+          this.exerciseUnit.toggle();
+        }
+      );
+    } else {
+      this.videoService.getById(interaction.getId()).subscribe(
+        (videoDto) => {
+          this.openVideo.emit(new DtoConverter().convertVideo(videoDto));
+          this.graphUnit.toggle();
+          this.videoUnit.toggle();
+        }
+      );
+    }
   }
 
   saveUnitContent() {

@@ -10,8 +10,8 @@ import { Video } from '../info-unit/models/video.model';
 
 export class VideoUnitComponent implements OnChanges {
 
-  @Input() infoUnitVideo: Video;
-
+  videoURL = '';
+  @Input() video: Video;
   @HostBinding('class.is-open')
   isOpen = false;
 
@@ -19,17 +19,19 @@ export class VideoUnitComponent implements OnChanges {
   }
 
   ngOnChanges() {
-    console.log(this.infoUnitVideo.getId());
+    console.log(this.video);
   }
 
   toggle() {
     this.isOpen = !this.isOpen;
   }
+
   saveVideoUrl() {
-    console.log(this.infoUnitVideo.getUrl());
+    console.log(this.video.getUrl());
     // this.videoService.create(video).subscribe();
   }
+
   getVideoURL() {
-    return this.infoUnitVideo.getUrl();
+    return this.video.getUrl();
   }
 }
