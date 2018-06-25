@@ -175,7 +175,7 @@ export class InfoUnitComponent implements OnChanges {
     };
     this.videoService.create(videoDto).subscribe(
       (videoInputDto) => {
-        this.infoUnitVideo.emit(new DtoConverter().convertVideo(videoInputDto));
+        this.openVideo.emit(new DtoConverter().convertVideo(videoInputDto));
       }
     );
     this.videoUnit.toggle();
