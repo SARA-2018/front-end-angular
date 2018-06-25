@@ -2,11 +2,13 @@
     <h3>Lección de {{lessonName}}</h3>
   <mat-horizontal-stepper #stepper>
     <mat-step *ngFor="let type of interactionType">
-      <form>
+      <form *ngFor="let inye of interactions">
         <ng-template matStepLabel >{{type}}</ng-template>
+        {{inye.getId()}}
+        <router-outlet></router-outlet>
         <div>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext>Next</button>
+          <button mat-button matStepperPrevious>Regresar</button>
+          <button mat-button matStepperNext>Siguiente</button>
         </div>
       </form>
     </mat-step>
@@ -15,7 +17,7 @@
       You are now done.
       <div>
         <button mat-button matStepperPrevious>Back</button>
-        <button mat-button (click)="stepper.reset()">Reset</button>
+        <button mat-button (click)="stepper.reset()">Volver a intentarlo</button>
       </div>
     </mat-step>
   </mat-horizontal-stepper>

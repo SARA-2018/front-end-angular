@@ -19,6 +19,7 @@ export class LessonComponent implements OnInit {
   interactionType: string[] = [];
 
   constructor(private route: ActivatedRoute, private lessonService: LessonService) {
+    console.log(this.interactions);
   }
 
   ngOnInit(): void {
@@ -28,6 +29,7 @@ export class LessonComponent implements OnInit {
 
   interaction(): Interaction[] {
     this.lessonService.getById(this.lessonId).subscribe(lessonDto => {
+      console.log(lessonDto);
       this.lessonName = lessonDto.name;
       for (const interactionDto of lessonDto.interactions) {
         this.interactions.push(new DtoConverter().convertInteraction(interactionDto));
