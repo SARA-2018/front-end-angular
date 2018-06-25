@@ -1,4 +1,4 @@
-import {Component, HostBinding, Input, OnChanges} from '@angular/core';
+import {Component, HostBinding, Input, OnChanges, Output, EventEmitter} from '@angular/core';
 import { Exercise } from '../shared/exercise.model';
 import { ExerciseService } from '../shared/exercise.service';
 import { MatSnackBar } from '@angular/material';
@@ -15,6 +15,7 @@ export class ExerciseUnitComponent implements OnChanges {
 
   exerciseJSON: string;
   @Input() exercise: Exercise;
+  @Output() openExerciseChat = new EventEmitter<Exercise>();
   @HostBinding('class.is-open')
   isOpen = false;
 
@@ -23,6 +24,7 @@ export class ExerciseUnitComponent implements OnChanges {
 
   ngOnChanges() {
     this.exerciseJSON = JSON.stringify(this.exercise);
+    this.openExerciseChat.emit(this.exercise);
   }
 
   toggle() {
