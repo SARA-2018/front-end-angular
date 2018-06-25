@@ -1,13 +1,13 @@
 export abstract class Interaction  {
 
-    private _id: string;
+    private id: string;
 
     getId(): string {
-        return this._id;
+        return this.id;
     }
 
     setId(id: string) {
-        this._id = id;
+        this.id = id;
     }
 
     public abstract getText(): string;
