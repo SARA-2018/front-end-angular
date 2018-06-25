@@ -19,7 +19,8 @@ export class VideoUnitComponent implements OnChanges {
   }
 
   ngOnChanges() {
-    console.log(this.video);
+    console.log(JSON.stringify(this.video));
+    this.videoURL = this.video.getUrl();
   }
 
   toggle() {
@@ -27,7 +28,8 @@ export class VideoUnitComponent implements OnChanges {
   }
 
   saveVideoUrl() {
-    console.log(this.video.getUrl());
+    this.video.setUrl(this.videoURL);
+    this.videoService.setUrl(this.video).subscribe();
     // this.videoService.create(video).subscribe();
   }
 

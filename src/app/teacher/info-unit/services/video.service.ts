@@ -17,6 +17,11 @@ export class VideoService {
     return this.httpService.successful().post(VideoService.END_POINT, video);
   }
 
+  setUrl(video: Video): Observable<any> {
+    console.log("PETICION" + JSON.stringify(video));
+    return this.httpService.successful().put(VideoService.END_POINT + '/' + video.getId() , "{HOLA}");
+  }
+
   getById(id: string): Observable<VideoDto> {
     return this.httpService.get(VideoService.END_POINT + '/' + id);
   }
