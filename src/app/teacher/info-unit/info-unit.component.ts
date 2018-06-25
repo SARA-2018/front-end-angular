@@ -167,8 +167,8 @@ export class InfoUnitComponent implements OnChanges {
     const formationArray: Formation[] = this.itinerarys[itineraryIndex].getFormations();
     const session: Session = <Session>formationArray[sessionIndex];
     const lessonArray: Lesson[] = session.getLessons();
-    const exercise: Video = new Video('');
-    lessonArray[lessonIndex].addInteractions(exercise);
+    const video: Video = new Video('');
+    lessonArray[lessonIndex].addInteractions(video);
     const videoDto: CreateVideoDto = {
       lessonId: lessonArray[lessonIndex].getId(),
       url: ''
