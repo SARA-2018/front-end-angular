@@ -16,7 +16,6 @@ export class LessonComponent implements OnInit {
   lessonId: string;
   lessonName: string;
   interactions: Interaction[] = [];
-  interactionType: string[] = [];
 
   constructor(private route: ActivatedRoute, private lessonService: LessonService) {
   }
@@ -31,11 +30,6 @@ export class LessonComponent implements OnInit {
       this.lessonName = lessonDto.name;
       for (const interactionDto of lessonDto.interactions) {
         this.interactions.push(new DtoConverter().convertInteraction(interactionDto));
-        if (interactionDto.video) {
-          this.interactionType.push('Vídeo');
-        } else {
-          this.interactionType.push('Ejercicio');
-        }
       }
     });
     return this.interactions;

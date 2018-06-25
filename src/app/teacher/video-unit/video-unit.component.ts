@@ -1,6 +1,6 @@
 import { Component, HostBinding, Input, OnChanges } from '@angular/core';
-import { VideoService } from '../info-unit/services/video.service';
 import { Video } from '../info-unit/models/video.model';
+import { VideoService } from '../info-unit/services/video.service';
 
 @Component({
   selector: 'app-video-unit',
@@ -19,8 +19,9 @@ export class VideoUnitComponent implements OnChanges {
   }
 
   ngOnChanges() {
-    console.log(JSON.stringify(this.video));
-    this.videoURL = this.video.getUrl();
+    if (this.video) {
+      this.videoURL = this.video.getUrl();
+    }
   }
 
   toggle() {
