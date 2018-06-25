@@ -31,10 +31,11 @@ export class VideoUnitComponent implements OnChanges {
   saveVideoUrl() {
     this.video.setUrl(this.videoURL);
     this.videoService.setUrl(this.video).subscribe();
-    // this.videoService.create(video).subscribe();
   }
 
   getVideoURL() {
-    return this.video.getUrl();
+    if (this.video) {
+      return this.video.getUrl();
+    }
   }
 }
