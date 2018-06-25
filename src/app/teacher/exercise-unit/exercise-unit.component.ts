@@ -17,12 +17,11 @@ export class ExerciseUnitComponent implements OnChanges {
   @Input() exercise: Exercise;
   @HostBinding('class.is-open')
   isOpen = false;
+
   constructor(private exerciseService: ExerciseService, private snackBar: MatSnackBar) {
+    // QUITAR
     const json = '{ "name":"¿Cuándo se descubrió América ?", "solutions":[ { "text": "Cristobal Colon fue un héroe", "isCorrect": true, "justifications": [ {"text": " Justificacion1", "isCorrect": true}, {"text": " Justificacion2", "isCorrect": true} ] }, { "text": "Cristobal Colon fue un héroe", "isCorrect": true, "justifications": [ ] },{ "text": "Antonio Colon", "isCorrect": false, "justifications": [ ] }, { "text": "Cristobal Colon fue un héroe", "isCorrect": true, "justifications": [ ] },{ "text": "Cristobal Colon fue un héroe", "isCorrect": true, "justifications": [ ] }, { "text": "Cristobal Colon fue un héroe", "isCorrect": true, "justifications": [ ] }] }';
     this.exerciseJSON = json;
-    this.createModels(json);
-    console.log('exercise');
-    console.log(this.exercise);
   }
 
   ngOnChanges() {
@@ -30,9 +29,10 @@ export class ExerciseUnitComponent implements OnChanges {
   }
 
   updateExercise() {
-    console.log('exercise cambia' + this.exercise);
+    console.log('exercise cambia');
+    console.log(this.exercise);
   }
-  // exercise: Exercise;
+
   toggle() {
     this.isOpen = !this.isOpen;
   }
