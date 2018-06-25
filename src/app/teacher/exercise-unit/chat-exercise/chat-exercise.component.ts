@@ -27,11 +27,11 @@ export class ChatExerciseComponent implements OnChanges {
   private text = '';
   @Input() exercise: Exercise;
 
-  constructor() {
-    this.print(new AutoMessageMotor().welcomeMessage());
-  }
+  constructor() {}
 
   ngOnChanges() {
+    this.messages = [];
+    this.print(new AutoMessageMotor().welcomeMessage());
     this.updateMotor(new TextMotor(this.exercise));
   }
 
