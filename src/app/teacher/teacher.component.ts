@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Unit } from './graph-unit/models/unit.model';
+import { Exercise } from './shared/exercise.model';
 
 @Component({
   templateUrl: 'teacher.component.html',
@@ -10,11 +11,18 @@ export class TeacherComponent {
 
   static URL = 'teacher';
   private unit: Unit;
+  private exercise: Exercise;
 
   constructor() {
   }
 
   openUnit(unit: Unit) {
     this.unit = unit;
+  }
+
+  openExercise(exercise: Exercise) {
+    console.log('teacher tiene:');
+    console.log(exercise);
+    this.exercise = exercise;
   }
 }
