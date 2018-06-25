@@ -19,18 +19,10 @@ export class ExerciseUnitComponent implements OnChanges {
   isOpen = false;
 
   constructor(private exerciseService: ExerciseService, private snackBar: MatSnackBar) {
-    // QUITAR
-    const json = '{ "name":"¿Cuándo se descubrió América ?", "solutions":[ { "text": "Cristobal Colon fue un héroe", "isCorrect": true, "justifications": [ {"text": " Justificacion1", "isCorrect": true}, {"text": " Justificacion2", "isCorrect": true} ] }, { "text": "Cristobal Colon fue un héroe", "isCorrect": true, "justifications": [ ] },{ "text": "Antonio Colon", "isCorrect": false, "justifications": [ ] }, { "text": "Cristobal Colon fue un héroe", "isCorrect": true, "justifications": [ ] },{ "text": "Cristobal Colon fue un héroe", "isCorrect": true, "justifications": [ ] }, { "text": "Cristobal Colon fue un héroe", "isCorrect": true, "justifications": [ ] }] }';
-    this.exerciseJSON = json;
   }
 
   ngOnChanges() {
-    this.updateExercise();
-  }
-
-  updateExercise() {
-    console.log('exercise cambia');
-    console.log(this.exercise);
+    this.exerciseJSON = JSON.stringify(this.exercise);
   }
 
   toggle() {

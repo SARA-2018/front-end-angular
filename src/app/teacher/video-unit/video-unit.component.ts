@@ -1,5 +1,4 @@
 import { Component, HostBinding, Input, OnChanges } from '@angular/core';
-import { VideoService } from '../info-unit/services/video.service';
 import { Video } from '../info-unit/models/video.model';
 
 @Component({
@@ -15,11 +14,14 @@ export class VideoUnitComponent implements OnChanges {
   @HostBinding('class.is-open')
   isOpen = false;
 
-  constructor(private videoService: VideoService) {
+  constructor() {
   }
 
   ngOnChanges() {
     console.log(this.video);
+    if (this.video) {
+      this.videoURL = this.video.getUrl();
+    }
   }
 
   toggle() {
