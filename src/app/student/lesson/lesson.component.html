@@ -1,0 +1,22 @@
+<mat-card class="margin2pc">
+    <h3>Lección de {{lessonName}}</h3>
+  <mat-horizontal-stepper #stepper>
+    <mat-step *ngFor="let type of interactionType">
+      <form>
+        <ng-template matStepLabel >{{type}}</ng-template>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Done</ng-template>
+      You are now done.
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button (click)="stepper.reset()">Reset</button>
+      </div>
+    </mat-step>
+  </mat-horizontal-stepper>
+</mat-card>

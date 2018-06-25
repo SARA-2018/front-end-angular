@@ -1,6 +1,19 @@
-<mat-card class="margin2pc">
-    <h3>Listado de Itinerarios</h3>
-    <mat-nav-list>
-        <a mat-list-item *ngFor="let itinerary of itinerarys" (click)="openItineraryInfo(itinerary.getFormations(), itinerary.getName())"> {{itinerary.getName()}} </a>
-    </mat-nav-list>
-</mat-card>
+<mat-accordion>
+  <mat-expansion-panel *ngFor="let itinerary of itinerarys">
+    <mat-expansion-panel-header (click)="openItineraryInfo(itinerary.getFormations())">
+      <mat-panel-title>
+        {{itinerary.getName()}}
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+        <ul>
+          <li type=circle *ngFor="let formation of formations">It: {{formation.getName()}}</li>
+        </ul>
+        <ul>
+          <li type=disc *ngFor="let session of sessions">{{session.getName()}}
+            <ul>
+              <li *ngFor="let lesson of lessons"><a [routerLink]="['/lesson', lesson.getId()]">{{lesson.getName()}}</a></li>
+            </ul>
+          </li>
+        </ul>
+  </mat-expansion-panel>
+</mat-accordion>

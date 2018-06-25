@@ -12,7 +12,7 @@ import { GraphUnitComponent } from '../graph-unit/graph-unit.component';
 import { UnitService } from '../shared/unit.service';
 import { ItineraryService } from '../../shared/itinerary.service';
 import { SessionService } from './services/session.service';
-import { LessonService } from './services/lesson.service';
+import { LessonService } from '../../shared/lesson.service';
 import { Exercise } from '../shared/exercise.model';
 import { ExerciseService } from '../shared/exercise.service';
 import { DtoConverter } from '../../shared/dto-converter';
