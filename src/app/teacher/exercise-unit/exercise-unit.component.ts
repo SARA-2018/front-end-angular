@@ -1,4 +1,4 @@
-import {Component, HostBinding} from '@angular/core';
+import {Component, HostBinding, Input, OnChanges} from '@angular/core';
 import { Exercise } from '../shared/exercise.model';
 import { ExerciseService } from '../shared/exercise.service';
 import { MatSnackBar } from '@angular/material';
@@ -11,20 +11,28 @@ import { Justification } from '../shared/justification.model';
   styleUrls: ['exercise-unit.component.css']
 })
 
-export class ExerciseUnitComponent {
+export class ExerciseUnitComponent implements OnChanges {
 
   exerciseJSON: string;
-
+  @Input() exercise: Exercise;
+  @HostBinding('class.is-open')
+  isOpen = false;
   constructor(private exerciseService: ExerciseService, private snackBar: MatSnackBar) {
     const json = '{ "name":"¿Cuándo se descubrió América ?", "solutions":[ { "text": "Cristobal Colon fue un héroe", "isCorrect": true, "justifications": [ {"text": " Justificacion1", "isCorrect": true}, {"text": " Justificacion2", "isCorrect": true} ] }, { "text": "Cristobal Colon fue un héroe", "isCorrect": true, "justifications": [ ] },{ "text": "Antonio Colon", "isCorrect": false, "justifications": [ ] }, { "text": "Cristobal Colon fue un héroe", "isCorrect": true, "justifications": [ ] },{ "text": "Cristobal Colon fue un héroe", "isCorrect": true, "justifications": [ ] }, { "text": "Cristobal Colon fue un héroe", "isCorrect": true, "justifications": [ ] }] }';
     this.exerciseJSON = json;
     this.createModels(json);
+    console.log('exercise');
+    console.log(this.exercise);
   }
 
-  @HostBinding('class.is-open')
-  isOpen = false;
+  ngOnChanges() {
+    this.updateExercise();
+  }
 
-  exercise: Exercise;
+  updateExercise() {
+    console.log('exercise cambia' + this.exercise);
+  }
+  // exercise: Exercise;
   toggle() {
     this.isOpen = !this.isOpen;
   }
@@ -48,8 +56,6 @@ export class ExerciseUnitComponent {
     return this.exercise;
   }
 
-
-
   saveUnitContent() {
     if (this.verify()) {
       this.exerciseService.setContent(this.createModels(this.exerciseJSON)).subscribe();
@@ -59,6 +65,7 @@ export class ExerciseUnitComponent {
       });
     }
   }
+
   verify(): boolean {
     let input: any = this.exerciseJSON;
 
