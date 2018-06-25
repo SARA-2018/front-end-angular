@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import {ExerciseService} from '../../../shared/exercise.service';
+import { ExerciseService } from '../../../shared/exercise.service';
 
 @Component({
     templateUrl: 'exercise.component.html',

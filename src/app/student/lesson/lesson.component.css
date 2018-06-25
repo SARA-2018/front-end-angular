@@ -1,3 +1,8 @@
 .margin2pc{
     margin: 2%;
 }
+.button-options {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
