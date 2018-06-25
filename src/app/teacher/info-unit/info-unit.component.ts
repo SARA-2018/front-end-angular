@@ -181,6 +181,8 @@ export class InfoUnitComponent implements OnChanges {
       this.exerciseService.getById(interaction.getId()).subscribe(
         (exerciseDto) => {
           this.openExercise.emit(new DtoConverter().convertExercise(exerciseDto));
+          this.graphUnit.toggle();
+          this.exerciseUnit.toggle();
         }
       );
     } else {
