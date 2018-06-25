@@ -5,7 +5,6 @@ import {LessonService} from '../../../shared/lesson.service';
 import {Interaction} from '../../../teacher/info-unit/models/interaction.model';
 import {Video} from '../../../teacher/info-unit/models/video.model';
 
-
 @Component({
     templateUrl: 'video.component.html',
     styleUrls: ['video.component.css']

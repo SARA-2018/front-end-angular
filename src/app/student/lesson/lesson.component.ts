@@ -16,10 +16,8 @@ export class LessonComponent implements OnInit {
   lessonId: string;
   lessonName: string;
   interactions: Interaction[] = [];
-  interactionType: string[] = [];
 
   constructor(private route: ActivatedRoute, private lessonService: LessonService) {
-    console.log(this.interactions);
   }
 
   ngOnInit(): void {
@@ -29,15 +27,9 @@ export class LessonComponent implements OnInit {
 
   interaction(): Interaction[] {
     this.lessonService.getById(this.lessonId).subscribe(lessonDto => {
-      console.log(lessonDto);
       this.lessonName = lessonDto.name;
       for (const interactionDto of lessonDto.interactions) {
         this.interactions.push(new DtoConverter().convertInteraction(interactionDto));
-        if (interactionDto.video) {
-          this.interactionType.push('Vídeo');
-        } else {
-          this.interactionType.push('Ejercicio');
-        }
       }
     });
     return this.interactions;
