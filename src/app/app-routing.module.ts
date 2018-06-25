@@ -10,6 +10,7 @@ import { InputDialogComponent } from './teacher/info-unit/input-dialog.component
 import { ChatExerciseComponent } from './teacher/exercise-unit/chat-exercise/chat-exercise.component';
 import { FormationComponent } from './student/iteracion/formation.component';
 import { LessonComponent } from './student/lesson/lesson.component';
+import { VideoComponent } from './student/lesson/video/video.component';
 
 const appRoutes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: TeacherComponent.URL },
@@ -18,7 +19,7 @@ const appRoutes: Routes = [
   { path: LessonComponent.URL, component: LessonComponent,
     children: [
       // Declaracion de RUTAS
-      // { path: TeacherComponent.URL, component: TeacherComponent }
+       { path: VideoComponent.URL, component: VideoComponent }
     ]
   }
 ];
@@ -38,7 +39,8 @@ export class AppRoutingModule {
     TeacherComponent,
     VideoUnitComponent,
     FormationComponent,
-    LessonComponent
+    LessonComponent,
+    VideoComponent
   ];
 
   static DIALOGS_COMPONENTS = [
