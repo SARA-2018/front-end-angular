@@ -2,11 +2,12 @@
 <div id="separator-line" fxLayout="row" fxLayoutGap="20px">
   <div fxFlex>
     <app-graph-unit #graphUnit (openUnit)="openUnit($event)"></app-graph-unit>
-    <app-exercise-unit #exerciseUnit></app-exercise-unit>
+    <app-exercise-unit #exerciseUnit (openExercise)="openExercise($event)"></app-exercise-unit>
     <app-video-unit #videoUnit></app-video-unit>
   </div>
   <div fxFlex>
-    <app-info-unit *ngIf="unit" [exerciseUnit]="exerciseUnit" [graphUnit] = "graphUnit" [videoUnit]="videoUnit" [unit] = "unit"></app-info-unit>
+    <app-info-unit *ngIf="unit" [exerciseUnit]="exerciseUnit" [graphUnit] = "graphUnit" 
+    [videoUnit]="videoUnit" [unit] = "unit" ></app-info-unit>
   </div>
 </div>
 <router-outlet></router-outlet>
