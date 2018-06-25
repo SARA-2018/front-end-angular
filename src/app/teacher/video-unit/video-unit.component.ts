@@ -18,7 +18,6 @@ export class VideoUnitComponent implements OnChanges {
   }
 
   ngOnChanges() {
-    console.log(this.video);
     if (this.video) {
       this.videoURL = this.video.getUrl();
     }
