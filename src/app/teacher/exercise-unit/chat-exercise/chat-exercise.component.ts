@@ -3,8 +3,6 @@ import { Message } from './message/message.model';
 import { RolMessage } from './message/rol-message.enum';
 
 import { Exercise } from '../../shared/exercise.model';
-import { Solution } from '../../shared/solution.model';
-import { Justification } from '../../shared/justification.model';
 import { MessageTypeEnumerator } from './message/message-type-enum';
 import { AutoMessageMotor } from './models/auto-message-motor.model';
 import { TextMotor } from './models/text-motor.model';
@@ -27,11 +25,11 @@ export class ChatExerciseComponent implements OnChanges {
   private text = '';
   @Input() exercise: Exercise;
 
-  constructor() {
-    this.print(new AutoMessageMotor().welcomeMessage());
-  }
+  constructor() {}
 
   ngOnChanges() {
+    this.messages = [];
+    this.print(new AutoMessageMotor().welcomeMessage());
     this.updateMotor(new TextMotor(this.exercise));
   }
 
