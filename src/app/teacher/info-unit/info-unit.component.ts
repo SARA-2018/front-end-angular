@@ -21,8 +21,8 @@ import { CreateItineraryDto } from './dtos/create-itinerary.dto';
 import { CreateLessonDto } from './dtos/create-lesson.dto';
 import { CreateExerciseDto } from './dtos/create-exercise.dto';
 import { Interaction } from './models/interaction.model';
-import { Video } from './models/video.model';
 import { VideoService } from './services/video.service';
+import { Video } from './models/video.model';
 
 @Component({
   selector: 'app-info-unit',
@@ -74,17 +74,23 @@ export class InfoUnitComponent implements OnChanges {
     this.dialog.open(InputDialogComponent, { data: { name: name, message: message } }).afterClosed().subscribe(
       result => {
         if (result) {
-          const lesson: Lesson = new Lesson(result);
-          const formationArray: Formation[] = this.itinerarys[itineraryIndex].getFormations();
-          const session: Session = <Session>formationArray[sessionIndex];
-          const lessonArray: Lesson[] = session.getLessons();
-          lessonArray.push(lesson);
-          session.setLessons(lessonArray);
           const lessonDto: CreateLessonDto = {
-            sessionId: session.getId(),
+            sessionId: this.itinerarys[itineraryIndex].getFormations()[sessionIndex].getId(),
             name: result
           };
-          this.lessonService.create(lessonDto).subscribe();
+          console.log(lessonDto);
+          this.lessonService.create(lessonDto).subscribe(
+            (lessonDtoInput) => {
+              const lesson: Lesson = new Lesson(lessonDtoInput.name);
+              lesson.setId(lessonDtoInput.id);
+              const formationArray: Formation[] = this.itinerarys[itineraryIndex].getFormations();
+              const session: Session = <Session>formationArray[sessionIndex];
+              console.log(session.getId());
+              const lessonArray: Lesson[] = session.getLessons();
+              lessonArray.push(lesson);
+              session.setLessons(lessonArray);
+            }
+          );
         }
       }
     );
@@ -101,9 +107,11 @@ export class InfoUnitComponent implements OnChanges {
             name: result
           };
           this.sessionService.create(sessionDto).subscribe(
-            () => {
+            (sessionDtoInput) => {
               const formationArray: Formation[] = this.itinerarys[itineraryIndex].getFormations();
-              formationArray.push(<Formation>new Session(sessionDto.name));
+              const session = new Session(sessionDtoInput.name);
+              session.setId(sessionDtoInput.id);
+              formationArray.push(<Formation>session);
               this.itinerarys[itineraryIndex].setFormations(formationArray);
             }
           );
@@ -149,11 +157,16 @@ export class InfoUnitComponent implements OnChanges {
       solutions: [],
       lessonId: lessonArray[lessonIndex].getId()
     };
-    this.exerciseService.create(exerciseDto);
+    this.exerciseService.create(exerciseDto).subscribe();
 
   }
 
   addVideo(itineraryIndex: number, sessionIndex: number, lessonIndex: number) {
+    const video: Video = new Video();
+    const formationArray: Formation[] = this.itinerarys[itineraryIndex].getFormations();
+    const session: Session = <Session>formationArray[sessionIndex];
+    const lesson: Lesson = <Lesson>session.getLessons()[lessonIndex];
+    lesson.addInteractions(video);
     this.videoUnit.toggle();
     this.graphUnit.toggle();
     if (this.exerciseUnit['isOpen'] === true) {
@@ -161,6 +174,11 @@ export class InfoUnitComponent implements OnChanges {
       this.exerciseUnit.toggle();
     }
   }
+
+  showInteraction(itineraryIndex: number, sessionIndex: number, lessonIndex: number) {
+
+  }
+
   saveUnitContent() {
     if (this.verify()) {
       this.unitService.setContent(this.unit).subscribe();
