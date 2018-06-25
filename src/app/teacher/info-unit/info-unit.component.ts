@@ -39,6 +39,7 @@ export class InfoUnitComponent implements OnChanges {
   @Input() graphUnit: GraphUnitComponent;
   @Input() videoUnit: VideoUnitComponent;
   @Output() openExercise = new EventEmitter<Exercise>();
+  @Output() openVideo = new EventEmitter<Video>();
 
   constructor(public dialog: MatDialog, private snackBar: MatSnackBar, private unitService: UnitService,
     private sessionService: SessionService,
@@ -176,7 +177,6 @@ export class InfoUnitComponent implements OnChanges {
   }
 
   showInteraction(interaction: Interaction) {
-    console.log('pulsada interaccion');
     if (interaction.isExercise()) {
       this.exerciseService.getById(interaction.getId()).subscribe(
         (exerciseDto) => {
@@ -186,7 +186,13 @@ export class InfoUnitComponent implements OnChanges {
         }
       );
     } else {
-      // Para video
+      this.videoService.getById(interaction.getId()).subscribe(
+        (videoDto) => {
+          this.openVideo.emit(new DtoConverter().convertVideo(videoDto));
+          this.graphUnit.toggle();
+          this.videoUnit.toggle();
+        }
+      );
     }
   }
 
