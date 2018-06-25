@@ -15,7 +15,7 @@ export class VideoUnitComponent implements OnChanges {
   @HostBinding('class.is-open')
   isOpen = false;
 
-  constructor(private videoService: VideoService) {
+  constructor(public videoService: VideoService) {
   }
 
   ngOnChanges() {

@@ -45,7 +45,7 @@ export class InfoUnitComponent implements OnChanges {
   constructor(public dialog: MatDialog, private snackBar: MatSnackBar, private unitService: UnitService,
     private sessionService: SessionService,
     private lessonService: LessonService,
-    private exerciseService: ExerciseService,
+    public exerciseService: ExerciseService,
     private videoService: VideoService,
     private itineraryService: ItineraryService) {
   }
