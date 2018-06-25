@@ -14,14 +14,14 @@ import { ItineraryService } from '../../shared/itinerary.service';
 import { SessionService } from './services/session.service';
 import { LessonService } from '../../shared/lesson.service';
 import { Exercise } from '../shared/exercise.model';
-import { ExerciseService } from '../shared/exercise.service';
+import { ExerciseService } from '../../shared/exercise.service';
 import { DtoConverter } from '../../shared/dto-converter';
 import { CreateSessionDto } from './dtos/create-session.dto';
 import { CreateItineraryDto } from './dtos/create-itinerary.dto';
 import { CreateLessonDto } from './dtos/create-lesson.dto';
 import { CreateExerciseDto } from './dtos/create-exercise.dto';
 import { Interaction } from './models/interaction.model';
-import { VideoService } from './services/video.service';
+import { VideoService } from '../../shared/video.service';
 import { Video } from './models/video.model';
 
 @Component({

@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { Itinerary } from '../../teacher/info-unit/models/itinerary.model';
 import { DtoConverter } from '../../shared/dto-converter';
 import { LessonService } from '../../shared/lesson.service';
 import { Interaction } from '../../teacher/info-unit/models/interaction.model';
+import {ExerciseComponent} from './exercise/exercise.component';
+import {VideoComponent} from './video/video.component';
 
 @Component({
     templateUrl: 'lesson.component.html',
@@ -17,7 +19,7 @@ export class LessonComponent implements OnInit {
   lessonName: string;
   interactions: Interaction[] = [];
 
-  constructor(private route: ActivatedRoute, private lessonService: LessonService) {
+  constructor(private route: ActivatedRoute, private lessonService: LessonService, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -33,6 +35,18 @@ export class LessonComponent implements OnInit {
       }
     });
     return this.interactions;
+  }
+
+  showInteraction(interaction: Interaction) {
+    console.log(interaction);
+    if (interaction.isExercise()) {
+     // this.router.navigate(['/video', 'dskf']);
+      console.log('es un ejercio');
+    } else {
+      console.log('video');
+    //  this.router.navigate(['/video', 'dskf']);
+    }
+
   }
 
 }

@@ -1,19 +1,31 @@
 <mat-card class="margin2pc">
     <h3>Lección de {{lessonName}}</h3>
   <mat-horizontal-stepper #stepper>
+    <mat-step>
+      <form>
+        <ng-template matStepLabel >Inicio</ng-template>
+        <div>
+
+          <button mat-button matStepperNext [routerLink]="['./exercise', '851d87b8b230cf25177998c0']">Siguiente</button>
+        </div>
+        <router-outlet></router-outlet>
+
+      </form>
+    </mat-step>
     <mat-step *ngFor="let interaction of interactions">
       <form>
         <ng-template matStepLabel >{{interaction.getText()}}</ng-template>
-        <router-outlet></router-outlet>
         <div>
           <button mat-button matStepperPrevious>Regresar</button>
-          <button mat-button matStepperNext>Siguiente</button>
+          <button mat-button matStepperNext [routerLink]="['./' +interaction.getLink(), interaction.getId()]">Siguiente</button>
         </div>
+        <router-outlet></router-outlet>
+
       </form>
     </mat-step>
     <mat-step>
-      <ng-template matStepLabel>Done</ng-template>
-      You are now done.
+      <ng-template matStepLabel>Fin</ng-template>
+      Lección terminada.
       <div>
         <button mat-button matStepperPrevious>Back</button>
         <button mat-button (click)="stepper.reset()">Volver a intentarlo</button>

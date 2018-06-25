@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { HttpService } from '../../core/http.service';
-import { Exercise } from './exercise.model';
-import { CreateExerciseDto } from '../info-unit/dtos/create-exercise.dto';
-import { ExerciseDto } from '../../shared/dtos/exercise.dto';
+import { HttpService } from '../core/http.service';
+import { CreateExerciseDto } from '../teacher/info-unit/dtos/create-exercise.dto';
+import { Exercise } from '../teacher/shared/exercise.model';
+import { ExerciseDto } from './dtos/exercise.dto';
+
 
 
 @Injectable()

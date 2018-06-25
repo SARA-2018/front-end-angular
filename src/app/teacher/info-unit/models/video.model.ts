@@ -24,4 +24,8 @@ export class Video extends Interaction  {
     getText(): string {
         return 'Vídeo';
     }
+
+    getLink(): string {
+      return '/video';
+    }
 }

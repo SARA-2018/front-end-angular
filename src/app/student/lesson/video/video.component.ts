@@ -4,6 +4,7 @@ import {DtoConverter} from '../../../shared/dto-converter';
 import {LessonService} from '../../../shared/lesson.service';
 import {Interaction} from '../../../teacher/info-unit/models/interaction.model';
 import {Video} from '../../../teacher/info-unit/models/video.model';
+import {VideoService} from '../../../shared/video.service';
 
 @Component({
     templateUrl: 'video.component.html',
@@ -16,7 +17,7 @@ export class VideoComponent implements OnInit {
   videoId: string;
 
 
-  constructor(private route: ActivatedRoute, private lessonService: LessonService) {
+  constructor(private route: ActivatedRoute, private videoService: VideoService) {
   }
 
   ngOnInit(): void {
@@ -25,8 +26,8 @@ export class VideoComponent implements OnInit {
   }
 
   video(): void {
-    this.lessonService.getById(this.videoId).subscribe(videoDto => {
-      console.log(videoDto.name);
+    this.videoService.getById(this.videoId).subscribe(videoDto => {
+      console.log(videoDto.url);
       /*for (const interactionDto of videoDto.interactions) {
         this.interactions.push(new DtoConverter().convertInteraction(interactionDto));
         if (interactionDto.video) {

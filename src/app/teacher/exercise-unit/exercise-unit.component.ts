@@ -1,6 +1,6 @@
 import {Component, HostBinding, Input, OnChanges} from '@angular/core';
 import { Exercise } from '../shared/exercise.model';
-import { ExerciseService } from '../shared/exercise.service';
+import { ExerciseService } from '../../shared/exercise.service';
 import { MatSnackBar } from '@angular/material';
 import { Solution } from '../shared/solution.model';
 import { Justification } from '../shared/justification.model';

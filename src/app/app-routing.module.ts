@@ -11,6 +11,7 @@ import { ChatExerciseComponent } from './teacher/exercise-unit/chat-exercise/cha
 import { FormationComponent } from './student/iteracion/formation.component';
 import { LessonComponent } from './student/lesson/lesson.component';
 import { VideoComponent } from './student/lesson/video/video.component';
+import {ExerciseComponent} from './student/lesson/exercise/exercise.component';
 
 const appRoutes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: TeacherComponent.URL },
@@ -19,7 +20,8 @@ const appRoutes: Routes = [
   { path: LessonComponent.URL, component: LessonComponent,
     children: [
       // Declaracion de RUTAS
-       { path: VideoComponent.URL, component: VideoComponent }
+       { path: VideoComponent.URL, component: VideoComponent },
+       { path: ExerciseComponent.URL, component: ExerciseComponent }
     ]
   }
 ];
@@ -40,7 +42,8 @@ export class AppRoutingModule {
     VideoUnitComponent,
     FormationComponent,
     LessonComponent,
-    VideoComponent
+    VideoComponent,
+    ExerciseComponent
   ];
 
   static DIALOGS_COMPONENTS = [
