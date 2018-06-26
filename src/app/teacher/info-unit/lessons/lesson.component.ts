@@ -12,6 +12,9 @@ import { ExerciseService } from '../../shared/exercise.service';
 import { CreateVideoDto } from '../dtos/create-video.dto';
 import { VideoService } from '../services/video.service';
 import { Interaction } from '../models/interaction.model';
+import { ExerciseUnitComponent } from '../../exercise-unit/exercise-unit.component';
+import { GraphUnitComponent } from '../../graph-unit/graph-unit.component';
+import { VideoUnitComponent } from '../../video-unit/video-unit.component';
 
 @Component({
     selector: 'app-lesson',
@@ -21,6 +24,11 @@ import { Interaction } from '../models/interaction.model';
 export class LessonComponent {
 
     @Input() session: Session;
+
+    @Input() exerciseUnitComponent: ExerciseUnitComponent;
+    @Input() graphUnitComponent: GraphUnitComponent;
+    @Input() videoUnitComponent: VideoUnitComponent;
+
 
     constructor(public dialog: MatDialog, private lessonService: LessonService,
         private exerciseService: ExerciseService,
@@ -55,6 +63,9 @@ export class LessonComponent {
     }
 
     addExercise(lesson: Lesson) {
+        this.graphUnitComponent.close();
+        this.exerciseUnitComponent.open();
+        this.videoUnitComponent.close();
         const exerciseDto: CreateExerciseDto = {
             formulation: '',
             solutions: [],
@@ -66,6 +77,9 @@ export class LessonComponent {
     }
 
     addVideo(lesson: Lesson) {
+        this.graphUnitComponent.close();
+        this.exerciseUnitComponent.close();
+        this.videoUnitComponent.open();
         const videoDto: CreateVideoDto = {
             lessonId: lesson.getId(),
             url: ''
@@ -75,25 +89,31 @@ export class LessonComponent {
         );
     }
 
-   showInteraction(interaction: Interaction) {
-    if (interaction.isExercise()) {
-      this.exerciseService.getById(interaction.getId()).subscribe(
-        (exerciseDto) => {
-            console.log(exerciseDto);
-          /*this.openExercise.emit(new DtoConverter().convertExercise(exerciseDto));
-          this.graphUnit.toggle();
-          this.exerciseUnit.toggle();*/
+    showInteraction(interaction: Interaction) {
+        if (interaction.isExercise()) {
+            this.graphUnitComponent.close();
+            this.exerciseUnitComponent.open();
+            this.videoUnitComponent.close();
+            this.exerciseService.getById(interaction.getId()).subscribe(
+                (exerciseDto) => {
+                    console.log(exerciseDto);
+                    /*this.openExercise.emit(new DtoConverter().convertExercise(exerciseDto));
+                    this.graphUnit.toggle();
+                    this.exerciseUnit.toggle();*/
+                }
+            );
+        } else {
+            this.graphUnitComponent.close();
+            this.exerciseUnitComponent.close();
+            this.videoUnitComponent.open();
+            this.videoService.getById(interaction.getId()).subscribe(
+                (videoDto) => {
+                    console.log(videoDto);
+                    /*this.openVideo.emit(new DtoConverter().convertVideo(videoDto));
+                    this.graphUnit.toggle();
+                    this.videoUnit.toggle();*/
+                }
+            );
         }
-      );
-    } else {
-      this.videoService.getById(interaction.getId()).subscribe(
-        (videoDto) => {
-            console.log(videoDto);
-          /*this.openVideo.emit(new DtoConverter().convertVideo(videoDto));
-          this.graphUnit.toggle();
-          this.videoUnit.toggle();*/
-        }
-      );
     }
-  }
 }

@@ -27,8 +27,12 @@ export class ExerciseUnitComponent implements OnChanges {
     this.openExerciseChat.emit(this.exercise);
   }
 
-  toggle() {
-    this.isOpen = !this.isOpen;
+  close() {
+    this.isOpen = false;
+  }
+
+  open() {
+    this.isOpen = true;
   }
 
   createModels(json: string) {

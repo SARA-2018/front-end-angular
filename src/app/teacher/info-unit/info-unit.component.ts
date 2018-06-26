@@ -23,9 +23,10 @@ export class InfoUnitComponent implements OnChanges {
   public itinerarys: Itinerary[] = [];
 
   @Input() unit: Unit;
-  @Input() exerciseUnit: ExerciseUnitComponent;
-  @Input() graphUnit: GraphUnitComponent;
-  @Input() videoUnit: VideoUnitComponent;
+
+  @Input() exerciseUnitComponent: ExerciseUnitComponent;
+  @Input() graphUnitComponent: GraphUnitComponent;
+  @Input() videoUnitComponent: VideoUnitComponent;
 
   constructor(public dialog: MatDialog, private snackBar: MatSnackBar,
     private unitService: UnitService, private itineraryService: ItineraryService) {

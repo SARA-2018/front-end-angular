@@ -6,6 +6,7 @@
   <mat-card *ngFor="let session of itinerary.getFormations()">
     <h4>{{session.getName()}}</h4>
     <mat-card-content>
-      <app-lesson [session]="session"></app-lesson>
+      <app-lesson [graphUnitComponent]="graphUnitComponent" [exerciseUnitComponent]="exerciseUnitComponent"
+      [videoUnitComponent] = "videoUnitComponent" [session]="session"></app-lesson>
     </mat-card-content>
   </mat-card> 
