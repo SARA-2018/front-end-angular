@@ -1,6 +1,7 @@
 import { Component, HostBinding, Input, OnChanges } from '@angular/core';
 import { Video } from '../info-unit/models/video.model';
-import { VideoService } from '../info-unit/services/video.service';
+import { VideoService } from '../../shared/video.service';
+
 
 @Component({
   selector: 'app-video-unit',

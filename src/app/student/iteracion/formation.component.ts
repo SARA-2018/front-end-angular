@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material';
 import { ItineraryService } from '../../shared/itinerary.service';
 import { DtoConverter } from '../../shared/dto-converter';
 import { Itinerary } from '../../teacher/info-unit/models/itinerary.model';
@@ -53,10 +52,9 @@ export class FormationComponent implements OnInit {
     }
   }
 
-  /*openInteraction(lesson: Lesson): void {
+  openInteraction(lesson: Lesson): void {
     if (lesson.getInteractions().length !== 0) {
-      const interaction = lesson.getInteractions()[0];
-      this.router.navigate(['/lesson', lesson.getId(), interaction.getLink(), interaction.getId()]);
+      this.router.navigate(['/lesson', lesson.getId()]);
     }
-  }*/
+  }
 }

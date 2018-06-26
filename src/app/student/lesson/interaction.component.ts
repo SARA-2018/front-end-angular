@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import { Itinerary } from '../../teacher/info-unit/models/itinerary.model';
 import {DtoConverter} from '../../shared/dto-converter';
 import { LessonService } from '../../shared/lesson.service';
 import { Interaction } from '../../teacher/info-unit/models/interaction.model';
@@ -9,21 +8,21 @@ import {ExerciseService} from '../../shared/exercise.service';
 import {InteractionDto} from '../../shared/dtos/interaction.dto';
 
 @Component({
-    templateUrl: 'lesson.component.html',
-    styleUrls: ['lesson.component.css']
+    templateUrl: 'interaction.component.html',
+    styleUrls: ['interaction.component.css']
 })
 
-export class LessonComponent implements OnInit {
+export class InteractionComponent implements OnInit {
 
   static URL = 'lesson/:id';
   lessonId: string;
   lessonName: string;
   interactions: Interaction[] = [];
-  dtoConverte: DtoConverter;
 
-  constructor(private route: ActivatedRoute, private lessonService: LessonService, private router: Router, private videoService: VideoService,
+  constructor(private route: ActivatedRoute, private router: Router,
+              private lessonService: LessonService,
+              private videoService: VideoService,
               private exerciseService: ExerciseService) {
-    this.dtoConverte = new DtoConverter();
   }
 
   ngOnInit(): void {
@@ -38,11 +37,11 @@ export class LessonComponent implements OnInit {
       for (let i = 0; i < interactions.length; i++) {
         if (interactions[i].video) {
            this.videoService.getById(interactions[i].video.id).subscribe(videoDto => {
-            this.interactions.push(this.dtoConverte.convertVideo(videoDto));
+            this.interactions.push(new DtoConverter().convertVideo(videoDto));
           });
         } else {
           this.exerciseService.getById(interactions[i].exercise.id).subscribe(exerciseDto => {
-            this.interactions.push(this.dtoConverte.convertExercise(exerciseDto));
+            this.interactions.push(new DtoConverter().convertExercise(exerciseDto));
 
           });
         }
