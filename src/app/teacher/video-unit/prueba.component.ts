@@ -10,6 +10,9 @@ export class PruebaComponent  {
   product: any[] = [
 {id: 121, name: "iphone", url: 'https://www.gstatic.com/webp/gallery3/1.png'} ];
 displayURL;
+
+
+
 constructor(private sanitizer: DomSanitizer) {
   this.displayURL = sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/tgbNymZ7vqY');
 }
