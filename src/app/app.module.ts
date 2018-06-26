@@ -23,10 +23,10 @@ import { MessageComponent } from './teacher/exercise-unit/chat-exercise/message/
 import { ItineraryService } from './shared/itinerary.service';
 import { SessionService } from './teacher/info-unit/services/session.service';
 import { LessonService } from './shared/lesson.service';
-import { VideoService } from './teacher/info-unit/services/video.service';
-import { ExerciseService } from './teacher/shared/exercise.service';
 import { SessionComponent } from './teacher/info-unit/sessions/session.component';
 import { LessonComponent } from './teacher/info-unit/lessons/lesson.component';
+import { ExerciseService} from './shared/exercise.service';
+import { VideoService } from './shared/video.service';
 
 @NgModule({
   imports: [
