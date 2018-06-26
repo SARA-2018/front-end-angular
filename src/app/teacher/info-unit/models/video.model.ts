@@ -25,7 +25,7 @@ export class Video extends Interaction  {
         return 'Vídeo';
     }
 
-    getLink(): string {
-      return '/video';
+    isVideo(): boolean {
+      return false;
     }
 }

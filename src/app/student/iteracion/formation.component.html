@@ -1,6 +1,6 @@
 <mat-accordion>
   <mat-expansion-panel *ngFor="let itinerary of itinerarys">
-    <mat-expansion-panel-header (click)="openItineraryInfo(itinerary.getFormations())">
+    <mat-expansion-panel-header (click)="openFormations(itinerary.getFormations())">
       <mat-panel-title>
         {{itinerary.getName()}}
       </mat-panel-title>

@@ -20,8 +20,7 @@ const appRoutes: Routes = [
   { path: LessonComponent.URL, component: LessonComponent,
     children: [
       // Declaracion de RUTAS
-       { path: VideoComponent.URL, component: VideoComponent },
-       { path: ExerciseComponent.URL, component: ExerciseComponent }
+     //  { path: VideoComponent.URL, component: VideoComponent }
     ]
   }
 ];

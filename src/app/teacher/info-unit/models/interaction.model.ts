@@ -12,8 +12,6 @@ export abstract class Interaction  {
 
     public abstract getText(): string;
 
-    public abstract getLink(): string;
-
     isExercise(): boolean {
         return false;
     }

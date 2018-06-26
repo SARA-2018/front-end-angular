@@ -1,43 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import {DtoConverter} from '../../../shared/dto-converter';
-import {LessonService} from '../../../shared/lesson.service';
-import {Interaction} from '../../../teacher/info-unit/models/interaction.model';
+import { VideoService } from '../../../shared/video.service';
+import {Exercise} from '../../../teacher/shared/exercise.model';
 import {Video} from '../../../teacher/info-unit/models/video.model';
-import {VideoService} from '../../../shared/video.service';
 
 @Component({
+    selector: 'app-video',
     templateUrl: 'video.component.html',
     styleUrls: ['video.component.css']
 })
 
-export class VideoComponent implements OnInit {
+export class VideoComponent {
 
   static URL = 'video/:id';
-  videoId: string;
+  @Input() video: Video;
 
 
-  constructor(private route: ActivatedRoute, private videoService: VideoService) {
+  constructor() {
+    console.log('---------------Soy video-----------------')
+    console.log(this.video);
   }
 
-  ngOnInit(): void {
-    this.route.params.subscribe(params => this.videoId = params['id']);
-    this.video();
-  }
 
-  video(): void {
-    this.videoService.getById(this.videoId).subscribe(videoDto => {
-      console.log(videoDto.url);
-      /*for (const interactionDto of videoDto.interactions) {
-        this.interactions.push(new DtoConverter().convertInteraction(interactionDto));
-        if (interactionDto.video) {
-          this.interactionType.push('Vídeo');
-        } else {
-          this.interactionType.push('Ejercicio');
-        }
-      }*/
-    });
-
-  }
 }
 

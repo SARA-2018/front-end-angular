@@ -107,6 +107,7 @@ export class DtoConverter {
     if (videoDto.url) {
       video.setUrl(videoDto.url);
     }
+    console.log('convertVideo ' + video.getUrl() );
     return video;
   }
 

@@ -1,30 +1,23 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {Component, Input, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
 import { ExerciseService } from '../../../shared/exercise.service';
+import {Exercise} from '../../../teacher/shared/exercise.model';
 
 @Component({
+    selector: 'app-exercise',
     templateUrl: 'exercise.component.html',
     styleUrls: ['exercise.component.css']
 })
 
-export class ExerciseComponent implements OnInit {
-
-  static URL = 'exercise/:id';
-  exerciseId: string;
+export class ExerciseComponent {
 
 
-  constructor(private route: ActivatedRoute, private exerciseService: ExerciseService) {
+  @Input() exercise: Exercise;
+
+  constructor() {
+    console.log('---------------Soy exercise-----------------')
+    console.log(this.exercise);
   }
 
-  ngOnInit(): void {
-    this.route.params.subscribe(params => this.exerciseId = params['id']);
-    this.exercise();
-  }
-
-  exercise(): void {
-    this.exerciseService.getById(this.exerciseId).subscribe(exerciseDto => {
-      console.log(exerciseDto);
-    });
-  }
 }
 

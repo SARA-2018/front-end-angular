@@ -5,19 +5,20 @@
       <form>
         <ng-template matStepLabel >Inicio</ng-template>
         <div class="button-options">
-          <button mat-button matStepperNext [routerLink]="['./exercise', '851d87b8b230cf25177998c0']" color="primary">Siguiente</button>
+          <button mat-button matStepperNext color="primary">Siguiente</button>
         </div>
         <h3 style="text-align: center;">Bienvenidos</h3>
       </form>
     </mat-step>
     <mat-step *ngFor="let interaction of interactions">
       <form>
-        <ng-template matStepLabel >{{interaction.getText()}}</ng-template>
+        <ng-template matStepLabel></ng-template>
         <div class="button-options">
           <button mat-button matStepperPrevious color="primary">Regresar</button>
-          <button mat-button matStepperNext [routerLink]="['./' +interaction.getLink(), interaction.getId()]" color="primary">Siguiente</button>
+          <button mat-button matStepperNext color="primary">Siguiente</button>
         </div>
-        <router-outlet></router-outlet>
+        <app-exercise *ngIf="isExercise(interaction)" [exercise]="interaction"></app-exercise>
+        <app-video *ngIf="isVideo(interaction)" [video]="interaction"></app-video>
 
       </form>
     </mat-step>

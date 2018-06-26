@@ -51,8 +51,4 @@ export class Exercise extends Interaction {
     isExercise(): boolean {
         return true;
     }
-
-    getLink(): string {
-      return '/exercise';
-    }
 }
