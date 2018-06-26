@@ -6,6 +6,7 @@ import { Interaction } from '../../teacher/info-unit/models/interaction.model';
 import {VideoService} from '../../shared/video.service';
 import {ExerciseService} from '../../shared/exercise.service';
 import {InteractionDto} from '../../shared/dtos/interaction.dto';
+import {StudentComponent} from '../student.component';
 
 @Component({
     templateUrl: 'interaction.component.html',
@@ -56,6 +57,10 @@ export class InteractionComponent implements OnInit {
 
   isVideo(interaction: Interaction) {
     return !interaction.isExercise();
+  }
+
+  exit() {
+    this.router.navigate([StudentComponent.URL]);
   }
 }
 

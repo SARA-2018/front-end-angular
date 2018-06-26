@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Video } from '../../../teacher/info-unit/models/video.model';
-import { DomSanitizer } from '@angular/platform-browser';
+import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 
 @Component({
     selector: 'app-video',
@@ -11,7 +11,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class VideoStudentComponent implements OnInit {
 
   @Input() video: Video;
-  displayURL;
+  displayURL: SafeResourceUrl;
   constructor(private sanitizer: DomSanitizer) {
   }
 

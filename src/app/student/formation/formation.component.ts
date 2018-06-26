@@ -58,7 +58,7 @@ export class FormationComponent implements OnInit {
       this.router.navigate(['/lesson', lesson.getId()]);
     } else {
       this.snackBar.open('Opss! No existe contenido.', '', {
-        duration: 8000
+        duration: 2000
       });
     }
   }
