@@ -1,13 +1,13 @@
 <div class="layout-alignment"></div>
 <div id="separator-line" fxLayout="row" fxLayoutGap="20px">
   <div fxFlex>
-    <app-graph-unit #graphUnit (openUnit)="openUnit($event)"></app-graph-unit>
-    <app-exercise-unit #exerciseUnit [exercise] = "exercise" ></app-exercise-unit>
-    <app-video-unit #videoUnit [video] = "video"></app-video-unit>
+    <app-graph-unit #graphUnitComponent (openUnit)="openUnit($event)"></app-graph-unit>
+    <app-exercise-unit #exerciseUnitComponent [exercise] = "exercise" ></app-exercise-unit>
+    <app-video-unit #videoUnitComponent [video] = "video"></app-video-unit>
   </div>
   <div fxFlex>
-    <app-info-unit *ngIf="unit" [exerciseUnit]="exerciseUnit" [graphUnit] = "graphUnit" 
-    [videoUnit]="videoUnit" [unit] = "unit" (openExercise)="openExercise($event)" (openVideo)="openVideo($event)"></app-info-unit>
+    <app-info-unit *ngIf="unit" [exerciseUnitComponent]="exerciseUnitComponent" [graphUnitComponent] = "graphUnitComponent" 
+    [videoUnitComponent]="videoUnitComponent" [unit] = "unit" (openExercise)="openExercise($event)" (openVideo)="openVideo($event)"></app-info-unit>
   </div>
 </div>
 <router-outlet></router-outlet>

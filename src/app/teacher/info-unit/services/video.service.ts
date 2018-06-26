@@ -10,15 +10,14 @@ export class VideoService {
 
   static END_POINT = '/video';
 
-  constructor(private httpService: HttpService) {
-  }
+  constructor(private httpService: HttpService) {}
 
   create(video: CreateVideoDto): Observable<any> {
     return this.httpService.successful().post(VideoService.END_POINT, video);
   }
 
   setUrl(video: Video): Observable<any> {
-    return this.httpService.successful().put(VideoService.END_POINT + '/' + video.getId() , video);
+    return this.httpService.successful().put(VideoService.END_POINT + '/' + video.getId(), video);
   }
 
   getById(id: string): Observable<VideoDto> {

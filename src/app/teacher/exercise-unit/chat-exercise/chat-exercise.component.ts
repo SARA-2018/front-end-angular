@@ -24,45 +24,59 @@ export class ChatExerciseComponent implements OnChanges {
   private exerciseMotor: ExerciseMotor;
   private text = '';
   @Input() exercise: Exercise;
+  private motors: ExerciseMotor[] = [];
 
-  constructor() {}
+  constructor() { }
 
   ngOnChanges() {
     this.messages = [];
     this.print(new AutoMessageMotor().welcomeMessage());
+    this.motors = [new DicotomicMotor(this.exercise),
+    new MultipleChoiseMotor(this.exercise), new FillBlankMotor(this.exercise)];
     this.updateMotor(new TextMotor(this.exercise));
   }
 
   nextExercise() {
-    if (this.exerciseMotor.getOvercome()) {
-      if (this.exerciseMotor instanceof TextMotor) {
-        this.updateMotor(new DicotomicMotor(this.exercise));
-      } else if (this.exerciseMotor instanceof DicotomicMotor) {
-        this.updateMotor(new MultipleChoiseMotor(this.exercise));
-      } else if (this.exerciseMotor instanceof MultipleChoiseMotor) {
-        this.updateMotor(new FillBlankMotor(this.exercise));
-      } else {
-        this.print(new AutoMessageMotor().statisticsMessage(this.exercise));
-        this.print(new AutoMessageMotor().goodbyeMessage());
-      }
+    /*let i = 0;
+    while (this.motors[i].getOvercome() && this.motors.length < i) {
+      i++;
+    }
+    if (!this.motors[i].getOvercome()) {
+      this.updateMotor(this.motors[i]);
+    } else {
+      this.print(new AutoMessageMotor().statisticsMessage(this.exercise));
+      this.print(new AutoMessageMotor().goodbyeMessage());
+    }*/
+
+  if (this.exerciseMotor.getOvercome()) {
+    if (this.exerciseMotor instanceof TextMotor) {
+      this.updateMotor(new DicotomicMotor(this.exercise));
+    } else if (this.exerciseMotor instanceof DicotomicMotor) {
+      this.updateMotor(new MultipleChoiseMotor(this.exercise));
+    } else if (this.exerciseMotor instanceof MultipleChoiseMotor) {
+      this.updateMotor(new FillBlankMotor(this.exercise));
+    } else {
+      this.print(new AutoMessageMotor().statisticsMessage(this.exercise));
+      this.print(new AutoMessageMotor().goodbyeMessage());
     }
   }
+}
 
-  updateMotor(exerciseMotor: ExerciseMotor) {
-    this.exerciseMotor = exerciseMotor;
-    this.print(this.exerciseMotor.handMessage());
-  }
+updateMotor(exerciseMotor: ExerciseMotor) {
+  this.exerciseMotor = exerciseMotor;
+  this.print(this.exerciseMotor.handMessage());
+}
 
-  send(text: string) {
-    this.messages.push(new Message(text, RolMessage.STUDENT, MessageTypeEnumerator.TEXT));
-    this.print(this.exerciseMotor.handResponse(text));
-    this.nextExercise();
-    this.text = '';
-  }
+send(text: string) {
+  this.messages.push(new Message(text, RolMessage.STUDENT, MessageTypeEnumerator.TEXT));
+  this.print(this.exerciseMotor.handResponse(text));
+  this.nextExercise();
+  this.text = '';
+}
 
-  print(strings: string[]) {
-    for (const string of strings) {
-      this.messages.push(new Message(string, RolMessage.TEACHER, MessageTypeEnumerator.TEXT));
-    }
+print(strings: string[]) {
+  for (const string of strings) {
+    this.messages.push(new Message(string, RolMessage.TEACHER, MessageTypeEnumerator.TEXT));
   }
+}
 }
