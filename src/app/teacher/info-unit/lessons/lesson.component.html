@@ -1,0 +1,18 @@
+<mat-action-row>
+  <button mat-raised-button color="primary" class="button-content" (click)="addLesson()">
+    <mat-icon>add_circle_outline</mat-icon> Añadir lección</button>
+</mat-action-row>
+<mat-card *ngFor="let lesson of session.getLessons()" id="card_lesson">
+  <h4>{{lesson.getName()}}</h4>
+  <mat-card-content>
+    <mat-card id="card_cont_lesson">
+      <mat-card-content *ngFor="let interaction of lesson.getInteractions()">
+        <a (click)="showInteraction(interaction)">{{interaction.getText()}}</a>
+      </mat-card-content>
+      <mat-action-row>
+        <button mat-raised-button color="primary" class="button-content" (click)="addVideo(lesson)">Añadir video</button>
+        <button mat-raised-button color="primary" class="button-content" (click)="addExercise(lesson)">Añadir ejercicio</button>
+      </mat-action-row>
+    </mat-card>
+  </mat-card-content>
+</mat-card>

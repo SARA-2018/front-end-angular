@@ -18,35 +18,10 @@
     </mat-panel-title>
   </mat-expansion-panel-header>
   <mat-tab-group>
-    <mat-tab *ngFor="let itinerary of itinerarys; let i = index" label={{itinerary.getName()}}>
-      <mat-action-row>
-        <button mat-raised-button color="primary" class="button-content" (click)="addSession(i)">
-          <mat-icon>add_circle_outline</mat-icon>
-          Añadir sesión</button>
-      </mat-action-row>
-      <mat-card *ngFor="let session of itinerary.getFormations(); let j = index">
-        <h4>{{session.getName()}}</h4>
-        <mat-card-content>
-          <mat-action-row>
-            <button mat-raised-button color="primary" class="button-content" (click)="addLesson(i,j)">
-              <mat-icon>add_circle_outline</mat-icon> Añadir lección</button>
-          </mat-action-row>
-          <mat-card *ngFor="let lesson of session.getLessons(); let k = index" id="card_lesson">
-            <h4>{{lesson.getName()}}</h4>
-            <mat-card-content>
-              <mat-card id="card_cont_lesson">
-                <mat-card-content *ngFor="let interaction of lesson.getInteractions()">
-                  <a (click)="showInteraction(interaction)">{{interaction.getText()}}</a> 
-                </mat-card-content>
-                <mat-action-row>
-                  <button mat-raised-button color="primary" class="button-content" (click)="addVideo(i,j,k)">Añadir video</button>
-                  <button mat-raised-button color="primary" class="button-content" (click)="addExercise(i,j,k)">Añadir ejercicio</button>
-                </mat-action-row>
-              </mat-card>
-            </mat-card-content>
-          </mat-card>
-        </mat-card-content>
-      </mat-card>
+    <mat-tab *ngFor="let itinerary of itinerarys" label={{itinerary.getName()}}>
+      <app-session [graphUnitComponent]="graphUnitComponent" [exerciseUnitComponent]="exerciseUnitComponent"
+      [videoUnitComponent] = "videoUnitComponent" [itinerary]="itinerary" (openExerciseInfo)="openExerciseInfo($event)"
+      (openVideoInfo)="openVideoInfo($event)"></app-session>
     </mat-tab>
     <mat-tab>
       <ng-template mat-tab-label>
