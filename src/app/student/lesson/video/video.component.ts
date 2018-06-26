@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Video } from '../../../teacher/info-unit/models/video.model';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
     selector: 'app-video',
@@ -10,12 +11,13 @@ import { Video } from '../../../teacher/info-unit/models/video.model';
 export class VideoStudentComponent implements OnInit {
 
   @Input() video: Video;
-  constructor() {
+  displayURL;
+  constructor(private sanitizer: DomSanitizer) {
   }
 
+
   ngOnInit(): void {
-    console.log('---------------Soy video-----------------');
-    console.log(this.video);
+    this.displayURL = this.sanitizer.bypassSecurityTrustResourceUrl(this.video.getUrl());
   }
 
 }

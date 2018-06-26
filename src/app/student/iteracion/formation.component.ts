@@ -6,6 +6,7 @@ import { Formation } from '../../teacher/info-unit/models/formation.model';
 import { Lesson } from '../../teacher/info-unit/models/lesson.model';
 import { Session } from '../../teacher/info-unit/models/session.model';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
     selector: 'app-formation',
@@ -20,7 +21,7 @@ export class FormationComponent implements OnInit {
   lessons: Lesson[] = [];
   formations: Formation[] = [];
 
-  constructor(private itineraryService: ItineraryService, private router: Router) {
+  constructor(private itineraryService: ItineraryService, private router: Router, private snackBar: MatSnackBar) {
   }
 
   ngOnInit(): void {
@@ -52,9 +53,13 @@ export class FormationComponent implements OnInit {
     }
   }
 
-  openInteraction(lesson: Lesson): void {
+  openLesson(lesson: Lesson): void {
     if (lesson.getInteractions().length !== 0) {
       this.router.navigate(['/lesson', lesson.getId()]);
+    } else {
+      this.snackBar.open('Opss! No existe contenido.', '', {
+        duration: 8000
+      });
     }
   }
 }
