@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Itinerary } from '../models/itinerary.model';
 import { ItineraryService } from '../../../shared/itinerary.service';
 import { MatDialog } from '@angular/material';
@@ -9,6 +9,8 @@ import { DtoConverter } from '../../../shared/dto-converter';
 import { ExerciseUnitComponent } from '../../exercise-unit/exercise-unit.component';
 import { GraphUnitComponent } from '../../graph-unit/graph-unit.component';
 import { VideoUnitComponent } from '../../video-unit/video-unit.component';
+import { Exercise } from '../../shared/exercise.model';
+import { Video } from '../models/video.model';
 
 @Component({
     selector: 'app-session',
@@ -22,6 +24,9 @@ export class SessionComponent {
     @Input() exerciseUnitComponent: ExerciseUnitComponent;
     @Input() graphUnitComponent: GraphUnitComponent;
     @Input() videoUnitComponent: VideoUnitComponent;
+
+    @Output() openExerciseInfo = new EventEmitter<Exercise>();
+    @Output() openVideoInfo = new EventEmitter<Video>();
 
     constructor(private itineraryService: ItineraryService, public dialog: MatDialog,
         private sessionService: SessionService) {
@@ -53,5 +58,15 @@ export class SessionComponent {
                 }
             }
         );
+    }
+
+    openExercise(exercise: Exercise) {
+        console.log('session');
+        console.log(exercise);
+        this.openExerciseInfo.emit(exercise);
+    }
+
+    openVideo(video: Video) {
+        this.openVideoInfo.emit(video);
     }
 }

@@ -20,7 +20,8 @@
   <mat-tab-group>
     <mat-tab *ngFor="let itinerary of itinerarys" label={{itinerary.getName()}}>
       <app-session [graphUnitComponent]="graphUnitComponent" [exerciseUnitComponent]="exerciseUnitComponent"
-      [videoUnitComponent] = "videoUnitComponent" [itinerary]="itinerary"></app-session>
+      [videoUnitComponent] = "videoUnitComponent" [itinerary]="itinerary" (openExerciseInfo)="openExerciseInfo($event)"
+      (openVideoInfo)="openVideoInfo($event)"></app-session>
     </mat-tab>
     <mat-tab>
       <ng-template mat-tab-label>

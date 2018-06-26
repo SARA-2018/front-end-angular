@@ -29,6 +29,8 @@ export class ChatExerciseComponent implements OnChanges {
   constructor() { }
 
   ngOnChanges() {
+    console.log('Tenemos ejercicio');
+    console.log(this.exercise);
     this.messages = [];
     this.print(new AutoMessageMotor().welcomeMessage());
     this.motors = [new DicotomicMotor(this.exercise),

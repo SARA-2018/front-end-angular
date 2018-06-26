@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Session } from '../models/session.model';
 import { MatDialog } from '@angular/material';
 import { InputDialogComponent } from '../input-dialog.component';
@@ -15,6 +15,8 @@ import { Interaction } from '../models/interaction.model';
 import { ExerciseUnitComponent } from '../../exercise-unit/exercise-unit.component';
 import { GraphUnitComponent } from '../../graph-unit/graph-unit.component';
 import { VideoUnitComponent } from '../../video-unit/video-unit.component';
+import { Exercise } from '../../shared/exercise.model';
+import { Video } from '../models/video.model';
 
 @Component({
     selector: 'app-lesson',
@@ -29,6 +31,8 @@ export class LessonComponent {
     @Input() graphUnitComponent: GraphUnitComponent;
     @Input() videoUnitComponent: VideoUnitComponent;
 
+    @Output() openExercise = new EventEmitter<Exercise>();
+    @Output() openVideo = new EventEmitter<Video>();
 
     constructor(public dialog: MatDialog, private lessonService: LessonService,
         private exerciseService: ExerciseService,
@@ -96,10 +100,7 @@ export class LessonComponent {
             this.videoUnitComponent.close();
             this.exerciseService.getById(interaction.getId()).subscribe(
                 (exerciseDto) => {
-                    console.log(exerciseDto);
-                    /*this.openExercise.emit(new DtoConverter().convertExercise(exerciseDto));
-                    this.graphUnit.toggle();
-                    this.exerciseUnit.toggle();*/
+                    this.openExercise.emit(new DtoConverter().convertExercise(exerciseDto));
                 }
             );
         } else {
@@ -108,10 +109,7 @@ export class LessonComponent {
             this.videoUnitComponent.open();
             this.videoService.getById(interaction.getId()).subscribe(
                 (videoDto) => {
-                    console.log(videoDto);
-                    /*this.openVideo.emit(new DtoConverter().convertVideo(videoDto));
-                    this.graphUnit.toggle();
-                    this.videoUnit.toggle();*/
+                    this.openVideo.emit(new DtoConverter().convertVideo(videoDto));
                 }
             );
         }

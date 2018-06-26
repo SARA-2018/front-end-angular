@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, Input, OnChanges, EventEmitter, Output } from '@angular/core';
 import { Unit } from '../graph-unit/models/unit.model';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { InputDialogComponent } from './input-dialog.component';
@@ -10,6 +10,8 @@ import { UnitService } from '../shared/unit.service';
 import { ItineraryService } from '../../shared/itinerary.service';
 import { DtoConverter } from '../../shared/dto-converter';
 import { CreateItineraryDto } from './dtos/create-itinerary.dto';
+import { Exercise } from '../shared/exercise.model';
+import { Video } from './models/video.model';
 
 
 @Component({
@@ -27,6 +29,9 @@ export class InfoUnitComponent implements OnChanges {
   @Input() exerciseUnitComponent: ExerciseUnitComponent;
   @Input() graphUnitComponent: GraphUnitComponent;
   @Input() videoUnitComponent: VideoUnitComponent;
+
+  @Output() openExercise = new EventEmitter<Exercise>();
+  @Output() openVideo = new EventEmitter<Video>();
 
   constructor(public dialog: MatDialog, private snackBar: MatSnackBar,
     private unitService: UnitService, private itineraryService: ItineraryService) {
@@ -102,5 +107,15 @@ export class InfoUnitComponent implements OnChanges {
       this.unit.setContent(inputString);
       return false;
     }
+  }
+
+  openExerciseInfo(exercise: Exercise) {
+    console.log('info unit');
+    console.log(exercise);
+    this.openExercise.emit(exercise);
+  }
+
+  openVideoInfo(video: Video) {
+    this.openVideo.emit(video);
   }
 }
