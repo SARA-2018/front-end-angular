@@ -23,10 +23,13 @@ import { MessageComponent } from './teacher/exercise-unit/chat-exercise/message/
 import { ItineraryService } from './shared/itinerary.service';
 import { SessionService } from './teacher/info-unit/services/session.service';
 import { LessonService } from './shared/lesson.service';
-import { VideoService } from './teacher/info-unit/services/video.service';
-import { ExerciseService } from './teacher/shared/exercise.service';
 import { SessionComponent } from './teacher/info-unit/sessions/session.component';
+import { InteractionComponent } from './student/lesson/interaction.component';
+import { ExerciseService} from './shared/exercise.service';
+import { VideoService } from './shared/video.service';
 import { LessonComponent } from './teacher/info-unit/lessons/lesson.component';
+import { VideoStudentComponent } from './student/lesson/video/video.component';
+import { ExerciseStudentComponent } from './student/lesson/exercise/exercise.component';
 
 @NgModule({
   imports: [
@@ -47,13 +50,16 @@ import { LessonComponent } from './teacher/info-unit/lessons/lesson.component';
     AppRoutingModule.DIALOGS_COMPONENTS,
     DraggableDirective,
     GraphComponent,
-    LessonComponent,
+    InteractionComponent,
     LinkComponent,
     MessageComponent,
     NodeComponent,
     UnitsNotRelatedComponent,
     SessionComponent,
     ZoomableDirective,
+    LessonComponent,
+    VideoStudentComponent,
+    ExerciseStudentComponent
   ],
   entryComponents: [AppRoutingModule.DIALOGS_COMPONENTS],
   bootstrap: [AppComponent],
