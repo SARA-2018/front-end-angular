@@ -24,6 +24,7 @@ import { Interaction } from './models/interaction.model';
 import { VideoService } from './services/video.service';
 import { Video } from './models/video.model';
 import { CreateVideoDto } from './dtos/create-video.dto';
+import { EventManager } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-info-unit',
@@ -34,6 +35,7 @@ import { CreateVideoDto } from './dtos/create-video.dto';
 export class InfoUnitComponent implements OnChanges {
 
   public itinerarys: Itinerary[] = [];
+  private itinerary: Itinerary;
 
   @Input() unit: Unit;
   @Input() exerciseUnit: ExerciseUnitComponent;
@@ -41,6 +43,7 @@ export class InfoUnitComponent implements OnChanges {
   @Input() videoUnit: VideoUnitComponent;
   @Output() openExercise = new EventEmitter<Exercise>();
   @Output() openVideo = new EventEmitter<Video>();
+  @Output() openItinerary = new EventEmitter<Itinerary>();
 
   constructor(public dialog: MatDialog, private snackBar: MatSnackBar, private unitService: UnitService,
     private sessionService: SessionService,
@@ -55,6 +58,7 @@ export class InfoUnitComponent implements OnChanges {
   }
 
   updateUnit() {
+    console.log('actualizar unidad');
     this.itinerarys = [];
     this.unitService.getByCode(this.unit).subscribe(
       (unitDto) => {
@@ -70,57 +74,58 @@ export class InfoUnitComponent implements OnChanges {
     );
   }
 
-  addLesson(itineraryIndex: number, sessionIndex: number) {
-    const name = '';
-    const message = 'Nombre de la lección';
-    this.dialog.open(InputDialogComponent, { data: { name: name, message: message } }).afterClosed().subscribe(
-      result => {
-        if (result) {
-          const lessonDto: CreateLessonDto = {
-            sessionId: this.itinerarys[itineraryIndex].getFormations()[sessionIndex].getId(),
-            name: result
-          };
-          console.log(lessonDto);
-          this.lessonService.create(lessonDto).subscribe(
-            (lessonDtoInput) => {
-              const lesson: Lesson = new Lesson(lessonDtoInput.name);
-              lesson.setId(lessonDtoInput.id);
-              const formationArray: Formation[] = this.itinerarys[itineraryIndex].getFormations();
-              const session: Session = <Session>formationArray[sessionIndex];
-              console.log(session.getId());
-              const lessonArray: Lesson[] = session.getLessons();
-              lessonArray.push(lesson);
-              session.setLessons(lessonArray);
-            }
-          );
-        }
-      }
-    );
-  }
-
-  addSession(itineraryIndex: number) {
-    const name = '';
-    const message = 'Nombre de la sesión';
-    this.dialog.open(InputDialogComponent, { data: { name: name, message: message } }).afterClosed().subscribe(
-      result => {
-        if (result) {
-          const sessionDto: CreateSessionDto = {
-            itineraryId: this.itinerarys[itineraryIndex].getId().toString(),
-            name: result
-          };
-          this.sessionService.create(sessionDto).subscribe(
-            (sessionDtoInput) => {
-              const formationArray: Formation[] = this.itinerarys[itineraryIndex].getFormations();
-              const session = new Session(sessionDtoInput.name);
-              session.setId(sessionDtoInput.id);
-              formationArray.push(<Formation>session);
-              this.itinerarys[itineraryIndex].setFormations(formationArray);
-            }
-          );
-        }
-      }
-    );
-  }
+  /* addLesson(itineraryIndex: number, sessionIndex: number) {
+     const name = '';
+     const message = 'Nombre de la lección';
+     this.dialog.open(InputDialogComponent, { data: { name: name, message: message } }).afterClosed().subscribe(
+       result => {
+         if (result) {
+           const lessonDto: CreateLessonDto = {
+             sessionId: this.itinerarys[itineraryIndex].getFormations()[sessionIndex].getId(),
+             name: result
+           };
+           console.log(lessonDto);
+           this.lessonService.create(lessonDto).subscribe(
+             (lessonDtoInput) => {
+               const lesson: Lesson = new Lesson(lessonDtoInput.name);
+               lesson.setId(lessonDtoInput.id);
+               const formationArray: Formation[] = this.itinerarys[itineraryIndex].getFormations();
+               const session: Session = <Session>formationArray[sessionIndex];
+               console.log(session.getId());
+               const lessonArray: Lesson[] = session.getLessons();
+               lessonArray.push(lesson);
+               session.setLessons(lessonArray);
+             }
+           );
+         }
+       }
+     );
+   }
+ 
+   addSession(itineraryIndex: number) {
+     const name = '';
+     const message = 'Nombre de la sesión';
+     this.dialog.open(InputDialogComponent, { data: { name: name, message: message } }).afterClosed().subscribe(
+       result => {
+         if (result) {
+           const sessionDto: CreateSessionDto = {
+             itineraryId: this.itinerarys[itineraryIndex].getId().toString(),
+             name: result
+           };
+           this.sessionService.create(sessionDto).subscribe(
+             (sessionDtoInput) => {
+               const formationArray: Formation[] = this.itinerarys[itineraryIndex].getFormations();
+               const session = new Session(sessionDtoInput.name);
+               session.setId(sessionDtoInput.id);
+               formationArray.push(<Formation>session);
+               this.itinerarys[itineraryIndex].setFormations(formationArray);
+             }
+           );
+         }
+       }
+     );
+   }
+ */
 
   addItinerary() {
     const name = '';
@@ -142,70 +147,70 @@ export class InfoUnitComponent implements OnChanges {
     );
   }
 
-  addExercise(itineraryIndex: number, sessionIndex: number, lessonIndex: number) {
-    this.graphUnit.toggle();
-    this.exerciseUnit.toggle();
-    if (this.videoUnit['isOpen'] === true) {
-      this.graphUnit.toggle();
-      this.videoUnit.toggle();
-    }
-    const formationArray: Formation[] = this.itinerarys[itineraryIndex].getFormations();
-    const session: Session = <Session>formationArray[sessionIndex];
-    const lessonArray: Lesson[] = session.getLessons();
-    const exercise: Exercise = new Exercise('');
-    lessonArray[lessonIndex].addInteractions(exercise);
-    const exerciseDto: CreateExerciseDto = {
-      formulation: '',
-      solutions: [],
-      lessonId: lessonArray[lessonIndex].getId()
-    };
-    this.exerciseService.create(exerciseDto).subscribe();
-
-  }
-
-  addVideo(itineraryIndex: number, sessionIndex: number, lessonIndex: number) {
-    const formationArray: Formation[] = this.itinerarys[itineraryIndex].getFormations();
-    const session: Session = <Session>formationArray[sessionIndex];
-    const lessonArray: Lesson[] = session.getLessons();
-    const video: Video = new Video('');
-    lessonArray[lessonIndex].addInteractions(video);
-    const videoDto: CreateVideoDto = {
-      lessonId: lessonArray[lessonIndex].getId(),
-      url: ''
-    };
-    this.videoService.create(videoDto).subscribe(
-      (videoInputDto) => {
-        video.setId(videoInputDto.id);
-        this.openVideo.emit(new DtoConverter().convertVideo(videoInputDto));
-      }
-    );
-    this.videoUnit.toggle();
-    this.graphUnit.toggle();
-    if (this.exerciseUnit['isOpen'] === true) {
-      this.graphUnit.toggle();
-      this.exerciseUnit.toggle();
-    }
-  }
-
-  showInteraction(interaction: Interaction) {
-    if (interaction.isExercise()) {
-      this.exerciseService.getById(interaction.getId()).subscribe(
-        (exerciseDto) => {
-          this.openExercise.emit(new DtoConverter().convertExercise(exerciseDto));
-          this.graphUnit.toggle();
-          this.exerciseUnit.toggle();
-        }
-      );
-    } else {
-      this.videoService.getById(interaction.getId()).subscribe(
-        (videoDto) => {
-          this.openVideo.emit(new DtoConverter().convertVideo(videoDto));
-          this.graphUnit.toggle();
-          this.videoUnit.toggle();
-        }
-      );
-    }
-  }
+  /* addExercise(itineraryIndex: number, sessionIndex: number, lessonIndex: number) {
+     this.graphUnit.toggle();
+     this.exerciseUnit.toggle();
+     if (this.videoUnit['isOpen'] === true) {
+       this.graphUnit.toggle();
+       this.videoUnit.toggle();
+     }
+     const formationArray: Formation[] = this.itinerarys[itineraryIndex].getFormations();
+     const session: Session = <Session>formationArray[sessionIndex];
+     const lessonArray: Lesson[] = session.getLessons();
+     const exercise: Exercise = new Exercise('');
+     lessonArray[lessonIndex].addInteractions(exercise);
+     const exerciseDto: CreateExerciseDto = {
+       formulation: '',
+       solutions: [],
+       lessonId: lessonArray[lessonIndex].getId()
+     };
+     this.exerciseService.create(exerciseDto).subscribe();
+ 
+   }
+ 
+   addVideo(itineraryIndex: number, sessionIndex: number, lessonIndex: number) {
+     const formationArray: Formation[] = this.itinerarys[itineraryIndex].getFormations();
+     const session: Session = <Session>formationArray[sessionIndex];
+     const lessonArray: Lesson[] = session.getLessons();
+     const video: Video = new Video('');
+     lessonArray[lessonIndex].addInteractions(video);
+     const videoDto: CreateVideoDto = {
+       lessonId: lessonArray[lessonIndex].getId(),
+       url: ''
+     };
+     this.videoService.create(videoDto).subscribe(
+       (videoInputDto) => {
+         video.setId(videoInputDto.id);
+         this.openVideo.emit(new DtoConverter().convertVideo(videoInputDto));
+       }
+     );
+     this.videoUnit.toggle();
+     this.graphUnit.toggle();
+     if (this.exerciseUnit['isOpen'] === true) {
+       this.graphUnit.toggle();
+       this.exerciseUnit.toggle();
+     }
+   }
+ 
+   showInteraction(interaction: Interaction) {
+     if (interaction.isExercise()) {
+       this.exerciseService.getById(interaction.getId()).subscribe(
+         (exerciseDto) => {
+           this.openExercise.emit(new DtoConverter().convertExercise(exerciseDto));
+           this.graphUnit.toggle();
+           this.exerciseUnit.toggle();
+         }
+       );
+     } else {
+       this.videoService.getById(interaction.getId()).subscribe(
+         (videoDto) => {
+           this.openVideo.emit(new DtoConverter().convertVideo(videoDto));
+           this.graphUnit.toggle();
+           this.videoUnit.toggle();
+         }
+       );
+     }
+   }*/
 
   saveUnitContent() {
     if (this.verify()) {
