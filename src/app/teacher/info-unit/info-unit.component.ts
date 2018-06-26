@@ -33,17 +33,8 @@ export class InfoUnitComponent implements OnChanges {
   @Output() openExercise = new EventEmitter<Exercise>();
   @Output() openVideo = new EventEmitter<Video>();
 
-<<<<<<< HEAD
-  constructor(public dialog: MatDialog, private snackBar: MatSnackBar, private unitService: UnitService,
-    private sessionService: SessionService,
-    private lessonService: LessonService,
-    public exerciseService: ExerciseService,
-    private videoService: VideoService,
-    private itineraryService: ItineraryService) {
-=======
   constructor(public dialog: MatDialog, private snackBar: MatSnackBar,
     private unitService: UnitService, private itineraryService: ItineraryService) {
->>>>>>> develop
   }
 
   ngOnChanges() {
