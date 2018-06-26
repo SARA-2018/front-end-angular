@@ -70,13 +70,16 @@ export class LessonComponent {
         this.graphUnitComponent.close();
         this.exerciseUnitComponent.open();
         this.videoUnitComponent.close();
-        const exerciseDto: CreateExerciseDto = {
+        const exerciseDtoOutput: CreateExerciseDto = {
             formulation: '',
             solutions: [],
             lessonId: lesson.getId()
         };
-        this.exerciseService.create(exerciseDto).subscribe(
-            () => this.updateSession()
+        this.exerciseService.create(exerciseDtoOutput).subscribe(
+            (exerciseDtoInput) => {
+                this.updateSession();
+                this.openExercise.emit(new DtoConverter().convertExercise(exerciseDtoInput));
+            }
         );
     }
 
@@ -84,12 +87,15 @@ export class LessonComponent {
         this.graphUnitComponent.close();
         this.exerciseUnitComponent.close();
         this.videoUnitComponent.open();
-        const videoDto: CreateVideoDto = {
+        const videoDtoOutput: CreateVideoDto = {
             lessonId: lesson.getId(),
             url: ''
         };
-        this.videoService.create(videoDto).subscribe(
-            () => this.updateSession()
+        this.videoService.create(videoDtoOutput).subscribe(
+            (videoDtoInput) => {
+                this.updateSession();
+                this.openVideo.emit(new DtoConverter().convertVideo(videoDtoInput));
+            }
         );
     }
 
