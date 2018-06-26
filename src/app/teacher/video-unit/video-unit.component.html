@@ -8,8 +8,10 @@
           </mat-form-field>
         </div>
         <div fxFlex id="visor-video">
-          <iframe width="300" height="200" [src]="getVideoURL()" allowfullscreen></iframe>
-        </div>
+            <iframe width="300" height="200"
+              [src]="displayURL">
+            </iframe>        
+          </div>
       </div>
       <div class="layout-alignment"></div>
 
