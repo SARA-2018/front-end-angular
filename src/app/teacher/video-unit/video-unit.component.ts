@@ -1,6 +1,7 @@
 import { Component, HostBinding, Input, OnChanges } from '@angular/core';
 import { Video } from '../info-unit/models/video.model';
 import { VideoService } from '../../shared/video.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 
 @Component({
@@ -11,17 +12,21 @@ import { VideoService } from '../../shared/video.service';
 
 export class VideoUnitComponent implements OnChanges {
 
-  videoURL = '';
+  displayURL;
   @Input() video: Video;
   @HostBinding('class.is-open')
   isOpen = false;
 
-  constructor(private videoService: VideoService) {
+  constructor(private sanitizer: DomSanitizer) {
+
   }
 
   ngOnChanges() {
-    if (this.video) {
-      this.videoURL = this.video.getUrl();
+    console.log(this.video.getUrl());
+    if (this.video.getUrl()) {
+    this.displayURL = this.sanitizer.bypassSecurityTrustResourceUrl(this.video.getUrl());
+    } else {
+      this.displayURL = this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/watch?v=FzG4uDgje3M');
     }
   }
 
@@ -34,13 +39,13 @@ export class VideoUnitComponent implements OnChanges {
   }
 
   saveVideoUrl() {
-    this.video.setUrl(this.videoURL);
-    this.videoService.setUrl(this.video).subscribe();
+    // this.video.setUrl(this.videoURL);
+    // this.videoService.setUrl(this.video).subscribe();
   }
 
   getVideoURL() {
     if (this.video) {
-      return this.video.getUrl();
+      return this.displayURL;
     }
   }
 }
