@@ -12,7 +12,7 @@
     </mat-step>
     <mat-step *ngFor="let interaction of interactions">
       <form>
-        <ng-template matStepLabel></ng-template>
+        <ng-template matStepLabel>{{interaction.getText()}}</ng-template>
         <div class="button-options">
           <button mat-button matStepperPrevious color="primary">Regresar</button>
           <button mat-button matStepperNext color="primary">Siguiente</button>
