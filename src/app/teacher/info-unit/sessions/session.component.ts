@@ -17,8 +17,7 @@ export class SessionComponent {
     @Input() itinerary: Itinerary;
 
     constructor(private itineraryService: ItineraryService, public dialog: MatDialog,
-     private sessionService: SessionService
-    ) { }
+        private sessionService: SessionService) { }
 
     updateItinerary() {
         this.itineraryService.getById(this.itinerary.getId()).subscribe(

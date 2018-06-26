@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Session } from '../models/session.model';
 import { MatDialog } from '@angular/material';
 import { InputDialogComponent } from '../input-dialog.component';
@@ -47,9 +47,7 @@ export class LessonComponent {
                         name: result
                     };
                     this.lessonService.create(lessonDto).subscribe(
-                        (lessonDtoInput) => {
-                            this.updateSession();
-                        }
+                        () => this.updateSession()
                     );
                 }
             }
@@ -78,24 +76,24 @@ export class LessonComponent {
     }
 
    showInteraction(interaction: Interaction) {
-    /*if (interaction.isExercise()) {
+    if (interaction.isExercise()) {
       this.exerciseService.getById(interaction.getId()).subscribe(
         (exerciseDto) => {
-          this.openExercise.emit(new DtoConverter().convertExercise(exerciseDto));
+            console.log(exerciseDto);
+          /*this.openExercise.emit(new DtoConverter().convertExercise(exerciseDto));
           this.graphUnit.toggle();
-          this.exerciseUnit.toggle();
+          this.exerciseUnit.toggle();*/
         }
       );
     } else {
       this.videoService.getById(interaction.getId()).subscribe(
         (videoDto) => {
-          this.openVideo.emit(new DtoConverter().convertVideo(videoDto));
+            console.log(videoDto);
+          /*this.openVideo.emit(new DtoConverter().convertVideo(videoDto));
           this.graphUnit.toggle();
-          this.videoUnit.toggle();
+          this.videoUnit.toggle();*/
         }
       );
-    }*/
-    console.log('mostrar');
-    console.log(interaction);
+    }
   }
 }

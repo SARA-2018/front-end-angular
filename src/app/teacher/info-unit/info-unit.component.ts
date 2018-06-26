@@ -1,30 +1,16 @@
-import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { Unit } from '../graph-unit/models/unit.model';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { InputDialogComponent } from './input-dialog.component';
 import { Itinerary } from './models/itinerary.model';
-import { Session } from './models/session.model';
-import { Formation } from './models/formation.model';
-import { Lesson } from './models/lesson.model';
 import { ExerciseUnitComponent } from '../exercise-unit/exercise-unit.component';
 import { VideoUnitComponent } from '../video-unit/video-unit.component';
 import { GraphUnitComponent } from '../graph-unit/graph-unit.component';
 import { UnitService } from '../shared/unit.service';
 import { ItineraryService } from '../../shared/itinerary.service';
-import { SessionService } from './services/session.service';
-import { LessonService } from '../../shared/lesson.service';
-import { Exercise } from '../shared/exercise.model';
-import { ExerciseService } from '../shared/exercise.service';
 import { DtoConverter } from '../../shared/dto-converter';
-import { CreateSessionDto } from './dtos/create-session.dto';
 import { CreateItineraryDto } from './dtos/create-itinerary.dto';
-import { CreateLessonDto } from './dtos/create-lesson.dto';
-import { CreateExerciseDto } from './dtos/create-exercise.dto';
-import { Interaction } from './models/interaction.model';
-import { VideoService } from './services/video.service';
-import { Video } from './models/video.model';
-import { CreateVideoDto } from './dtos/create-video.dto';
-import { EventManager } from '@angular/platform-browser';
+
 
 @Component({
   selector: 'app-info-unit',
@@ -35,22 +21,14 @@ import { EventManager } from '@angular/platform-browser';
 export class InfoUnitComponent implements OnChanges {
 
   public itinerarys: Itinerary[] = [];
-  private itinerary: Itinerary;
 
   @Input() unit: Unit;
   @Input() exerciseUnit: ExerciseUnitComponent;
   @Input() graphUnit: GraphUnitComponent;
   @Input() videoUnit: VideoUnitComponent;
-  @Output() openExercise = new EventEmitter<Exercise>();
-  @Output() openVideo = new EventEmitter<Video>();
-  @Output() openItinerary = new EventEmitter<Itinerary>();
 
-  constructor(public dialog: MatDialog, private snackBar: MatSnackBar, private unitService: UnitService,
-    private sessionService: SessionService,
-    private lessonService: LessonService,
-    private exerciseService: ExerciseService,
-    private videoService: VideoService,
-    private itineraryService: ItineraryService) {
+  constructor(public dialog: MatDialog, private snackBar: MatSnackBar,
+    private unitService: UnitService, private itineraryService: ItineraryService) {
   }
 
   ngOnChanges() {
@@ -102,6 +80,7 @@ export class InfoUnitComponent implements OnChanges {
       });
     }
   }
+
   verify(): boolean {
     let input: any = this.unit.getContent();
 
