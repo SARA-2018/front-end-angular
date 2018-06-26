@@ -8,20 +8,17 @@ import { ExerciseUnitComponent } from './teacher/exercise-unit/exercise-unit.com
 import { VideoUnitComponent } from './teacher/video-unit/video-unit.component';
 import { InputDialogComponent } from './teacher/info-unit/input-dialog.component';
 import { ChatExerciseComponent } from './teacher/exercise-unit/chat-exercise/chat-exercise.component';
-import { FormationComponent } from './student/formation/formation.component';
-import { LessonComponent } from './student/lesson/lesson.component';
-import { VideoComponent } from './student/lesson/video/video.component';
-import { PruebaComponent } from './teacher/video-unit/prueba.component';
+import { FormationComponent } from './student/iteracion/formation.component';
+import { InteractionComponent } from './student/lesson/interaction.component';
 
 const appRoutes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: TeacherComponent.URL },
   { path: TeacherComponent.URL, component: TeacherComponent },
   { path: StudentComponent.URL, component: StudentComponent },
-  { path: 'metocaloshuevos', component: PruebaComponent},
-  { path: LessonComponent.URL, component: LessonComponent,
+  { path: InteractionComponent.URL, component: InteractionComponent,
     children: [
       // Declaracion de RUTAS
-       { path: VideoComponent.URL, component: VideoComponent }
+     //  { path: VideoComponent.URL, component: VideoComponent }
     ]
   }
 ];
@@ -41,9 +38,7 @@ export class AppRoutingModule {
     TeacherComponent,
     VideoUnitComponent,
     FormationComponent,
-    LessonComponent,
-    VideoComponent,
-    PruebaComponent
+    InteractionComponent
   ];
 
   static DIALOGS_COMPONENTS = [

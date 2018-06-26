@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material';
 import { ItineraryService } from '../../shared/itinerary.service';
 import { DtoConverter } from '../../shared/dto-converter';
 import { Itinerary } from '../../teacher/info-unit/models/itinerary.model';
 import { Formation } from '../../teacher/info-unit/models/formation.model';
 import { Lesson } from '../../teacher/info-unit/models/lesson.model';
 import { Session } from '../../teacher/info-unit/models/session.model';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-formation',
@@ -20,7 +20,7 @@ export class FormationComponent implements OnInit {
   lessons: Lesson[] = [];
   formations: Formation[] = [];
 
-  constructor(public dialog: MatDialog, private itineraryService: ItineraryService) {
+  constructor(private itineraryService: ItineraryService, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -36,7 +36,7 @@ export class FormationComponent implements OnInit {
     return this.itinerarys;
   }
 
-  openItineraryInfo(formations): void {
+  openFormations(formations): void {
     this.sessions = [];
     this.lessons = [];
     this.formations = [];
@@ -52,4 +52,9 @@ export class FormationComponent implements OnInit {
     }
   }
 
+  openInteraction(lesson: Lesson): void {
+    if (lesson.getInteractions().length !== 0) {
+      this.router.navigate(['/lesson', lesson.getId()]);
+    }
+  }
 }

@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpService } from '../../../core/http.service';
+import { HttpService } from '../core/http.service';
 import { Observable } from 'rxjs/Observable';
-import { Video } from '../models/video.model';
-import { CreateVideoDto } from '../dtos/create-video.dto';
-import { VideoDto } from '../../../shared/dtos/video.dto';
+import { Video } from '../teacher/info-unit/models/video.model';
+import { CreateVideoDto } from '../teacher/info-unit/dtos/create-video.dto';
+import { VideoDto } from './dtos/video.dto';
+
 
 @Injectable()
 export class VideoService {

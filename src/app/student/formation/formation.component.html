@@ -1,6 +1,6 @@
 <mat-accordion>
   <mat-expansion-panel *ngFor="let itinerary of itinerarys">
-    <mat-expansion-panel-header (click)="openItineraryInfo(itinerary.getFormations())">
+    <mat-expansion-panel-header (click)="openFormations(itinerary.getFormations())">
       <mat-panel-title>
         <b>{{itinerary.getName()}}</b>
       </mat-panel-title>
@@ -11,7 +11,7 @@
         <ul>
           <li type=disc *ngFor="let session of sessions">{{session.getName()}}
             <ul>
-              <li *ngFor="let lesson of lessons"><a [routerLink]="['/lesson', lesson.getId()]">{{lesson.getName()}}</a></li>
+              <li *ngFor="let lesson of lessons"><a (click)="openInteraction(lesson)">{{lesson.getName()}}</a></li>
             </ul>
           </li>
         </ul>
