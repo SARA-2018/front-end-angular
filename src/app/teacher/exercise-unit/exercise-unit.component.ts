@@ -23,22 +23,17 @@ export class ExerciseUnitComponent implements OnChanges {
   }
 
   ngOnChanges() {
+    console.log('exercise');
+    console.log(this.exercise);
     this.exerciseJSON = JSON.stringify(this.exercise);
     this.openExerciseChat.emit(this.exercise);
-  }
-
-  close() {
-    this.isOpen = false;
-  }
-
-  open() {
-    this.isOpen = true;
   }
 
   createModels(json: string) {
     this.exerciseJSON = JSON.parse(JSON.stringify(json));
     const objJson = JSON.parse(json);
-    this.exercise = new Exercise(objJson.name);
+    this.exercise = new Exercise(objJson.formulation);
+    this.exercise.setId(objJson.id);
     if (objJson.solutions.length > 0) {
       for (let i = 0; i < objJson.solutions.length; i++) {
         const solution = new Solution(objJson.solutions[i].text, objJson.solutions[i].isCorrect);
@@ -54,7 +49,7 @@ export class ExerciseUnitComponent implements OnChanges {
     return this.exercise;
   }
 
-  saveUnitContent() {
+  saveExercise() {
     if (this.verify()) {
       this.exerciseService.setContent(this.createModels(this.exerciseJSON)).subscribe();
     } else {
@@ -85,6 +80,14 @@ export class ExerciseUnitComponent implements OnChanges {
       this.exerciseJSON = inputString;
       return false;
     }
+  }
+
+  close() {
+    this.isOpen = false;
+  }
+
+  open() {
+    this.isOpen = true;
   }
 }
 
