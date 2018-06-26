@@ -1,3 +1,8 @@
 .margin2pc{
     margin: 2%;
 }
+
+#lesson:hover {
+  font-weight: bold;
+  size: 12px;
+}

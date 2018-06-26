@@ -11,7 +11,7 @@
         <ul>
           <li type=disc *ngFor="let session of sessions">{{session.getName()}}
             <ul>
-              <li *ngFor="let lesson of lessons"><a (click)="openLesson(lesson)">{{lesson.getName()}}</a></li>
+              <li *ngFor="let lesson of lessons" id="lesson"><a (click)="openLesson(lesson)">{{lesson.getName()}}</a></li>
             </ul>
           </li>
         </ul>
