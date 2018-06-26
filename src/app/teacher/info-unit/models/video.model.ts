@@ -24,4 +24,8 @@ export class Video extends Interaction  {
     getText(): string {
         return 'Vídeo';
     }
+
+    isVideo(): boolean {
+      return false;
+    }
 }

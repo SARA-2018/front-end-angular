@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpService } from '../../../core/http.service';
+import { HttpService } from '../core/http.service';
 import { Observable } from 'rxjs/Observable';
-import { Video } from '../models/video.model';
-import { CreateVideoDto } from '../dtos/create-video.dto';
-import { VideoDto } from '../../../shared/dtos/video.dto';
+import { CreateVideoDto } from '../teacher/info-unit/dtos/create-video.dto';
+import { VideoDto } from './dtos/video.dto';
+import { UpdateVideoDto } from '../teacher/info-unit/dtos/update-video.dto';
+
 
 @Injectable()
 export class VideoService {
@@ -16,8 +17,8 @@ export class VideoService {
     return this.httpService.successful().post(VideoService.END_POINT, video);
   }
 
-  setUrl(video: Video): Observable<any> {
-    return this.httpService.successful().put(VideoService.END_POINT + '/' + video.getId(), video);
+  setUrl(videoUrl: UpdateVideoDto, id: string): Observable<any> {
+    return this.httpService.successful().put(VideoService.END_POINT + '/' + id, videoUrl);
   }
 
   getById(id: string): Observable<VideoDto> {
