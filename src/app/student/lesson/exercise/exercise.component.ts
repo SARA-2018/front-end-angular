@@ -9,12 +9,15 @@ import {Exercise} from '../../../teacher/shared/exercise.model';
     styleUrls: ['exercise.component.css']
 })
 
-export class ExerciseComponent {
+export class ExerciseComponent implements OnInit{
 
 
   @Input() exercise: Exercise;
 
   constructor() {
+  }
+
+  ngOnInit(): void {
     console.log('---------------Soy exercise-----------------')
     console.log(this.exercise);
   }
