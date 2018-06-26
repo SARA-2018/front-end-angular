@@ -26,6 +26,7 @@ import { LessonService } from './shared/lesson.service';
 import { VideoService } from './teacher/info-unit/services/video.service';
 import { ExerciseService } from './teacher/shared/exercise.service';
 import { SessionComponent } from './teacher/info-unit/sessions/session.component';
+import { LessonComponent } from './teacher/info-unit/lessons/lesson.component';
 
 @NgModule({
   imports: [
@@ -46,6 +47,7 @@ import { SessionComponent } from './teacher/info-unit/sessions/session.component
     AppRoutingModule.DIALOGS_COMPONENTS,
     DraggableDirective,
     GraphComponent,
+    LessonComponent,
     LinkComponent,
     MessageComponent,
     NodeComponent,
