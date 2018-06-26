@@ -23,14 +23,10 @@ export class TeacherComponent {
   }
 
   openExercise(exercise: Exercise) {
-    console.log('teacher tiene:');
-    console.log(exercise);
     this.exercise = exercise;
   }
 
   openVideo(video: Video) {
-    console.log('teacher tiene:');
-    console.log(video);
     this.video = video;
   }
 }

@@ -11,7 +11,6 @@ export class Session extends Formation {
         this.lessons = [];
     }
 
- 
     setName(name: string): Session {
         this.name = name;
         return this;

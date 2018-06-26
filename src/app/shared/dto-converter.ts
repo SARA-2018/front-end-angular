@@ -104,10 +104,7 @@ export class DtoConverter {
   convertVideo(videoDto: VideoDto): Video {
     const video = new Video();
     video.setId(videoDto.id);
-    if (videoDto.url) {
-      video.setUrl(videoDto.url);
-    }
-    console.log('convertVideo ' + video.getUrl() );
+    video.setUrl(videoDto.url);
     return video;
   }
 

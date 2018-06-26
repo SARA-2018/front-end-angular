@@ -1,6 +1,6 @@
 import { Component, HostBinding, Input, OnChanges } from '@angular/core';
-import { VideoService } from '../../shared/video.service';
 import { Video } from '../info-unit/models/video.model';
+import { VideoService } from '../info-unit/services/video.service';
 
 @Component({
   selector: 'app-video-unit',
@@ -19,19 +19,27 @@ export class VideoUnitComponent implements OnChanges {
   }
 
   ngOnChanges() {
-    console.log(this.video);
+    if (this.video) {
+      this.videoURL = this.video.getUrl();
+    }
   }
 
-  toggle() {
-    this.isOpen = !this.isOpen;
+  close() {
+    this.isOpen = false;
+  }
+
+  open() {
+    this.isOpen = true;
   }
 
   saveVideoUrl() {
-    const video = new Video(this.videoURL);
-    // this.videoService.create(video).subscribe();
+    this.video.setUrl(this.videoURL);
+    this.videoService.setUrl(this.video).subscribe();
   }
 
   getVideoURL() {
-    return this.videoURL;
+    if (this.video) {
+      return this.video.getUrl();
+    }
   }
 }

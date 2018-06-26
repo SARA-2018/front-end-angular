@@ -1,4 +1,4 @@
-import {Component, HostBinding, Input, OnChanges} from '@angular/core';
+import {Component, HostBinding, Input, OnChanges, Output, EventEmitter} from '@angular/core';
 import { Exercise } from '../shared/exercise.model';
 import { ExerciseService } from '../../shared/exercise.service';
 import { MatSnackBar } from '@angular/material';
@@ -15,26 +15,24 @@ export class ExerciseUnitComponent implements OnChanges {
 
   exerciseJSON: string;
   @Input() exercise: Exercise;
+  @Output() openExerciseChat = new EventEmitter<Exercise>();
   @HostBinding('class.is-open')
   isOpen = false;
 
   constructor(private exerciseService: ExerciseService, private snackBar: MatSnackBar) {
-    // QUITAR
-    const json = '{ "name":"¿Cuándo se descubrió América ?", "solutions":[ { "text": "Cristobal Colon fue un héroe", "isCorrect": true, "justifications": [ {"text": " Justificacion1", "isCorrect": true}, {"text": " Justificacion2", "isCorrect": true} ] }, { "text": "Cristobal Colon fue un héroe", "isCorrect": true, "justifications": [ ] },{ "text": "Antonio Colon", "isCorrect": false, "justifications": [ ] }, { "text": "Cristobal Colon fue un héroe", "isCorrect": true, "justifications": [ ] },{ "text": "Cristobal Colon fue un héroe", "isCorrect": true, "justifications": [ ] }, { "text": "Cristobal Colon fue un héroe", "isCorrect": true, "justifications": [ ] }] }';
-    this.exerciseJSON = json;
   }
 
   ngOnChanges() {
-    this.updateExercise();
+    this.exerciseJSON = JSON.stringify(this.exercise);
+    this.openExerciseChat.emit(this.exercise);
   }
 
-  updateExercise() {
-    console.log('exercise cambia');
-    console.log(this.exercise);
+  close() {
+    this.isOpen = false;
   }
 
-  toggle() {
-    this.isOpen = !this.isOpen;
+  open() {
+    this.isOpen = true;
   }
 
   createModels(json: string) {
