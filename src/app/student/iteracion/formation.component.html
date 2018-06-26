@@ -2,7 +2,7 @@
   <mat-expansion-panel *ngFor="let itinerary of itinerarys">
     <mat-expansion-panel-header (click)="openFormations(itinerary.getFormations())">
       <mat-panel-title>
-        {{itinerary.getName()}}
+        <b>{{itinerary.getName()}}</b>
       </mat-panel-title>
     </mat-expansion-panel-header>
         <ul>
