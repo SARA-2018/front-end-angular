@@ -30,6 +30,7 @@ export class VideoUnitComponent implements OnChanges {
 
   saveVideoUrl() {
     this.video.setUrl(this.videoURL);
+    console.log(this.video);
     this.videoService.setUrl(this.video).subscribe();
   }
 
