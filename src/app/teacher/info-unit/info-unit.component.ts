@@ -110,8 +110,6 @@ export class InfoUnitComponent implements OnChanges {
   }
 
   openExerciseInfo(exercise: Exercise) {
-    console.log('info unit');
-    console.log(exercise);
     this.openExercise.emit(exercise);
   }
 

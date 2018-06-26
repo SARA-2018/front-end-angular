@@ -61,8 +61,6 @@ export class SessionComponent {
     }
 
     openExercise(exercise: Exercise) {
-        console.log('session');
-        console.log(exercise);
         this.openExerciseInfo.emit(exercise);
     }
 
