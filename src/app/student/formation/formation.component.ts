@@ -17,9 +17,6 @@ import { MatSnackBar } from '@angular/material';
 export class FormationComponent implements OnInit {
 
   itinerarys: Itinerary[] = [];
-  sessions: Session[] = [];
-  lessons: Lesson[] = [];
-  formations: Formation[] = [];
 
   constructor(private itineraryService: ItineraryService, private router: Router, private snackBar: MatSnackBar) {
   }
@@ -35,22 +32,6 @@ export class FormationComponent implements OnInit {
       }
     });
     return this.itinerarys;
-  }
-
-  openFormations(formations): void {
-    this.sessions = [];
-    this.lessons = [];
-    this.formations = [];
-    for (const formation of formations) {
-      if (!formation.formations) { // session
-        this.sessions.push(formation);
-        for (const lesson of formation.getLessons()) {
-          this.lessons.push(lesson);
-        }
-      } else {
-        this.formations.push(formation);
-      }
-    }
   }
 
   openLesson(lesson: Lesson): void {
