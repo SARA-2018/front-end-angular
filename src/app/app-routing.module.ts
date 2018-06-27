@@ -10,6 +10,17 @@ import { InputDialogComponent } from './teacher/info-unit/input-dialog.component
 import { ChatExerciseComponent } from './teacher/exercise-unit/chat-exercise/chat-exercise.component';
 import { FormationComponent } from './student/formation/formation.component';
 import { InteractionComponent } from './student/lesson/interaction.component';
+import { DraggableDirective } from './teacher/graph-unit/directives/draggable.directive';
+import { GraphComponent } from './teacher/graph-unit/views/graph/graph.component';
+import { LinkComponent } from './teacher/graph-unit/views/graph/link/link.component';
+import { MessageComponent } from './teacher/exercise-unit/chat-exercise/message/message.component';
+import { NodeComponent } from './teacher/graph-unit/views/graph/node/node.component';
+import { UnitsNotRelatedComponent } from './teacher/graph-unit/views/units-not-related/units-not-related.component';
+import { ZoomableDirective } from './teacher/graph-unit/directives/zoomable.directive';
+import { SessionComponent } from './teacher/info-unit/sessions/session.component';
+import { LessonComponent } from './teacher/info-unit/lessons/lesson.component';
+import { VideoStudentComponent } from './student/lesson/video/video.component';
+import { ExerciseStudentComponent } from './student/lesson/exercise/exercise.component';
 
 const appRoutes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: TeacherComponent.URL },
@@ -31,18 +42,28 @@ const appRoutes: Routes = [
 export class AppRoutingModule {
   static COMPONENTS = [
     ChatExerciseComponent,
+    DraggableDirective,
+    ExerciseStudentComponent,
     ExerciseUnitComponent,
+    FormationComponent,
+    GraphComponent,
     GraphUnitComponent,
     InfoUnitComponent,
+    InteractionComponent,
+    LessonComponent,
+    LinkComponent,
+    MessageComponent,
+    NodeComponent,
+    SessionComponent,
     StudentComponent,
     TeacherComponent,
+    UnitsNotRelatedComponent,
     VideoUnitComponent,
-    FormationComponent,
-    InteractionComponent
+    VideoStudentComponent,
+    ZoomableDirective,
   ];
 
   static DIALOGS_COMPONENTS = [
-    // Declaracion de DIALOGOS
     InputDialogComponent
   ];
 }
