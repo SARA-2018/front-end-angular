@@ -1,6 +1,6 @@
 
 import { Link } from '../models/link.model';
-import { UnitViewImp } from './unit.view';
+import { UnitView } from './unit.view';
 import { TypeRelation } from '../models/type-relation.enum';
 import { Relation } from '../models/relation.model';
 
@@ -14,7 +14,7 @@ export class RelationView {
         this.relation = relation;
     }
 
-    createLink(topUnitView: UnitViewImp, lowerUnitView: UnitViewImp): Link[] {
+    createLink(topUnitView: UnitView, lowerUnitView: UnitView): Link[] {
         const links: Link[] = [];
         if ((this.relation.getType() === TypeRelation.INHERIT) || (this.relation.getType() === TypeRelation.COMPOSE)) {
             const relation = new Link(topUnitView, lowerUnitView, this.relation.getType(),

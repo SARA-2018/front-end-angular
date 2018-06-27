@@ -7,7 +7,7 @@ import { UnitInputDto } from '../../shared/dtos/unit-input.dto';
 import { RelationDto } from './dtos/relation.dto';
 import { Relation } from './models/relation.model';
 import { Unit } from '../../shared/models/unit.model';
-import { UnitViewImp } from './views/unit.view';
+import { UnitView } from './views/unit.view';
 import { Lexical } from './models/lexical.model';
 import { RelationService } from './services/relation.service';
 import { FilterDto } from './dtos/filter.dto';
@@ -64,7 +64,7 @@ export class GraphUnitComponent implements OnInit {
       let x = 0;
       const spaceBetweenUnits = 10;
       for (const unitNotRelated of unitsNotRelated) {
-        const view = new UnitViewImp(new Unit(unitNotRelated.name, unitNotRelated.code));
+        const view = new UnitView(new Unit(unitNotRelated.name, unitNotRelated.code));
         view.shift(x, 15);
         this.nodesNotRelated.push(view.createNode()[0]);
         x += view.getXSize() + spaceBetweenUnits;
@@ -101,7 +101,7 @@ export class GraphUnitComponent implements OnInit {
         relationDto.cardinalTopUnit, relationDto.cardinalLowerUnit));
     }
     const root = units[0];
-    const rootView = new UnitViewImp(root);
+    const rootView = new UnitView(root);
     rootView.locate();
     this.nodes = rootView.createNode();
     this.links = rootView.createLink();

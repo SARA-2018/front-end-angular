@@ -1,18 +1,18 @@
 
 import { Node } from '../models/node.model';
 import { Link } from '../models/link.model';
-import { BlockViewImp } from './block.view';
+import { BlockView } from './block.view';
 import { Unit } from '../../../shared/models/unit.model';
 
-export class UnitViewImp {
+export class UnitView {
 
     private unit: Unit;
     private x: number;
     private y: number;
     private xBlock: number;
     private yBlock: number;
-    private ascendantBlockView: BlockViewImp;
-    private descendantBlockViews: BlockViewImp[] = [];
+    private ascendantBlockView: BlockView;
+    private descendantBlockViews: BlockView[] = [];
     private placed: boolean;
     private painted: boolean;
     private linked: boolean;
@@ -23,13 +23,13 @@ export class UnitViewImp {
     readonly xSpaceBetweenUnits = 10;
     readonly ySpaceBetweenUnits = 35;
 
-    constructor(unit: Unit, ascendantBlockView?: BlockViewImp) {
+    constructor(unit: Unit, ascendantBlockView?: BlockView) {
         this.unit = unit;
         this.ascendantBlockView = ascendantBlockView;
         this.x = 0;
         this.y = 0;
         for (const block of unit.getBlocks()) {
-            this.descendantBlockViews.push(new BlockViewImp(block, this));
+            this.descendantBlockViews.push(new BlockView(block, this));
         }
     }
 
@@ -57,7 +57,7 @@ export class UnitViewImp {
         return this.y + this.ySize;
     }
 
-    getBlockViews(): BlockViewImp[] {
+    getBlockViews(): BlockView[] {
         return this.descendantBlockViews;
     }
 
@@ -69,7 +69,7 @@ export class UnitViewImp {
         return this.linked;
     }
 
-    existUnitView(unit: Unit): UnitViewImp {
+    existUnitView(unit: Unit): UnitView {
         if (this.getUnit().getCode() === unit.getCode()) {
             return this;
         } else {
@@ -188,7 +188,7 @@ export class UnitViewImp {
         return result;
     }
 
-    log(margin: string, unitViewsVisited: UnitViewImp[]) {
+    log(margin: string, unitViewsVisited: UnitView[]) {
         if (unitViewsVisited.find(unitView => unitView.getUnit().getCode() === this.getUnit().getCode()) === undefined) {
             unitViewsVisited.push(this);
             console.log(margin + this.unit.getName());

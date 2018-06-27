@@ -1,24 +1,24 @@
 import { Node } from '../models/node.model';
 import { Link } from '../models/link.model';
-import { UnitViewImp } from './unit.view';
+import { UnitView } from './unit.view';
 import { RelationView } from './relation.view';
 import { Unit } from '../../../shared/models/unit.model';
 import { Block } from '../models/block.model';
 
-export class BlockViewImp {
+export class BlockView {
 
     private block: Block;
     private x: number;
     private y: number;
-    private ascendantUnitView: UnitViewImp;
-    private descendantUnitViews: UnitViewImp[] = [];
+    private ascendantUnitView: UnitView;
+    private descendantUnitViews: UnitView[] = [];
     private relationViews: RelationView[] = [];
 
     readonly xSpaceBetweenBlocks = 10;
     readonly ySpaceBetweenBlocks = 60;
     readonly halfSizeBlock = 75;
 
-    constructor(block: Block, ascendantUnitView: UnitViewImp) {
+    constructor(block: Block, ascendantUnitView: UnitView) {
         this.x = 0;
         this.y = 0;
         this.block = block;
@@ -28,7 +28,7 @@ export class BlockViewImp {
             if (unitView) {
                 this.descendantUnitViews.push(unitView);
             } else {
-                this.descendantUnitViews.push(new UnitViewImp(unit, this));
+                this.descendantUnitViews.push(new UnitView(unit, this));
             }
         }
         for (const relation of this.block.getRelations()) {
@@ -36,11 +36,11 @@ export class BlockViewImp {
         }
     }
 
-    getDescendantUnitViews(): UnitViewImp[] {
+    getDescendantUnitViews(): UnitView[] {
         return this.descendantUnitViews;
     }
 
-    existUnitView(unit: Unit): UnitViewImp {
+    existUnitView(unit: Unit): UnitView {
         return this.ascendantUnitView.existUnitView(unit);
     }
 
@@ -87,7 +87,7 @@ export class BlockViewImp {
         return result;
     }
 
-    createLink(topUnitView: UnitViewImp): Link[] {
+    createLink(topUnitView: UnitView): Link[] {
         const result = [];
         topUnitView.calculateVertexRelation();
         for (let i = 0; i < this.relationViews.length; i++) {
@@ -98,7 +98,7 @@ export class BlockViewImp {
         return result;
     }
 
-    log(margin: string, unitViewsVisited: UnitViewImp[]) {
+    log(margin: string, unitViewsVisited: UnitView[]) {
         for (const unitView of this.getDescendantUnitViews()) {
             unitView.log(margin, unitViewsVisited);
         }
