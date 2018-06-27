@@ -7,21 +7,12 @@ export class Link implements d3.SimulationLinkDatum<Node> {
   source: Node;
   target: Node;
 
-<<<<<<< HEAD
   topUnit: UnitViewImp;
   lowerUnit: UnitViewImp;
   type: string;
   semantics: string;
   cardinalTopUnit: string;
   cardinalLowerUnit: string;
-=======
-  private topUnit: UnitView;
-  private lowerUnit: UnitView;
-  private type: string;
-  private semantics: string;
-  private cardinalTopUnit: string;
-  private cardinalLowerUnit: string;
->>>>>>> origin/develop
 
   linkPoints = [];
   relationPoints = [];
