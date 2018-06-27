@@ -15,7 +15,7 @@ import { Command } from './models/commands/command.model';
 import { Link } from './models/link.model';
 import { Node } from './models/node.model';
 import { FriendsDto } from './dtos/friends.dto';
-import { OpenUnit } from './models/commands/open-unit.model';
+import { OpenUnitCommand } from './models/commands/open-unit-command.model';
 import { DtoConverter } from '../../shared/dto-converter';
 import { UnitService } from '../../shared/services/unit.service';
 
@@ -46,7 +46,7 @@ export class GraphUnitComponent implements OnInit {
   ngOnInit() {
     this.unitService.getAll().subscribe(units => {
       if (units.length > 0) {
-        const openUnit = new OpenUnit(units[0].code);
+        const openUnit = new OpenUnitCommand(units[0].code);
         openUnit.execute(this.unitService).subscribe(
           (friends) => {
             this.finishExecutionOpenCommand(friends);
@@ -62,11 +62,12 @@ export class GraphUnitComponent implements OnInit {
     this.nodesNotRelated = [];
     this.unitService.getUnitsNotRelated().subscribe(unitsNotRelated => {
       let x = 0;
+      const spaceBetweenUnits = 10;
       for (const unitNotRelated of unitsNotRelated) {
         const view = new UnitViewImp(new Unit(unitNotRelated.name, unitNotRelated.code));
         view.shift(x, 15);
         this.nodesNotRelated.push(view.createNode()[0]);
-        x += 160;
+        x += view.getXSize() + spaceBetweenUnits;
       }
     });
   }

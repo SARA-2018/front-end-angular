@@ -83,7 +83,7 @@ export class UnitViewImp {
 
     unitsLocatedBelow(): boolean {
         if (this.descendantBlockViews.length === 0) {
-           return false;
+            return false;
         } else {
             for (const blockView of this.descendantBlockViews) {
                 for (const unitView of blockView.getDescendantUnitViews()) {

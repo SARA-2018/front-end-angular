@@ -8,7 +8,7 @@ export class Unit {
 
   private code: number;
   private name: string;
-  private content: string;
+  content: string;
   private itineraries: Itinerary[] = [];
   private ascendantBlock: Block;
   private descendantBlocks: Block[] = [];

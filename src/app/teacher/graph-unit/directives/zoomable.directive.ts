@@ -8,7 +8,7 @@ import { D3Service } from '../services/d3.service';
 export class ZoomableDirective implements OnInit {
     @Input('zoomableOf') zoomableOf: ElementRef;
 
-    constructor(private d3Service: D3Service, private _element: ElementRef) {}
+    constructor(private d3Service: D3Service, private _element: ElementRef) { }
 
     ngOnInit() {
         this.d3Service.applyZoomableBehaviour(this.zoomableOf, this._element.nativeElement);

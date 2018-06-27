@@ -19,8 +19,8 @@ export class DeleteUnitCommand extends Command {
         result => {
           if (result) {
             return unitService.delete(this.code).subscribe(() => {
-                observer.next();
-              }
+              observer.next();
+            }
             );
           }
         });
