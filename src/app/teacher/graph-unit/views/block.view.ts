@@ -2,7 +2,7 @@ import { Node } from '../models/node.model';
 import { Link } from '../models/link.model';
 import { UnitViewImp } from './unit.view';
 import { RelationView } from './relation.view';
-import { Unit } from '../models/unit.model';
+import { Unit } from '../../../shared/models/unit.model';
 import { Block } from '../models/block.model';
 
 export class BlockViewImp {

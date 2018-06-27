@@ -2,11 +2,11 @@
   <h3 mat-dialog-title>¿{{data.message}}?</h3>
   <mat-form-field>
     <label>
-      <input matInput #box [(ngModel)]="data.name" (keyup.enter)="close(data.name)" cdkFocusInitial >
+      <input matInput #box [(ngModel)]="data.name" (keyup.enter)="close(data.name)" cdkFocusInitial>
     </label>
   </mat-form-field>
 </div>
 <mat-dialog-actions>
-  <button mat-raised-button mat-dialog-close >Cancelar</button>
+  <button mat-raised-button mat-dialog-close>Cancelar</button>
   <button mat-raised-button [mat-dialog-close]="data.name" [disabled]="data.name === ''" color="primary">Guardar</button>
 </mat-dialog-actions>

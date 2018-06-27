@@ -1,8 +1,8 @@
-import { Block } from './block.model';
-import { UnitService } from '../../../shared/services/unit.service';
+import { Block } from '../../teacher/graph-unit/models/block.model';
+import { UnitService } from '../services/unit.service';
 import { Observable } from 'rxjs/Observable';
-import { Relation } from './relation.model';
-import { Itinerary } from '../../../shared/models/itinerary.model';
+import { Relation } from '../../teacher/graph-unit/models/relation.model';
+import { Itinerary } from './itinerary.model';
 
 export class Unit {
 

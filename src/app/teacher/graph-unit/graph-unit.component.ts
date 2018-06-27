@@ -3,10 +3,10 @@ import { MatSnackBar, MatDialog } from '@angular/material';
 import { FormControl } from '@angular/forms';
 import { map } from 'rxjs/operators/map';
 import { Observable } from 'rxjs/Observable';
-import { UnitDto } from '../../shared/dtos/unit.dto';
+import { UnitInputDto } from '../../shared/dtos/unit-input.dto';
 import { RelationDto } from './dtos/relation.dto';
 import { Relation } from './models/relation.model';
-import { Unit } from './models/unit.model';
+import { Unit } from '../../shared/models/unit.model';
 import { UnitViewImp } from './views/unit.view';
 import { Lexical } from './models/lexical.model';
 import { RelationService } from './services/relation.service';
@@ -73,7 +73,7 @@ export class GraphUnitComponent implements OnInit {
   }
 
   synchronizedGraph(friends: FriendsDto) {
-    const unitsDto: UnitDto[] = [];
+    const unitsDto: UnitInputDto[] = [];
     const relationsDto: RelationDto[] = [];
     for (const topUnit of friends.topUnits) {
       unitsDto.push(topUnit);
@@ -88,7 +88,7 @@ export class GraphUnitComponent implements OnInit {
     this.addDataGraph(unitsDto, relationsDto);
   }
 
-  addDataGraph(unitsDto: UnitDto[], relationsDto: RelationDto[]) {
+  addDataGraph(unitsDto: UnitInputDto[], relationsDto: RelationDto[]) {
     const units: Unit[] = [];
     const relations: Relation[] = [];
     for (const unitDto of unitsDto) {

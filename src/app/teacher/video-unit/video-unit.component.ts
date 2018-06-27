@@ -1,6 +1,5 @@
 import { Component, HostBinding, Input, OnChanges } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import { UpdateVideoDto } from '../info-unit/dtos/update-video.dto';
 import { Video } from '../../shared/models/video.model';
 import { VideoService } from '../../shared/services/video.service';
 
@@ -41,8 +40,7 @@ export class VideoUnitComponent implements OnChanges {
 
   saveVideoUrl() {
     this.displayURL = this.sanitizer.bypassSecurityTrustResourceUrl(this.generateYoutubeLink( this.videoCode));
-    const videoDto: UpdateVideoDto = { url: this.generateYoutubeLink( this.videoCode)};
-    this.videoService.setUrl(videoDto, this.video.getId()).subscribe();
+    this.videoService.setUrl(this.video).subscribe();
   }
 
   generateYoutubeLink(videoCode: string): string {
