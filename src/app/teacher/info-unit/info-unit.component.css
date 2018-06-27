@@ -3,7 +3,10 @@
   margin-left: auto;
 }
 
-#itinerary {
+#itinerary-button {
+  min-width: 100%;
+}
+#itinerary{
   height: 52em;
   display: grid;
 }
