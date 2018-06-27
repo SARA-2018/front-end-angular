@@ -19,10 +19,11 @@
       Itinerarios
     </mat-panel-title>
   </mat-expansion-panel-header>
-  <mat-tab-group id="itinerary">
+  <mat-tab-group>
     <mat-tab *ngFor="let itinerary of itinerarys" label={{itinerary.getName()}}>
-      <app-session [graphUnitComponent]="graphUnitComponent" [exerciseUnitComponent]="exerciseUnitComponent" [videoUnitComponent]="videoUnitComponent"
-        [itinerary]="itinerary" (openExerciseInfo)="openExerciseInfo($event)" (openVideoInfo)="openVideoInfo($event)"></app-session>
+      <app-session [graphUnitComponent]="graphUnitComponent" [exerciseUnitComponent]="exerciseUnitComponent"
+      [videoUnitComponent] = "videoUnitComponent" [itinerary]="itinerary" (openExerciseInfo)="openExerciseInfo($event)"
+      (openVideoInfo)="openVideoInfo($event)" id="itinerary"></app-session>
     </mat-tab>
     <mat-tab>
       <ng-template mat-tab-label>

@@ -22,7 +22,7 @@ export class ChatExerciseComponent implements OnChanges {
   @Input('messages')
   public messages: Message[] = [];
   private exerciseMotor: ExerciseMotor;
-  private text = '';
+  text = '';
   @Input() exercise: Exercise;
   private motors: ExerciseMotor[] = [];
 
