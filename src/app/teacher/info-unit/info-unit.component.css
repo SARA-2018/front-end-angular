@@ -4,7 +4,8 @@
 }
 
 #itinerary {
-  min-width: 0%;
+  height: 52em;
+  display: grid;
 }
 .exercise {
   display: flex;
