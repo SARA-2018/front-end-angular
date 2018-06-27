@@ -1,4 +1,3 @@
-import { ErrorHttp } from './http-errors.model';
 import { Error } from './error.model';
 import { Http, Response, Headers, RequestOptions, URLSearchParams, ResponseContentType } from '@angular/http';
 import { Injectable } from '@angular/core';
