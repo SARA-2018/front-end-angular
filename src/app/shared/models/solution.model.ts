@@ -1,4 +1,4 @@
-import { Justification } from '../shared/justification.model';
+import { Justification } from './justification.model';
 
 export class Solution {
     private _id: number;
