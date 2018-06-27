@@ -5,12 +5,6 @@
   flex-direction: column-reverse;
 }
 
-.input {
-  margin-top: 3%;
-  padding: initial;
-  border-radius: 10px;
-}
-
 .mat-fab {
   color: #ffffff;
 }
