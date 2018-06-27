@@ -19,23 +19,15 @@ export class VideoUnitComponent implements OnChanges {
   isOpen = false;
 
   constructor(private sanitizer: DomSanitizer, private videoService: VideoService) {
-    console.log(this.displayURL);
     if (!this.displayURL) {
       this.displayURL = sanitizer.bypassSecurityTrustResourceUrl('https://youtu.be/embed/qWWqZUBegNI');
     }
   }
 
   ngOnChanges() {
-    console.log(this.video.getUrl());
-    this.displayURL = this.sanitizer.bypassSecurityTrustResourceUrl(this.video.getUrl());
-  }
-
-  close() {
-    this.isOpen = false;
-  }
-
-  open() {
-    this.isOpen = true;
+    if (this.video) {
+      this.displayURL = this.sanitizer.bypassSecurityTrustResourceUrl(this.video.getUrl());
+    }
   }
 
   saveVideoUrl() {
@@ -45,5 +37,13 @@ export class VideoUnitComponent implements OnChanges {
 
   generateYoutubeLink(videoCode: string): string {
     return 'https://www.youtube.com/embed/' + videoCode;
+  }
+
+  close() {
+    this.isOpen = false;
+  }
+
+  open() {
+    this.isOpen = true;
   }
 }
