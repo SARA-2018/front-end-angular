@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {DtoConverter} from '../../shared/dto-converter';
+import { ActivatedRoute, Router } from '@angular/router';
+import { DtoConverter } from '../../shared/dto-converter';
 import { LessonService } from '../../shared/lesson.service';
 import { Interaction } from '../../teacher/info-unit/models/interaction.model';
-import {VideoService} from '../../shared/video.service';
-import {ExerciseService} from '../../shared/exercise.service';
-import {InteractionDto} from '../../shared/dtos/interaction.dto';
-import {StudentComponent} from '../student.component';
+import { VideoService } from '../../shared/video.service';
+import { ExerciseService } from '../../shared/exercise.service';
+import { InteractionDto } from '../../shared/dtos/interaction.dto';
+import { StudentComponent } from '../student.component';
 
 @Component({
-    templateUrl: 'interaction.component.html',
-    styleUrls: ['interaction.component.css']
+  templateUrl: 'interaction.component.html',
+  styleUrls: ['interaction.component.css']
 })
 
 export class InteractionComponent implements OnInit {
@@ -21,9 +21,9 @@ export class InteractionComponent implements OnInit {
   interactions: Interaction[] = [];
 
   constructor(private route: ActivatedRoute, private router: Router,
-              private lessonService: LessonService,
-              private videoService: VideoService,
-              private exerciseService: ExerciseService) {
+    private lessonService: LessonService,
+    private videoService: VideoService,
+    private exerciseService: ExerciseService) {
   }
 
   ngOnInit(): void {
@@ -31,13 +31,13 @@ export class InteractionComponent implements OnInit {
     this.interaction();
   }
 
-   interaction() {
+  interaction() {
     this.lessonService.getById(this.lessonId).subscribe(lessonDto => {
       this.lessonName = lessonDto.name;
       const interactions: InteractionDto[] = lessonDto.interactions;
       for (let i = 0; i < interactions.length; i++) {
         if (interactions[i].video) {
-           this.videoService.getById(interactions[i].video.id).subscribe(videoDto => {
+          this.videoService.getById(interactions[i].video.id).subscribe(videoDto => {
             this.interactions.push(new DtoConverter().convertVideo(videoDto));
           });
         } else {
@@ -48,15 +48,6 @@ export class InteractionComponent implements OnInit {
         }
       }
     });
-  }
-
-
-  isExercise(interaction: Interaction) {
-    return interaction.isExercise();
-  }
-
-  isVideo(interaction: Interaction) {
-    return !interaction.isExercise();
   }
 
   exit() {

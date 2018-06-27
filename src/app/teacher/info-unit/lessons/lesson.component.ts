@@ -1,11 +1,11 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { Session } from '../models/session.model';
+import { Session } from '../../../shared/session.model';
 import { MatDialog } from '@angular/material';
 import { InputDialogComponent } from '../input-dialog.component';
 import { CreateLessonDto } from '../dtos/create-lesson.dto';
 
 import { DtoConverter } from '../../../shared/dto-converter';
-import { Lesson } from '../models/lesson.model';
+import { Lesson } from '../../../shared/lesson.model';
 import { CreateExerciseDto } from '../dtos/create-exercise.dto';
 
 import { CreateVideoDto } from '../dtos/create-video.dto';

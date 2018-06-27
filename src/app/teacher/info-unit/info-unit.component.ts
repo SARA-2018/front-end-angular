@@ -2,7 +2,7 @@ import { Component, Input, OnChanges, EventEmitter, Output } from '@angular/core
 import { Unit } from '../graph-unit/models/unit.model';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { InputDialogComponent } from './input-dialog.component';
-import { Itinerary } from './models/itinerary.model';
+import { Itinerary } from '../../shared/itinerary.model';
 import { ExerciseUnitComponent } from '../exercise-unit/exercise-unit.component';
 import { VideoUnitComponent } from '../video-unit/video-unit.component';
 import { GraphUnitComponent } from '../graph-unit/graph-unit.component';

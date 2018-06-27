@@ -1,4 +1,4 @@
-import { Interaction } from './interaction.model';
+import { Interaction } from '../teacher/info-unit/models/interaction.model';
 
 export class Lesson {
     private _id: string;

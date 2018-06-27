@@ -9,8 +9,7 @@ export class LessonService {
 
   static END_POINT = '/lesson';
 
-  constructor(private httpService: HttpService) {
-  }
+  constructor(private httpService: HttpService) {}
 
   create(lesson: CreateLessonDto): Observable<any> {
     return this.httpService.successful().post(LessonService.END_POINT, lesson);

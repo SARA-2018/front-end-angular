@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { Itinerary } from '../models/itinerary.model';
+import { Itinerary } from '../../../shared/itinerary.model';
 import { ItineraryService } from '../../../shared/itinerary.service';
 import { MatDialog } from '@angular/material';
 import { InputDialogComponent } from '../input-dialog.component';

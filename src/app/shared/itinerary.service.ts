@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from '../core/http.service';
-import { Itinerary } from '../teacher/info-unit/models/itinerary.model';
 import { Observable } from 'rxjs/Observable';
 import { FormationDto } from './dtos/formation.dto';
 import { ItineraryDto } from './dtos/itinerary.dto';

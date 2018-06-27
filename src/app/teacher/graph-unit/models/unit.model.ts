@@ -2,7 +2,7 @@ import { Block } from './block.model';
 import { UnitService } from '../../shared/unit.service';
 import { Observable } from 'rxjs/Observable';
 import { Relation } from './relation.model';
-import { Itinerary } from '../../info-unit/models/itinerary.model';
+import { Itinerary } from '../../../shared/itinerary.model';
 
 export class Unit {
 

@@ -5,8 +5,6 @@ import { CreateExerciseDto } from '../teacher/info-unit/dtos/create-exercise.dto
 import { Exercise } from '../teacher/shared/exercise.model';
 import { ExerciseDto } from './dtos/exercise.dto';
 
-
-
 @Injectable()
 export class ExerciseService {
 
@@ -20,7 +18,7 @@ export class ExerciseService {
   }
 
   setContent(exercise: Exercise): Observable<any> {
-    return this.httpService.successful().put(ExerciseService.END_POINT + '/' + exercise.getId() , exercise);
+    return this.httpService.successful().put(ExerciseService.END_POINT + '/' + exercise.getId(), exercise);
   }
 
   getById(id: string): Observable<ExerciseDto> {

@@ -1,6 +1,6 @@
 import { Solution } from './solution.model';
 import { Interaction } from '../info-unit/models/interaction.model';
-import { Itinerary } from '../info-unit/models/itinerary.model';
+import { Itinerary } from '../../shared/itinerary.model';
 
 export class Exercise extends Interaction {
     private formulation: string;

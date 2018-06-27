@@ -5,13 +5,12 @@ import { CreateVideoDto } from '../teacher/info-unit/dtos/create-video.dto';
 import { VideoDto } from './dtos/video.dto';
 import { UpdateVideoDto } from '../teacher/info-unit/dtos/update-video.dto';
 
-
 @Injectable()
 export class VideoService {
 
   static END_POINT = '/video';
 
-  constructor(private httpService: HttpService) {}
+  constructor(private httpService: HttpService) { }
 
   create(video: CreateVideoDto): Observable<any> {
     return this.httpService.successful().post(VideoService.END_POINT, video);
