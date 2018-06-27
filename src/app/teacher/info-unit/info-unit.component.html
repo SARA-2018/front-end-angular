@@ -17,7 +17,7 @@
       Itinerarios
     </mat-panel-title>
   </mat-expansion-panel-header>
-  <mat-tab-group>
+  <mat-tab-group  id="itinerary">
     <mat-tab *ngFor="let itinerary of itinerarys" label={{itinerary.getName()}}>
       <app-session [graphUnitComponent]="graphUnitComponent" [exerciseUnitComponent]="exerciseUnitComponent"
       [videoUnitComponent] = "videoUnitComponent" [itinerary]="itinerary" (openExerciseInfo)="openExerciseInfo($event)"
@@ -25,7 +25,7 @@
     </mat-tab>
     <mat-tab>
       <ng-template mat-tab-label>
-        <button *ngIf="itinerarys.length != 5" mat-raised-button color="primary" id="itinerary" (click)="addItinerary()">
+        <button *ngIf="itinerarys.length != 5" mat-raised-button color="primary" id="itinerary-button" (click)="addItinerary()">
           <mat-icon>add_circle_outline</mat-icon>
         </button>
       </ng-template>
