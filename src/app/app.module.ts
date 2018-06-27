@@ -29,7 +29,6 @@ import { ExerciseService} from './shared/exercise.service';
 import { VideoService } from './shared/video.service';
 import { LessonComponent } from './teacher/info-unit/lessons/lesson.component';
 import { VideoStudentComponent } from './student/lesson/video/video.component';
-import { ExerciseStudentComponent } from './student/lesson/exercise/exercise.component';
 
 @NgModule({
   imports: [
@@ -58,8 +57,7 @@ import { ExerciseStudentComponent } from './student/lesson/exercise/exercise.com
     SessionComponent,
     ZoomableDirective,
     LessonComponent,
-    VideoStudentComponent,
-    ExerciseStudentComponent
+    VideoStudentComponent
   ],
   entryComponents: [AppRoutingModule.DIALOGS_COMPONENTS],
   bootstrap: [AppComponent],
