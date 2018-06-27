@@ -4,15 +4,18 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
     "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
+    "postinstall": "ng build --aot -prod",
+    "start": "node server.js",
     "travis": "sonar-scanner -Dsonar.projectKey=sara -Dsonar.organization=sara-front -Dsonar.sources=. -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=bb12e21d7420709c683c5eeb61d425edffa7681d"
   },
   "private": true,
   "dependencies": {
+    "@angular/cli": "~1.7.4",
+    "@angular/compiler-cli": "^5.2.0",
     "@angular/animations": "^5.2.10",
     "@angular/cdk": "^5.2.4",
     "@angular/common": "^5.2.0",
@@ -54,5 +57,9 @@
     "ts-node": "~4.1.0",
     "tslint": "~5.9.1",
     "typescript": "~2.5.3"
+  },
+  "engines": {
+    "node": "9.2.1",
+    "npm": "5.8.0"
   }
 }
