@@ -1,8 +1,9 @@
 import { Component, HostBinding, Input, OnChanges } from '@angular/core';
-import { Video } from '../../shared/models/video.model';
-import { VideoService } from '../../shared/services/video.service';
+import { Video } from '../info-unit/models/video.model';
+import { VideoService } from '../../shared/video.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { UpdateVideoDto } from '../info-unit/dtos/update-video.dto';
+
 
 @Component({
   selector: 'app-video-unit',
@@ -13,27 +14,21 @@ import { UpdateVideoDto } from '../info-unit/dtos/update-video.dto';
 export class VideoUnitComponent implements OnChanges {
 
   displayURL;
-  videoURL;
+  videoCode: string;
   @Input() video: Video;
   @HostBinding('class.is-open')
   isOpen = false;
 
   constructor(private sanitizer: DomSanitizer, private videoService: VideoService) {
+    console.log(this.displayURL);
     if (!this.displayURL) {
       this.displayURL = sanitizer.bypassSecurityTrustResourceUrl('https://youtu.be/embed/qWWqZUBegNI');
-    } else {
-      this.displayURL = sanitizer.bypassSecurityTrustResourceUrl(this.displayURL);
-    }
+    } 
   }
 
   ngOnChanges() {
+    console.log(this.video.getUrl());
     this.displayURL = this.sanitizer.bypassSecurityTrustResourceUrl(this.video.getUrl());
-  }
-
-  saveVideoUrl() {
-    this.displayURL = this.sanitizer.bypassSecurityTrustResourceUrl(this.videoURL);
-    const videoDto: UpdateVideoDto = { url: this.videoURL};
-    this.videoService.setUrl(videoDto, this.video.getId()).subscribe();
   }
 
   close() {
@@ -42,5 +37,15 @@ export class VideoUnitComponent implements OnChanges {
 
   open() {
     this.isOpen = true;
+  }
+
+  saveVideoUrl() {
+    this.displayURL = this.sanitizer.bypassSecurityTrustResourceUrl(this.generateYoutubeLink( this.videoCode));
+    const videoDto: UpdateVideoDto = { url: this.generateYoutubeLink( this.videoCode)};
+    this.videoService.setUrl(videoDto, this.video.getId()).subscribe();
+  }
+
+  generateYoutubeLink(videoCode: string): string {
+    return 'https://www.youtube.com/embed/' + videoCode;
   }
 }
