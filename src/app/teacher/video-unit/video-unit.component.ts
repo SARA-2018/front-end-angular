@@ -1,8 +1,8 @@
 import { Component, HostBinding, Input, OnChanges } from '@angular/core';
-import { Video } from '../info-unit/models/video.model';
-import { VideoService } from '../../shared/video.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { UpdateVideoDto } from '../info-unit/dtos/update-video.dto';
+import { Video } from '../../shared/models/video.model';
+import { VideoService } from '../../shared/services/video.service';
 
 
 @Component({
@@ -23,7 +23,7 @@ export class VideoUnitComponent implements OnChanges {
     console.log(this.displayURL);
     if (!this.displayURL) {
       this.displayURL = sanitizer.bypassSecurityTrustResourceUrl('https://youtu.be/embed/qWWqZUBegNI');
-    } 
+    }
   }
 
   ngOnChanges() {

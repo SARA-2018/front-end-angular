@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { ItineraryService } from '../../shared/itinerary.service';
+import { ItineraryService } from '../../shared/services/itinerary.service';
 import { DtoConverter } from '../../shared/dto-converter';
-import { Itinerary } from '../../teacher/info-unit/models/itinerary.model';
-import { Formation } from '../../teacher/info-unit/models/formation.model';
-import { Lesson } from '../../teacher/info-unit/models/lesson.model';
-import { Session } from '../../teacher/info-unit/models/session.model';
+import { Itinerary } from '../../shared/models/itinerary.model';
+import { Formation } from '../../shared/models/formation.model';
+import { Lesson } from '../../shared/models/lesson.model';
+import { Session } from '../../shared/models/session.model';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
 
 @Component({
-    selector: 'app-formation',
-    templateUrl: 'formation.component.html',
-    styleUrls: ['formation.component.css']
+  selector: 'app-formation',
+  templateUrl: 'formation.component.html',
+  styleUrls: ['formation.component.css']
 })
 
 export class FormationComponent implements OnInit {
@@ -42,7 +42,7 @@ export class FormationComponent implements OnInit {
     this.lessons = [];
     this.formations = [];
     for (const formation of formations) {
-      if (!formation.formations) { // session
+      if (!formation.formations) {
         this.sessions.push(formation);
         for (const lesson of formation.getLessons()) {
           this.lessons.push(lesson);

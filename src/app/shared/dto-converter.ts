@@ -1,35 +1,32 @@
-import { Unit} from '../teacher/graph-unit/models/unit.model';
-import { UnitDto} from '../teacher/shared/unit.dto';
-import { Itinerary} from '../teacher/info-unit/models/itinerary.model';
-import { ItineraryDto} from './dtos/itinerary.dto';
-import { FormationDto} from './dtos/formation.dto';
-import { Formation} from '../teacher/info-unit/models/formation.model';
-import { Session} from '../teacher/info-unit/models/session.model';
-import { SessionDto} from './dtos/session.dto';
-import { Lesson} from '../teacher/info-unit/models/lesson.model';
-import { LessonDto} from './dtos/lesson.dto';
-import { Exercise} from '../teacher/shared/exercise.model';
-import { ExerciseDto} from './dtos/exercise.dto';
-import { Video} from '../teacher/info-unit/models/video.model';
-import { VideoDto} from './dtos/video.dto';
-import { Interaction} from '../teacher/info-unit/models/interaction.model';
-import { InteractionDto} from './dtos/interaction.dto';
-import { Solution} from '../teacher/shared/solution.model';
-import { SolutionDto} from './dtos/solution.dto';
-import { JustificationDto} from './dtos/justification.dto';
-import { Justification} from '../teacher/shared/justification.model';
+import { Unit } from '../teacher/graph-unit/models/unit.model';
+import { UnitDto } from './dtos/unit.dto';
+import { Itinerary } from '../shared/models/itinerary.model';
+import { ItineraryDto } from './dtos/itinerary.dto';
+import { FormationDto } from './dtos/formation.dto';
+import { Formation } from '../shared/models/formation.model';
+import { Session } from '../shared/models/session.model';
+import { SessionDto } from './dtos/session.dto';
+import { Lesson } from '../shared/models/lesson.model';
+import { LessonDto } from './dtos/lesson.dto';
+import { Exercise } from './models/exercise.model';
+import { ExerciseDto } from './dtos/exercise.dto';
+import { Video } from './models/video.model';
+import { VideoDto } from './dtos/video.dto';
+import { Interaction } from './models/interaction.model';
+import { InteractionDto } from './dtos/interaction.dto';
+import { Solution } from './models/solution.model';
+import { SolutionDto } from './dtos/solution.dto';
+import { JustificationDto } from './dtos/justification.dto';
+import { Justification } from './models/justification.model';
 import { ItineraryMiddle } from './dtos/itinerary-middle.dto';
-
 
 export class DtoConverter {
 
-  constructor() {
-
-  }
+  constructor() { }
 
   convertUnit(unitDto: UnitDto): Unit {
     const unit: Unit = new Unit(unitDto.name, unitDto.code, unitDto.content);
-    if (unitDto.itineraries) {
+    if (unitDto.itineraries) {
       for (let i = 0; i < unitDto.itineraries.length; i++) {
         unit.addItinerary(this.convertMiddlewareItinerary(unitDto.itineraries[i]));
       }

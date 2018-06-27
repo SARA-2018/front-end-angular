@@ -1,16 +1,15 @@
 import { Injectable } from '@angular/core';
-import { HttpService } from '../core/http.service';
 import { Observable } from 'rxjs/Observable';
-import { CreateLessonDto } from '../teacher/info-unit/dtos/create-lesson.dto';
-import { LessonDto } from './dtos/lesson.dto';
+import { HttpService } from '../../core/http.service';
+import { CreateLessonDto } from '../../teacher/info-unit/dtos/create-lesson.dto';
+import { LessonDto } from '../dtos/lesson.dto';
 
 @Injectable()
 export class LessonService {
 
   static END_POINT = '/lesson';
 
-  constructor(private httpService: HttpService) {
-  }
+  constructor(private httpService: HttpService) {}
 
   create(lesson: CreateLessonDto): Observable<any> {
     return this.httpService.successful().post(LessonService.END_POINT, lesson);

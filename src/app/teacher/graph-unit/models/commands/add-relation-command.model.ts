@@ -13,7 +13,7 @@ export class AddRelationCommand extends Command {
   private cardinalLowerUnit: string;
 
   constructor(type: TypeRelation, topUnitCode: number, lowerUnitCode: number, semantics: string, cardinalTopUnit: string,
-              cardinalLowerUnit: string) {
+    cardinalLowerUnit: string) {
     super();
     this.type = type;
     this.topUnitCode = topUnitCode;
