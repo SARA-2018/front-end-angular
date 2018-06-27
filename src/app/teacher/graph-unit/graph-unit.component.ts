@@ -3,11 +3,11 @@ import { MatSnackBar, MatDialog } from '@angular/material';
 import { FormControl } from '@angular/forms';
 import { map } from 'rxjs/operators/map';
 import { Observable } from 'rxjs/Observable';
-import { UnitDto } from '../../shared/dtos/unit.dto';
+import { UnitInputDto } from '../../shared/dtos/unit-input.dto';
 import { RelationDto } from './dtos/relation.dto';
 import { Relation } from './models/relation.model';
-import { Unit } from './models/unit.model';
-import { UnitViewImp } from './views/unit.view';
+import { Unit } from '../../shared/models/unit.model';
+import { UnitView } from './views/unit.view';
 import { Lexical } from './models/lexical.model';
 import { RelationService } from './services/relation.service';
 import { FilterDto } from './dtos/filter.dto';
@@ -64,7 +64,7 @@ export class GraphUnitComponent implements OnInit {
       let x = 0;
       const spaceBetweenUnits = 10;
       for (const unitNotRelated of unitsNotRelated) {
-        const view = new UnitViewImp(new Unit(unitNotRelated.name, unitNotRelated.code));
+        const view = new UnitView(new Unit(unitNotRelated.name, unitNotRelated.code));
         view.shift(x, 15);
         this.nodesNotRelated.push(view.createNode()[0]);
         x += view.getXSize() + spaceBetweenUnits;
@@ -73,7 +73,7 @@ export class GraphUnitComponent implements OnInit {
   }
 
   synchronizedGraph(friends: FriendsDto) {
-    const unitsDto: UnitDto[] = [];
+    const unitsDto: UnitInputDto[] = [];
     const relationsDto: RelationDto[] = [];
     for (const topUnit of friends.topUnits) {
       unitsDto.push(topUnit);
@@ -88,7 +88,7 @@ export class GraphUnitComponent implements OnInit {
     this.addDataGraph(unitsDto, relationsDto);
   }
 
-  addDataGraph(unitsDto: UnitDto[], relationsDto: RelationDto[]) {
+  addDataGraph(unitsDto: UnitInputDto[], relationsDto: RelationDto[]) {
     const units: Unit[] = [];
     const relations: Relation[] = [];
     for (const unitDto of unitsDto) {
@@ -101,7 +101,7 @@ export class GraphUnitComponent implements OnInit {
         relationDto.cardinalTopUnit, relationDto.cardinalLowerUnit));
     }
     const root = units[0];
-    const rootView = new UnitViewImp(root);
+    const rootView = new UnitView(root);
     rootView.locate();
     this.nodes = rootView.createNode();
     this.links = rootView.createLink();

@@ -1,5 +1,5 @@
 
-export interface CreateVideoDto {
+export interface CreateVideoOutputDto {
 
     lessonId: string;
     url: string;

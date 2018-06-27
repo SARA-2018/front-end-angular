@@ -1,30 +1,30 @@
-import { Unit } from '../teacher/graph-unit/models/unit.model';
-import { UnitDto } from './dtos/unit.dto';
+import { Unit } from './models/unit.model';
+import { UnitInputDto } from './dtos/unit-input.dto';
 import { Itinerary } from '../shared/models/itinerary.model';
-import { ItineraryDto } from './dtos/itinerary.dto';
-import { FormationDto } from './dtos/formation.dto';
+import { ItineraryInputDto } from './dtos/itinerary-input.dto';
+import { FormationInputDto } from './dtos/formation-input.dto';
 import { Formation } from '../shared/models/formation.model';
 import { Session } from '../shared/models/session.model';
-import { SessionDto } from './dtos/session.dto';
+import { SessionInputDto } from './dtos/session-input.dto';
 import { Lesson } from '../shared/models/lesson.model';
-import { LessonDto } from './dtos/lesson.dto';
+import { LessonInputDto } from './dtos/lesson-input.dto';
 import { Exercise } from './models/exercise.model';
-import { ExerciseDto } from './dtos/exercise.dto';
+import { ExerciseInputDto } from './dtos/exercise-input.dto';
 import { Video } from './models/video.model';
-import { VideoDto } from './dtos/video.dto';
+import { VideoInputDto } from './dtos/video-input.dto';
 import { Interaction } from './models/interaction.model';
-import { InteractionDto } from './dtos/interaction.dto';
+import { InteractionInputDto } from './dtos/interaction-input.dto';
 import { Solution } from './models/solution.model';
-import { SolutionDto } from './dtos/solution.dto';
-import { JustificationDto } from './dtos/justification.dto';
+import { SolutionInputDto } from './dtos/solution-input.dto';
+import { JustificationInputDto } from './dtos/justification-input.dto';
 import { Justification } from './models/justification.model';
-import { ItineraryMiddle } from './dtos/itinerary-middle.dto';
+import { ItineraryMiddleInputDto } from './dtos/itinerary-middle-input.dto';
 
 export class DtoConverter {
 
   constructor() { }
 
-  convertUnit(unitDto: UnitDto): Unit {
+  convertUnit(unitDto: UnitInputDto): Unit {
     const unit: Unit = new Unit(unitDto.name, unitDto.code, unitDto.content);
     if (unitDto.itineraries) {
       for (let i = 0; i < unitDto.itineraries.length; i++) {
@@ -34,11 +34,11 @@ export class DtoConverter {
     return unit;
   }
 
-  convertMiddlewareItinerary(itineraryMiddleDto: ItineraryMiddle): Itinerary {
+  convertMiddlewareItinerary(itineraryMiddleDto: ItineraryMiddleInputDto): Itinerary {
     return this.convertItinerary(itineraryMiddleDto.itinerary);
   }
 
-  convertItinerary(itineraryDto: ItineraryDto): Itinerary {
+  convertItinerary(itineraryDto: ItineraryInputDto): Itinerary {
     const itinerary: Itinerary = new Itinerary(itineraryDto.name);
     itinerary.setId(itineraryDto.id);
     if (itineraryDto.formations) {
@@ -49,7 +49,7 @@ export class DtoConverter {
     return itinerary;
   }
 
-  convertFormation(formationDto: FormationDto): Formation {
+  convertFormation(formationDto: FormationInputDto): Formation {
     if (formationDto.session) {
       return this.convertSession(formationDto.session);
     } else {
@@ -57,7 +57,7 @@ export class DtoConverter {
     }
   }
 
-  convertSession(sessionDto: SessionDto): Session {
+  convertSession(sessionDto: SessionInputDto): Session {
     const session: Session = new Session(sessionDto.name);
     session.setId(sessionDto.id);
     if (sessionDto.lessons) {
@@ -68,7 +68,7 @@ export class DtoConverter {
     return session;
   }
 
-  convertLesson(lessonDto: LessonDto): Lesson {
+  convertLesson(lessonDto: LessonInputDto): Lesson {
     const lesson: Lesson = new Lesson(lessonDto.name);
     lesson.setId(lessonDto.id);
     if (lessonDto.interactions) {
@@ -79,7 +79,7 @@ export class DtoConverter {
     return lesson;
   }
 
-  convertExercise(exerciseDto: ExerciseDto): Exercise {
+  convertExercise(exerciseDto: ExerciseInputDto): Exercise {
     const exercise: Exercise = new Exercise(exerciseDto.formulation);
     exercise.setId(exerciseDto.id);
     if (exerciseDto.solutions) {
@@ -90,7 +90,7 @@ export class DtoConverter {
     return exercise;
   }
 
-  convertInteraction(interactionDto: InteractionDto): Interaction {
+  convertInteraction(interactionDto: InteractionInputDto): Interaction {
     if (interactionDto.exercise) {
       return this.convertExercise(interactionDto.exercise);
     } else {
@@ -98,14 +98,14 @@ export class DtoConverter {
     }
   }
 
-  convertVideo(videoDto: VideoDto): Video {
+  convertVideo(videoDto: VideoInputDto): Video {
     const video = new Video();
     video.setId(videoDto.id);
     video.setUrl(videoDto.url);
     return video;
   }
 
-  convertSolution(solutionDto: SolutionDto): Solution {
+  convertSolution(solutionDto: SolutionInputDto): Solution {
     const solution: Solution = new Solution(solutionDto.text, solutionDto.isCorrect);
     if (solutionDto.justifications) {
       for (let i = 0; i < solutionDto.justifications.length; i++) {
@@ -115,7 +115,7 @@ export class DtoConverter {
     return solution;
   }
 
-  convertJustification(justificationDto: JustificationDto) {
+  convertJustification(justificationDto: JustificationInputDto) {
     return new Justification(justificationDto.text, justificationDto.isCorrect);
   }
 }

@@ -2,7 +2,9 @@
   <mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-title>
-        <span> Contenido de la unidad: <b>{{unit.getName()}}</b></span>
+        <span> Contenido de la unidad:
+          <b>{{unit.getName()}}</b>
+        </span>
       </mat-panel-title>
     </mat-expansion-panel-header>
     <textarea class="exercise" matInput [(ngModel)]="unit.content"></textarea>
@@ -17,11 +19,10 @@
       Itinerarios
     </mat-panel-title>
   </mat-expansion-panel-header>
-  <mat-tab-group  id="itinerary">
+  <mat-tab-group id="itinerary">
     <mat-tab *ngFor="let itinerary of itinerarys" label={{itinerary.getName()}}>
-      <app-session [graphUnitComponent]="graphUnitComponent" [exerciseUnitComponent]="exerciseUnitComponent"
-      [videoUnitComponent] = "videoUnitComponent" [itinerary]="itinerary" (openExerciseInfo)="openExerciseInfo($event)"
-      (openVideoInfo)="openVideoInfo($event)"></app-session>
+      <app-session [graphUnitComponent]="graphUnitComponent" [exerciseUnitComponent]="exerciseUnitComponent" [videoUnitComponent]="videoUnitComponent"
+        [itinerary]="itinerary" (openExerciseInfo)="openExerciseInfo($event)" (openVideoInfo)="openVideoInfo($event)"></app-session>
     </mat-tab>
     <mat-tab>
       <ng-template mat-tab-label>

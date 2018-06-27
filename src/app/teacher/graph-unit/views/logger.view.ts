@@ -1,11 +1,11 @@
-import { UnitViewImp } from './unit.view';
+import { UnitView } from './unit.view';
 
 export class LoggerView {
 
-    private unitViewsVisited: UnitViewImp[];
-    private rootView: UnitViewImp;
+    private unitViewsVisited: UnitView[];
+    private rootView: UnitView;
 
-    constructor(rootView: UnitViewImp) {
+    constructor(rootView: UnitView) {
         this.unitViewsVisited = [];
         this.rootView = rootView;
     }
