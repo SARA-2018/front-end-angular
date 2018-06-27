@@ -1,4 +1,4 @@
-export interface JustificationDto {
+export interface JustificationInputDto {
 
     isCorrect: boolean;
     text: string;

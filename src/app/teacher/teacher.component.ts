@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Unit } from './graph-unit/models/unit.model';
+import { Unit } from '../shared/models/unit.model';
 import { Exercise } from '../shared/models/exercise.model';
 import { Video } from '../shared/models/video.model';
 

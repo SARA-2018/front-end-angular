@@ -1,4 +1,4 @@
-export interface CreateLessonDto {
+export interface CreateLessonOutputDto {
 
     sessionId: string;
     name: string;

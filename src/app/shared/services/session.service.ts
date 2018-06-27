@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpService } from '../../../core/http.service';
+import { HttpService } from '../../core/http.service';
 import { Observable } from 'rxjs/Observable';
-import { CreateSessionDto } from '../dtos/create-session.dto';
-import { SessionDto } from '../../../shared/dtos/session.dto';
+import { CreateSessionOutputDto } from '../../teacher/info-unit/dtos/create-session-output.dto';
+import { SessionInputDto } from '../dtos/session-input.dto';
 
 @Injectable()
 export class SessionService {
@@ -12,11 +12,11 @@ export class SessionService {
   constructor(private httpService: HttpService) {
   }
 
-  create(session: CreateSessionDto): Observable<any> {
+  create(session: CreateSessionOutputDto): Observable<any> {
     return this.httpService.successful().post(SessionService.END_POINT, session);
   }
 
-  getById(id: string): Observable<SessionDto> {
+  getById(id: string): Observable<SessionInputDto> {
     return this.httpService.get(SessionService.END_POINT + '/' + id);
   }
 }

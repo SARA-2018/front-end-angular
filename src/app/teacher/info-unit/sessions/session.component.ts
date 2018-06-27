@@ -3,8 +3,8 @@ import { Itinerary } from '../../../shared/models/itinerary.model';
 import { ItineraryService } from '../../../shared/services/itinerary.service';
 import { MatDialog } from '@angular/material';
 import { InputDialogComponent } from '../input-dialog.component';
-import { CreateSessionDto } from '../dtos/create-session.dto';
-import { SessionService } from '../services/session.service';
+import { CreateSessionOutputDto } from '../dtos/create-session-output.dto';
+import { SessionService } from '../../../shared/services/session.service';
 import { DtoConverter } from '../../../shared/dto-converter';
 import { ExerciseUnitComponent } from '../../exercise-unit/exercise-unit.component';
 import { GraphUnitComponent } from '../../graph-unit/graph-unit.component';
@@ -46,7 +46,7 @@ export class SessionComponent {
         this.dialog.open(InputDialogComponent, { data: { name: name, message: message } }).afterClosed().subscribe(
             result => {
                 if (result) {
-                    const sessionDto: CreateSessionDto = {
+                    const sessionDto: CreateSessionOutputDto = {
                         itineraryId: this.itinerary.getId(),
                         name: result
                     };
