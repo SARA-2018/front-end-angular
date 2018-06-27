@@ -2,7 +2,7 @@
   <mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-title>
-        Contenido de la unidad {{unit.getName()}}
+        <span> Contenido de la unidad: <b>{{unit.getName()}}</b></span>
       </mat-panel-title>
     </mat-expansion-panel-header>
     <textarea class="exercise" matInput [(ngModel)]="unit.content"></textarea>
