@@ -17,7 +17,7 @@ export class ExerciseService {
     return this.httpService.successful().post(ExerciseService.END_POINT, exercise);
   }
 
-  setContent(exercise: Exercise): Observable<any> {
+  update(exercise: Exercise): Observable<any> {
     return this.httpService.successful().put(ExerciseService.END_POINT + '/' + exercise.getId(), exercise);
   }
 
