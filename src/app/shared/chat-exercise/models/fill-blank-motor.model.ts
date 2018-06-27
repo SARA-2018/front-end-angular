@@ -1,10 +1,8 @@
-import { Solution } from '../../../shared/solution.model';
-import { Exercise } from '../../../shared/exercise.model';
+import { Solution } from '../../../teacher/shared/solution.model';
+import { Exercise } from '../../../teacher/shared/exercise.model';
 import { ExerciseMotor } from './exercise-motor.model';
 
 export class FillBlankMotor extends ExerciseMotor {
-
-  public exercise: Exercise;
 
   private TAG_STATEMENT = 4;
   private OPTIONS_EMPTY = 2;

@@ -26,7 +26,7 @@ export class DtoConverter {
 
   convertUnit(unitDto: UnitDto): Unit {
     const unit: Unit = new Unit(unitDto.name, unitDto.code, unitDto.content);
-    if (unitDto.itineraries)  {
+    if (unitDto.itineraries) {
       for (let i = 0; i < unitDto.itineraries.length; i++) {
         unit.addItinerary(this.convertMiddlewareItinerary(unitDto.itineraries[i]));
       }

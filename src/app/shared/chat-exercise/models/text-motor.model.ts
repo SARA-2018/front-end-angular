@@ -1,5 +1,5 @@
-import { Solution } from '../../../shared/solution.model';
-import { Exercise } from '../../../shared/exercise.model';
+import { Solution } from '../../../teacher/shared/solution.model';
+import { Exercise } from '../../../teacher/shared/exercise.model';
 import { ExerciseMotor } from './exercise-motor.model';
 
 export class TextMotor extends ExerciseMotor {
