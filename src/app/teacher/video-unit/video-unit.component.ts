@@ -4,7 +4,6 @@ import { VideoService } from '../../shared/video.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { UpdateVideoDto } from '../info-unit/dtos/update-video.dto';
 
-
 @Component({
   selector: 'app-video-unit',
   templateUrl: 'video-unit.component.html',
@@ -20,7 +19,6 @@ export class VideoUnitComponent implements OnChanges {
   isOpen = false;
 
   constructor(private sanitizer: DomSanitizer, private videoService: VideoService) {
-    console.log(this.displayURL);
     if (!this.displayURL) {
       this.displayURL = sanitizer.bypassSecurityTrustResourceUrl('https://youtu.be/embed/qWWqZUBegNI');
     } else {
@@ -29,8 +27,13 @@ export class VideoUnitComponent implements OnChanges {
   }
 
   ngOnChanges() {
-    console.log(this.video.getUrl());
     this.displayURL = this.sanitizer.bypassSecurityTrustResourceUrl(this.video.getUrl());
+  }
+
+  saveVideoUrl() {
+    this.displayURL = this.sanitizer.bypassSecurityTrustResourceUrl(this.videoURL);
+    const videoDto: UpdateVideoDto = { url: this.videoURL};
+    this.videoService.setUrl(videoDto, this.video.getId()).subscribe();
   }
 
   close() {
@@ -39,18 +42,5 @@ export class VideoUnitComponent implements OnChanges {
 
   open() {
     this.isOpen = true;
-  }
-
-  saveVideoUrl() {
-    this.displayURL = this.sanitizer.bypassSecurityTrustResourceUrl(this.videoURL);
-    // this.video.setUrl(this.videoURL);
-    const videoDto: UpdateVideoDto = { url: this.videoURL};
-    this.videoService.setUrl(videoDto, this.video.getId()).subscribe();
-  }
-
-  getVideoURL() {
-    if (this.video) {
-      return this.displayURL;
-    }
   }
 }
