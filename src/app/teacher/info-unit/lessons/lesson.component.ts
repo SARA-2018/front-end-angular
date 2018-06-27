@@ -23,7 +23,8 @@ import {LessonService} from '../../../shared/lesson.service';
 
 @Component({
     selector: 'app-lesson',
-    templateUrl: 'lesson.component.html'
+    templateUrl: 'lesson.component.html',
+    styleUrls: ['lesson.component.css']
 })
 
 export class LessonComponent {
