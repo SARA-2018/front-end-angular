@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { UnitDto } from './unit.dto';
-import { HttpService } from '../core/http.service';
-import { FilterDto } from '../teacher/graph-unit/dtos/filter.dto';
-import { FriendsDto } from '../teacher/graph-unit/dtos/friends.dto';
-import { Unit } from '../teacher/graph-unit/models/unit.model';
+import { HttpService } from '../../core/http.service';
+import { Unit } from '../../teacher/graph-unit/models/unit.model';
+import { FilterDto } from '../../teacher/graph-unit/dtos/filter.dto';
+import { UnitDto } from '../dtos/unit.dto';
+import { FriendsDto } from '../../teacher/graph-unit/dtos/friends.dto';
 
 @Injectable()
 export class UnitService {

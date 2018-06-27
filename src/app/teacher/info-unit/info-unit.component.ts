@@ -2,16 +2,16 @@ import { Component, Input, OnChanges, EventEmitter, Output } from '@angular/core
 import { Unit } from '../graph-unit/models/unit.model';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { InputDialogComponent } from './input-dialog.component';
-import { Itinerary } from '../../shared/itinerary.model';
+import { Itinerary } from '../../shared/models/itinerary.model';
 import { ExerciseUnitComponent } from '../exercise-unit/exercise-unit.component';
 import { VideoUnitComponent } from '../video-unit/video-unit.component';
 import { GraphUnitComponent } from '../graph-unit/graph-unit.component';
-import { UnitService } from '../../shared/unit.service';
-import { ItineraryService } from '../../shared/itinerary.service';
+import { UnitService } from '../../shared/services/unit.service';
+import { ItineraryService } from '../../shared/services/itinerary.service';
 import { DtoConverter } from '../../shared/dto-converter';
 import { CreateItineraryDto } from './dtos/create-itinerary.dto';
-import { Exercise } from '../../shared/exercise.model';
-import { Video } from '../../shared/video.model';
+import { Exercise } from '../../shared/models/exercise.model';
+import { Video } from '../../shared/models/video.model';
 
 
 @Component({

@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { Itinerary } from '../../../shared/itinerary.model';
-import { ItineraryService } from '../../../shared/itinerary.service';
+import { Itinerary } from '../../../shared/models/itinerary.model';
+import { ItineraryService } from '../../../shared/services/itinerary.service';
 import { MatDialog } from '@angular/material';
 import { InputDialogComponent } from '../input-dialog.component';
 import { CreateSessionDto } from '../dtos/create-session.dto';
@@ -9,8 +9,8 @@ import { DtoConverter } from '../../../shared/dto-converter';
 import { ExerciseUnitComponent } from '../../exercise-unit/exercise-unit.component';
 import { GraphUnitComponent } from '../../graph-unit/graph-unit.component';
 import { VideoUnitComponent } from '../../video-unit/video-unit.component';
-import { Exercise } from '../../../shared/exercise.model';
-import { Video } from '../../../shared/video.model';
+import { Exercise } from '../../../shared/models/exercise.model';
+import { Video } from '../../../shared/models/video.model';
 
 @Component({
     selector: 'app-session',

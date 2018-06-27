@@ -1,5 +1,5 @@
-import { Solution } from '../../solution.model';
-import { Exercise } from '../../exercise.model';
+import { Exercise } from '../../models/exercise.model';
+import { Solution } from '../../models/solution.model';
 
 export abstract class ExerciseMotor {
 

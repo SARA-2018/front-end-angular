@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ItineraryService } from '../../shared/itinerary.service';
+import { ItineraryService } from '../../shared/services/itinerary.service';
 import { DtoConverter } from '../../shared/dto-converter';
-import { Itinerary } from '../../shared/itinerary.model';
-import { Formation } from '../../shared/formation.model';
-import { Lesson } from '../../shared/lesson.model';
-import { Session } from '../../shared/session.model';
+import { Itinerary } from '../../shared/models/itinerary.model';
+import { Formation } from '../../shared/models/formation.model';
+import { Lesson } from '../../shared/models/lesson.model';
+import { Session } from '../../shared/models/session.model';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
 

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Unit } from './graph-unit/models/unit.model';
-import { Exercise } from '../shared/exercise.model';
-import { Video } from '../shared/video.model';
+import { Exercise } from '../shared/models/exercise.model';
+import { Video } from '../shared/models/video.model';
 
 @Component({
   templateUrl: 'teacher.component.html',

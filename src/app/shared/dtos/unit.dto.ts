@@ -1,4 +1,4 @@
-import { ItineraryMiddle } from './dtos/itinerary-middle.dto';
+import { ItineraryMiddle } from './itinerary-middle.dto';
 
 export interface UnitDto {
     name: string;

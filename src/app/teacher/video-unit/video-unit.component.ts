@@ -1,6 +1,6 @@
 import { Component, HostBinding, Input, OnChanges } from '@angular/core';
-import { Video } from '../../shared/video.model';
-import { VideoService } from '../../shared/video.service';
+import { Video } from '../../shared/models/video.model';
+import { VideoService } from '../../shared/services/video.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { UpdateVideoDto } from '../info-unit/dtos/update-video.dto';
 

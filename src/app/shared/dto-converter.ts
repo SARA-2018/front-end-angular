@@ -1,23 +1,23 @@
 import { Unit } from '../teacher/graph-unit/models/unit.model';
-import { UnitDto } from './unit.dto';
-import { Itinerary } from '../shared/itinerary.model';
+import { UnitDto } from './dtos/unit.dto';
+import { Itinerary } from '../shared/models/itinerary.model';
 import { ItineraryDto } from './dtos/itinerary.dto';
 import { FormationDto } from './dtos/formation.dto';
-import { Formation } from '../shared/formation.model';
-import { Session } from '../shared/session.model';
+import { Formation } from '../shared/models/formation.model';
+import { Session } from '../shared/models/session.model';
 import { SessionDto } from './dtos/session.dto';
-import { Lesson } from '../shared/lesson.model';
+import { Lesson } from '../shared/models/lesson.model';
 import { LessonDto } from './dtos/lesson.dto';
-import { Exercise } from './exercise.model';
+import { Exercise } from './models/exercise.model';
 import { ExerciseDto } from './dtos/exercise.dto';
-import { Video } from './video.model';
+import { Video } from './models/video.model';
 import { VideoDto } from './dtos/video.dto';
-import { Interaction } from './interaction.model';
+import { Interaction } from './models/interaction.model';
 import { InteractionDto } from './dtos/interaction.dto';
-import { Solution } from './solution.model';
+import { Solution } from './models/solution.model';
 import { SolutionDto } from './dtos/solution.dto';
 import { JustificationDto } from './dtos/justification.dto';
-import { Justification } from './justification.model';
+import { Justification } from './models/justification.model';
 import { ItineraryMiddle } from './dtos/itinerary-middle.dto';
 
 export class DtoConverter {

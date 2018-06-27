@@ -1,5 +1,5 @@
 import { Command } from './command.model';
-import { UnitService } from '../../../../shared/unit.service';
+import { UnitService } from '../../../../shared/services/unit.service';
 import { Observable } from 'rxjs/Observable';
 
 export class OpenUnit extends Command {

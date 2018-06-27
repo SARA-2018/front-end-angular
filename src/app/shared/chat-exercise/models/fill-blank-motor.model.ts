@@ -1,5 +1,5 @@
-import { Solution } from '../../solution.model';
-import { Exercise } from '../../exercise.model';
+import { Solution } from '../../models/solution.model';
+import { Exercise } from '../../models/exercise.model';
 import { ExerciseMotor } from './exercise-motor.model';
 
 export class FillBlankMotor extends ExerciseMotor {

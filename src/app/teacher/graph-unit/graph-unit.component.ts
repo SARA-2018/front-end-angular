@@ -1,10 +1,9 @@
 import { Component, EventEmitter, HostBinding, OnInit, Output } from '@angular/core';
-import { UnitService } from '../../shared/unit.service';
 import { MatSnackBar, MatDialog } from '@angular/material';
 import { FormControl } from '@angular/forms';
 import { map } from 'rxjs/operators/map';
 import { Observable } from 'rxjs/Observable';
-import { UnitDto } from '../../shared/unit.dto';
+import { UnitDto } from '../../shared/dtos/unit.dto';
 import { RelationDto } from './dtos/relation.dto';
 import { Relation } from './models/relation.model';
 import { Unit } from './models/unit.model';
@@ -18,6 +17,7 @@ import { Node } from './models/node.model';
 import { FriendsDto } from './dtos/friends.dto';
 import { OpenUnit } from './models/commands/open-unit.model';
 import { DtoConverter } from '../../shared/dto-converter';
+import { UnitService } from '../../shared/services/unit.service';
 
 @Component({
   selector: 'app-graph-unit',
