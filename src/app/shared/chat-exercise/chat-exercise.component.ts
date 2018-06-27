@@ -30,7 +30,7 @@ export class ChatExerciseComponent implements OnChanges {
 
   ngOnChanges() {
     this.messages = [];
-    this.messages.push(new Message('https://st3.depositphotos.com/6633222/14826/v/1600/depositphotos_148267805-stock-illustration-cartoon-emoticon-smiley-face-waving.jpg',
+    this.messages.push(new Message('../../../assets/chat-image.jpg',
      RolMessage.TEACHER, TypeMessage.IMAGE));
     this.print(new AutoMessageMotor().welcomeMessage());
     this.updateMotor(new TextMotor(this.exercise));
