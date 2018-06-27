@@ -31,13 +31,14 @@ export class ChatExerciseComponent implements OnChanges {
   ngOnChanges() {
     this.messages = [];
     this.print(new AutoMessageMotor().welcomeMessage());
-    this.motors = [new DicotomicMotor(this.exercise),
-    new MultipleChoiseMotor(this.exercise), new FillBlankMotor(this.exercise)];
     this.updateMotor(new TextMotor(this.exercise));
   }
 
   nextExercise() {
-    /*let i = 0;
+    /*
+    this.motors = [new DicotomicMotor(this.exercise),
+    new MultipleChoiseMotor(this.exercise), new FillBlankMotor(this.exercise)];
+    let i = 0;
     while (this.motors[i].getOvercome() && this.motors.length < i) {
       i++;
     }

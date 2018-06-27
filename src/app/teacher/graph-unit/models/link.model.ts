@@ -1,5 +1,5 @@
 import { Node } from '../models/node.model';
-import { UnitViewImp } from '../views/unit.view';
+import { UnitView } from '../views/unit.view';
 import { TypeRelation } from './type-relation.enum';
 
 export class Link implements d3.SimulationLinkDatum<Node> {
@@ -7,8 +7,8 @@ export class Link implements d3.SimulationLinkDatum<Node> {
   source: Node;
   target: Node;
 
-  private topUnit: UnitViewImp;
-  private lowerUnit: UnitViewImp;
+  private topUnit: UnitView;
+  private lowerUnit: UnitView;
   private type: string;
   private semantics: string;
   private cardinalTopUnit: string;
@@ -23,7 +23,7 @@ export class Link implements d3.SimulationLinkDatum<Node> {
   readonly sizeArrowRelation = 10;
   readonly leftCardinal = 10;
 
-  constructor(topUnit: UnitViewImp, lowerUnit: UnitViewImp, type: string, semantics: string,
+  constructor(topUnit: UnitView, lowerUnit: UnitView, type: string, semantics: string,
     cardinalTopUnit: string, cardinalLowerUnit: string) {
     this.topUnit = topUnit;
     this.lowerUnit = lowerUnit;

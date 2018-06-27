@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { HttpService } from '../../core/http.service';
-import { Unit } from '../../teacher/graph-unit/models/unit.model';
+import { Unit } from '../models/unit.model';
 import { FilterDto } from '../../teacher/graph-unit/dtos/filter.dto';
-import { UnitDto } from '../dtos/unit.dto';
+import { UnitInputDto } from '../dtos/unit-input.dto';
 import { FriendsDto } from '../../teacher/graph-unit/dtos/friends.dto';
 
 @Injectable()
@@ -29,15 +29,15 @@ export class UnitService {
     });
   }
 
-  getAll(): Observable<UnitDto[]> {
+  getAll(): Observable<UnitInputDto[]> {
     return this.httpService.get(UnitService.END_POINT);
   }
 
-  getByCode(unit: Unit): Observable<UnitDto> {
+  getByCode(unit: Unit): Observable<UnitInputDto> {
     return this.httpService.get(UnitService.END_POINT + '/' + unit.getCode());
   }
 
-  getUnitsNotRelated(): Observable<UnitDto[]> {
+  getUnitsNotRelated(): Observable<UnitInputDto[]> {
     return this.httpService.get(UnitService.END_POINT + '/notrelated');
   }
 

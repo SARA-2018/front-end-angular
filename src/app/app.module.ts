@@ -13,7 +13,7 @@ import { RelationService } from './teacher/graph-unit/services/relation.service'
 import { D3Service } from './teacher/graph-unit/services/d3.service';
 import { AppMaterialModule } from './app-material.module';
 import { ItineraryService } from './shared/services/itinerary.service';
-import { SessionService } from './teacher/info-unit/services/session.service';
+import { SessionService } from './shared/services/session.service';
 import { LessonService } from './shared/services/lesson.service';
 import { ExerciseService } from './shared/services/exercise.service';
 import { VideoService } from './shared/services/video.service';
