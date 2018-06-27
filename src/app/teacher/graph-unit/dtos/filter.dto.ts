@@ -1,4 +1,4 @@
-import { UnitDto } from '../../shared/unit.dto';
+import { UnitDto } from '../../../shared/dtos/unit.dto';
 
 export interface FilterDto {
   unit: UnitDto;

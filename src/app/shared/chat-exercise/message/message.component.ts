@@ -11,6 +11,5 @@ export class MessageComponent {
 
   @Input('message') message;
 
-  constructor() {
-  }
+  constructor() { }
 }

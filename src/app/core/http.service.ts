@@ -1,4 +1,3 @@
-import { ErrorHttp } from './http-errors.model';
 import { Error } from './error.model';
 import { Http, Response, Headers, RequestOptions, URLSearchParams, ResponseContentType } from '@angular/http';
 import { Injectable } from '@angular/core';
@@ -84,6 +83,7 @@ export class HttpService {
     }
 
     patch(endpoint: string, body?: Object): Observable<any> {
+        this.body = body;
         return this.http.patch(HttpService.API_END_POINT + endpoint, body, this.createOptions()).map(
             response => this.extractData(response)).catch(
                 error => {
@@ -123,9 +123,6 @@ export class HttpService {
 
     private handleError(response: Response): any {
         let error: Error;
-        if (response.status === ErrorHttp.UNAUTHORIZED) {
-            // this.logout();
-        }
         try {
             error = {
                 httpError: response.status, exception: response.json().exception,

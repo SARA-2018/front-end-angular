@@ -1,9 +1,9 @@
 import {Component, HostBinding, Input, OnChanges, Output, EventEmitter} from '@angular/core';
-import { Exercise } from '../shared/exercise.model';
-import { ExerciseService } from '../../shared/exercise.service';
+import { Exercise } from '../../shared/models/exercise.model';
+import { ExerciseService } from '../../shared/services/exercise.service';
 import { MatSnackBar } from '@angular/material';
-import { Solution } from '../shared/solution.model';
-import { Justification } from '../shared/justification.model';
+import { Solution } from '../../shared/models/solution.model';
+import { Justification } from '../../shared/models/justification.model';
 
 @Component({
   selector: 'app-exercise-unit',
