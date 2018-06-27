@@ -5,7 +5,7 @@ export class AutoMessageMotor {
     constructor() {}
 
     welcomeMessage(): string[] {
-        return ['Bienvenid@', 'Un placer que estes por aquí', 'Veamos si has podido con lo aprendido jejeje'];
+        return ['¡Bienvenid@!', 'Un placer que estes por aquí', 'Veamos si has podido con lo aprendido jeje'];
     }
 
     goodbyeMessage(): string[] {
