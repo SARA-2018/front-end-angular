@@ -1,14 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { TeacherComponent } from './teacher/teacher.component';
-import { StudentComponent } from './student/student.component';
 import { GraphUnitComponent } from './teacher/graph-unit/graph-unit.component';
 import { InfoUnitComponent } from './teacher/info-unit/info-unit.component';
 import { ExerciseUnitComponent } from './teacher/exercise-unit/exercise-unit.component';
 import { VideoUnitComponent } from './teacher/video-unit/video-unit.component';
 import { InputDialogComponent } from './teacher/info-unit/input-dialog.component';
 import { ChatExerciseComponent } from './shared/chat-exercise/chat-exercise.component';
-import { FormationComponent } from './student/formation/formation.component';
 import { InteractionComponent } from './student/lesson/interaction.component';
 import { DraggableDirective } from './teacher/graph-unit/directives/draggable.directive';
 import { GraphComponent } from './teacher/graph-unit/views/graph/graph.component';
@@ -20,17 +18,13 @@ import { ZoomableDirective } from './teacher/graph-unit/directives/zoomable.dire
 import { SessionComponent } from './teacher/info-unit/sessions/session.component';
 import { LessonComponent } from './teacher/info-unit/lessons/lesson.component';
 import { VideoStudentComponent } from './student/lesson/video/video.component';
+import { StudentComponent } from './student/student.component';
 
 const appRoutes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: TeacherComponent.URL },
   { path: TeacherComponent.URL, component: TeacherComponent },
   { path: StudentComponent.URL, component: StudentComponent },
-  { path: InteractionComponent.URL, component: InteractionComponent,
-    children: [
-      // Declaracion de RUTAS
-     //  { path: VideoComponent.URL, component: VideoComponent }
-    ]
-  }
+  { path: InteractionComponent.URL, component: InteractionComponent }
 ];
 
 @NgModule({
@@ -43,7 +37,6 @@ export class AppRoutingModule {
     ChatExerciseComponent,
     DraggableDirective,
     ExerciseUnitComponent,
-    FormationComponent,
     GraphComponent,
     GraphUnitComponent,
     InfoUnitComponent,
