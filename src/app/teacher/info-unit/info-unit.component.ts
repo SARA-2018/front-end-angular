@@ -11,7 +11,7 @@ import { ItineraryService } from '../../shared/itinerary.service';
 import { DtoConverter } from '../../shared/dto-converter';
 import { CreateItineraryDto } from './dtos/create-itinerary.dto';
 import { Exercise } from '../shared/exercise.model';
-import { Video } from './models/video.model';
+import { Video } from '../../shared/video.model';
 
 
 @Component({

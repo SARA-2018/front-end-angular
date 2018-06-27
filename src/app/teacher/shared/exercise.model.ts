@@ -1,5 +1,5 @@
 import { Solution } from './solution.model';
-import { Interaction } from '../info-unit/models/interaction.model';
+import { Interaction } from '../../shared/interaction.model';
 import { Itinerary } from '../../shared/itinerary.model';
 
 export class Exercise extends Interaction {

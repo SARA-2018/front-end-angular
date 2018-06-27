@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Video } from '../../../teacher/info-unit/models/video.model';
+import { Video } from '../../../shared/video.model';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({

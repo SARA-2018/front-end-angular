@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DtoConverter } from '../../shared/dto-converter';
 import { LessonService } from '../../shared/lesson.service';
-import { Interaction } from '../../teacher/info-unit/models/interaction.model';
+import { Interaction } from '../../shared/interaction.model';
 import { VideoService } from '../../shared/video.service';
 import { ExerciseService } from '../../shared/exercise.service';
 import { InteractionDto } from '../../shared/dtos/interaction.dto';

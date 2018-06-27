@@ -10,7 +10,7 @@ import { ExerciseUnitComponent } from '../../exercise-unit/exercise-unit.compone
 import { GraphUnitComponent } from '../../graph-unit/graph-unit.component';
 import { VideoUnitComponent } from '../../video-unit/video-unit.component';
 import { Exercise } from '../../shared/exercise.model';
-import { Video } from '../models/video.model';
+import { Video } from '../../../shared/video.model';
 
 @Component({
     selector: 'app-session',
