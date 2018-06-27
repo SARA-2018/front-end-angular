@@ -7,7 +7,9 @@
   <mat-card-content>
     <mat-card id="card_cont_lesson">
       <mat-card-content *ngFor="let interaction of lesson.getInteractions()">
-        <a (click)="showInteraction(interaction)">{{interaction.getText()}}</a>
+        <div class="items">
+          <a (click)="showInteraction(interaction)">{{interaction.getText()}}</a>
+        </div>
       </mat-card-content>
       <mat-action-row>
         <button mat-raised-button color="primary" class="button-content" (click)="addVideo(lesson)">Añadir video</button>

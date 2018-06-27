@@ -3,8 +3,12 @@
   margin-left: auto;
 }
 
-#itinerary {
-  min-width: 0%;
+#itinerary-button {
+  min-width: 100%;
+}
+#itinerary{
+  height: 52em;
+  display: grid;
 }
 .exercise {
   display: flex;
