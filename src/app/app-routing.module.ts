@@ -8,7 +8,7 @@ import { ExerciseUnitComponent } from './teacher/exercise-unit/exercise-unit.com
 import { VideoUnitComponent } from './teacher/video-unit/video-unit.component';
 import { InputDialogComponent } from './teacher/info-unit/input-dialog.component';
 import { ChatExerciseComponent } from './teacher/exercise-unit/chat-exercise/chat-exercise.component';
-import { FormationComponent } from './student/iteracion/formation.component';
+import { FormationComponent } from './student/formation/formation.component';
 import { InteractionComponent } from './student/lesson/interaction.component';
 
 const appRoutes: Routes = [
