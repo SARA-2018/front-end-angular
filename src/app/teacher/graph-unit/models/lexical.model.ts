@@ -6,7 +6,7 @@ import { Command } from './commands/command.model';
 import { AddUnitCommand } from './commands/add-unit-command.model';
 import { AddRelationCommand } from './commands/add-relation-command.model';
 import { CompositeCommand } from './commands/composite-command.model';
-import { OpenUnit } from './commands/open-unit.model';
+import { OpenUnitCommand } from './commands/open-unit-command.model';
 import { DeleteRelationCommand } from './commands/delete-relation-command.mode';
 import { LoadCommand } from './commands/load-command.model';
 
@@ -111,7 +111,7 @@ export class Lexical {
     this.resetValues();
     const token = lex.nextToken();
     if (token['name'] === 'open') {
-      return new OpenUnit(this.codeTopUnit);
+      return new OpenUnitCommand(this.codeTopUnit);
     }
     if (token['name'] === ':') {
       const cardinal = lex.nextToken();
@@ -221,7 +221,7 @@ export class Lexical {
 
   private analyzeCommandByNotSemantic(lex: any, relationType: TypeRelation, relation: string, point: any) {
     const bidirectional = relation.concat(point['name']);
-    if ( bidirectional === '<association>' || bidirectional === '<use>') {
+    if (bidirectional === '<association>' || bidirectional === '<use>') {
       return this.sequenceUnit(lex, relationType, relation.concat(point['name']));
     } else {
       return this.sequenceUnit(lex, relationType, relation);

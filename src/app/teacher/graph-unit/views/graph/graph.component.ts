@@ -11,7 +11,7 @@ export class GraphComponent implements OnInit {
   @Input('links') links;
   graph: Graph;
 
-  constructor(private d3Service: D3Service) {}
+  constructor(private d3Service: D3Service) { }
 
   ngOnInit() {
     this.graph = this.d3Service.getGraph(this.nodes, this.links);

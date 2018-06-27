@@ -1,6 +1,6 @@
-import { UnitDto } from '../../shared/unit.dto';
+import { UnitInputDto } from '../../../shared/dtos/unit-input.dto';
 
 export interface FilterDto {
-  unit: UnitDto;
-  topUnit: UnitDto;
+  unit: UnitInputDto;
+  topUnit: UnitInputDto;
 }

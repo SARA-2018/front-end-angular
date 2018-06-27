@@ -1,17 +1,17 @@
 import { Component, Input, OnChanges, EventEmitter, Output } from '@angular/core';
-import { Unit } from '../graph-unit/models/unit.model';
+import { Unit } from '../../shared/models/unit.model';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { InputDialogComponent } from './input-dialog.component';
-import { Itinerary } from './models/itinerary.model';
+import { Itinerary } from '../../shared/models/itinerary.model';
 import { ExerciseUnitComponent } from '../exercise-unit/exercise-unit.component';
 import { VideoUnitComponent } from '../video-unit/video-unit.component';
 import { GraphUnitComponent } from '../graph-unit/graph-unit.component';
-import { UnitService } from '../shared/unit.service';
-import { ItineraryService } from '../../shared/itinerary.service';
+import { UnitService } from '../../shared/services/unit.service';
+import { ItineraryService } from '../../shared/services/itinerary.service';
 import { DtoConverter } from '../../shared/dto-converter';
-import { CreateItineraryDto } from './dtos/create-itinerary.dto';
-import { Exercise } from '../shared/exercise.model';
-import { Video } from './models/video.model';
+import { CreateItineraryOutputDto } from './dtos/create-itinerary-output.dto';
+import { Exercise } from '../../shared/models/exercise.model';
+import { Video } from '../../shared/models/video.model';
 
 
 @Component({
@@ -63,7 +63,7 @@ export class InfoUnitComponent implements OnChanges {
     this.dialog.open(InputDialogComponent, { data: { name: name, message: message } }).afterClosed().subscribe(
       result => {
         if (result) {
-          const itinerary: CreateItineraryDto = {
+          const itinerary: CreateItineraryOutputDto = {
             unitCode: this.unit.getCode().toString(),
             name: result
           };

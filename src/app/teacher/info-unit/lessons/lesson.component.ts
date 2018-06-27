@@ -1,25 +1,22 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { Session } from '../models/session.model';
+import { Session } from '../../../shared/models/session.model';
 import { MatDialog } from '@angular/material';
 import { InputDialogComponent } from '../input-dialog.component';
-import { CreateLessonDto } from '../dtos/create-lesson.dto';
-
+import { CreateLessonOutputDto } from '../dtos/create-lesson-output.dto';
 import { DtoConverter } from '../../../shared/dto-converter';
-import { Lesson } from '../models/lesson.model';
-import { CreateExerciseDto } from '../dtos/create-exercise.dto';
-
-import { CreateVideoDto } from '../dtos/create-video.dto';
-
-import { Interaction } from '../models/interaction.model';
+import { Lesson } from '../../../shared/models/lesson.model';
+import { CreateExerciseOutputDto } from '../dtos/create-exercise-output.dto';
+import { CreateVideoOutputDto } from '../dtos/create-video-output.dto';
+import { Interaction } from '../../../shared/models/interaction.model';
 import { ExerciseUnitComponent } from '../../exercise-unit/exercise-unit.component';
 import { GraphUnitComponent } from '../../graph-unit/graph-unit.component';
 import { VideoUnitComponent } from '../../video-unit/video-unit.component';
-import { Exercise } from '../../shared/exercise.model';
-import { Video } from '../models/video.model';
-import {VideoService} from '../../../shared/video.service';
-import {ExerciseService} from '../../../shared/exercise.service';
-import {SessionService} from '../services/session.service';
-import {LessonService} from '../../../shared/lesson.service';
+import { Exercise } from '../../../shared/models/exercise.model';
+import { Video } from '../../../shared/models/video.model';
+import { VideoService } from '../../../shared/services/video.service';
+import { ExerciseService } from '../../../shared/services/exercise.service';
+import { SessionService } from '../../../shared/services/session.service';
+import { LessonService } from '../../../shared/services/lesson.service';
 
 @Component({
     selector: 'app-lesson',
@@ -58,7 +55,7 @@ export class LessonComponent {
         this.dialog.open(InputDialogComponent, { data: { name: name, message: message } }).afterClosed().subscribe(
             result => {
                 if (result) {
-                    const lessonDto: CreateLessonDto = {
+                    const lessonDto: CreateLessonOutputDto = {
                         sessionId: this.session.getId(),
                         name: result
                     };
@@ -74,7 +71,7 @@ export class LessonComponent {
         this.graphUnitComponent.close();
         this.exerciseUnitComponent.open();
         this.videoUnitComponent.close();
-        const exerciseDtoOutput: CreateExerciseDto = {
+        const exerciseDtoOutput: CreateExerciseOutputDto = {
             formulation: '',
             solutions: [],
             lessonId: lesson.getId()
@@ -91,7 +88,7 @@ export class LessonComponent {
         this.graphUnitComponent.close();
         this.exerciseUnitComponent.close();
         this.videoUnitComponent.open();
-        const videoDtoOutput: CreateVideoDto = {
+        const videoDtoOutput: CreateVideoOutputDto = {
             lessonId: lesson.getId(),
             url: ''
         };

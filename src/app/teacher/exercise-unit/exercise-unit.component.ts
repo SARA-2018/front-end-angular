@@ -1,9 +1,9 @@
 import {Component, HostBinding, Input, OnChanges, Output, EventEmitter} from '@angular/core';
-import { Exercise } from '../shared/exercise.model';
-import { ExerciseService } from '../../shared/exercise.service';
+import { Exercise } from '../../shared/models/exercise.model';
+import { ExerciseService } from '../../shared/services/exercise.service';
 import { MatSnackBar } from '@angular/material';
-import { Solution } from '../shared/solution.model';
-import { Justification } from '../shared/justification.model';
+import { Solution } from '../../shared/models/solution.model';
+import { Justification } from '../../shared/models/justification.model';
 
 @Component({
   selector: 'app-exercise-unit',
@@ -27,18 +27,11 @@ export class ExerciseUnitComponent implements OnChanges {
     this.openExerciseChat.emit(this.exercise);
   }
 
-  close() {
-    this.isOpen = false;
-  }
-
-  open() {
-    this.isOpen = true;
-  }
-
-  createModels(json: string) {
+  createModelFromJson(json: string): Exercise {
     this.exerciseJSON = JSON.parse(JSON.stringify(json));
     const objJson = JSON.parse(json);
-    this.exercise = new Exercise(objJson.name);
+    this.exercise = new Exercise(objJson.formulation);
+    this.exercise.setId(objJson.id);
     if (objJson.solutions.length > 0) {
       for (let i = 0; i < objJson.solutions.length; i++) {
         const solution = new Solution(objJson.solutions[i].text, objJson.solutions[i].isCorrect);
@@ -54,9 +47,9 @@ export class ExerciseUnitComponent implements OnChanges {
     return this.exercise;
   }
 
-  saveUnitContent() {
+  saveExercise() {
     if (this.verify()) {
-      this.exerciseService.setContent(this.createModels(this.exerciseJSON)).subscribe();
+      this.exerciseService.update(this.createModelFromJson(this.exerciseJSON)).subscribe();
     } else {
       this.snackBar.open('Json invalido', '', {
         duration: 2000
@@ -85,6 +78,14 @@ export class ExerciseUnitComponent implements OnChanges {
       this.exerciseJSON = inputString;
       return false;
     }
+  }
+
+  close() {
+    this.isOpen = false;
+  }
+
+  open() {
+    this.isOpen = true;
   }
 }
 

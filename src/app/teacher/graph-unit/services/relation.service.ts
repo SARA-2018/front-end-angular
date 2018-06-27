@@ -5,7 +5,6 @@ import { HttpService } from '../../../core/http.service';
 import { AddRelationCommand } from '../models/commands/add-relation-command.model';
 import { DeleteRelationCommand } from '../models/commands/delete-relation-command.mode';
 
-
 @Injectable()
 export class RelationService {
 

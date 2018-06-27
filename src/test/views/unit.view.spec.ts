@@ -1,5 +1,5 @@
 import { UnitViewImp } from '../../app/teacher/graph-unit/views/unit.view';
-import { Unit } from '../../app/teacher/graph-unit/models/unit.model';
+import { Unit } from '../../app/shared/models/unit.model';
 
 describe('GraphUnitComponent UnitViewImp ', () => {
 
