@@ -1,4 +1,4 @@
-import { Solution } from '../../shared/solution.model';
+import { Solution } from '../../../shared/solution.model';
 
 export interface CreateExerciseDto {
 

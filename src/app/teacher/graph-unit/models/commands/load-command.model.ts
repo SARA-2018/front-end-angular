@@ -1,5 +1,5 @@
 import { Command } from './command.model';
-import { UnitService } from '../../../shared/unit.service';
+import { UnitService } from '../../../../shared/unit.service';
 import { RelationService } from '../../services/relation.service';
 import { Lexical } from '../lexical.model';
 import { Observable } from 'rxjs/Observable';

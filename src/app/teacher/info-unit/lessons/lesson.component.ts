@@ -14,7 +14,7 @@ import { Interaction } from '../../../shared/interaction.model';
 import { ExerciseUnitComponent } from '../../exercise-unit/exercise-unit.component';
 import { GraphUnitComponent } from '../../graph-unit/graph-unit.component';
 import { VideoUnitComponent } from '../../video-unit/video-unit.component';
-import { Exercise } from '../../shared/exercise.model';
+import { Exercise } from '../../../shared/exercise.model';
 import { Video } from '../../../shared/video.model';
 import {VideoService} from '../../../shared/video.service';
 import {ExerciseService} from '../../../shared/exercise.service';

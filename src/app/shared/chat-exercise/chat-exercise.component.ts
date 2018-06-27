@@ -2,7 +2,7 @@ import { Component, Input, OnInit, OnChanges } from '@angular/core';
 import { Message } from './message/message.model';
 import { RolMessage } from './message/rol-message.enum';
 
-import { Exercise } from '../../teacher/shared/exercise.model';
+import { Exercise } from '../exercise.model';
 import { AutoMessageMotor } from './models/auto-message-motor.model';
 import { TextMotor } from './models/text-motor.model';
 import { MultipleChoiseMotor } from './models/multiple-choise-motor.model';

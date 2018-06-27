@@ -1,5 +1,5 @@
 import { Unit } from '../teacher/graph-unit/models/unit.model';
-import { UnitDto } from '../teacher/shared/unit.dto';
+import { UnitDto } from './unit.dto';
 import { Itinerary } from '../shared/itinerary.model';
 import { ItineraryDto } from './dtos/itinerary.dto';
 import { FormationDto } from './dtos/formation.dto';
@@ -8,16 +8,16 @@ import { Session } from '../shared/session.model';
 import { SessionDto } from './dtos/session.dto';
 import { Lesson } from '../shared/lesson.model';
 import { LessonDto } from './dtos/lesson.dto';
-import { Exercise } from '../teacher/shared/exercise.model';
+import { Exercise } from './exercise.model';
 import { ExerciseDto } from './dtos/exercise.dto';
 import { Video } from './video.model';
 import { VideoDto } from './dtos/video.dto';
 import { Interaction } from './interaction.model';
 import { InteractionDto } from './dtos/interaction.dto';
-import { Solution } from '../teacher/shared/solution.model';
+import { Solution } from './solution.model';
 import { SolutionDto } from './dtos/solution.dto';
 import { JustificationDto } from './dtos/justification.dto';
-import { Justification } from '../teacher/shared/justification.model';
+import { Justification } from './justification.model';
 import { ItineraryMiddle } from './dtos/itinerary-middle.dto';
 
 export class DtoConverter {

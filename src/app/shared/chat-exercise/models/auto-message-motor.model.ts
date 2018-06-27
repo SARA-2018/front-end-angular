@@ -1,4 +1,4 @@
-import { Exercise } from '../../../teacher/shared/exercise.model';
+import { Exercise } from '../../exercise.model';
 
 export class AutoMessageMotor {
 

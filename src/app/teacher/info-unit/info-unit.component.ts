@@ -6,11 +6,11 @@ import { Itinerary } from '../../shared/itinerary.model';
 import { ExerciseUnitComponent } from '../exercise-unit/exercise-unit.component';
 import { VideoUnitComponent } from '../video-unit/video-unit.component';
 import { GraphUnitComponent } from '../graph-unit/graph-unit.component';
-import { UnitService } from '../shared/unit.service';
+import { UnitService } from '../../shared/unit.service';
 import { ItineraryService } from '../../shared/itinerary.service';
 import { DtoConverter } from '../../shared/dto-converter';
 import { CreateItineraryDto } from './dtos/create-itinerary.dto';
-import { Exercise } from '../shared/exercise.model';
+import { Exercise } from '../../shared/exercise.model';
 import { Video } from '../../shared/video.model';
 
 

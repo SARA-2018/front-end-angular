@@ -9,7 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { HttpService } from './core/http.service';
 import { NgModule } from '@angular/core';
-import { UnitService } from './teacher/shared/unit.service';
+import { UnitService } from './shared/unit.service';
 import { RelationService } from './teacher/graph-unit/services/relation.service';
 import { D3Service } from './teacher/graph-unit/services/d3.service';
 import { AppMaterialModule } from './app-material.module';
