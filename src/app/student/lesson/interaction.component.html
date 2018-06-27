@@ -13,7 +13,7 @@
       <form>
         <ng-template matStepLabel>{{interaction.getText()}}</ng-template>
         <div class="button-options">
-          <button  mat-raised-button matStepperPrevious color="primary">Regresar</button>
+          <button  mat-raised-button matStepperPrevious color="primary">Atrás</button>
           <button  mat-raised-button matStepperNext color="primary">Siguiente</button>
         </div>
         <div class="inbox-student">
@@ -26,7 +26,7 @@
       <ng-template matStepLabel>Fin</ng-template>
       <h3> Lección terminada.</h3>
       <div class="button-options">
-        <button mat-raised-button matStepperPrevious color="primary">Regresar</button>
+        <button mat-raised-button matStepperPrevious color="primary">Atrás</button>
         <button mat-raised-button (click)="stepper.reset()">Volver a intentarlo</button>
         <button mat-raised-button (click)="exit()" color="warn">Salir</button>
       </div>
