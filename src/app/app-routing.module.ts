@@ -20,7 +20,6 @@ import { ZoomableDirective } from './teacher/graph-unit/directives/zoomable.dire
 import { SessionComponent } from './teacher/info-unit/sessions/session.component';
 import { LessonComponent } from './teacher/info-unit/lessons/lesson.component';
 import { VideoStudentComponent } from './student/lesson/video/video.component';
-import { ExerciseStudentComponent } from './student/lesson/exercise/exercise.component';
 
 const appRoutes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: TeacherComponent.URL },
@@ -43,7 +42,6 @@ export class AppRoutingModule {
   static COMPONENTS = [
     ChatExerciseComponent,
     DraggableDirective,
-    ExerciseStudentComponent,
     ExerciseUnitComponent,
     FormationComponent,
     GraphComponent,
