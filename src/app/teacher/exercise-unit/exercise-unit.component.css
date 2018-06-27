@@ -25,3 +25,9 @@
   overflow-x: hidden;
   overflow-y: hidden;
 }
+
+.input {
+  margin-top: 3%;
+  padding: initial;
+  border-radius: 10px;
+}

@@ -22,7 +22,7 @@ export class ChatExerciseComponent implements OnChanges {
   @Input('messages')
   public messages: Message[] = [];
   private exerciseMotor: ExerciseMotor;
-  private text = '';
+  text = '';
   @Input() exercise: Exercise;
   private motors: ExerciseMotor[] = [];
 
@@ -30,6 +30,8 @@ export class ChatExerciseComponent implements OnChanges {
 
   ngOnChanges() {
     this.messages = [];
+    this.messages.push(new Message('../../../assets/chat-image.jpg',
+     RolMessage.TEACHER, TypeMessage.IMAGE));
     this.print(new AutoMessageMotor().welcomeMessage());
     this.updateMotor(new TextMotor(this.exercise));
   }

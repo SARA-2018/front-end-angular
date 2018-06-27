@@ -1,12 +1,13 @@
 <mat-action-row>
-  <button mat-raised-button color="primary" class="button-content" (click)="addSession(itinerary)">
-    <mat-icon>add_circle_outline</mat-icon>
-    Añadir sesión</button>
-</mat-action-row>
-<mat-card *ngFor="let session of itinerary.getFormations()">
-  <h4>{{session.getName()}}</h4>
-  <mat-card-content>
-    <app-lesson [graphUnitComponent]="graphUnitComponent" [exerciseUnitComponent]="exerciseUnitComponent" [videoUnitComponent]="videoUnitComponent"
-      [session]="session" (openExercise)="openExercise($event)" (openVideo)="openVideo($event)"></app-lesson>
-  </mat-card-content>
-</mat-card>
+    <button mat-raised-button color="primary" class="button-content" (click)="addSession()">
+      <mat-icon>add_circle_outline</mat-icon>
+      Añadir sesión</button>
+  </mat-action-row>
+  <mat-card *ngFor="let session of itinerary.getFormations()">
+    <h4>{{session.getName()}}</h4>
+    <mat-card-content>
+      <app-lesson [graphUnitComponent]="graphUnitComponent" [exerciseUnitComponent]="exerciseUnitComponent"
+      [videoUnitComponent] = "videoUnitComponent" [session]="session" (openExercise)="openExercise($event)"
+      (openVideo)="openVideo($event)"></app-lesson>
+    </mat-card-content>
+  </mat-card> 

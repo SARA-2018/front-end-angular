@@ -16,8 +16,10 @@
           <button  mat-raised-button matStepperPrevious color="primary">Regresar</button>
           <button  mat-raised-button matStepperNext color="primary">Siguiente</button>
         </div>
-        <app-video *ngIf="!interaction.isExercise()" [video]="interaction"></app-video>
-        <app-chat-exercise *ngIf="interaction.isExercise()" [exercise]="interaction"></app-chat-exercise>
+        <div class="inbox-student">
+          <app-video *ngIf="!interaction.isExercise()" [video]="interaction"></app-video>
+          <app-chat-exercise *ngIf="interaction.isExercise()" [exercise]="interaction"></app-chat-exercise>
+      </div>
       </form>
     </mat-step>
     <mat-step>

@@ -6,7 +6,7 @@
         <a href={{message.getText()}}>{{message.getText()}}</a>
     </p>
     <p [ngClass]="message.getRol()" *ngIf="message.getType() == 'IMAGE'">
-        <img src="https://www.w3schools.com/html/pic_trulli.jpg">
+        <img src="{{message.getText()}}">
     </p>
 
 </blockquote>
