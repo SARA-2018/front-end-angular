@@ -14,7 +14,7 @@ import { UpdateVideoDto } from '../info-unit/dtos/update-video.dto';
 export class VideoUnitComponent implements OnChanges {
 
   displayURL;
-  videoURL;
+  videoCode: string;
   @Input() video: Video;
   @HostBinding('class.is-open')
   isOpen = false;
@@ -23,9 +23,7 @@ export class VideoUnitComponent implements OnChanges {
     console.log(this.displayURL);
     if (!this.displayURL) {
       this.displayURL = sanitizer.bypassSecurityTrustResourceUrl('https://youtu.be/embed/qWWqZUBegNI');
-    } else {
-      this.displayURL = sanitizer.bypassSecurityTrustResourceUrl(this.displayURL);
-    }
+    } 
   }
 
   ngOnChanges() {
@@ -42,15 +40,12 @@ export class VideoUnitComponent implements OnChanges {
   }
 
   saveVideoUrl() {
-    this.displayURL = this.sanitizer.bypassSecurityTrustResourceUrl(this.videoURL);
-    // this.video.setUrl(this.videoURL);
-    const videoDto: UpdateVideoDto = { url: this.videoURL};
+    this.displayURL = this.sanitizer.bypassSecurityTrustResourceUrl(this.generateYoutubeLink( this.videoCode));
+    const videoDto: UpdateVideoDto = { url: this.generateYoutubeLink( this.videoCode)};
     this.videoService.setUrl(videoDto, this.video.getId()).subscribe();
   }
 
-  getVideoURL() {
-    if (this.video) {
-      return this.displayURL;
-    }
+  generateYoutubeLink(videoCode: string): string {
+    return 'https://www.youtube.com/embed/' + videoCode;
   }
 }
