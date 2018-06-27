@@ -21,8 +21,8 @@ export class DeleteRelationCommand extends Command {
         result => {
           if (result) {
             return relationService.delete(this).subscribe(() => {
-                observer.next();
-              }
+              observer.next();
+            }
             );
           }
         });

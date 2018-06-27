@@ -1,4 +1,4 @@
-import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Node } from '../models/node.model';
 import { Link } from '../models/link.model';
 import { Graph } from '../models/graph.model';
