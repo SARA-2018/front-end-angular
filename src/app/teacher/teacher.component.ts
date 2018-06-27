@@ -11,9 +11,9 @@ import { Video } from './info-unit/models/video.model';
 export class TeacherComponent {
 
   static URL = 'teacher';
-  private unit: Unit;
-  private exercise: Exercise;
-  private video: Video;
+  unit: Unit;
+  exercise: Exercise;
+  video: Video;
 
   constructor() {
   }
