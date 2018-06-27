@@ -7,7 +7,7 @@
             <input matInput [(ngModel)]="videoCode" placeholder="Inserte el código del video">
           </mat-form-field>
         </div>
-        <div fxFlex id="visor-video">
+        <div fxFlex *ngIf="displayURL" id="visor-video">
             <iframe width="300" height="200"
               [src]="displayURL">
             </iframe>        
@@ -21,7 +21,7 @@
             <textarea class="view-transparency" matInput placeholder="Transparencia: "></textarea>
           </mat-card>
           <mat-action-row>
-            <button mat-raised-button color="primary" (click)="saveVideoUrl()" class="button-content">Guardar</button>
+            <button mat-raised-button color="primary" (click)="saveVideo()" class="button-content">Guardar</button>
           </mat-action-row>
         </div>
         <div fxFlex>

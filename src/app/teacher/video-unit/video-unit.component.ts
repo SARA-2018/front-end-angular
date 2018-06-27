@@ -18,11 +18,7 @@ export class VideoUnitComponent implements OnChanges {
   @HostBinding('class.is-open')
   isOpen = false;
 
-  constructor(private sanitizer: DomSanitizer, private videoService: VideoService) {
-    if (!this.displayURL) {
-      this.displayURL = sanitizer.bypassSecurityTrustResourceUrl('https://youtu.be/embed/qWWqZUBegNI');
-    }
-  }
+  constructor(private sanitizer: DomSanitizer, private videoService: VideoService) { }
 
   ngOnChanges() {
     if (this.video) {
@@ -30,9 +26,10 @@ export class VideoUnitComponent implements OnChanges {
     }
   }
 
-  saveVideoUrl() {
-    this.displayURL = this.sanitizer.bypassSecurityTrustResourceUrl(this.generateYoutubeLink( this.videoCode));
-    this.videoService.setUrl(this.video).subscribe();
+  saveVideo() {
+    this.displayURL = this.sanitizer.bypassSecurityTrustResourceUrl(this.generateYoutubeLink(this.videoCode));
+    this.video.setUrl(this.generateYoutubeLink(this.videoCode));
+    this.videoService.update(this.video).subscribe();
   }
 
   generateYoutubeLink(videoCode: string): string {
