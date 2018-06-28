@@ -1,3 +1,69 @@
-SARA#1 <compose Unidad#4
-Unidad2#4 <inherit Unidad#2
-Unidad2#4 <compose Unidad#3
+X#1 < compose X#2, X#22
+X#2 < compose X#3, X#17
+X#3 < inherit X#7, X#16
+X#7 < inherit X#4, X#13
+X#5 < inherit X#6, X#15
+X#6 < inherit X#8, X#11
+X#8 < inherit X#9, X#10, X#12
+X#13 < inherit X#14
+X#17 < compose X#18, X#19, X#20, X#21
+X#22 < compose X#44, X#23
+X#23 < inherit X#24, X#29, X#34, X#38
+X#24 < compose X#25
+X#25 < inherit X#26, X#27, X#28
+X#29 < compose X#30
+X#30 < inherit X#31, X#32, X#33
+X#34 < compose X#35
+X#35 < inherit X#36
+X#38 < compose X#37
+X#38 < inherit X#42, X#43
+X#37 < inherit X#39, X#40, X#41
+X#44 < inherit X#45, X#46, X#48
+X#48 < compose X#47, X#55, X#97
+X#47 < compose X#49, X#50, X#51, X#52, X#53, X#54
+X#55 < inherit X#57, X#56, X#58, X#59
+X#55 < compose X#60
+X#60 < compose X#61, X#62, X#93
+X#62 < compose X#63, X#64
+X#64 < compose X#65
+X#65 < compose X#67, X#72, X#77, X#83, X#88, X#96
+X#67 < compose X#66, X#68, X#69, X#70, X#71
+X#72 < compose X#73, X#74, X#75, X#76
+X#77 < compose X#78, X#79, X#80, X#84
+X#83 < compose X#81, X#82, X#87, X#85, X#86
+X#88 < compose X#89, X#91, X#90, X#92, X#94, X#95
+X#97 < inherit X#98, X#104, X#105, X#108
+X#98 < inherit X#99, X#100, X#101
+X#104 < inherit X#103, X#102
+X#105 < inherit X#106
+X#108 < inherit X#107, X#109, X#110
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
