@@ -32,10 +32,10 @@ export class DicotomicMotor extends ExerciseMotor {
             return ['Por favor, escribe V en caso de considerarla Verdadera o F en caso de Falsa: ', this.solution.getText()];
         }
         if (this.verifyResponse(studentSolution)) {
-            return ['Muy bien maquina', 'Sigue así'];
+            return ['¡Muy bien máquina!', 'Sigue así'];
         } else {
             this.exercise.addFail();
-            return ['Ufff, te has equivocado', 'Pero no te desanimes, sigue intentandolo'];
+            return ['Ufff, te has equivocado', 'Pero no te desanimes, sigue intentándolo'];
         }
     }
 

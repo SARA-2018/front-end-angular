@@ -1,9 +1,10 @@
 export class Formation {
 
     private _id: string;
+    private name: string;
 
-    constructor() {
-
+    constructor(name: string) {
+        this.name = name;
     }
 
     setId(id: string) {
@@ -12,5 +13,13 @@ export class Formation {
 
     getId(): string {
         return this._id;
+    }
+
+    getName(): string {
+        return this.name;
+    }
+
+    setName() {
+        this.name = name;
     }
 }

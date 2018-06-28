@@ -1,8 +1,8 @@
-import { UnitDto } from '../../../shared/dtos/unit.dto';
+import { UnitInputDto } from '../../../shared/dtos/unit-input.dto';
 
 export interface RelationDto {
-  topUnit: UnitDto;
-  lowerUnit: UnitDto;
+  topUnit: UnitInputDto;
+  lowerUnit: UnitInputDto;
   type: string;
   semantics: string;
   cardinalTopUnit: string;

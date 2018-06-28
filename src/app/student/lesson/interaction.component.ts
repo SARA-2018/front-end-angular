@@ -5,7 +5,7 @@ import { LessonService } from '../../shared/services/lesson.service';
 import { Interaction } from '../../shared/models/interaction.model';
 import { VideoService } from '../../shared/services/video.service';
 import { ExerciseService } from '../../shared/services/exercise.service';
-import { InteractionDto } from '../../shared/dtos/interaction.dto';
+import { InteractionInputDto } from '../../shared/dtos/interaction-input.dto';
 import { StudentComponent } from '../student.component';
 
 @Component({
@@ -34,7 +34,7 @@ export class InteractionComponent implements OnInit {
   interaction() {
     this.lessonService.getById(this.lessonId).subscribe(lessonDto => {
       this.lessonName = lessonDto.name;
-      const interactions: InteractionDto[] = lessonDto.interactions;
+      const interactions: InteractionInputDto[] = lessonDto.interactions;
       for (let i = 0; i < interactions.length; i++) {
         if (interactions[i].video) {
           this.videoService.getById(interactions[i].video.id).subscribe(videoDto => {

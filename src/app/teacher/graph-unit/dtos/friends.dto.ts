@@ -1,9 +1,9 @@
-import { UnitDto } from '../../../shared/dtos/unit.dto';
+import { UnitInputDto } from '../../../shared/dtos/unit-input.dto';
 import { RelationDto } from './relation.dto';
 
 export interface FriendsDto {
-    unit: UnitDto;
-    topUnits: UnitDto[];
-    lowerUnits: UnitDto[];
+    unit: UnitInputDto;
+    topUnits: UnitInputDto[];
+    lowerUnits: UnitInputDto[];
     relations: RelationDto[];
 }

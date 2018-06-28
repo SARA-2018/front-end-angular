@@ -1,12 +1,12 @@
-import { UnitViewImp } from '../../app/teacher/graph-unit/views/unit.view';
-import { Unit } from '../../app/teacher/graph-unit/models/unit.model';
+import { UnitView } from '../../app/teacher/graph-unit/views/unit.view';
+import { Unit } from '../../app/shared/models/unit.model';
 
-describe('GraphUnitComponent UnitViewImp ', () => {
+describe('GraphUnitComponent UnitView ', () => {
 
-    let unitViewLeaf: UnitViewImp;
+    let unitViewLeaf: UnitView;
 
     beforeEach(() => {
-        unitViewLeaf = new UnitViewImp(new Unit('UnitLeaf'));
+        unitViewLeaf = new UnitView(new Unit('UnitLeaf'));
     });
 
     it('#locate leaf should locate in (0,0)', () => {

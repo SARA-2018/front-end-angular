@@ -1,4 +1,4 @@
-import { Unit } from '../../app/teacher/graph-unit/models/unit.model';
+import { Unit } from '../../app/shared/models/unit.model';
 import { Relation } from '../../app/teacher/graph-unit/models/relation.model';
 
 describe('GraphUnitComponent UnitModel', () => {

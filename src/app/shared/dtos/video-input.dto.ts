@@ -1,4 +1,4 @@
-export interface VideoDto {
+export interface VideoInputDto {
     id: string;
     url?: string;
 }

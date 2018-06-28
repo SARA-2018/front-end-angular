@@ -6,25 +6,27 @@
         <div class="button-options">
           <button mat-raised-button matStepperNext color="primary">Siguiente</button>
         </div>
-        <h3>Bienvenido! a la lección de {{lessonName}}</h3>
+        <h3>Bienvenido a la lección de {{lessonName}}!</h3>
       </form>
     </mat-step>
     <mat-step *ngFor="let interaction of interactions">
       <form>
         <ng-template matStepLabel>{{interaction.getText()}}</ng-template>
         <div class="button-options">
-          <button  mat-raised-button matStepperPrevious color="primary">Regresar</button>
+          <button  mat-raised-button matStepperPrevious color="primary">Atrás</button>
           <button  mat-raised-button matStepperNext color="primary">Siguiente</button>
         </div>
-        <app-video *ngIf="!interaction.isExercise()" [video]="interaction"></app-video>
-        <app-chat-exercise *ngIf="interaction.isExercise()" [exercise]="interaction"></app-chat-exercise>
+        <div class="inbox-student">
+          <app-video *ngIf="!interaction.isExercise()" [video]="interaction"></app-video>
+          <app-chat-exercise *ngIf="interaction.isExercise()" [exercise]="interaction"></app-chat-exercise>
+      </div>
       </form>
     </mat-step>
     <mat-step>
       <ng-template matStepLabel>Fin</ng-template>
       <h3> Lección terminada.</h3>
       <div class="button-options">
-        <button mat-raised-button matStepperPrevious color="primary">Regresar</button>
+        <button mat-raised-button matStepperPrevious color="primary">Atrás</button>
         <button mat-raised-button (click)="stepper.reset()">Volver a intentarlo</button>
         <button mat-raised-button (click)="exit()" color="warn">Salir</button>
       </div>

@@ -1,4 +1,4 @@
-import { Unit } from './unit.model';
+import { Unit } from '../../../shared/models/unit.model';
 
 export class Relation {
 
