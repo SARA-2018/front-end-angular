@@ -13,8 +13,8 @@
       <form>
         <ng-template matStepLabel>{{interaction.getText()}}</ng-template>
         <div class="button-options">
-          <button  mat-raised-button matStepperPrevious color="primary">Atrás</button>
-          <button  mat-raised-button matStepperNext color="primary">Siguiente</button>
+          <button  type="button" mat-raised-button matStepperPrevious color="primary">Atrás</button>
+          <button  type="button" mat-raised-button matStepperNext color="primary">Siguiente</button>
         </div>
         <div class="inbox-student">
           <app-video *ngIf="!interaction.isExercise()" [video]="interaction"></app-video>
