@@ -2,10 +2,16 @@
     <app-message *ngFor="let message of messages.slice().reverse()" [message]="message"></app-message>
 </mat-card>
 <mat-card class="input">
-    <mat-form-field class="infix">
+  <div class="infix-chat">
+    <div class="infix">
+      <mat-form-field class="space-input">
         <input matInput #box type="text" placeholder="Escriba la respuesta" [(ngModel)]="text" (keyup.enter)="send(text)"/>
-    </mat-form-field>
-    <button mat-mini-fab class="button-infix" (click)="send(box.value)">
+      </mat-form-field>
+    </div>
+    <div>
+      <button mat-mini-fab (click)="send(box.value)">
         <mat-icon>send</mat-icon>
-    </button>
+      </button>
+    </div>
+  </div>
 </mat-card>

@@ -8,12 +8,11 @@
 
 .view-exercise {
   display: flex;
-  height: 34em;
-  width: 20em;
+  height: 39em;
+  width: 100%;
 }
 .view-exercise-chat {
-  display: flex;
-  height: 29em;
+  height: 32em;
   width: 24em;
 }
 .layout-alignment {
