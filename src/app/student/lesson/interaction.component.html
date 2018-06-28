@@ -16,11 +16,13 @@
           <button  type="button" mat-raised-button matStepperPrevious color="primary">Atrás</button>
           <button  type="button" mat-raised-button matStepperNext color="primary">Siguiente</button>
         </div>
+      </form>
         <div class="inbox-student">
           <app-video *ngIf="!interaction.isExercise()" [video]="interaction"></app-video>
-          <app-chat-exercise *ngIf="interaction.isExercise()" [exercise]="interaction"></app-chat-exercise>
+          <mat-card *ngIf="interaction.isExercise()" class="chat-student">
+            <app-chat-exercise [exercise]="interaction"></app-chat-exercise>
+          </mat-card>
       </div>
-      </form>
     </mat-step>
     <mat-step>
       <ng-template matStepLabel>Fin</ng-template>
