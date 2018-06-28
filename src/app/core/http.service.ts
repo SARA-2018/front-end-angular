@@ -10,8 +10,8 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class HttpService {
 
-    // static API_END_POINT = 'https://back-end-sara.herokuapp.com';
-    static API_END_POINT = 'http://localhost:3000';
+    static API_END_POINT = 'https://back-end-sara2018.herokuapp.com';
+    // static API_END_POINT = 'http://localhost:3000';
 
 
     private params: URLSearchParams;
