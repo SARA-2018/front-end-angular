@@ -4,12 +4,14 @@
 }
 
 #itinerary-button {
-  min-width: 100%;
+  min-width: 0%;
 }
-#itinerary{
-  height: 52em;
+
+#itinerary {
+  max-height: 48.5em;
   display: grid;
 }
+
 .exercise {
   display: flex;
   height: 20em;

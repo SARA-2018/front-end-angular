@@ -23,7 +23,7 @@ export class FillBlankMotor extends ExerciseMotor {
     }
     this.solution = solutions[this.getRandom(0, solutions.length - 1)];
     this.statement = this.fillStatement(this.solution.getText());
-    return ['En este ejercicio rellena espacios en blanco en orden', this.statement];
+    return ['Completa los espacios en blanco:', this.statement];
   }
 
   handResponse(response: string): string[] {
