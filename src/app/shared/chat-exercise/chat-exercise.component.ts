@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnChanges } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { Message } from './message/message.model';
 import { RolMessage } from './message/rol-message.enum';
 
@@ -28,40 +28,31 @@ export class ChatExerciseComponent implements OnChanges {
 
   constructor() { }
 
+
   ngOnChanges() {
+    this.motors = [new TextMotor(this.exercise),
+    new DicotomicMotor(this.exercise),
+    new MultipleChoiseMotor(this.exercise),
+    new FillBlankMotor(this.exercise)];
     this.messages = [];
     this.messages.push(new Message('../../../assets/chat-image.jpg',
-     RolMessage.TEACHER, TypeMessage.IMAGE));
+      RolMessage.TEACHER, TypeMessage.IMAGE));
     this.print(new AutoMessageMotor().welcomeMessage());
-    this.updateMotor(new TextMotor(this.exercise));
+    this.nextExercise();
   }
 
   nextExercise() {
-    /*
-    this.motors = [new DicotomicMotor(this.exercise),
-    new MultipleChoiseMotor(this.exercise), new FillBlankMotor(this.exercise)];
     let i = 0;
-    while (this.motors[i].getOvercome() && this.motors.length < i) {
+    while (i < this.motors.length && this.motors[i].getOvercome()) {
       i++;
     }
-    if (!this.motors[i].getOvercome()) {
-      this.updateMotor(this.motors[i]);
+    if (i < this.motors.length) {
+      if (!this.motors[i].getOvercome()) {
+        this.updateMotor(this.motors[i]);
+      }
     } else {
       this.print(new AutoMessageMotor().statisticsMessage(this.exercise));
       this.print(new AutoMessageMotor().goodbyeMessage());
-    }*/
-
-    if (this.exerciseMotor.getOvercome()) {
-      if (this.exerciseMotor instanceof TextMotor) {
-        this.updateMotor(new DicotomicMotor(this.exercise));
-      } else if (this.exerciseMotor instanceof DicotomicMotor) {
-        this.updateMotor(new MultipleChoiseMotor(this.exercise));
-      } else if (this.exerciseMotor instanceof MultipleChoiseMotor) {
-        this.updateMotor(new FillBlankMotor(this.exercise));
-      } else {
-        this.print(new AutoMessageMotor().statisticsMessage(this.exercise));
-        this.print(new AutoMessageMotor().goodbyeMessage());
-      }
     }
   }
 
