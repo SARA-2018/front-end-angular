@@ -18,3 +18,10 @@ h3 {
   width:25%;
   height: 40%;
 }
+
+.chat-student {
+  max-height: 39em;
+  overflow: auto;
+  display: flex;
+  flex-direction: column-reverse;
+}

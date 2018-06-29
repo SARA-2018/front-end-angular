@@ -10,10 +10,18 @@
 }
 
 .infix {
-  width: 19em;
+  width: 100%;
   padding-left: 3%;
+}
+
+.infix-chat {
+  display: flex;
 }
 
 mat-icon {
   color: #eeeeee;
+}
+
+.space-input {
+  width: inherit;
 }

@@ -1,1 +1,17 @@
-<app-formation></app-formation>
+<mat-accordion>
+  <mat-expansion-panel *ngFor="let itinerary of itinerarys">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <b>{{itinerary.getName()}}</b>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <ul>
+      <li *ngFor="let formation of itinerary.getFormations()" type=disc> {{formation.getName()}}
+        <ul *ngIf="!formation.formations">
+          <li *ngFor="let lesson of formation.getLessons()" id="lesson"><a (click)="openLesson(lesson)">{{lesson.getName()}}</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </mat-expansion-panel>
+</mat-accordion>
